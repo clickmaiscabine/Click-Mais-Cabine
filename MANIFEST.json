@@ -21,13 +21,57 @@
   "registries": {
     "workflows": [],
     "subflows": [],
-    "schemas": [],
+    "schemas": [
+      {
+        "id": "session",
+        "path": "schemas/session.schema.json",
+        "status": "homologated"
+      },
+      {
+        "id": "event",
+        "path": "schemas/event.schema.json",
+        "status": "homologated"
+      },
+      {
+        "id": "state-transition",
+        "path": "schemas/state-transition.schema.json",
+        "status": "homologated"
+      },
+      {
+        "id": "agent-run",
+        "path": "schemas/agent-run.schema.json",
+        "status": "homologated"
+      },
+      {
+        "id": "workflow-run",
+        "path": "schemas/workflow-run.schema.json",
+        "status": "homologated"
+      }
+    ],
     "prompts": [],
-    "migrations": [],
+    "migrations": [
+      {
+        "version": "20261002025715",
+        "name": "bootstrap_event_state_runtime_v01",
+        "path": "supabase/migrations/20261002025715_bootstrap_event_state_runtime_v01.sql",
+        "status": "production"
+      },
+      {
+        "version": "20261002025748",
+        "name": "add_runtime_fk_indexes_v01",
+        "path": "supabase/migrations/20261002025748_add_runtime_fk_indexes_v01.sql",
+        "status": "production"
+      }
+    ],
     "decisions": [
       {
         "id": "ADR-0001",
         "path": "docs/decisions/ADR-0001_fonte-canonica-github.md",
+        "status": "homologated"
+      },
+      {
+        "id": "ADR-0002",
+        "path": "docs/decisions/ADR-0002_event-state-engine-minimo.md",
         "status": "homologated"
       }
     ]
