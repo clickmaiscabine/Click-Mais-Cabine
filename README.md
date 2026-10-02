@@ -210,15 +210,23 @@ Use `.env.example` apenas com nomes de variáveis vazias.
 
 ## 12. Estado atual
 
-Nesta fase estão sendo estabelecidos:
+A arquitetura-base **v0.1** está implantada e inclui:
 
 - governança multiagente;
 - estrutura canônica de artefatos;
-- Event State Engine mínimo;
-- auditoria;
-- versionamento de workflows;
-- padrão de testes.
+- Event State Engine mínimo no Supabase;
+- idempotência e controle de concorrência;
+- auditoria de agentes e workflows;
+- migrations e schemas versionados;
+- templates de workflow, teste, ADR, pesquisa e regra de negócio;
+- validação automática do repositório via GitHub Actions.
 
-CRM, contrato, pagamento, arte, logística e entrega serão modelados progressivamente.
+Para validar localmente:
+
+```bash
+python scripts/validate_repository.py
+```
+
+CRM, contrato, pagamento, arte, logística e entrega serão modelados progressivamente, com regras e schemas próprios.
 
 **Princípio operacional:** se uma informação precisa sobreviver à troca de conversa, agente ou modelo, ela deve ser registrada no lugar canônico correto.
