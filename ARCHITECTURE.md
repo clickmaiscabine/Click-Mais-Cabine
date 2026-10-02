@@ -64,6 +64,11 @@ Tabelas-base:
 - `audit.agent_runs`
 - `audit.workflow_runs`
 
+Helpers atômicos:
+- `core.get_or_create_session()` — cria/recupera sessão idempotentemente;
+- `core.record_event()` — deduplica por `idempotency_key` e detecta colisões;
+- `core.transition_session()` — usa `state_version` para impedir corrida de transições concorrentes.
+
 Os schemas `core` e `audit` não são destinados à exposição pública direta.
 
 ## Evolução
