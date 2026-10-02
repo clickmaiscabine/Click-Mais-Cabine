@@ -230,3 +230,32 @@ python scripts/validate_repository.py
 CRM, contrato, pagamento, arte, logística e entrega serão modelados progressivamente, com regras e schemas próprios.
 
 **Princípio operacional:** se uma informação precisa sobreviver à troca de conversa, agente ou modelo, ela deve ser registrada no lugar canônico correto.
+
+
+## 13. Documentos operacionais complementares
+
+- `SECURITY.md` — segredos, banco e resposta a incidentes.
+- `CONTRIBUTING.md` — branch, PR, commits e definição de pronto.
+- `deploy/N8N-OPERATIONS.md` — como agentes, DEV, PROD e VPS devem se relacionar.
+- `docs/security/ACCESS-MODEL.md` — níveis de acesso por tipo de tarefa.
+- `docs/architecture/COMPONENT-MAP.md` — responsabilidade de cada componente.
+- `docs/decisions/` — decisões arquiteturais vinculantes.
+
+Um agente não deve receber acesso à VPS apenas para revisar workflow: para isso, deve usar o JSON versionado.
+
+## 14. Próxima camada de construção
+
+Com esta base pronta, os próximos artefatos do chatbot devem nascer nesta ordem:
+
+```text
+regras do atendimento
+→ modelo de estados
+→ contratos/schemas de negócio
+→ especificação dos workflows
+→ fixtures e testes
+→ JSONs n8n
+→ homologação DEV
+→ produção
+```
+
+Assim, o sistema cresce sem transformar o n8n em fonte informal de regras.
