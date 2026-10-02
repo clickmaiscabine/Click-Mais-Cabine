@@ -1,0 +1,35 @@
+{
+  "project": "click-mais-cabine",
+  "architecture_version": "0.1.0",
+  "canonical_repository": "clickmaiscabine/Click-Mais-Cabine",
+  "runtime": {
+    "supabase_project_name": "Chatbot Clique Mais",
+    "n8n": {
+      "dev": "planned",
+      "production": "VPS"
+    }
+  },
+  "artifact_status_values": [
+    "draft",
+    "development",
+    "review",
+    "homologated",
+    "production",
+    "deprecated",
+    "archived"
+  ],
+  "registries": {
+    "workflows": [],
+    "subflows": [],
+    "schemas": [],
+    "prompts": [],
+    "migrations": [],
+    "decisions": [
+      {
+        "id": "ADR-0001",
+        "path": "docs/decisions/ADR-0001_fonte-canonica-github.md",
+        "status": "homologated"
+      }
+    ]
+  }
+}
