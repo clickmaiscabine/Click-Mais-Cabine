@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clickmaiscabine.local/schemas/session.schema.json",
+  "title": "Click Mais Runtime Session",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "external_session_key",
+    "channel",
+    "current_state",
+    "state_version",
+    "status",
+    "context",
+    "created_at",
+    "updated_at"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "external_session_key": {
+      "type": "string",
+      "minLength": 1
+    },
+    "channel": {
+      "type": "string",
+      "minLength": 1
+    },
+    "current_state": {
+      "type": "string",
+      "minLength": 1
+    },
+    "state_version": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "status": {
+      "enum": [
+        "active",
+        "paused",
+        "closed"
+      ]
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}
