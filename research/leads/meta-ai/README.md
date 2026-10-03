@@ -43,6 +43,7 @@ O que aparece aqui **não pode**, sozinho:
 
 - `reports/2026-10-02_meta-ai-training-audit.md` — relatório consolidado;
 - `findings/META-AI-ANTI-PATTERNS.md` — comportamentos a eliminar;
+- `findings/FAQ-CANDIDATES.md` — conhecimento útil classificado em candidate/verify/conflict/deprecated/runtime;
 - `findings/LIFECYCLE-ROUTING.md` — estados/jornadas candidatos;
 - `reviews/2026-10-02_meta-ai_items-to-homologate.md` — fatos e políticas que precisam de confirmação.
 
