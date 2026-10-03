@@ -17,7 +17,8 @@ O sistema não é definido como um único chatbot. Ele combina canal oficial, es
 - reconstrução possível a partir dos artefatos versionados;
 - uma pessoa pode ter vários eventos;
 - um evento pode ter vários orçamentos;
-- exceção humana não altera regra canônica automaticamente.
+- exceção humana não altera regra canônica automaticamente;
+- nenhuma dependência obrigatória da V1 deve exigir nova assinatura mensal quando houver alternativa adequada já disponível.
 
 ## Pilares
 
@@ -25,14 +26,15 @@ O sistema não é definido como um único chatbot. Ele combina canal oficial, es
 2. **Supabase**: estado operacional, Event State Engine e auditoria.
 3. **n8n self-hosted**: orquestração e execução.
 4. **Meta WhatsApp Cloud API**: transporte oficial.
-5. **Chatwoot Cloud**: cockpit humano, inbox, CRM visual e handoff.
+5. **Trello**: cockpit humano e CRM visual da V1, como projeção do estado canônico.
 6. **JEV**: decisão semântica somente dentro de opções autorizadas.
 7. **Código determinístico**: preço, datas, promoções, combo, validações e completude.
 8. **LLM**: linguagem, síntese e transformação; não é autoridade comercial.
 9. **OneDrive**: repositório canônico da mídia pós-evento entregue ao cliente.
-10. **Trello / Drive / Autentique / Calendar**: integrações operacionais, não fontes do estado mestre.
+10. **Drive / Autentique / Calendar**: integrações operacionais, não fontes do estado mestre.
+11. **Chatwoot**: integração opcional/futura, fora do caminho crítico da V1.
 
-## Estado da fundação — v0.2
+## Estado da fundação — v0.3
 
 Já existe no Supabase:
 
@@ -48,6 +50,8 @@ Já existe no Supabase:
 No repositório existem:
 
 - ADRs da arquitetura de produção;
+- decisão formal de Trello como cockpit humano da V1;
+- blueprint do Trello CRM V1;
 - schemas do runtime;
 - mapa de alocações;
 - manifesto de workflows planejados;
@@ -57,15 +61,23 @@ No repositório existem:
 ## Integrações em standby
 
 - **Meta/WhatsApp**: aguarda credenciais da nova estrutura; primeiro uso será com número de teste.
-- **Chatwoot**: aguarda conclusão do onboarding/credencial.
+- **Chatwoot**: opcional/futuro; não bloqueia nenhuma etapa da V1.
 
-A ausência dessas credenciais não bloqueia a construção do núcleo. Os adaptadores permanecem com runtime desabilitado até configuração e teste.
+## Trello CRM V1
+
+O quadro histórico **Controle de Orçamentos** será estudado antes de qualquer redesign. A decisão é reaproveitar a lógica comercial validada em produção, sem perder legibilidade humana.
+
+Regra:
+
+```text
+Supabase = verdade
+Trello   = cockpit/projeção
+n8n      = sincronização
+```
+
+Uma alteração no Trello é tratada como solicitação humana; o n8n valida e o Supabase registra.
 
 ## Próxima camada
-
-O esqueleto de dados não significa que todas as regras de negócio estejam congeladas.
-
-A construção funcional segue:
 
 ```text
 regras homologadas
@@ -78,4 +90,4 @@ regras homologadas
 → PROD
 ```
 
-Em especial, pricing/localidades só devem entrar no motor determinístico após promoção explícita da fonte vigente; faixas ainda marcadas como provisórias não viram regra automática.
+Em especial, pricing/localidades só devem entrar no motor determinístico após promoção explícita da fonte vigente.
