@@ -1,0 +1,21 @@
+{
+  "manifest_version": "1.0.0",
+  "note": "Architecture/spec registry only. These entries do not claim that executable n8n JSON files exist.",
+  "workflows": [
+    {"id":"CM-WF-000","slug":"whatsapp-ingress-orchestrator","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":["meta_whatsapp","chatwoot"],"purpose":"Receive normalized inbound messages, correlate identity/session/event and route work."},
+    {"id":"CM-WF-010","slug":"identity-context","status":"development","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Resolve contact, active event, lifecycle and human handoff state."},
+    {"id":"CM-WF-020","slug":"fact-normalization","status":"development","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Normalize typed facts, provenance and conflicts before business rules."},
+    {"id":"CM-WF-030","slug":"business-rules-engine","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Run deterministic pricing/date/completeness and other homologated rules."},
+    {"id":"CM-WF-040","slug":"jev-decision","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Call JEV only for semantic ambiguity using authorized choices."},
+    {"id":"CM-WF-050","slug":"action-guard","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Validate proposed action against state, authority and human lock."},
+    {"id":"CM-WF-060","slug":"response-composer","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Compose WhatsApp-friendly language from action, facts and templates."},
+    {"id":"CM-WF-070","slug":"response-guard-dispatch","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":["meta_whatsapp","chatwoot"],"purpose":"Validate final response and dispatch through the official channel."},
+    {"id":"CM-WF-100","slug":"contract","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Bridge closing, microsite, contract creation/signature and state updates."},
+    {"id":"CM-WF-110","slug":"payment","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Read proof, compare expected/received and await human verification."},
+    {"id":"CM-WF-120","slug":"art","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Catalog briefing, layout, draft, customer decision and designer finalization."},
+    {"id":"CM-WF-130","slug":"logistics-pre-event","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Prepare operational checklist and pre-event safety confirmation."},
+    {"id":"CM-WF-140","slug":"delivery-post-sale","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Locate canonical OneDrive event folder, send link and continue post-sale."},
+    {"id":"CM-WF-150","slug":"crm-followup-remarketing","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Segment leads, schedule allowed follow-ups and approved campaigns."},
+    {"id":"CM-WF-900","slug":"audit-watchdog","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Detect impossible states, overdue actions and execution anomalies."}
+  ]
+}
