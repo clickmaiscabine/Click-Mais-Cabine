@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clickmaiscabine.local/schemas/customer-event.schema.json",
+  "title": "Click Mais Customer Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "contact_id", "lifecycle_stage", "stage_version", "status", "metadata", "created_at", "updated_at"],
+  "properties": {
+    "id": {"type": "string", "format": "uuid"},
+    "contact_id": {"type": "string", "format": "uuid"},
+    "external_event_key": {"type": ["string", "null"]},
+    "event_type": {"type": ["string", "null"]},
+    "event_date": {"type": ["string", "null"], "format": "date"},
+    "event_start_time": {"type": ["string", "null"]},
+    "city": {"type": ["string", "null"]},
+    "district": {"type": ["string", "null"]},
+    "venue_name": {"type": ["string", "null"]},
+    "venue_address": {"type": ["string", "null"]},
+    "lifecycle_stage": {
+      "enum": ["lead_new", "lead_qualifying", "quote_presented", "awaiting_decision", "negotiation_human", "contracting", "contracted_pre_event", "event_day", "post_event", "completed", "lost", "cancelled"]
+    },
+    "stage_version": {"type": "integer", "minimum": 0},
+    "status": {"enum": ["active", "paused", "closed"]},
+    "metadata": {"type": "object", "additionalProperties": true},
+    "created_at": {"type": "string", "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"}
+  }
+}
