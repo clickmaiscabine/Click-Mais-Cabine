@@ -44,6 +44,33 @@ O bot não deve continuar enviando mensagens comerciais enquanto a sessão estiv
 
 ## 4. Handoff humano obrigatório
 
+### HND-EXPLICIT-HUMAN — cliente pede atendimento humano
+
+Condição:
+- cliente pede atendente, responsável, pessoa da equipe ou atendimento humano.
+
+Ação:
+- interromper o fluxo comercial automático;
+- criar handoff real;
+- preservar o contexto já coletado;
+- não responder com fallback genérico;
+- não exigir justificativa do cliente.
+
+Pedido explícito de humano tem prioridade sobre intents comerciais pendentes.
+
+### HND-LIVE-OPERATION — logística em tempo real / evento em execução
+
+Condição:
+- cliente contratado pergunta sobre chegada da equipe;
+- acesso/portaria;
+- atraso;
+- posição da equipe;
+- problema operacional que depende do estado real do evento.
+
+Ação:
+- não inventar posição, ETA ou confirmação;
+- transferir para a operação humana quando não houver telemetria/fonte operacional confiável.
+
 ### HND-LOCALITY-NOT-FOUND — localidade ausente
 
 Condição:
@@ -367,6 +394,8 @@ Nunca aprender regra geral a partir de:
 | Caso | Resultado esperado |
 |---|---|
 | Localidade aprovada + preço vigente | continuar automação |
+| Cliente pede atendimento humano | `HND-EXPLICIT-HUMAN` |
+| Cliente contratado pergunta chegada/posição da equipe | `HND-LIVE-OPERATION` |
 | Localidade ausente | `HND-LOCALITY-NOT-FOUND` |
 | Localidade em revisão | `HND-LOCALITY-REVIEW` |
 | Raposo Tavares | `HND-LOCALITY-REVIEW` |

@@ -40,7 +40,8 @@ Nenhum agente deve promover uma hipótese desta pasta diretamente para produçã
 - `findings/OBJECTIONS.md` — objeções e barreiras;
 - `findings/LANGUAGE-PATTERNS.md` — padrões linguísticos;
 - `findings/FUNNEL-AND-FOLLOWUP.md` — funil e follow-up;
-- `reviews/2026-10-02_pendencias.md` — pontos que ainda exigem decisão.
+- `reviews/2026-10-02_pendencias.md` — pontos que ainda exigem decisão;
+- `meta-ai/README.md` — auditoria curada do treinamento/exportação da Meta AI, incluindo recusas indevidas, regras antigas e roteamento por ciclo de vida.
 
 ## Material deliberadamente excluído
 
