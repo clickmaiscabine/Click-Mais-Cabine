@@ -2,85 +2,50 @@
 
 - Status: homologated
 - Data: 2026-10-03
+- Nota de evolução: a decisão sobre **operação humana via Chatwoot** foi supersedida pela ADR-0005. Os demais princípios permanecem válidos.
 
 ## Contexto
 
-O atendimento da Click Mais precisa preservar estado fora da memória de uma LLM, evitar cálculo comercial probabilístico, permitir atendimento humano e reaproveitar as automações já existentes de contrato, pagamento, arte, logística e pós-evento.
+O atendimento da Click Mais precisa preservar estado fora da memória de uma LLM, evitar cálculo comercial probabilístico, permitir atendimento humano e reaproveitar automações de contrato, pagamento, arte, logística e pós-evento.
 
-A arquitetura deve continuar funcionando mesmo com troca de modelo, agente ou canal. Meta/WhatsApp e Chatwoot ainda aguardam credenciais; por isso seus adaptadores podem existir em `standby` sem bloquear a construção do núcleo.
+## Decisão preservada
 
-## Decisão
+| Camada | Componente |
+|---|---|
+| Transporte | Meta WhatsApp Cloud API |
+| Orquestração | n8n self-hosted / Hostinger |
+| Memória operacional | Supabase |
+| Estado | Event State Engine |
+| Decisão semântica | JEV |
+| Regra inequívoca | código determinístico |
+| Linguagem | LLM compositor |
+| Segurança de ação | Guards |
+| Auditoria | Supabase `audit` + eventos |
+| Contratos | Autentique + workflows |
+| Artefatos de trabalho | Google Drive |
+| Entrega pós-evento | OneDrive |
 
-A arquitetura canônica fica dividida assim:
+## Evolução da operação humana
 
-| Camada | Componente | Autoridade |
-|---|---|---|
-| Transporte | Meta WhatsApp Cloud API | canal oficial de entrada/saída |
-| Operação humana | Chatwoot Cloud | inbox, CRM visual, handoff e atendimento humano |
-| Orquestração | n8n self-hosted / Hostinger | executa workflows e integrações |
-| Memória operacional | Supabase | fonte de verdade do estado vivo |
-| Estado | Event State Engine | fatos, ciclo de vida, completude e transições |
-| Decisão semântica | JEV | escolhe somente entre classes/opções autorizadas |
-| Regra inequívoca | código determinístico | preço, datas, promoções, combo, validações e completude |
-| Linguagem | LLM compositor | redação, síntese e transformação; não decide preço nem autoridade |
-| Segurança de ação | Guards | valida decisão e resposta antes do efeito externo |
-| Auditoria | Supabase `audit` + eventos | explica execuções, transições e efeitos |
-| Trabalho humano | Trello | projeção operacional, não fonte de verdade |
-| Contratos | Autentique + workflows existentes | assinatura e status contratual |
-| Artefatos de trabalho | Google Drive | briefing, referências e arte operacional |
-| Entrega pós-evento | OneDrive | repositório canônico das pastas de mídia e link ao cliente |
-
-## Fluxo canônico
+A versão original colocava Chatwoot como cockpit humano. Isso foi alterado por decisão posterior:
 
 ```text
-cliente
-  ↓
-WhatsApp / Meta Cloud API
-  ↓
-Chatwoot
-  ↓ webhook
-n8n / WF-00
-  ↓
-identidade + estado no Supabase
-  ↓
-extração de fatos
-  ↓
-regras determinísticas
-  ↓
-JEV somente se houver ambiguidade autorizada
-  ↓
-Action Guard
-  ↓
-módulo operacional
-  ↓
-LLM compositor quando houver texto ao cliente
-  ↓
-Response Guard
-  ↓
-audit
-  ↓
-Chatwoot / Meta / WhatsApp
+ADR-0005
+Trello = cockpit humano / CRM visual da V1
+Supabase = fonte canônica
+Chatwoot = optional_future
 ```
 
-## Regras vinculantes
+## Regras que permanecem vinculantes
 
-1. O WhatsApp não é memória operacional.
-2. Chatwoot não é fonte canônica do estado.
-3. Trello não é fonte canônica do estado.
-4. Supabase guarda o estado vivo; GitHub guarda a definição versionável.
-5. JEV não calcula preços, não confirma pagamento e não cria opções fora das classes recebidas.
-6. LLM não aplica promoção, não inventa disponibilidade e não substitui regras determinísticas.
-7. Handoff humano ativo pausa a resposta comercial automática.
-8. Um cliente pode ter vários eventos.
-9. Um evento pode ter vários orçamentos; orçamento anterior não é sobrescrito.
-10. Exceção humana é local à oportunidade até homologação explícita como nova regra.
-11. Meta e Chatwoot ficam em `standby` enquanto faltarem credenciais, sem bloquear o restante da construção.
-12. O número oficial da Click Mais só entra após homologação com número/teste da Meta.
+1. WhatsApp não é memória operacional.
+2. Supabase guarda o estado vivo; GitHub guarda a definição versionável.
+3. JEV não calcula preços, não confirma pagamento e não cria opções fora das classes recebidas.
+4. LLM não aplica promoção, não inventa disponibilidade e não substitui regras determinísticas.
+5. Handoff humano ativo pausa resposta comercial automática.
+6. Um cliente pode ter vários eventos.
+7. Um evento pode ter vários orçamentos.
+8. Exceção humana é local à oportunidade até homologação como regra.
+9. O número oficial só entra após homologação com número/teste da Meta.
 
-## Consequências
-
-- O n8n deve ser construído como conjunto de workflows pequenos e identificados.
-- O Supabase precisa diferenciar sessão de conversa de evento comercial da empresa.
-- Cada fato relevante deve registrar procedência.
-- Efeitos externos devem ser auditáveis e idempotentes quando aplicável.
-- Integrações pendentes devem constar em registro não secreto com `runtime_enabled=false`.
+Ver ADR-0005 para CRM/handoff humano da V1.
