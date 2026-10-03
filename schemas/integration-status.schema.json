@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clickmaiscabine.local/schemas/integration-status.schema.json",
+  "title": "Click Mais Integration Status",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["platform_key", "display_name", "role", "status", "credential_state", "runtime_enabled", "canonical", "updated_at"],
+  "properties": {
+    "platform_key": {"type": "string", "minLength": 1},
+    "display_name": {"type": "string", "minLength": 1},
+    "role": {"type": "string", "minLength": 1},
+    "status": {"enum": ["active", "standby", "pending_credentials", "planned", "disabled", "deprecated"]},
+    "credential_state": {"enum": ["not_required", "pending", "vaulted"]},
+    "runtime_enabled": {"type": "boolean"},
+    "canonical": {"type": "boolean"},
+    "external_account_ref": {"type": ["string", "null"]},
+    "notes": {"type": ["string", "null"]},
+    "last_verified_at": {"type": ["string", "null"], "format": "date-time"},
+    "updated_at": {"type": "string", "format": "date-time"}
+  }
+}
