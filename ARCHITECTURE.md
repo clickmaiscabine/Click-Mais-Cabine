@@ -1,4 +1,4 @@
-# ARCHITECTURE.md — Arquitetura-base v0.2
+# ARCHITECTURE.md — Arquitetura-base v0.3
 
 ## Visão
 
@@ -24,130 +24,92 @@
                     ▼
              módulos operacionais
                     │
-                    ▼
-               LLM compositor
-                    │
-                    ▼
-        Chatwoot ↔ Meta Cloud ↔ WhatsApp
-                    │
-                    ▼
-                  cliente
+          ┌─────────┴─────────┐
+          ▼                   ▼
+       Trello             Meta Cloud
+   cockpit humano              │
+          │                    ▼
+          └──────────────► WhatsApp
 ```
 
 ## Fórmula arquitetural
 
-**Oficial no transporte, determinístico no negócio, JEV nas decisões, LLM na linguagem, Supabase na memória, n8n na execução e Chatwoot na operação humana.**
+**Oficial no transporte, determinístico no negócio, JEV nas decisões, LLM na linguagem, Supabase na memória, n8n na execução e Trello na operação humana visual.**
 
-Detalhe: `docs/architecture/CLICK-MAIS-OS-v1.md`.
+Chatwoot passa a ser opcional/futuro e não integra o caminho crítico da V1.
 
 ## Separação de responsabilidades
 
 ### GitHub
-
-Guarda o estado desejado e versionado: workflows, código, documentação, contratos, prompts, pesquisas, migrations e testes.
+Estado desejado e versionado.
 
 ### Supabase
-
-Guarda o estado vivo. Quatro áreas conceituais:
-
-- `core`: sessão, eventos de runtime e estado transitório;
-- `business`: contato, evento da empresa, fatos e módulos operacionais;
-- `audit`: execuções de agentes/workflows;
-- `integrations`: prontidão de integrações, sem segredos.
+Estado vivo:
+- `core`: sessão e eventos de runtime;
+- `business`: contato, evento, fatos e módulos;
+- `audit`: execuções;
+- `integrations`: prontidão sem segredos.
 
 ### n8n
-
-Executa integrações e workflows. O n8n não é memória nem fonte canônica de regras.
-
-Um workflow em produção deve possuir correspondente versionado no GitHub.
+Executa integrações e workflows. Não é fonte de verdade.
 
 ### JEV
-
-É uma camada decisória restrita:
-
-- recebe estado + mensagem + choices autorizadas;
-- seleciona uma classe/opção;
-- não calcula preço;
-- não confirma pagamento;
-- não cria alternativas fora do contrato recebido;
-- pode solicitar humano/indefinido quando previsto.
+Escolhe apenas entre classes/opções autorizadas.
 
 ### Código determinístico
-
-Responsável por decisões inequívocas e reprodutíveis:
-
-- datas e diferenças entre datas;
-- preço e faixa homologada;
-- combo;
-- promoção homologada;
-- completude;
-- validação de estado;
-- bloqueadores;
-- Guards.
+Datas, preço homologado, combo, promoção autorizada, completude, validações e Guards.
 
 ### LLM compositor
+Redação e síntese. Não aumenta autoridade.
 
-Recebe ação autorizada + fatos + template/contexto mínimo.
+### Trello
+Cockpit humano e CRM visual da V1:
+- Kanban de oportunidades;
+- filas comerciais;
+- follow-up;
+- dúvidas/objeções;
+- handoff humano;
+- campanhas;
+- filtros por data;
+- visão de datas ociosas;
+- continuidade manual quando agentes/automação falham.
 
-Responsável por redação e síntese. Não aumenta autoridade.
+**Trello é projeção, não fonte de verdade.**
 
-### Chatwoot
-
-Cockpit humano:
-
-- inbox;
-- contato/conversa;
-- atribuição;
-- labels/atributos;
-- segmentos;
-- handoff.
-
-O estado mestre continua no Supabase.
-
-### Meta / WhatsApp
-
-Transporte oficial. Meta e Chatwoot estão em standby até chegada das credenciais.
-
-O primeiro teste usa número de teste; o número oficial entra somente após homologação.
-
-### OneDrive
-
-Repositório canônico de mídia pós-evento e link entregue ao cliente.
-
-Publicação em rede social é fluxo separado e depende de consentimento.
-
-## Runtime mínimo — sessão
-
+Relação:
 ```text
-mensagem/evento
-→ normalização
-→ gravação idempotente
-→ leitura da sessão
-→ correlação com contato/evento
-→ decisão/roteamento
-→ ação
-→ transição
-→ auditoria
-→ efeito externo
+Supabase → n8n → Trello
+Trello → webhook/n8n → Guard → Supabase → Audit
 ```
 
-Tabelas-base:
+Unidade recomendada:
+```text
+1 cartão Trello = 1 business.customer_event
+```
 
-- `core.sessions`
-- `core.events`
-- `core.state_transitions`
-- `audit.agent_runs`
-- `audit.workflow_runs`
+### Meta / WhatsApp
+Transporte oficial. O número de teste entra primeiro; o número oficial somente após homologação.
 
-Helpers:
+### Chatwoot
+`optional_future`. Pode ser reavaliado se surgir solução sem novo custo relevante ou necessidade real de inbox compartilhado.
 
-- `core.get_or_create_session()`
-- `core.record_event()`
-- `core.transition_session()`
+### OneDrive
+Mídia pós-evento e link entregue ao cliente.
 
-## Event State Engine de negócio
+## Handoff
 
-A sessão de WhatsApp e o evento comercial são objetos diferentes.
+`business.human_handoffs` materializa o human lock.
+
+Na V1, uma fila/coluna do Trello pode representar atendimento humano:
+```text
+Trello → n8n → human_handoff.active=true
+```
+
+Enquanto ativo, o bot registra mensagens, mas não responde comercialmente.
+
+## Event State Engine
+
+Sessão e evento comercial são objetos diferentes.
 
 ```text
 business.contacts
@@ -169,93 +131,47 @@ business.contacts
                  └── human_handoffs
 ```
 
-### Fatos
+## Remarketing por data ociosa
 
-`business.event_facts` preserva procedência e histórico.
-
-Status:
-
-- `known`
-- `derived`
-- `verified`
-- `conflict`
-
-Atualização não apaga silenciosamente o fato anterior: o novo registro aponta para o anterior e apenas um fica `is_current=true`.
-
-### Ciclo de vida
-
-Estados iniciais implementados:
-
-- `lead_new`
-- `lead_qualifying`
-- `quote_presented`
-- `awaiting_decision`
-- `negotiation_human`
-- `contracting`
-- `contracted_pre_event`
-- `event_day`
-- `post_event`
-- `completed`
-- `lost`
-- `cancelled`
-
-`business.transition_customer_event()` usa controle de versão para evitar corrida e grava histórico explícito.
-
-### Handoff
-
-`business.human_handoffs` materializa o human lock.
-
-Enquanto houver handoff ativo, o sistema pode registrar mensagens, mas a automação comercial não deve responder até retomada explícita.
-
-## Módulos operacionais
-
-Os domínios de contrato, pagamento, arte, logística, entrega e CRM agora possuem **estrutura persistente**, mas as regras internas continuam sendo promovidas progressivamente.
-
-Isso evita confundir:
+Caso canônico da V1:
 
 ```text
-estrutura pronta
-≠
-regra de negócio homologada
-≠
-workflow executável pronto
+data próxima sem venda
+→ consultar oportunidades abertas no Supabase
+→ projetar subconjunto no Trello
+→ humano revisa
+→ aprova campanha
+→ business.campaigns
+→ n8n executa contato autorizado
 ```
+
+Promoção pontual nunca altera preço canônico global.
 
 ## Integrações
 
-`integrations.registry` guarda apenas estado de prontidão.
-
-Exemplo:
-
-```text
 Meta:
-status = pending_credentials
-runtime_enabled = false
-
-Chatwoot:
+```text
 status = pending_credentials
 runtime_enabled = false
 ```
 
-Credenciais reais permanecem no cofre/secret store.
+Chatwoot:
+```text
+status = optional_future
+runtime_enabled = false
+```
 
-## Manifesto de workflows
-
-`n8n/WORKFLOW-MANIFEST.json` é o mapa funcional dos workflows planejados.
-
-Ele **não** equivale a JSON n8n executável. Os arquivos `CM-WF-XXX_*.json` só serão registrados como workflows oficiais quando existirem e forem validados.
-
-## Segurança
-
-- schemas internos não são destinados ao cliente/anon;
-- segredos nunca entram no GitHub;
-- novas tabelas `business` e `integrations` têm RLS habilitado e grants públicos revogados;
-- acesso backend é explícito;
-- efeitos externos devem respeitar Guards e handoff;
-- produção não deve ser editada informalmente.
+Trello:
+```text
+status = active
+papel = human cockpit / CRM projection
+```
 
 ## Evolução
 
-Próximos passos: especificar e construir, em ordem suficiente para o fluxo, identidade/contexto, fatos, motor determinístico, JEV, Guards, compositor, módulos operacionais e adapters Meta/Chatwoot.
+Antes de construir o Trello CRM V2, estudar o quadro legado **Controle de Orçamentos** e mapear colunas, labels, webhooks antigos, filtros úteis e etapas obsoletas.
 
-O mapa de alocações vinculante está em `docs/architecture/MODULE-ALLOCATION.md`.
+Documentos vinculantes:
+- `docs/decisions/ADR-0005_trello-cockpit-crm-v1.md`
+- `docs/architecture/TRELLO-CRM-V1.md`
+- `docs/architecture/MODULE-ALLOCATION.md`
