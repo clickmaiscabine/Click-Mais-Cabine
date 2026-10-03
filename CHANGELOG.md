@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.3.0] - 2026-10-03
+
+### Changed
+- Trello adotado como cockpit humano e CRM visual da V1;
+- Supabase permanece CRM/estado canônico;
+- Chatwoot removido do caminho crítico e classificado como opcional/futuro;
+- fluxo Meta/WhatsApp passa diretamente por n8n, sem dependência obrigatória de Chatwoot;
+- arquitetura passa a prever sincronização bidirecional controlada Supabase ↔ n8n ↔ Trello.
+
+### Added
+- ADR-0005 — Trello como cockpit humano e CRM visual da V1;
+- `docs/architecture/TRELLO-CRM-V1.md`;
+- unidade recomendada `1 cartão = 1 customer_event`;
+- conceito de Trello como projeção humana e canal de comandos validados;
+- caso canônico de remarketing por data/equipamento ocioso;
+- `CM-WF-160 trello-crm-projection`;
+- `CM-WF-161 trello-human-actions`;
+- regra de estudar o quadro legado Controle de Orçamentos antes de alterá-lo.
+
 ## [0.2.0] - 2026-10-03
 
 ### Added
@@ -13,37 +32,20 @@
 - prontidão/completude por módulo;
 - estruturas persistentes para orçamento, contrato, pagamento, arte, logística, entrega, consentimento, campanhas, follow-up e handoff;
 - registro não secreto de integrações e estado `runtime_enabled`;
-- Meta e Chatwoot registrados em standby/pending credentials;
 - OneDrive registrado como integração canônica de entrega;
 - manifesto funcional dos workflows n8n planejados;
-- schemas JSON para customer event, event fact e integration status;
-- grants backend necessários para n8n/service role no runtime privado.
+- schemas JSON para customer event, event fact e integration status.
 
 ### Fixed
-- ambiguidade PL/pgSQL em `business.transition_customer_event()`, encontrada no smoke test;
+- ambiguidade PL/pgSQL em `business.transition_customer_event()`;
 - separação entre transição da sessão e transição do ciclo de vida do evento.
-
-### Verified
-- teste funcional de criação de contato/evento/sessão;
-- atualização de fato com preservação de histórico e apenas um fato atual;
-- transição de ciclo de vida com controle de versão e histórico;
-- remoção dos dados sintéticos após o teste.
 
 ## [0.1.0] - 2026-10-01
 ### Added
 - GitHub definido como fonte canônica do projeto;
-- protocolo multiagente (`AGENTS.md`, `CLAUDE.md`, instruções de agentes);
+- protocolo multiagente;
 - documentação de arquitetura, segurança, contribuição e operação n8n;
-- estrutura de knowledge, research, prompts, schemas, n8n, src, deploy e Supabase;
-- templates de ADR, regras de negócio, pesquisa, workflow e teste;
-- Manifest legível por máquina;
-- schemas JSON do runtime;
-- migrations Supabase sincronizadas;
-- Event State Engine mínimo com sessões, eventos e transições;
-- auditoria de execuções de agentes e workflows;
-- helpers atômicos de criação de sessão, idempotência de eventos e transição com controle de versão;
-- índices de runtime;
-- validador `scripts/validate_repository.py`;
-- GitHub Action de validação;
-- `CODEOWNERS` e template de Pull Request;
-- arquivos iniciais de knowledge em estado draft.
+- Event State Engine mínimo;
+- auditoria;
+- helpers atômicos;
+- validador do repositório e GitHub Action.
