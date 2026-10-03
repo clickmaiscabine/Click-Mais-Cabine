@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://clickmaiscabine.local/schemas/event-fact.schema.json",
+  "title": "Click Mais Event Fact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "customer_event_id", "fact_key", "fact_value", "fact_status", "source_type", "is_current", "metadata", "created_at"],
+  "properties": {
+    "id": {"type": "string", "format": "uuid"},
+    "customer_event_id": {"type": "string", "format": "uuid"},
+    "fact_key": {"type": "string", "minLength": 1},
+    "fact_value": {},
+    "fact_status": {"enum": ["known", "derived", "verified", "conflict"]},
+    "source_type": {"enum": ["customer", "human", "rule", "calculation", "integration", "migration", "agent"]},
+    "source_event_id": {"type": ["string", "null"], "format": "uuid"},
+    "source_ref": {"type": ["string", "null"]},
+    "confidence": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "supersedes_fact_id": {"type": ["string", "null"], "format": "uuid"},
+    "is_current": {"type": "boolean"},
+    "actor_ref": {"type": ["string", "null"]},
+    "metadata": {"type": "object", "additionalProperties": true},
+    "created_at": {"type": "string", "format": "date-time"}
+  }
+}
