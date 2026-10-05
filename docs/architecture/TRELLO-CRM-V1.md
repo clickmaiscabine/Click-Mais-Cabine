@@ -1,8 +1,9 @@
 # Trello CRM V1 — Blueprint de cockpit humano
 
 Status: homologated  
-Data: 2026-10-03  
-Decisão vinculante: ADR-0005
+Data original: 2026-10-03  
+Atualizado: 2026-10-05  
+Decisões vinculantes: ADR-0005 + ADR-0006
 
 ## Objetivo
 
@@ -16,37 +17,75 @@ TRELLO   = projeção humana
 n8n      = sincronização e execução
 ```
 
+## Regra de entrada no Trello Comercial
+
+O Supabase pode registrar contato/prospect e evento antes do Trello.
+
+O card comercial só é criado quando existe orçamento efetivamente enviado:
+
+```text
+contato/prospect
+→ dados suficientes
+→ ORCAMENTO_ENVIADO
+→ lead qualificado
+→ criar/projetar card no Trello Comercial
+```
+
+Isto substitui a orientação anterior de criar card para todo novo `business.customer_event`.
+
+## Pipeline homologado
+
+```text
+ORÇAMENTO
+→ RESPOSTA
+→ FAC / DÚVIDAS
+→ NEGOCIAÇÃO BOT / HUMANO
+→ FECHAMENTO
+→ GANHO
+  ou
+→ PERDIDO
+```
+
+### ORÇAMENTO
+Lead qualificado que recebeu orçamento.
+
+### RESPOSTA
+Houve resposta após o orçamento, sem necessariamente haver dúvida ou negociação.
+
+### FAC / DÚVIDAS
+Informações adicionais, explicação do produto, diferenciais, FAQ, objeções e esclarecimentos.
+
+### NEGOCIAÇÃO BOT / HUMANO
+Negociação dentro das regras autorizadas ou handoff quando houver barganha, desconto extra, proposta de preço ou exceção.
+
+### FECHAMENTO
+Intenção concreta de contratar e entrada no fluxo de fechamento.
+
+### GANHO
+Resultado comercial positivo. O critério técnico exato de transição para operação será formalizado no Projeto Executivo.
+
+### PERDIDO
+Oportunidade não convertida. O registro permanece na base histórica.
+
 ## Blueprint
 
 ```text
-                          CLIENTE
-                             │
-                             ▼
                         WHATSAPP
-                             │
-                             ▼
+                           │
+                           ▼
                     META CLOUD API
-                             │
-                             ▼
-                            n8n
-                      ORQUESTRADOR
-                             │
-               ┌─────────────┴─────────────┐
-               ▼                           ▼
-           SUPABASE                      TRELLO
-      Event State Engine             CRM / cockpit
-        fonte canônica                humano legível
-               │                           │
-               │                           │ ações humanas
-               │                           ▼
-               │                          n8n
-               │                           │
-               └──────────────┬────────────┘
-                              ▼
-                       Guard + Audit
-                              │
-                              ▼
-                     estado atualizado
+                           │
+                           ▼
+                          n8n
+                           │
+                 ┌─────────┴─────────┐
+                 ▼                   ▼
+             SUPABASE              TRELLO
+          fonte da verdade      cockpit humano
+                 │                   │
+                 └─────────┬─────────┘
+                           ▼
+                     Guard + Audit
 ```
 
 ## Relação entre objetos
@@ -56,10 +95,10 @@ business.contacts
       │
       └──< business.customer_events
                     │
-                    └── 1 cartão Trello por evento
+                    └── card Trello somente se quote_sent
 ```
 
-Um contato pode ter vários cartões em datas/anos diferentes.
+Um contato pode ter vários eventos/cartões em datas ou anos diferentes.
 
 ## Projeção recomendada do cartão
 
@@ -75,7 +114,7 @@ Data: 15/11/2026
 Cidade: Mogi das Cruzes
 Serviços: Cabine + Plataforma 360
 Orçamento: ...
-Status: AGUARDANDO DECISÃO
+Pipeline: FAC / DÚVIDAS
 Último contato: ...
 Próxima ação: ...
 Observações: ...
@@ -83,47 +122,26 @@ Observações: ...
 
 O EVENT_ID/customer_event_id é a chave de reconciliação.
 
-## Funções do Trello na V1
+## Estado atual x histórico
 
-- visão Kanban de oportunidades;
-- filas comerciais;
-- visualização de follow-up;
-- dúvidas e objeções;
-- atendimento humano;
-- preparação de campanhas;
-- filtro de datas;
-- identificação de datas/equipamentos ociosos;
-- intervenção manual quando automação falhar;
-- visão legível por qualquer operador autorizado.
+A lista atual do Trello representa estágio atual e não apaga fatos anteriores.
 
-## Exemplo: sábado ocioso
+Exemplo:
 
 ```text
-segunda-feira
-     ↓
-sábado sem venda
-     ↓
-Supabase consulta oportunidades para sábado
-     ↓
-remove fechados/perdidos/cancelados
-     ↓
-n8n projeta conjunto no Trello
-     ↓
-humano revisa
-     ↓
-aprova promoção
-     ↓
-business.campaigns
-     ↓
-n8n executa contato autorizado
+quote_sent = true
+qualified_lead = true
+pipeline_stage = FAC_DUVIDAS
 ```
 
-A promoção pontual não altera a tabela canônica de preços.
+Campanhas e coortes devem consultar o Supabase.
+
+Leads PERDIDOS permanecem historicamente registrados. A elegibilidade futura depende de regra explícita.
 
 ## Human lock
 
 ```text
-cartão entra em fila humana
+negociação exige humano
         ↓
 human_handoff = active
         ↓
@@ -139,12 +157,10 @@ human_handoff = released
 ## Direção da sincronização
 
 ### Supabase → Trello
-
-Automática sempre que estado relevante mudar.
+Criar card apenas no marco de orçamento enviado e depois manter a projeção sincronizada.
 
 ### Trello → Supabase
-
-Tratada como **comando humano solicitado**, nunca como escrita direta.
+Ação humana é **comando solicitado**, nunca escrita direta.
 
 ```text
 Trello webhook
@@ -155,24 +171,35 @@ Trello webhook
 → atualização de projeção
 ```
 
+## Remarketing e datas ociosas
+
+```text
+definir período/data alvo
+→ Supabase consulta leads com orçamento enviado
+→ aplica critérios de venda/elegibilidade
+→ n8n projeta conjunto operacional no Trello
+→ humano revisa
+→ aprova campanha
+→ business.campaigns
+→ n8n executa contato autorizado
+```
+
+A posição atual no Trello não é o único critério de pertencimento à coorte.
+
 ## Quadro legado
 
-O quadro histórico **Controle de Orçamentos** é considerado material de referência operacional e deve ser estudado antes de qualquer redesign.
+O quadro histórico **Controle de Orçamentos** continua sendo material de referência e não deve ser alterado sem planejamento explícito.
 
-Elementos visíveis já reconhecidos:
+## Trello Logística
 
-- CONTATO;
-- ORÇAMENTO / CONFIRMAÇÃO;
-- ORÇAMENTO / REFORÇO;
-- ORÇAMENTO / REMARKETING 1;
-- ORÇAMENTO / PRÓX. 30 DIAS;
-- DÚVIDAS / OBJEÇÕES;
-- CHECK DÚVIDAS;
-- DÚVIDAS / REMARKETING 2;
-- labels de preço/faixa/grupo/período/estado.
+É separado do Trello Comercial.
 
-Não há autorização nesta decisão para limpar, mover ou editar o quadro legado.
+O Comercial acompanha oportunidade até resultado de venda.
 
-## Futuro
+O Logística acompanha o evento operacional após a transição definida para GANHO/entrada operacional.
 
-Se o Trello não cobrir inbox compartilhado ou outras necessidades futuras, Chatwoot Community/Cloud pode ser reavaliado. Isso é extensão, não fundamento da V1.
+## Chatwoot
+
+Fora do projeto V1.
+
+Qualquer reentrada futura exige nova decisão explícita e não pode substituir Supabase como fonte canônica.
