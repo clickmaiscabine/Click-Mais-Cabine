@@ -1,6 +1,6 @@
 # Click Mais Cabine — Base Canônica do Click Mais OS
 
-> **Status:** arquitetura-base v0.3  
+> **Status:** arquitetura-base v0.4  
 > Este repositório é a fonte canônica de software, documentação, workflows, pesquisas, contratos de dados e instruções para agentes do projeto Click Mais Cabine.
 
 ## 1. Regra principal
@@ -16,7 +16,7 @@ O projeto não pertence a uma IA, a uma conversa ou ao n8n.
 - **Trello** = cockpit humano e CRM visual da V1.
 - **Meta Cloud API** = transporte oficial do WhatsApp.
 - **OneDrive** = entrega canônica de mídia pós-evento.
-- **Chatwoot** = opcional/futuro; não bloqueia a V1.
+- **Chatwoot** = fora do projeto V1.
 - **Agentes** = trabalhadores especializados que leem e alteram artefatos versionados.
 
 ```text
@@ -36,47 +36,71 @@ Meta/WhatsApp + serviços externos
 1. `README.md`
 2. `AGENTS.md`
 3. `PROJECT.md`
-4. `ARCHITECTURE.md`
-5. `MANIFEST.json`
-6. README da pasta afetada
-7. schemas, testes e ADRs relacionados
+4. `docs/00_governanca/CLICK_MAIS_OS_BASELINE_FUNCIONAL_v1.1.md`
+5. `docs/00_governanca/REGISTRO_DE_DECISOES.md`
+6. `ARCHITECTURE.md`
+7. `MANIFEST.json`
+8. README da pasta afetada
+9. schemas, testes e ADRs relacionados
 
 Ordem de autoridade:
 
 ```text
 decisão humana registrada
-→ ADR aprovada
+→ ADR homologada mais recente
+→ baseline funcional homologada
 → schemas/contratos
-→ ARCHITECTURE.md
-→ MANIFEST.json
+→ arquitetura
+→ manifesto
 → implementação
 ```
 
-## 3. Arquitetura adotada
+## 3. Organização documental
+
+A fase de Projeto Executivo usa a estrutura:
+
+- `docs/00_governanca/`
+- `docs/01_negocio/`
+- `docs/02_arquitetura/`
+- `docs/03_dados/`
+- `docs/04_workflows/`
+- `docs/05_seguranca/`
+- `docs/06_testes/`
+- `docs/07_projeto_executivo/`
+
+Ver `docs/README.md`.
+
+Documentos anteriores em `docs/architecture/` e `docs/decisions/` permanecem preservados e versionados.
+
+## 4. Arquitetura adotada
 
 > **Oficial no transporte, determinístico no negócio, JEV nas decisões, LLM na linguagem, Supabase na memória, n8n na execução e Trello na operação humana visual.**
 
-Documentos:
+Documentos vinculantes atuais:
+- `docs/00_governanca/CLICK_MAIS_OS_BASELINE_FUNCIONAL_v1.1.md`
+- `docs/00_governanca/REGISTRO_DE_DECISOES.md`
+- `docs/decisions/ADR-0006_origem-lead-pipeline-comercial-v1.md`
 - `docs/architecture/CLICK-MAIS-OS-v1.md`
 - `docs/architecture/TRELLO-CRM-V1.md`
 - `docs/architecture/MODULE-ALLOCATION.md`
-- `docs/decisions/ADR-0005_trello-cockpit-crm-v1.md`
 
-Fluxo resumido:
+Fluxo de aquisição principal:
 
 ```text
-Cliente
-  ↕
+Anúncio
+  ↓
+Landing Page
+  ↓
 WhatsApp / Meta Cloud
-  ↕
+  ↓
 n8n
-  ↕
+  ↓
 Supabase / Event State Engine
-  ↕
-Trello / cockpit humano
+  ↓
+Trello quando ORCAMENTO_ENVIADO
 ```
 
-## 4. Trello CRM V1
+## 5. Trello CRM V1
 
 Regra:
 
@@ -88,21 +112,28 @@ n8n = sincronização
 
 Uma ação no Trello não escreve diretamente no estado canônico. Ela passa por n8n + Guard + Supabase + Audit.
 
-Unidade recomendada:
+O Supabase pode registrar contato/evento desde a entrada. O card do **Trello Comercial nasce somente após orçamento efetivamente enviado**, quando o contato se torna lead qualificado.
+
+Pipeline homologado:
 
 ```text
-1 cartão Trello = 1 business.customer_event
+ORÇAMENTO
+→ RESPOSTA
+→ FAC / DÚVIDAS
+→ NEGOCIAÇÃO BOT / HUMANO
+→ FECHAMENTO
+→ GANHO ou PERDIDO
 ```
 
-O quadro legado **Controle de Orçamentos** deve ser estudado antes de qualquer alteração. A lógica histórica de colunas, labels, filtros de data e remarketing deve ser preservada quando útil.
+Um cartão comercial representa um `business.customer_event` qualificado por orçamento enviado.
 
-## 5. Workflows n8n
+## 6. Workflows n8n
 
 Os JSONs homologados vivem no GitHub.
 
 `n8n/WORKFLOW-MANIFEST.json` descreve o mapa funcional; não afirma que os JSONs executáveis já existem.
 
-## 6. Supabase
+## 7. Supabase
 
 Projeto operacional: **Chatbot Clique Mais**.
 
@@ -131,31 +162,36 @@ Projeto operacional: **Chatbot Clique Mais**.
 - `business.followups`
 - `business.human_handoffs`
 
-## 7. Integrações
+## 8. Integrações
 
 - Meta/WhatsApp: standby até credenciais/número de teste.
 - Trello: ativo e adotado como cockpit humano da V1.
-- Chatwoot: opcional/futuro.
+- Chatwoot: fora do escopo V1.
 - OneDrive: entrega canônica.
 - Google Drive, Calendar, Trello, Autentique e demais integrações não substituem o estado canônico do Supabase.
 
-## 8. Segurança
+## 9. Segurança
 
 Nunca commitar senhas, tokens, chaves API, `service_role`, credenciais Meta/WhatsApp, credenciais n8n, dumps ou dados reais de clientes.
 
-## 9. Estado atual
+## 10. Estado atual
 
-A arquitetura-base **v0.3** inclui:
+A arquitetura-base **v0.4** inclui:
 - governança multiagente;
+- baseline funcional v1.1;
+- registro de decisões;
 - Event State Engine;
 - CRM operacional no Supabase;
 - OneDrive canônico;
-- Trello definido como cockpit humano/CRM visual da V1;
-- Chatwoot removido do caminho crítico;
+- Trello como cockpit humano/CRM visual da V1;
+- qualificação do lead por orçamento enviado;
+- pipeline comercial homologado;
+- Chatwoot fora do projeto V1;
 - manifesto funcional dos workflows;
 - validação automática do repositório.
 
 Ainda não significa:
+- Projeto Executivo concluído;
 - workflows n8n executáveis concluídos;
 - pricing engine final;
 - Meta ativa;
@@ -163,17 +199,18 @@ Ainda não significa:
 - JEV runtime;
 - compositor/Guards em produção.
 
-## 10. Próxima camada
+## 11. Próxima camada
 
 ```text
-CM-WF-010 identidade/contexto
-→ CM-WF-020 fatos
-→ regras determinísticas
-→ JEV
-→ Guards
-→ compositor
-→ projeção Trello
-→ Meta quando credenciais chegarem
+Baseline + decisões
+→ Projeto Executivo
+→ contratos/schemas
+→ especificações de workflow
+→ fixtures/testes
+→ implementação
+→ DEV
+→ homologação
+→ PROD
 ```
 
 **Princípio operacional:** se uma informação precisa sobreviver à troca de conversa, agente ou modelo, ela deve ser registrada no lugar canônico correto.
