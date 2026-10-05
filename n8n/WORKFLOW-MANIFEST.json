@@ -1,9 +1,9 @@
 {
-  "manifest_version": "1.1.0",
-  "note": "Architecture/spec registry only. These entries do not claim that executable n8n JSON files exist.",
+  "manifest_version": "1.2.0",
+  "note": "Architecture/spec registry only. These entries do not claim that executable n8n JSON files exist. ADR-0006 and Baseline v1.1 are binding.",
   "workflows": [
-    {"id":"CM-WF-000","slug":"whatsapp-ingress-orchestrator","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":["meta_whatsapp"],"purpose":"Receive normalized inbound messages, correlate identity/session/event and route work."},
-    {"id":"CM-WF-010","slug":"identity-context","status":"development","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Resolve contact, active event, lifecycle and human handoff state."},
+    {"id":"CM-WF-000","slug":"whatsapp-ingress-orchestrator","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":["meta_whatsapp"],"purpose":"Receive normalized inbound messages, preserve acquisition/origin signals when available, correlate identity/session/event and route work."},
+    {"id":"CM-WF-010","slug":"identity-context","status":"development","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Resolve contact, active event, commercial qualification, lifecycle and human handoff state."},
     {"id":"CM-WF-020","slug":"fact-normalization","status":"development","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Normalize typed facts, provenance and conflicts before business rules."},
     {"id":"CM-WF-030","slug":"business-rules-engine","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Run deterministic pricing/date/completeness and other homologated rules."},
     {"id":"CM-WF-040","slug":"jev-decision","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Call JEV only for semantic ambiguity using authorized choices."},
@@ -15,8 +15,8 @@
     {"id":"CM-WF-120","slug":"art","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Catalog briefing, layout, draft, customer decision and designer finalization."},
     {"id":"CM-WF-130","slug":"logistics-pre-event","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Prepare operational checklist and pre-event safety confirmation."},
     {"id":"CM-WF-140","slug":"delivery-post-sale","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Locate canonical OneDrive event folder, send link and continue post-sale."},
-    {"id":"CM-WF-150","slug":"crm-followup-remarketing","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Segment leads, schedule allowed follow-ups, identify idle dates and create approved campaigns."},
-    {"id":"CM-WF-160","slug":"trello-crm-projection","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Project canonical Supabase customer_event state into human-readable Trello cards, lists and labels."},
+    {"id":"CM-WF-150","slug":"crm-followup-remarketing","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Segment qualified leads from canonical Supabase history, schedule allowed follow-ups, identify idle dates and create approved campaigns."},
+    {"id":"CM-WF-160","slug":"trello-crm-projection","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Create Trello Commercial card only after quote sent, then project canonical pipeline state into human-readable cards, lists and labels."},
     {"id":"CM-WF-161","slug":"trello-human-actions","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Receive Trello human actions, validate them through Guards, persist authorized changes in Supabase and audit the actor/source."},
     {"id":"CM-WF-900","slug":"audit-watchdog","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Detect impossible states, overdue actions and execution anomalies."}
   ]
