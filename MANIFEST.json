@@ -1,6 +1,6 @@
 {
   "project": "click-mais-cabine",
-  "architecture_version": "0.3.0",
+  "architecture_version": "0.4.0",
   "canonical_repository": "clickmaiscabine/Click-Mais-Cabine",
   "runtime": {
     "supabase_project_name": "Chatbot Clique Mais",
@@ -11,7 +11,7 @@
     "integration_runtime": {
       "meta_whatsapp": "standby",
       "trello_crm": "active",
-      "chatwoot": "optional_future",
+      "chatwoot": "out_of_scope_v1",
       "onedrive_delivery": "active"
     }
   },
@@ -25,6 +25,12 @@
     "archived"
   ],
   "registries": {
+    "governance_docs": [
+      {"id":"docs-index","path":"docs/README.md","status":"homologated"},
+      {"id":"baseline-functional-v1.1","path":"docs/00_governanca/CLICK_MAIS_OS_BASELINE_FUNCIONAL_v1.1.md","status":"homologated"},
+      {"id":"decision-register","path":"docs/00_governanca/REGISTRO_DE_DECISOES.md","status":"homologated"},
+      {"id":"project-changelog","path":"docs/00_governanca/CHANGELOG_PROJETO.md","status":"homologated"}
+    ],
     "workflows": [],
     "subflows": [],
     "workflow_specs": [
@@ -58,13 +64,24 @@
       {"id":"ADR-0002","path":"docs/decisions/ADR-0002_event-state-engine-minimo.md","status":"homologated"},
       {"id":"ADR-0003","path":"docs/decisions/ADR-0003_click-mais-os-arquitetura-producao.md","status":"homologated"},
       {"id":"ADR-0004","path":"docs/decisions/ADR-0004_onedrive-entrega-canonica-e-publicacao-social.md","status":"homologated"},
-      {"id":"ADR-0005","path":"docs/decisions/ADR-0005_trello-cockpit-crm-v1.md","status":"homologated"}
+      {"id":"ADR-0005","path":"docs/decisions/ADR-0005_trello-cockpit-crm-v1.md","status":"homologated"},
+      {"id":"ADR-0006","path":"docs/decisions/ADR-0006_origem-lead-pipeline-comercial-v1.md","status":"homologated"}
     ],
     "architecture_docs": [
       {"id":"click-mais-os-v1","path":"docs/architecture/CLICK-MAIS-OS-v1.md","status":"homologated"},
       {"id":"trello-crm-v1","path":"docs/architecture/TRELLO-CRM-V1.md","status":"homologated"},
       {"id":"module-allocation","path":"docs/architecture/MODULE-ALLOCATION.md","status":"homologated"},
       {"id":"component-map","path":"docs/architecture/COMPONENT-MAP.md","status":"homologated"}
+    ],
+    "documentation_sections": [
+      {"id":"governance","path":"docs/00_governanca/README.md","status":"homologated"},
+      {"id":"business","path":"docs/01_negocio/README.md","status":"development"},
+      {"id":"architecture","path":"docs/02_arquitetura/README.md","status":"development"},
+      {"id":"data","path":"docs/03_dados/README.md","status":"development"},
+      {"id":"workflows","path":"docs/04_workflows/README.md","status":"development"},
+      {"id":"security","path":"docs/05_seguranca/README.md","status":"development"},
+      {"id":"tests","path":"docs/06_testes/README.md","status":"development"},
+      {"id":"executive-project","path":"docs/07_projeto_executivo/README.md","status":"draft"}
     ],
     "integrations": [
       {"id":"integration-status","path":"docs/integrations/STATUS.md","status":"homologated"}
