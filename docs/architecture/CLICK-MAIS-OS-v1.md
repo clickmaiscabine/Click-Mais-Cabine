@@ -1,14 +1,19 @@
 # Click Mais OS — Blueprint funcional v1
 
 Status: homologated  
-Data: 2026-10-03
+Data original: 2026-10-03  
+Atualizado: 2026-10-05  
+Decisões vinculantes: ADR-0005 + ADR-0006 + Baseline Funcional v1.1
 
 ## 1. Princípio
 
-A Click Mais está construindo um sistema operacional de atendimento e operação comercial.
+A Click Mais está construindo um sistema operacional de aquisição, atendimento e operação comercial.
 
 ```text
-OFICIAL NO TRANSPORTE
+AQUISIÇÃO
+Anúncios + Landing Pages
+
+TRANSPORTE
 Meta Cloud API
 
 DETERMINÍSTICO NO NEGÓCIO
@@ -33,13 +38,15 @@ ENTREGA DE MÍDIA
 OneDrive
 ```
 
-Chatwoot fica fora do caminho crítico da V1.
+Chatwoot fica fora do projeto V1.
 
-## 2. Relacionamento e operação humana
+## 2. Entrada e relacionamento
 
 ```text
-Cliente
-  ↕
+Anúncio
+  ↓
+Landing Page
+  ↓
 WhatsApp
   ↕
 Meta Cloud API
@@ -47,11 +54,14 @@ Meta Cloud API
 n8n
   ↕
 Supabase
-  ↕
-Trello (projeção humana)
 ```
 
-Trello não é inbox de conversa nem banco mestre. É cockpit Kanban/CRM visual.
+Landing pages iniciais:
+- Cabine de Fotos;
+- Plataforma 360;
+- Totem de Fotos.
+
+A mensagem predefinida/tagueada do botão “Quero orçamento” deve ser aproveitada para origem e produto quando disponível.
 
 ## 3. Cérebro operacional
 
@@ -78,9 +88,9 @@ Trello não é inbox de conversa nem banco mestre. É cockpit Kanban/CRM visual.
 - **LLM escreve**.
 - **Guard impede**.
 - **Audit explica**.
-- **Trello mostra e recebe comandos humanos**.
+- **Trello mostra e recebe comandos humanos autorizados**.
 
-## 4. Estado: sessão não é evento comercial
+## 4. Estado: contato, evento e lead
 
 - `core.sessions`: conversa/canal;
 - `business.contacts`: pessoa/entidade;
@@ -88,6 +98,8 @@ Trello não é inbox de conversa nem banco mestre. É cockpit Kanban/CRM visual.
 - `business.event_stage_transitions`: histórico comercial.
 
 Uma pessoa pode ter vários eventos.
+
+Contato/prospect torna-se lead qualificado quando o orçamento é efetivamente enviado.
 
 ## 5. Fatos e completude
 
@@ -120,43 +132,42 @@ Uma pessoa pode ter vários eventos.
 | Follow-up | `business.followups` |
 | Handoff | `business.human_handoffs` |
 
-## 7. Trello CRM V1
+## 7. Trello Comercial V1
 
-Unidade recomendada:
+O Supabase pode ter contato/evento antes do Trello.
+
+Card comercial nasce somente após orçamento enviado.
+
+Pipeline:
 
 ```text
-1 cartão = 1 business.customer_event
+ORÇAMENTO
+→ RESPOSTA
+→ FAC / DÚVIDAS
+→ NEGOCIAÇÃO BOT / HUMANO
+→ FECHAMENTO
+→ GANHO ou PERDIDO
 ```
 
-Usos:
-- Kanban comercial;
-- filtros por data;
-- reforço/follow-up;
-- dúvidas/objeções;
-- handoff;
-- campanhas;
-- datas ociosas;
-- substituição manual da automação quando necessário.
-
-Sincronização:
+Regra:
 
 ```text
 Supabase → n8n → Trello
-
 Trello → n8n → Guard → Supabase → Audit
 ```
 
-O quadro histórico **Controle de Orçamentos** deve ser estudado antes do CRM V2.
+Trello mostra estágio atual. Supabase preserva histórico e coortes.
 
-## 8. Remarketing por data ociosa
+## 8. Remarketing
 
 ```text
-sábado próximo sem venda
-→ consultar oportunidades abertas para a data
-→ projetar no Trello
+definir período/data alvo
+→ consultar no Supabase quem recebeu orçamento
+→ aplicar elegibilidade
+→ projetar subconjunto operacional no Trello
 → humano seleciona/aprova
 → criar campaign
-→ n8n executa contato
+→ n8n executa contato autorizado
 ```
 
 A promoção é local à campanha e não altera a tabela global.
@@ -165,13 +176,13 @@ A promoção é local à campanha e não altera a tabela global.
 
 `human_handoffs.active=true` pausa o bot comercial.
 
-Uma coluna/fila Trello pode solicitar ativação/liberação do lock, sempre via n8n + Guard.
+A fila/estado de negociação humana no Trello pode solicitar ativação/liberação do lock, sempre via n8n + Guard.
 
 ## 10. Integrações pendentes
 
 Meta pode ser modelada sem credencial e ativada depois.
 
-Chatwoot é opcional/futuro e não bloqueia a V1.
+Chatwoot está fora do projeto V1.
 
 ## 11. Estado atual
 
@@ -181,9 +192,11 @@ Já implementado:
 - CRM básico no Supabase;
 - Trello disponível como integração;
 - OneDrive canônico;
-- mapa funcional dos workflows.
+- mapa funcional dos workflows;
+- governança documental v0.4.
 
 Ainda não implementado:
+- Projeto Executivo;
 - workflows n8n executáveis;
 - pricing engine final;
 - adapter Meta ativo;
@@ -191,4 +204,8 @@ Ainda não implementado:
 - JEV runtime;
 - compositor e Guards executáveis.
 
-Ver `TRELLO-CRM-V1.md` e ADR-0005.
+Ver:
+- `../00_governanca/CLICK_MAIS_OS_BASELINE_FUNCIONAL_v1.1.md`
+- `TRELLO-CRM-V1.md`
+- ADR-0005
+- ADR-0006
