@@ -2,7 +2,9 @@
 
 - Status: homologated
 - Data: 2026-10-03
-- Nota de evolução: a decisão sobre **operação humana via Chatwoot** foi supersedida pela ADR-0005. Os demais princípios permanecem válidos.
+- Nota de evolução:
+  - operação humana via Chatwoot foi supersedida pela ADR-0005;
+  - classificação de Chatwoot como optional_future e regras iniciais de Trello foram refinadas pela ADR-0006.
 
 ## Contexto
 
@@ -27,13 +29,21 @@ O atendimento da Click Mais precisa preservar estado fora da memória de uma LLM
 
 ## Evolução da operação humana
 
-A versão original colocava Chatwoot como cockpit humano. Isso foi alterado por decisão posterior:
+A versão original colocava Chatwoot como cockpit humano.
+
+Decisões posteriores:
 
 ```text
 ADR-0005
 Trello = cockpit humano / CRM visual da V1
 Supabase = fonte canônica
-Chatwoot = optional_future
+
+ADR-0006
+Chatwoot = fora do projeto V1
+Card Trello Comercial = somente após orçamento enviado
+Pipeline = ORÇAMENTO → RESPOSTA → FAC/DÚVIDAS
+           → NEGOCIAÇÃO BOT/HUMANO → FECHAMENTO
+           → GANHO/PERDIDO
 ```
 
 ## Regras que permanecem vinculantes
@@ -48,4 +58,4 @@ Chatwoot = optional_future
 8. Exceção humana é local à oportunidade até homologação como regra.
 9. O número oficial só entra após homologação com número/teste da Meta.
 
-Ver ADR-0005 para CRM/handoff humano da V1.
+Ver ADR-0005 e ADR-0006 para CRM/handoff humano e pipeline comercial da V1.
