@@ -1,0 +1,109 @@
+{
+  "canonical_id": "CM-WF-150",
+  "lab_workflow_id": "9U1T8EaKiRgErt5N",
+  "name": "[LAB][F8] CM-WF-150 Event Execution Closure",
+  "active": false,
+  "isArchived": false,
+  "versionId": "09b55222-84a8-4940-9fd1-100e4a71bb3e",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "990f65db-c9c4-4891-b3bd-88d3a5721f47",
+      "name": "Receive Event Execution Action",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "4339d966-8023-4eb4-86ff-fdf85d08fdd1",
+      "name": "Prepare Operational Guard Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst input=$json;\nconst action=String(input.action ?? '');\nconst targets={\n  mark_ready:'EVENT_READY',\n  start_event:'EVENT_DAY',\n  finish_event:'POST_EVENT',\n  complete_cycle:'COMPLETED',\n  suspend:'SUSPENDED',\n  cancel:'CANCELLED'\n};\nreturn {json:{\n  from_stage:input.operational_stage ?? null,\n  to_stage:targets[action] ?? null,\n  commercial_stage:input.commercial_stage ?? null,\n  has_contract:Boolean(input.has_contract),\n  human_authorized:Boolean(input.actor_authorized && String(input.actor_type ?? '').toLowerCase()==='human')\n}};\n"
+      }
+    },
+    {
+      "id": "2d104e6f-dd39-4f8d-bdc5-fe2c86b5b351",
+      "name": "Run F2 Operational Guard",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "// GENERATED ADAPTER FOR n8n CODE NODE.\n// Canonical source: src/functions/f2/state-guard.mjs#guardOperationalTransition\n\nconst OPERATIONAL_NEXT = {\n  NOT_STARTED: new Set([\"PRE_EVENT\"]),\n  PRE_EVENT: new Set([\"EVENT_READY\", \"SUSPENDED\", \"CANCELLED\"]),\n  EVENT_READY: new Set([\"EVENT_DAY\"]),\n  EVENT_DAY: new Set([\"POST_EVENT\"]),\n  POST_EVENT: new Set([\"COMPLETED\"]),\n  COMPLETED: new Set(),\n  SUSPENDED: new Set(),\n  CANCELLED: new Set(),\n};\n\nfunction allow() {\n  return { decision: \"allow\", allowed: true, reasonCode: null, nextAction: null };\n}\nfunction deny(reasonCode, nextAction = null) {\n  return { decision: \"deny\", allowed: false, reasonCode, nextAction };\n}\nfunction guardOperationalTransition({\n  from,\n  to,\n  commercialStage,\n  hasContract = false,\n  humanAuthorized = false,\n}) {\n  if (!(from in OPERATIONAL_NEXT) || !(to in OPERATIONAL_NEXT)) {\n    return deny(\"UNKNOWN_OPERATIONAL_STAGE\");\n  }\n  if (!OPERATIONAL_NEXT[from].has(to)) {\n    return deny(\"OPERATIONAL_TRANSITION_NOT_ALLOWED\");\n  }\n  if (from === \"NOT_STARTED\" && to === \"PRE_EVENT\" && commercialStage !== \"GANHO\") {\n    return deny(\"PRE_EVENT_REQUIRES_GANHO\");\n  }\n  if (to === \"CANCELLED\" && hasContract && !humanAuthorized) {\n    return deny(\"CONTRACTED_CANCEL_REQUIRES_HUMAN\");\n  }\n  return allow();\n}\nreturn {json:guardOperationalTransition({\n  from:$json.from_stage ?? $json.from ?? null,\n  to:$json.to_stage ?? $json.to ?? null,\n  commercialStage:$json.commercial_stage ?? $json.commercialStage ?? null,\n  hasContract:Boolean($json.has_contract ?? $json.hasContract),\n  humanAuthorized:Boolean($json.human_authorized ?? $json.humanAuthorized)\n})};\n"
+      }
+    },
+    {
+      "id": "ec818de3-b89c-4393-8650-0da551c5f80f",
+      "name": "Plan Event Execution Transition",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst guard=$json;\nconst input=$('Receive Event Execution Action').item.json;\nconst prepared=$('Prepare Operational Guard Input').item.json;\nif(input.actor_authorized!==true){\n  return {json:{status:'denied',operations:[],guard,blockers:['EVENT_ACTION_ACTOR_NOT_AUTHORIZED']}};\n}\nif(!guard.allowed){\n  return {json:{status:'denied',operations:[],guard,blockers:[guard.reasonCode]}};\n}\n\nconst events={\n  mark_ready:'event_ready',\n  start_event:'event_started',\n  finish_event:'event_completed',\n  complete_cycle:'operational_completed',\n  suspend:'event_suspended',\n  cancel:'event_cancelled'\n};\nconst operations=[{\n  action:'TRANSITION_OPERATIONAL_STAGE',\n  customer_event_id:input.customer_event_id,\n  from_stage:prepared.from_stage,\n  to_stage:prepared.to_stage,\n  expected_version:input.stage_version ?? null,\n  actor_type:input.actor_type ?? 'human'\n}];\n\nif(input.action==='finish_event'){\n  operations.push({action:'UPDATE_LOGISTICS_RECORD',customer_event_id:input.customer_event_id,status:'completed'});\n}\noperations.push({\n  action:'EMIT_EVENT',\n  event_type:events[input.action] ?? 'operational_transition',\n  customer_event_id:input.customer_event_id\n});\n\nreturn {json:{\n  status:'planned',\n  operations,\n  target_operational_stage:prepared.to_stage,\n  guard,\n  blockers:[]\n}};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Event Execution Action": {
+      "main": [
+        [
+          {
+            "node": "Prepare Operational Guard Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Operational Guard Input": {
+      "main": [
+        [
+          {
+            "node": "Run F2 Operational Guard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run F2 Operational Guard": {
+      "main": [
+        [
+          {
+            "node": "Plan Event Execution Transition",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}
