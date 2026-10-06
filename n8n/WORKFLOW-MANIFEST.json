@@ -253,20 +253,24 @@
       "slug": "delivery",
       "name": "Delivery",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [],
-      "purpose": "Localizar pasta/link OneDrive e gerir entrega pós-evento; produzir delivery events."
+      "purpose": "Localizar pasta/link OneDrive e gerir entrega pós-evento; produzir delivery events.",
+      "lab_workflow_id": "zVdEzmxOuy80pEuz",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-170",
       "slug": "post-sale",
       "name": "Post-sale",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [],
-      "purpose": "Gerir confirmação, avaliação e consentimento após entrega."
+      "purpose": "Gerir confirmação, avaliação e consentimento após entrega.",
+      "lab_workflow_id": "OePuPMx1fh6vuXC4",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-180",
