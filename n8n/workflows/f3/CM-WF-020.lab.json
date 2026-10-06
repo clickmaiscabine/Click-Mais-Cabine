@@ -1,0 +1,57 @@
+{
+  "canonical_id": "CM-WF-020",
+  "lab_workflow_id": "lAwhUKEz9IJdQ8Pl",
+  "name": "[LAB][F3] CM-WF-020 Fact Extraction & Commit",
+  "active": false,
+  "isArchived": false,
+  "versionId": "0ecd7ea5-e75a-4749-904b-b73076f26e66",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "6fb995c0-d1e6-4776-b42c-aabc7c55e6f5",
+      "name": "Receive Fact Candidates",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "202eec87-229c-4898-9bc4-4f140423894e",
+      "name": "Validate and Plan Fact Commit",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst input = $json;\nconst candidates = Array.isArray(input.fact_candidates) ? input.fact_candidates : [];\nconst currentFacts = Array.isArray(input.current_facts) ? input.current_facts : [];\nconst allowedKeys = new Set([\n  'service_interest','event_date','event_start_time','locality','event_type',\n  'guest_count','venue_name','venue_address','customer_name','customer_email',\n  'customer_phone','art_theme','art_colors','payment_expectation'\n]);\nconst allowedStatuses = new Set(['known','derived','verified','conflict']);\nconst allowedSources = new Set(['customer','human','rule','calculation','integration','migration','agent']);\nconst operations = [];\nconst conflicts = [];\nconst ignored = [];\n\nfor (const candidate of candidates) {\n  if (!allowedKeys.has(candidate.fact_key)) {\n    ignored.push({fact_key:candidate.fact_key ?? null, reason_code:'FACT_KEY_NOT_ALLOWED'});\n    continue;\n  }\n  if (!allowedStatuses.has(candidate.fact_status ?? 'known')) {\n    ignored.push({fact_key:candidate.fact_key, reason_code:'FACT_STATUS_INVALID'});\n    continue;\n  }\n  if (!allowedSources.has(candidate.source_type ?? 'customer')) {\n    ignored.push({fact_key:candidate.fact_key, reason_code:'FACT_SOURCE_INVALID'});\n    continue;\n  }\n\n  const current = currentFacts.find((fact) => fact.fact_key === candidate.fact_key && fact.is_current !== false);\n  const same = current ? JSON.stringify(current.fact_value) === JSON.stringify(candidate.fact_value) : false;\n  if (same) {\n    ignored.push({fact_key:candidate.fact_key, reason_code:'FACT_UNCHANGED'});\n    continue;\n  }\n\n  const critical = Boolean(candidate.critical || current?.critical);\n  const sourceIsAuthoritative = ['customer','human','integration','rule','calculation'].includes(candidate.source_type ?? 'customer');\n\n  if (current && critical && !sourceIsAuthoritative) {\n    conflicts.push({\n      fact_key:candidate.fact_key,\n      current_value:current.fact_value,\n      candidate_value:candidate.fact_value,\n      reason_code:'CRITICAL_FACT_CONFLICT'\n    });\n    continue;\n  }\n\n  operations.push({\n    action:'RECORD_EVENT_FACT',\n    customer_event_id:input.customer_event_id ?? null,\n    source_event_id:input.source_event_id ?? null,\n    fact_key:candidate.fact_key,\n    fact_value:candidate.fact_value,\n    fact_status:candidate.fact_status ?? 'known',\n    source_type:candidate.source_type ?? 'customer',\n    source_ref:candidate.source_ref ?? null,\n    confidence:candidate.confidence ?? null,\n    critical,\n    supersedes_fact_id:current?.id ?? null\n  });\n}\n\nif (conflicts.length > 0) {\n  operations.push({action:'ENABLE_HUMAN_LOCK',reason_code:'CRITICAL_FACT_CONFLICT'});\n  operations.push({action:'CREATE_HUMAN_TASK',reason_code:'CRITICAL_FACT_CONFLICT'});\n}\n\nreturn {\n  json:{\n    contract_version:'1.0.0',\n    customer_event_id:input.customer_event_id ?? null,\n    operations,\n    conflicts,\n    ignored,\n    result_event_type: conflicts.length > 0 ? 'fact_conflict_detected' : 'facts_commit_planned',\n    blockers: conflicts.length > 0 ? ['CRITICAL_FACT_CONFLICT'] : []\n  }\n};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Fact Candidates": {
+      "main": [
+        [
+          {
+            "node": "Validate and Plan Fact Commit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}
