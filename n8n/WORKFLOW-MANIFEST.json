@@ -8,42 +8,50 @@
       "slug": "ingress-orchestrator",
       "name": "Ingress Orchestrator",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [
         "meta_whatsapp_credentials"
       ],
-      "purpose": "Normalizar mensagem, envelope de evento e correlação; produzir message_received."
+      "purpose": "Normalizar mensagem, envelope de evento e correlação; produzir message_received.",
+      "lab_workflow_id": "62B4rRjMHhuPqSOe",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-010",
       "slug": "identity-event-context",
       "name": "Identity & Event Context",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [],
-      "purpose": "Resolver contato, sessão, evento ativo/novo e entrada não comercial; produzir contact_identified/event_context_opened."
+      "purpose": "Resolver contato, sessão, evento ativo/novo e entrada não comercial; produzir contact_identified/event_context_opened.",
+      "lab_workflow_id": "69bf4FQq6Fnrh5fQ",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-015",
       "slug": "acquisition-attribution",
       "name": "Acquisition Attribution",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [],
-      "purpose": "Registrar landing, campanha, serviço e UTM/touchpoint; produzir landing_source_detected."
+      "purpose": "Registrar landing, campanha, serviço e UTM/touchpoint; produzir landing_source_detected.",
+      "lab_workflow_id": "NAX3mBHwvTYistfz",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-020",
       "slug": "fact-extraction-commit",
       "name": "Fact Extraction & Commit",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [],
-      "purpose": "Extrair, normalizar, validar e versionar fatos; produzir facts_committed/conflict."
+      "purpose": "Extrair, normalizar, validar e versionar fatos; produzir facts_committed/conflict.",
+      "lab_workflow_id": "lAwhUKEz9IJdQ8Pl",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-030",
