@@ -1,0 +1,57 @@
+{
+  "canonical_id": "CM-WF-010",
+  "lab_workflow_id": "69bf4FQq6Fnrh5fQ",
+  "name": "[LAB][F3] CM-WF-010 Identity & Event Context",
+  "active": false,
+  "isArchived": false,
+  "versionId": "d91e66d5-40d2-458a-a33c-edb106a705c0",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "82da55ae-c36c-4c77-8cba-3624e0ce0367",
+      "name": "Receive MessageContext",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "cb607f85-4603-40aa-af54-2d222645d0aa",
+      "name": "Resolve Identity and Event Context",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst input = $json;\nconst message = input.message_context ?? input.messageContext ?? {};\nconst snapshot = input.state_snapshot ?? input.stateSnapshot ?? {};\nconst contacts = Array.isArray(snapshot.contact_candidates) ? snapshot.contact_candidates : [];\nconst events = Array.isArray(snapshot.event_candidates) ? snapshot.event_candidates : [];\nconst category = snapshot.contact_category ?? contacts[0]?.contact_category ?? 'unknown';\nconst noncommercialCategories = new Set(['vendor','venue','staff','personal','institution','automated']);\nconst result = {\n  contract_version: '1.0.0',\n  correlation_id: message.correlation_id ?? input.correlation_id ?? null,\n  contact_context: {\n    status: 'unresolved',\n    contact_id: null,\n    contact_category: category\n  },\n  event_context: {\n    status: 'unresolved',\n    customer_event_id: null,\n    commercial_stage: null,\n    operational_stage: null,\n    stage_version: null,\n    human_lock: Boolean(snapshot.human_lock)\n  },\n  requested_actions: [],\n  blockers: []\n};\n\nif (noncommercialCategories.has(category) || snapshot.noncommercial === true) {\n  result.contact_context.status = 'noncommercial';\n  result.event_context.status = 'not_applicable';\n  return { json: result };\n}\n\nif (contacts.length > 1) {\n  result.contact_context.status = 'human_required';\n  result.blockers.push('IDENTITY_AMBIGUOUS');\n  result.requested_actions.push({ action: 'CREATE_HUMAN_TASK', reason_code: 'IDENTITY_AMBIGUOUS' });\n  return { json: result };\n}\n\nif (contacts.length === 1) {\n  result.contact_context.status = 'resolved';\n  result.contact_context.contact_id = contacts[0].contact_id ?? contacts[0].id ?? null;\n} else {\n  result.contact_context.status = 'needs_create';\n  result.requested_actions.push({ action: 'CREATE_CONTACT' });\n}\n\nconst activeEvents = events.filter((event) => !['closed','cancelled','completed'].includes(String(event.status ?? '').toLowerCase()));\nif (activeEvents.length > 1) {\n  result.event_context.status = 'human_required';\n  result.blockers.push('ACTIVE_EVENT_AMBIGUOUS');\n  result.requested_actions.push({ action: 'CREATE_HUMAN_TASK', reason_code: 'ACTIVE_EVENT_AMBIGUOUS' });\n  return { json: result };\n}\n\nif (activeEvents.length === 1) {\n  const event = activeEvents[0];\n  result.event_context.status = 'resolved';\n  result.event_context.customer_event_id = event.customer_event_id ?? event.id ?? null;\n  result.event_context.commercial_stage = event.commercial_stage ?? 'PRE_QUOTE';\n  result.event_context.operational_stage = event.operational_stage ?? 'NOT_STARTED';\n  result.event_context.stage_version = event.stage_version ?? 0;\n} else {\n  result.event_context.status = 'needs_create';\n  result.event_context.commercial_stage = 'PRE_QUOTE';\n  result.event_context.operational_stage = 'NOT_STARTED';\n  result.event_context.stage_version = 0;\n  result.requested_actions.push({ action: 'CREATE_CUSTOMER_EVENT' });\n}\n\nif (result.event_context.human_lock) {\n  result.blockers.push('HUMAN_LOCK_ACTIVE');\n}\n\nreturn { json: result };\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive MessageContext": {
+      "main": [
+        [
+          {
+            "node": "Resolve Identity and Event Context",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}
