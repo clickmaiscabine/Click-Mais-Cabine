@@ -1,0 +1,34 @@
+name: Test F10 campaign remarketing
+
+on:
+  pull_request:
+    paths:
+      - "src/functions/f2/response-guard.mjs"
+      - "n8n/generated/f2-campaign-dispatch-guard.generated.js"
+      - "n8n/workflows/f10/**"
+      - "tests/f10/**"
+      - ".github/workflows/f10-campaign.yml"
+  push:
+    branches:
+      - "feat/f10-*"
+    paths:
+      - "src/functions/f2/response-guard.mjs"
+      - "n8n/generated/f2-campaign-dispatch-guard.generated.js"
+      - "n8n/workflows/f10/**"
+      - "tests/f10/**"
+      - ".github/workflows/f10-campaign.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-f10:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run campaign snapshot approval and shadow-dispatch tests
+        run: node --test tests/f10/*.test.mjs

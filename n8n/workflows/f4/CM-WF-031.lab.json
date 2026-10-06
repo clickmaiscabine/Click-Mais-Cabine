@@ -1,0 +1,57 @@
+{
+  "canonical_id": "CM-WF-031",
+  "lab_workflow_id": "q1ac0eQAPGcyAimY",
+  "name": "[LAB][F4] CM-WF-031 Quote Presentation",
+  "active": false,
+  "isArchived": false,
+  "versionId": "f9f13b60-b6b7-4bad-9d0a-041f13b11aef",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "f57ec197-34ed-4324-9137-530fbf1800d5",
+      "name": "Receive QuoteResult",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "9262bb3b-ddc2-4e7a-b261-54ce3e516d78",
+      "name": "Prepare Quote Presentation",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst input = $json;\nconst quote = input.quote_result ?? input.quoteResult ?? null;\nconst datePolicy = input.date_policy ?? input.datePolicy ?? null;\nconst humanLock = Boolean(input.human_lock ?? input.humanLock);\n\nif (humanLock) {\n  return { json:{\n    contract_version:'1.0.0',\n    status:'human_required',\n    customer_event_id:input.customer_event_id ?? null,\n    presentation:null,\n    action_request:{action:'CREATE_HUMAN_TASK',reason_code:'HUMAN_LOCK_ACTIVE'},\n    blockers:['HUMAN_LOCK_ACTIVE']\n  }};\n}\n\nif (!quote || quote.status !== 'ready' || !quote.customerVisible) {\n  return { json:{\n    contract_version:'1.0.0',\n    status:'blocked',\n    customer_event_id:input.customer_event_id ?? null,\n    presentation:null,\n    action_request:null,\n    blockers:['QUOTE_RESULT_NOT_READY']\n  }};\n}\n\nconst services = Array.isArray(quote.items)\n  ? [...new Set(quote.items.filter((item) => item.lineType === 'main' || item.lineType === 'addon').map((item) => item.serviceCode).filter(Boolean))]\n  : [];\n\nconst presentation = {\n  customer_visible_prices:{\n    pix:Number(quote.customerVisible.pix),\n    card:Number(quote.customerVisible.card)\n  },\n  payment_terms:{\n    pix:'pagamento integral ou 50% de sinal + 50% no evento',\n    card:'até 10x sem juros'\n  },\n  availability_claim:'preliminary',\n  reservation_policy:'data garantida somente após contrato e pagamento do sinal',\n  services,\n  combo_applied:Boolean(quote.comboApplied),\n  promotion_applied:Boolean(quote.promotionApplied),\n  promotion_window:datePolicy?.window ?? null,\n  gift:datePolicy?.gift?.eligible === true ? {\n    eligible:true,\n    service_code:datePolicy.gift.serviceCode,\n    commercial_value:datePolicy.gift.commercialValue\n  } : {eligible:false}\n};\n\nreturn { json:{\n  contract_version:'1.0.0',\n  status:'ready',\n  customer_event_id:input.customer_event_id ?? null,\n  presentation,\n  action_request:{\n    action:'COMPOSE_QUOTE_PRESENTATION',\n    requires_guard:true,\n    apply_state_transition_on:'dispatch_success',\n    proposed_transition:{\n      from:input.commercial_stage ?? 'PRE_QUOTE',\n      to:'ORCAMENTO'\n    },\n    success_event_type:'quote_sent',\n    payload:presentation\n  },\n  blockers:[]\n}};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive QuoteResult": {
+      "main": [
+        [
+          {
+            "node": "Prepare Quote Presentation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}

@@ -26,12 +26,219 @@
   ],
   "registries": {
     "governance_docs": [
-      {"id":"docs-index","path":"docs/README.md","status":"homologated"},
-      {"id":"baseline-functional-v1.1","path":"docs/00_governanca/CLICK_MAIS_OS_BASELINE_FUNCIONAL_v1.1.md","status":"homologated"},
-      {"id":"decision-register","path":"docs/00_governanca/REGISTRO_DE_DECISOES.md","status":"homologated"},
-      {"id":"project-changelog","path":"docs/00_governanca/CHANGELOG_PROJETO.md","status":"homologated"}
+      {
+        "id": "docs-index",
+        "path": "docs/README.md",
+        "status": "homologated"
+      },
+      {
+        "id": "baseline-functional-v1.1",
+        "path": "docs/00_governanca/CLICK_MAIS_OS_BASELINE_FUNCIONAL_v1.1.md",
+        "status": "homologated"
+      },
+      {
+        "id": "decision-register",
+        "path": "docs/00_governanca/REGISTRO_DE_DECISOES.md",
+        "status": "homologated"
+      },
+      {
+        "id": "project-changelog",
+        "path": "docs/00_governanca/CHANGELOG_PROJETO.md",
+        "status": "homologated"
+      },
+      {
+        "id": "f1-schema-implementation-v1.2.1",
+        "path": "docs/07_projeto_executivo/F1_SCHEMA_IMPLEMENTATION_v1.2.1.md",
+        "status": "review"
+      },
+      {
+        "id": "f2-deterministic-implementation-v1.2.1",
+        "path": "docs/07_projeto_executivo/F2_DETERMINISTIC_LIBRARY_IMPLEMENTATION_v1.2.1.md",
+        "status": "review"
+      },
+      {
+        "id": "f3-runtime-ingress-v1.2.1",
+        "path": "docs/07_projeto_executivo/F3_RUNTIME_INGRESS_IMPLEMENTATION_v1.2.1.md",
+        "status": "review"
+      },
+      {
+        "id": "f4-quote-engine-v1.2.1",
+        "path": "docs/07_projeto_executivo/F4_QUOTE_ENGINE_IMPLEMENTATION_v1.2.1.md",
+        "status": "review"
+      },
+      {
+        "id": "f5-decision-guard-shadow-v1.2.1",
+        "path": "docs/07_projeto_executivo/F5_DECISION_GUARD_SHADOW_IMPLEMENTATION_v1.2.1.md",
+        "status": "review"
+      },
+      {
+        "id": "f6-trello-followup-v1.2.1",
+        "path": "docs/07_projeto_executivo/F6_TRELLO_FOLLOWUP_IMPLEMENTATION_v1.2.1.md",
+        "status": "review"
+      },
+      {
+        "id": "trello-commercial-migration-readiness-v1.2.1",
+        "path": "docs/07_projeto_executivo/TRELLO_COMMERCIAL_MIGRATION_READINESS_v1.2.1.md",
+        "status": "review"
+      },
+      {
+        "id": "f7-closing-contract-payment-win-v1.2.1",
+        "path": "docs/07_projeto_executivo/F7_CLOSING_CONTRACT_PAYMENT_WIN_IMPLEMENTATION_v1.2.1.md",
+        "status": "review"
+      },
+      {
+        "id": "f8-art-logistics-event-v1.2.1",
+        "path": "docs/07_projeto_executivo/F8_ART_LOGISTICS_EVENT_IMPLEMENTATION_v1.2.1.md",
+        "status": "review"
+      },
+      {
+        "id": "f9-delivery-postsale-v1.2.1",
+        "path": "docs/07_projeto_executivo/F9_DELIVERY_POSTSALE_IMPLEMENTATION_v1.2.1.md",
+        "status": "review"
+      },
+      {
+        "id": "f10-campaign-remarketing-v1.2.1",
+        "path": "docs/07_projeto_executivo/F10_CAMPAIGN_REMARKETING_IMPLEMENTATION_v1.2.1.md",
+        "status": "review"
+      },
+      {
+        "id": "f11-audit-replay-v1.2.1",
+        "path": "docs/07_projeto_executivo/F11_AUDIT_REPLAY_IMPLEMENTATION_v1.2.1.md",
+        "status": "review"
+      },
+      {
+        "id": "phase1-integration-status-v1.2.1",
+        "path": "docs/07_projeto_executivo/PHASE1_INTEGRATION_STATUS_v1.2.1.md",
+        "status": "review"
+      }
     ],
-    "workflows": [],
+    "workflows": [
+      {
+        "id": "CM-WF-000",
+        "path": "n8n/workflows/f3/CM-WF-000.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-010",
+        "path": "n8n/workflows/f3/CM-WF-010.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-015",
+        "path": "n8n/workflows/f3/CM-WF-015.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-020",
+        "path": "n8n/workflows/f3/CM-WF-020.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-030",
+        "path": "n8n/workflows/f4/CM-WF-030.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-031",
+        "path": "n8n/workflows/f4/CM-WF-031.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-040",
+        "path": "n8n/workflows/f5/CM-WF-040.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-050",
+        "path": "n8n/workflows/f5/CM-WF-050.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-060",
+        "path": "n8n/workflows/f5/CM-WF-060.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-061",
+        "path": "n8n/workflows/f5/CM-WF-061.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-070",
+        "path": "n8n/workflows/f6/CM-WF-070.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-071",
+        "path": "n8n/workflows/f6/CM-WF-071.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-080",
+        "path": "n8n/workflows/f6/CM-WF-080.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-090",
+        "path": "n8n/workflows/f7/CM-WF-090.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-100",
+        "path": "n8n/workflows/f7/CM-WF-100.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-110",
+        "path": "n8n/workflows/f7/CM-WF-110.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-120",
+        "path": "n8n/workflows/f7/CM-WF-120.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-130",
+        "path": "n8n/workflows/f8/CM-WF-130.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-140",
+        "path": "n8n/workflows/f8/CM-WF-140.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-150",
+        "path": "n8n/workflows/f8/CM-WF-150.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-160",
+        "path": "n8n/workflows/f9/CM-WF-160.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-170",
+        "path": "n8n/workflows/f9/CM-WF-170.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-180",
+        "path": "n8n/workflows/f10/CM-WF-180.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-900",
+        "path": "n8n/workflows/f11/CM-WF-900.lab.json",
+        "status": "review"
+      },
+      {
+        "id": "CM-WF-910",
+        "path": "n8n/workflows/f11/CM-WF-910.lab.json",
+        "status": "review"
+      }
+    ],
     "subflows": [],
     "workflow_specs": [
       {
@@ -41,62 +248,388 @@
       }
     ],
     "schemas": [
-      {"id":"session","path":"schemas/session.schema.json","status":"homologated"},
-      {"id":"event","path":"schemas/event.schema.json","status":"homologated"},
-      {"id":"state-transition","path":"schemas/state-transition.schema.json","status":"homologated"},
-      {"id":"agent-run","path":"schemas/agent-run.schema.json","status":"homologated"},
-      {"id":"workflow-run","path":"schemas/workflow-run.schema.json","status":"homologated"},
-      {"id":"customer-event","path":"schemas/customer-event.schema.json","status":"homologated"},
-      {"id":"event-fact","path":"schemas/event-fact.schema.json","status":"homologated"},
-      {"id":"integration-status","path":"schemas/integration-status.schema.json","status":"homologated"}
+      {
+        "id": "session",
+        "path": "schemas/session.schema.json",
+        "status": "homologated"
+      },
+      {
+        "id": "event",
+        "path": "schemas/event.schema.json",
+        "status": "homologated"
+      },
+      {
+        "id": "state-transition",
+        "path": "schemas/state-transition.schema.json",
+        "status": "homologated"
+      },
+      {
+        "id": "agent-run",
+        "path": "schemas/agent-run.schema.json",
+        "status": "homologated"
+      },
+      {
+        "id": "workflow-run",
+        "path": "schemas/workflow-run.schema.json",
+        "status": "homologated"
+      },
+      {
+        "id": "customer-event",
+        "path": "schemas/customer-event.schema.json",
+        "status": "homologated"
+      },
+      {
+        "id": "event-fact",
+        "path": "schemas/event-fact.schema.json",
+        "status": "homologated"
+      },
+      {
+        "id": "integration-status",
+        "path": "schemas/integration-status.schema.json",
+        "status": "homologated"
+      }
     ],
     "prompts": [],
     "migrations": [
-      {"version":"20261002025715","name":"bootstrap_event_state_runtime_v01","path":"supabase/migrations/20261002025715_bootstrap_event_state_runtime_v01.sql","status":"production"},
-      {"version":"20261002025748","name":"add_runtime_fk_indexes_v01","path":"supabase/migrations/20261002025748_add_runtime_fk_indexes_v01.sql","status":"production"},
-      {"version":"20261002030338","name":"add_atomic_event_state_helpers_v01","path":"supabase/migrations/20261002030338_add_atomic_event_state_helpers_v01.sql","status":"production"},
-      {"version":"20261003050907","name":"expand_click_mais_os_business_state_v1","path":"supabase/migrations/20261003050907_expand_click_mais_os_business_state_v1.sql","status":"production"},
-      {"version":"20261003051005","name":"add_business_stage_history_and_backend_grants_v1","path":"supabase/migrations/20261003051005_add_business_stage_history_and_backend_grants_v1.sql","status":"production"},
-      {"version":"20261003051043","name":"fix_business_stage_transition_ambiguity_v1","path":"supabase/migrations/20261003051043_fix_business_stage_transition_ambiguity_v1.sql","status":"production"}
+      {
+        "version": "20261002025715",
+        "name": "bootstrap_event_state_runtime_v01",
+        "path": "supabase/migrations/20261002025715_bootstrap_event_state_runtime_v01.sql",
+        "status": "production"
+      },
+      {
+        "version": "20261002025748",
+        "name": "add_runtime_fk_indexes_v01",
+        "path": "supabase/migrations/20261002025748_add_runtime_fk_indexes_v01.sql",
+        "status": "production"
+      },
+      {
+        "version": "20261002030338",
+        "name": "add_atomic_event_state_helpers_v01",
+        "path": "supabase/migrations/20261002030338_add_atomic_event_state_helpers_v01.sql",
+        "status": "production"
+      },
+      {
+        "version": "20261003050907",
+        "name": "expand_click_mais_os_business_state_v1",
+        "path": "supabase/migrations/20261003050907_expand_click_mais_os_business_state_v1.sql",
+        "status": "production"
+      },
+      {
+        "version": "20261003051005",
+        "name": "add_business_stage_history_and_backend_grants_v1",
+        "path": "supabase/migrations/20261003051005_add_business_stage_history_and_backend_grants_v1.sql",
+        "status": "production"
+      },
+      {
+        "version": "20261003051043",
+        "name": "fix_business_stage_transition_ambiguity_v1",
+        "path": "supabase/migrations/20261003051043_fix_business_stage_transition_ambiguity_v1.sql",
+        "status": "production"
+      },
+      {
+        "version": "20261006002526",
+        "name": "f1_catalog_schema_v121",
+        "path": "supabase/migrations/20261006002526_f1_catalog_schema_v121.sql",
+        "status": "review"
+      },
+      {
+        "version": "20261006002712",
+        "name": "f1_business_compatibility_v121",
+        "path": "supabase/migrations/20261006002712_f1_business_compatibility_v121.sql",
+        "status": "review"
+      },
+      {
+        "version": "20261006002755",
+        "name": "f1_projection_audit_v121",
+        "path": "supabase/migrations/20261006002755_f1_projection_audit_v121.sql",
+        "status": "review"
+      },
+      {
+        "version": "20261006002944",
+        "name": "f1_seed_canonical_catalog_v121",
+        "path": "supabase/migrations/20261006002944_f1_seed_canonical_catalog_v121.sql",
+        "status": "review"
+      },
+      {
+        "version": "20261006003031",
+        "name": "f1_fact_history_helper_v121",
+        "path": "supabase/migrations/20261006003031_f1_fact_history_helper_v121.sql",
+        "status": "review"
+      },
+      {
+        "version": "20261006003237",
+        "name": "f1_fk_index_hardening_v121",
+        "path": "supabase/migrations/20261006003237_f1_fk_index_hardening_v121.sql",
+        "status": "review"
+      }
     ],
     "decisions": [
-      {"id":"ADR-0001","path":"docs/decisions/ADR-0001_fonte-canonica-github.md","status":"homologated"},
-      {"id":"ADR-0002","path":"docs/decisions/ADR-0002_event-state-engine-minimo.md","status":"homologated"},
-      {"id":"ADR-0003","path":"docs/decisions/ADR-0003_click-mais-os-arquitetura-producao.md","status":"homologated"},
-      {"id":"ADR-0004","path":"docs/decisions/ADR-0004_onedrive-entrega-canonica-e-publicacao-social.md","status":"homologated"},
-      {"id":"ADR-0005","path":"docs/decisions/ADR-0005_trello-cockpit-crm-v1.md","status":"homologated"},
-      {"id":"ADR-0006","path":"docs/decisions/ADR-0006_origem-lead-pipeline-comercial-v1.md","status":"homologated"}
+      {
+        "id": "ADR-0001",
+        "path": "docs/decisions/ADR-0001_fonte-canonica-github.md",
+        "status": "homologated"
+      },
+      {
+        "id": "ADR-0002",
+        "path": "docs/decisions/ADR-0002_event-state-engine-minimo.md",
+        "status": "homologated"
+      },
+      {
+        "id": "ADR-0003",
+        "path": "docs/decisions/ADR-0003_click-mais-os-arquitetura-producao.md",
+        "status": "homologated"
+      },
+      {
+        "id": "ADR-0004",
+        "path": "docs/decisions/ADR-0004_onedrive-entrega-canonica-e-publicacao-social.md",
+        "status": "homologated"
+      },
+      {
+        "id": "ADR-0005",
+        "path": "docs/decisions/ADR-0005_trello-cockpit-crm-v1.md",
+        "status": "homologated"
+      },
+      {
+        "id": "ADR-0006",
+        "path": "docs/decisions/ADR-0006_origem-lead-pipeline-comercial-v1.md",
+        "status": "homologated"
+      }
     ],
     "architecture_docs": [
-      {"id":"click-mais-os-v1","path":"docs/architecture/CLICK-MAIS-OS-v1.md","status":"homologated"},
-      {"id":"trello-crm-v1","path":"docs/architecture/TRELLO-CRM-V1.md","status":"homologated"},
-      {"id":"module-allocation","path":"docs/architecture/MODULE-ALLOCATION.md","status":"homologated"},
-      {"id":"component-map","path":"docs/architecture/COMPONENT-MAP.md","status":"homologated"}
+      {
+        "id": "click-mais-os-v1",
+        "path": "docs/architecture/CLICK-MAIS-OS-v1.md",
+        "status": "homologated"
+      },
+      {
+        "id": "trello-crm-v1",
+        "path": "docs/architecture/TRELLO-CRM-V1.md",
+        "status": "homologated"
+      },
+      {
+        "id": "module-allocation",
+        "path": "docs/architecture/MODULE-ALLOCATION.md",
+        "status": "homologated"
+      },
+      {
+        "id": "component-map",
+        "path": "docs/architecture/COMPONENT-MAP.md",
+        "status": "homologated"
+      }
     ],
     "documentation_sections": [
-      {"id":"governance","path":"docs/00_governanca/README.md","status":"homologated"},
-      {"id":"business","path":"docs/01_negocio/README.md","status":"development"},
-      {"id":"architecture","path":"docs/02_arquitetura/README.md","status":"development"},
-      {"id":"data","path":"docs/03_dados/README.md","status":"development"},
-      {"id":"workflows","path":"docs/04_workflows/README.md","status":"development"},
-      {"id":"security","path":"docs/05_seguranca/README.md","status":"development"},
-      {"id":"tests","path":"docs/06_testes/README.md","status":"development"},
-      {"id":"executive-project","path":"docs/07_projeto_executivo/README.md","status":"draft"}
+      {
+        "id": "governance",
+        "path": "docs/00_governanca/README.md",
+        "status": "homologated"
+      },
+      {
+        "id": "business",
+        "path": "docs/01_negocio/README.md",
+        "status": "development"
+      },
+      {
+        "id": "architecture",
+        "path": "docs/02_arquitetura/README.md",
+        "status": "development"
+      },
+      {
+        "id": "data",
+        "path": "docs/03_dados/README.md",
+        "status": "development"
+      },
+      {
+        "id": "workflows",
+        "path": "docs/04_workflows/README.md",
+        "status": "development"
+      },
+      {
+        "id": "security",
+        "path": "docs/05_seguranca/README.md",
+        "status": "development"
+      },
+      {
+        "id": "tests",
+        "path": "docs/06_testes/README.md",
+        "status": "development"
+      },
+      {
+        "id": "executive-project",
+        "path": "docs/07_projeto_executivo/README.md",
+        "status": "draft"
+      }
     ],
     "integrations": [
-      {"id":"integration-status","path":"docs/integrations/STATUS.md","status":"homologated"}
+      {
+        "id": "integration-status",
+        "path": "docs/integrations/STATUS.md",
+        "status": "homologated"
+      }
     ],
     "knowledge": [
-      {"id":"services","path":"knowledge/services.md","status":"draft"},
-      {"id":"pricing","path":"knowledge/pricing.md","status":"draft"},
-      {"id":"localities","path":"knowledge/localities.md","status":"draft"},
-      {"id":"faq","path":"knowledge/faq.md","status":"draft"},
-      {"id":"persona-click","path":"knowledge/persona-click.md","status":"draft"},
-      {"id":"policies","path":"knowledge/policies.md","status":"draft"}
+      {
+        "id": "services",
+        "path": "knowledge/services.md",
+        "status": "draft"
+      },
+      {
+        "id": "pricing",
+        "path": "knowledge/pricing.md",
+        "status": "draft"
+      },
+      {
+        "id": "localities",
+        "path": "knowledge/localities.md",
+        "status": "draft"
+      },
+      {
+        "id": "faq",
+        "path": "knowledge/faq.md",
+        "status": "draft"
+      },
+      {
+        "id": "persona-click",
+        "path": "knowledge/persona-click.md",
+        "status": "draft"
+      },
+      {
+        "id": "policies",
+        "path": "knowledge/policies.md",
+        "status": "draft"
+      }
     ],
     "tooling": [
-      {"id":"repository-validator","path":"scripts/validate_repository.py","status":"homologated"},
-      {"id":"github-validation-workflow","path":".github/workflows/validate.yml","status":"homologated"}
+      {
+        "id": "repository-validator",
+        "path": "scripts/validate_repository.py",
+        "status": "homologated"
+      },
+      {
+        "id": "github-validation-workflow",
+        "path": ".github/workflows/validate.yml",
+        "status": "homologated"
+      },
+      {
+        "id": "f2-deterministic-library-v1.2.1",
+        "path": "src/functions/f2/index.mjs",
+        "status": "review"
+      },
+      {
+        "id": "f2-deterministic-tests-v1.2.1",
+        "path": "tests/f2/deterministic-library.test.mjs",
+        "status": "review"
+      },
+      {
+        "id": "f2-deterministic-ci",
+        "path": ".github/workflows/f2-deterministic.yml",
+        "status": "review"
+      },
+      {
+        "id": "f2-n8n-quote-kernel-v1.2.1",
+        "path": "n8n/generated/f2-quote-kernel.generated.js",
+        "status": "review"
+      },
+      {
+        "id": "f4-quote-adapter-ci",
+        "path": ".github/workflows/f4-quote-adapter.yml",
+        "status": "review"
+      },
+      {
+        "id": "f2-response-guard-n8n-v1.2.1",
+        "path": "n8n/generated/f2-response-guard.generated.js",
+        "status": "review"
+      },
+      {
+        "id": "f5-decision-guard-ci",
+        "path": ".github/workflows/f5-decision-guard.yml",
+        "status": "review"
+      },
+      {
+        "id": "f2-trello-commercial-guard-n8n-v1.2.1",
+        "path": "n8n/generated/f2-trello-commercial-guard.generated.js",
+        "status": "review"
+      },
+      {
+        "id": "f2-followup-policy-n8n-v1.2.1",
+        "path": "n8n/generated/f2-followup-policy.generated.js",
+        "status": "review"
+      },
+      {
+        "id": "f6-trello-followup-ci",
+        "path": ".github/workflows/f6-trello-followup.yml",
+        "status": "review"
+      },
+      {
+        "id": "f2-commercial-transition-guard-n8n-v1.2.1",
+        "path": "n8n/generated/f2-commercial-transition-guard.generated.js",
+        "status": "review"
+      },
+      {
+        "id": "f2-payment-verification-guard-n8n-v1.2.1",
+        "path": "n8n/generated/f2-payment-verification-guard.generated.js",
+        "status": "review"
+      },
+      {
+        "id": "f7-closing-win-ci",
+        "path": ".github/workflows/f7-closing-win.yml",
+        "status": "review"
+      },
+      {
+        "id": "f2-logistics-readiness-n8n-v1.2.1",
+        "path": "n8n/generated/f2-logistics-readiness.generated.js",
+        "status": "review"
+      },
+      {
+        "id": "f2-event-date-change-guard-n8n-v1.2.1",
+        "path": "n8n/generated/f2-event-date-change-guard.generated.js",
+        "status": "review"
+      },
+      {
+        "id": "f2-operational-transition-guard-n8n-v1.2.1",
+        "path": "n8n/generated/f2-operational-transition-guard.generated.js",
+        "status": "review"
+      },
+      {
+        "id": "f8-art-logistics-event-ci",
+        "path": ".github/workflows/f8-art-logistics-event.yml",
+        "status": "review"
+      },
+      {
+        "id": "f2-delivery-readiness-n8n-v1.2.1",
+        "path": "n8n/generated/f2-delivery-readiness.generated.js",
+        "status": "review"
+      },
+      {
+        "id": "f2-post-sale-readiness-n8n-v1.2.1",
+        "path": "n8n/generated/f2-post-sale-readiness.generated.js",
+        "status": "review"
+      },
+      {
+        "id": "f9-delivery-postsale-ci",
+        "path": ".github/workflows/f9-delivery-postsale.yml",
+        "status": "review"
+      },
+      {
+        "id": "f2-campaign-dispatch-guard-n8n-v1.2.1",
+        "path": "n8n/generated/f2-campaign-dispatch-guard.generated.js",
+        "status": "review"
+      },
+      {
+        "id": "f10-campaign-ci",
+        "path": ".github/workflows/f10-campaign.yml",
+        "status": "review"
+      },
+      {
+        "id": "f11-audit-replay-ci",
+        "path": ".github/workflows/f11-audit-replay.yml",
+        "status": "review"
+      },
+      {
+        "id": "phase1-integration-ci",
+        "path": ".github/workflows/phase1-integration.yml",
+        "status": "review"
+      }
     ]
   }
 }

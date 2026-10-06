@@ -19,3 +19,10 @@ O Projeto Executivo deverá partir obrigatoriamente de:
 O Projeto Executivo detalha **como construir**.
 
 Ele não pode redefinir silenciosamente **o que foi decidido construir**.
+
+
+## Implementação iniciada
+
+- `F1_SCHEMA_IMPLEMENTATION_v1.2.1.md` — status: review
+
+A Fase 1 somente avança para F2 após o gate de homologação do F1.

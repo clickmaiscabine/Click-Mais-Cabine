@@ -1,0 +1,57 @@
+{
+  "canonical_id": "CM-WF-061",
+  "lab_workflow_id": "D2AmPjDxoKUQ8yYt",
+  "name": "[LAB][F5] CM-WF-061 Response Guard & Shadow",
+  "active": false,
+  "isArchived": false,
+  "versionId": "b9f69609-ad0f-4494-b71d-12d0e646fdfe",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "ebccc27b-d1ed-46ff-aef9-64d67aec0a9a",
+      "name": "Receive Response Candidate",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "36a33e6a-44ed-46e7-8c59-98ed0bb35b4b",
+      "name": "Run F2 Response Guard Shadow",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "// GENERATED ADAPTER FOR n8n CODE NODE.\n// Canonical source: src/functions/f2/response-guard.mjs\n// LAB policy: sendEnabled is forced to false here.\n// Do not hand-edit guard semantics without updating F2 and parity tests.\n\nconst INTERNAL_TIER_PATTERN = /\\bT\\d{3,5}\\b/i;\nconst MONEY_PATTERN = /R\\$\\s*\\d/i;\n\nfunction pricesMatch(claimedPrices, customerVisible) {\n  if (!claimedPrices || !customerVisible) return false;\n  const normalize = (value) => Math.round(Number(value) * 100);\n  if (!Number.isFinite(Number(claimedPrices.pix)) || !Number.isFinite(Number(claimedPrices.card))) {\n    return false;\n  }\n  return (\n    normalize(claimedPrices.pix) === normalize(customerVisible.pix) &&\n    normalize(claimedPrices.card) === normalize(customerVisible.card)\n  );\n}\n\nfunction extractLinks(text) {\n  return String(text ?? \"\").match(/https?:\\/\\/[^\\s<>()]+/g) ?? [];\n}\n\nfunction isAllowedLink(link, allowedLinks) {\n  return allowedLinks.some((allowed) => {\n    if (allowed.endsWith(\"*\")) return link.startsWith(allowed.slice(0, -1));\n    return link === allowed;\n  });\n}\n\nfunction evaluateResponseGuard({\n  humanLock = false,\n  actionAuthorized = false,\n  candidateText = \"\",\n  claimedPrices = null,\n  quoteResult = null,\n  availabilityClaim = \"none\",\n  reservationConfirmed = false,\n  askedFactKeys = [],\n  currentFacts = {},\n  containsPii = false,\n  containsSecret = false,\n  allowedLinks = [],\n  whatsappWindowOpen = false,\n  isCampaign = false,\n  campaignApproved = false,\n  sendEnabled = false,\n}) {\n  const blockers = [];\n\n  if (humanLock) blockers.push(\"HUMAN_LOCK_ACTIVE\");\n  if (!actionAuthorized) blockers.push(\"ACTION_NOT_AUTHORIZED\");\n\n  if (INTERNAL_TIER_PATTERN.test(candidateText)) blockers.push(\"INTERNAL_TIER_EXPOSED\");\n\n  if (quoteResult) {\n    if (MONEY_PATTERN.test(candidateText) && !claimedPrices) {\n      blockers.push(\"UNSTRUCTURED_PRICE_CLAIM\");\n    } else if (claimedPrices && !pricesMatch(claimedPrices, quoteResult.customerVisible ?? quoteResult.customer_visible)) {\n      blockers.push(\"PRICE_MISMATCH\");\n    }\n  }\n\n  if (availabilityClaim === \"definitive\" && !reservationConfirmed) {\n    blockers.push(\"DEFINITIVE_AVAILABILITY_NOT_ALLOWED\");\n  }\n\n  for (const key of askedFactKeys) {\n    const value = currentFacts?.[key];\n    if (value !== null && value !== undefined && value !== \"\") {\n      blockers.push(\"REPEATED_KNOWN_FACT:\" + key);\n    }\n  }\n\n  if (containsPii) blockers.push(\"PII_EXPOSURE\");\n  if (containsSecret) blockers.push(\"SECRET_EXPOSURE\");\n\n  for (const link of extractLinks(candidateText)) {\n    if (!isAllowedLink(link, allowedLinks)) blockers.push(\"LINK_NOT_ALLOWED:\" + link);\n  }\n\n  if (!whatsappWindowOpen) blockers.push(\"WHATSAPP_WINDOW_CLOSED\");\n  if (isCampaign && !campaignApproved) blockers.push(\"CAMPAIGN_NOT_APPROVED\");\n\n  if (blockers.length > 0) {\n    return {\n      decision: blockers.includes(\"HUMAN_LOCK_ACTIVE\") ? \"human\" : \"deny\",\n      dispatchAllowed: false,\n      blockers,\n      shadow: !sendEnabled,\n    };\n  }\n\n  if (!sendEnabled) {\n    return {\n      decision: \"shadow\",\n      dispatchAllowed: false,\n      blockers: [\"SEND_DISABLED\"],\n      shadow: true,\n      eventType: \"shadow_candidate_generated\",\n    };\n  }\n\n  return {\n    decision: \"allow\",\n    dispatchAllowed: true,\n    blockers: [],\n    shadow: false,\n  };\n}\n\nreturn {\n  json: evaluateResponseGuard({\n    humanLock: Boolean($json.humanLock ?? $json.human_lock),\n    actionAuthorized: Boolean($json.actionAuthorized ?? $json.action_authorized),\n    candidateText: $json.candidateText ?? $json.candidate_text ?? \"\",\n    claimedPrices: $json.claimedPrices ?? $json.claimed_prices ?? null,\n    quoteResult: $json.quoteResult ?? $json.quote_result ?? null,\n    availabilityClaim: $json.availabilityClaim ?? $json.availability_claim ?? \"none\",\n    reservationConfirmed: Boolean($json.reservationConfirmed ?? $json.reservation_confirmed),\n    askedFactKeys: $json.askedFactKeys ?? $json.asked_fact_keys ?? [],\n    currentFacts: $json.currentFacts ?? $json.current_facts ?? {},\n    containsPii: Boolean($json.containsPii ?? $json.contains_pii),\n    containsSecret: Boolean($json.containsSecret ?? $json.contains_secret),\n    allowedLinks: $json.allowedLinks ?? $json.allowed_links ?? [],\n    whatsappWindowOpen: Boolean($json.whatsappWindowOpen ?? $json.whatsapp_window_open),\n    isCampaign: Boolean($json.isCampaign ?? $json.is_campaign),\n    campaignApproved: Boolean($json.campaignApproved ?? $json.campaign_approved),\n    sendEnabled: false,\n  })\n};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Response Candidate": {
+      "main": [
+        [
+          {
+            "node": "Run F2 Response Guard Shadow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}

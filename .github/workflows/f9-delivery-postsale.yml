@@ -1,0 +1,36 @@
+name: Test F9 delivery and post-sale
+
+on:
+  pull_request:
+    paths:
+      - "src/functions/f2/readiness.mjs"
+      - "n8n/generated/f2-delivery-readiness.generated.js"
+      - "n8n/generated/f2-post-sale-readiness.generated.js"
+      - "n8n/workflows/f9/**"
+      - "tests/f9/**"
+      - ".github/workflows/f9-delivery-postsale.yml"
+  push:
+    branches:
+      - "feat/f9-*"
+    paths:
+      - "src/functions/f2/readiness.mjs"
+      - "n8n/generated/f2-delivery-readiness.generated.js"
+      - "n8n/generated/f2-post-sale-readiness.generated.js"
+      - "n8n/workflows/f9/**"
+      - "tests/f9/**"
+      - ".github/workflows/f9-delivery-postsale.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-f9:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run F9 delivery and post-sale tests
+        run: node --test tests/f9/*.test.mjs

@@ -1,23 +1,324 @@
 {
-  "manifest_version": "1.2.0",
-  "note": "Architecture/spec registry only. These entries do not claim that executable n8n JSON files exist. ADR-0006 and Baseline v1.1 are binding.",
+  "manifest_version": "1.2.1",
+  "canonical_spec": "Click Mais OS Fase 0 v1.2.1",
+  "note": "Executable workflow registry. Entries define canonical responsibilities and IDs; implementation remains independently reviewable. Runtime stays disabled until the corresponding gate is homologated.",
   "workflows": [
-    {"id":"CM-WF-000","slug":"whatsapp-ingress-orchestrator","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":["meta_whatsapp"],"purpose":"Receive normalized inbound messages, preserve acquisition/origin signals when available, correlate identity/session/event and route work."},
-    {"id":"CM-WF-010","slug":"identity-context","status":"development","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Resolve contact, active event, commercial qualification, lifecycle and human handoff state."},
-    {"id":"CM-WF-020","slug":"fact-normalization","status":"development","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Normalize typed facts, provenance and conflicts before business rules."},
-    {"id":"CM-WF-030","slug":"business-rules-engine","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Run deterministic pricing/date/completeness and other homologated rules."},
-    {"id":"CM-WF-040","slug":"jev-decision","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Call JEV only for semantic ambiguity using authorized choices."},
-    {"id":"CM-WF-050","slug":"action-guard","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Validate proposed action against state, authority and human lock."},
-    {"id":"CM-WF-060","slug":"response-composer","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Compose WhatsApp-friendly language from action, facts and templates."},
-    {"id":"CM-WF-070","slug":"response-guard-dispatch","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":["meta_whatsapp"],"purpose":"Validate final response and dispatch through the official channel."},
-    {"id":"CM-WF-100","slug":"contract","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Bridge closing, microsite, contract creation/signature and state updates."},
-    {"id":"CM-WF-110","slug":"payment","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Read proof, compare expected/received and await human verification."},
-    {"id":"CM-WF-120","slug":"art","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Catalog briefing, layout, draft, customer decision and designer finalization."},
-    {"id":"CM-WF-130","slug":"logistics-pre-event","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Prepare operational checklist and pre-event safety confirmation."},
-    {"id":"CM-WF-140","slug":"delivery-post-sale","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Locate canonical OneDrive event folder, send link and continue post-sale."},
-    {"id":"CM-WF-150","slug":"crm-followup-remarketing","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Segment qualified leads from canonical Supabase history, schedule allowed follow-ups, identify idle dates and create approved campaigns."},
-    {"id":"CM-WF-160","slug":"trello-crm-projection","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Create Trello Commercial card only after quote sent, then project canonical pipeline state into human-readable cards, lists and labels."},
-    {"id":"CM-WF-161","slug":"trello-human-actions","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Receive Trello human actions, validate them through Guards, persist authorized changes in Supabase and audit the actor/source."},
-    {"id":"CM-WF-900","slug":"audit-watchdog","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Detect impossible states, overdue actions and execution anomalies."}
+    {
+      "id": "CM-WF-000",
+      "slug": "ingress-orchestrator",
+      "name": "Ingress Orchestrator",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [
+        "meta_whatsapp_credentials"
+      ],
+      "purpose": "Normalizar mensagem, envelope de evento e correlação; produzir message_received.",
+      "lab_workflow_id": "62B4rRjMHhuPqSOe",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-010",
+      "slug": "identity-event-context",
+      "name": "Identity & Event Context",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Resolver contato, sessão, evento ativo/novo e entrada não comercial; produzir contact_identified/event_context_opened.",
+      "lab_workflow_id": "69bf4FQq6Fnrh5fQ",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-015",
+      "slug": "acquisition-attribution",
+      "name": "Acquisition Attribution",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Registrar landing, campanha, serviço e UTM/touchpoint; produzir landing_source_detected.",
+      "lab_workflow_id": "NAX3mBHwvTYistfz",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-020",
+      "slug": "fact-extraction-commit",
+      "name": "Fact Extraction & Commit",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Extrair, normalizar, validar e versionar fatos; produzir facts_committed/conflict.",
+      "lab_workflow_id": "lAwhUKEz9IJdQ8Pl",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-030",
+      "slug": "quote-engine",
+      "name": "Quote Engine",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [
+        "f2_deterministic_library"
+      ],
+      "purpose": "Executar readiness, localidade e pricing determinístico; produzir quote_generated/quote_ready.",
+      "lab_workflow_id": "3LlqxQwA5JZBoaZd",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-031",
+      "slug": "quote-presentation",
+      "name": "Quote Presentation",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [
+        "response_guard",
+        "send_disabled"
+      ],
+      "purpose": "Apresentar quote, qualificar evento e mover estágio para ORCAMENTO; produzir quote_sent.",
+      "lab_workflow_id": "q1ac0eQAPGcyAimY",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-040",
+      "slug": "commercial-decision-router",
+      "name": "Commercial Decision Router",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Classificar decisão semântica em choices autorizadas e propor estado/ação.",
+      "lab_workflow_id": "W3zYsDTomYrvHKXF",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-050",
+      "slug": "human-handoff",
+      "name": "Human Handoff",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Criar e gerir human_lock e human_task; produzir lock enabled/released.",
+      "lab_workflow_id": "9xycWVMjVQuEMlhn",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-060",
+      "slug": "response-composer",
+      "name": "Response Composer",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Compor texto curto a partir de ação autorizada, fatos e templates; produzir response_candidate.",
+      "lab_workflow_id": "DBdzsxMlMqsB86YD",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-061",
+      "slug": "response-guard-dispatch",
+      "name": "Response Guard & Dispatch",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [
+        "meta_whatsapp_credentials",
+        "send_disabled"
+      ],
+      "purpose": "Aplicar segurança, janela e SEND_ENABLED; produzir sent/shadow.",
+      "lab_workflow_id": "D2AmPjDxoKUQ8yYt",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-070",
+      "slug": "trello-commercial-projection",
+      "name": "Trello Commercial Projection",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Criar/mover/atualizar card Comercial somente a partir do estado canônico; produzir trello_projection_updated.",
+      "lab_workflow_id": "qr2WiKWr00oZMKbh",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-071",
+      "slug": "trello-human-actions",
+      "name": "Trello Human Actions",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Transformar webhook Trello em comando humano validado por Guard.",
+      "lab_workflow_id": "GKmiaRZAIf9O1Lni",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-080",
+      "slug": "followup-controller",
+      "name": "Follow-up Controller",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [
+        "response_guard",
+        "send_disabled"
+      ],
+      "purpose": "Agendar, cancelar ou despachar follow-up permitido; produzir eventos de followup.",
+      "lab_workflow_id": "PWvkwqnVvEoUBynf",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-090",
+      "slug": "closing-intake",
+      "name": "Closing Intake",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Receber intenção/formulário de fechamento e registrar dados; produzir closing_form_received.",
+      "lab_workflow_id": "YnjJOBF1OkGvasWW",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-100",
+      "slug": "contract-lifecycle",
+      "name": "Contract Lifecycle",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Gerar, enviar e sincronizar contrato Autentique; produzir contract events.",
+      "lab_workflow_id": "lAvm7OngNOegGy0i",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-110",
+      "slug": "payment-intake-verification",
+      "name": "Payment Intake & Verification",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Extrair comprovante, comparar e solicitar verificação humana; produzir payment events.",
+      "lab_workflow_id": "s8hNLWxabnCd5ayX",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-120",
+      "slug": "win-operations-handoff",
+      "name": "Win & Operations Handoff",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Verificar critério GANHO, reserva e projeção Logística; produzir event_won.",
+      "lab_workflow_id": "H9XABktvCvmTw89q",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-130",
+      "slug": "art-lifecycle",
+      "name": "Art Lifecycle",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Gerir briefing, draft, decisão e revisão humana de arte; produzir art events.",
+      "lab_workflow_id": "DMW67sv5KY69F0Zp",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-140",
+      "slug": "logistics-pre-event",
+      "name": "Logistics & Pre-event",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Gerir checklist, equipe, segurança e readiness sem alterar a estrutura protegida do board Logística.",
+      "lab_workflow_id": "c7zBazrXqitL2n71",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-150",
+      "slug": "event-execution-closure",
+      "name": "Event Execution Closure",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Registrar início, conclusão ou cancelamento operacional do evento.",
+      "lab_workflow_id": "9U1T8EaKiRgErt5N",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-160",
+      "slug": "delivery",
+      "name": "Delivery",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Localizar pasta/link OneDrive e gerir entrega pós-evento; produzir delivery events.",
+      "lab_workflow_id": "zVdEzmxOuy80pEuz",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-170",
+      "slug": "post-sale",
+      "name": "Post-sale",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Gerir confirmação, avaliação e consentimento após entrega.",
+      "lab_workflow_id": "OePuPMx1fh6vuXC4",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-180",
+      "slug": "campaign-remarketing",
+      "name": "Campaign & Remarketing",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [
+        "campaign_approval",
+        "response_guard",
+        "send_disabled"
+      ],
+      "purpose": "Segmentar, criar snapshot, exigir aprovação e despachar campanha elegível.",
+      "lab_workflow_id": "6yOwIFE1dfpePZlj",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-900",
+      "slug": "audit-watchdog",
+      "name": "Audit Watchdog",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Detectar inconsistências, vencimentos e estados impossíveis; produzir alerts/tasks.",
+      "lab_workflow_id": "t75Whbitv18ToyFj",
+      "lab_folder": "Click Mais OS - LAB"
+    },
+    {
+      "id": "CM-WF-910",
+      "slug": "replay-shadow-evaluator",
+      "name": "Replay & Shadow Evaluator",
+      "status": "review",
+      "implementation": "lab_draft",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Reexecutar fixtures/corpus e comparar candidatos em shadow; produzir shadow_evaluated.",
+      "lab_workflow_id": "p8KBlobl5UVJe4CC",
+      "lab_folder": "Click Mais OS - LAB"
+    }
   ]
 }

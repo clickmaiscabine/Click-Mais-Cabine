@@ -1,0 +1,33 @@
+name: Test deterministic library
+
+on:
+  pull_request:
+    paths:
+      - "src/functions/f2/**"
+      - "tests/f2/**"
+      - ".github/workflows/f2-deterministic.yml"
+  push:
+    branches:
+      - main
+      - "feat/f2-*"
+    paths:
+      - "src/functions/f2/**"
+      - "tests/f2/**"
+      - ".github/workflows/f2-deterministic.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-f2:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run F2 deterministic tests
+        run: node --test tests/f2/*.test.mjs

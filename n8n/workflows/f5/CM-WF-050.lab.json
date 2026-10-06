@@ -1,0 +1,57 @@
+{
+  "canonical_id": "CM-WF-050",
+  "lab_workflow_id": "9xycWVMjVQuEMlhn",
+  "name": "[LAB][F5] CM-WF-050 Human Handoff",
+  "active": false,
+  "isArchived": false,
+  "versionId": "c803fa42-fa7e-406b-a09d-7b908ecc1ec7",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "255c24a9-f1e9-412c-be6c-5efa3937de8d",
+      "name": "Receive Handoff Request",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "bfc2891c-c24b-4e4b-9266-19e6570f85e7",
+      "name": "Plan Human Handoff",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst input=$json;\nconst reason=String(input.reason_code ?? '').trim().toUpperCase();\nconst canonicalLockReasons=new Set([\n  'FINANCIAL','LEGAL','COMPLAINT','BARGAIN','EXTRA_DISCOUNT',\n  'CUSTOMER_PRICE_PROPOSAL','NON_STANDARD_POST_CONTRACT_CHANGE',\n  'LOCALITY_NO_RULE','CRITICAL_FACT_CONFLICT','SPECIAL_OPERATION',\n  'PAYMENT_DIVERGENCE','ADDON_PRICE_MISSING'\n]);\nconst forceLock=Boolean(input.force_lock);\nconst lockRequired=forceLock || canonicalLockReasons.has(reason);\nconst operations=[];\n\nif(lockRequired && !input.human_lock){\n  operations.push({action:'ENABLE_HUMAN_LOCK',reason_code:reason || 'HUMAN_REQUIRED'});\n}\noperations.push({action:'CREATE_HUMAN_TASK',reason_code:reason || 'HUMAN_REQUIRED'});\nif(lockRequired){\n  operations.push({action:'CANCEL_AUTOMATIC_FOLLOWUPS',reason_code:'HUMAN_LOCK'});\n}\n\nreturn {json:{\n  contract_version:'1.0.0',\n  status:'human_required',\n  customer_event_id:input.customer_event_id ?? null,\n  reason_code:reason || 'HUMAN_REQUIRED',\n  lock_required:lockRequired,\n  operations,\n  customer_message_action:{action:'COMPOSE_HANDOFF_ACK'},\n  blockers:[]\n}};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Handoff Request": {
+      "main": [
+        [
+          {
+            "node": "Plan Human Handoff",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}

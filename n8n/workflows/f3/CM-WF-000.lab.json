@@ -1,0 +1,57 @@
+{
+  "canonical_id": "CM-WF-000",
+  "lab_workflow_id": "62B4rRjMHhuPqSOe",
+  "name": "[LAB][F3] CM-WF-000 Ingress Orchestrator",
+  "active": false,
+  "isArchived": false,
+  "versionId": "25841b5a-5fea-4bf6-8af2-f3d35a66b31f",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "0ba705a4-47b3-45c7-8b9f-2292a67b55db",
+      "name": "Receive Raw Ingress Fixture",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "2cf2042e-afe1-4d2c-b441-0b07fc08c22e",
+      "name": "Normalize Ingress Envelope",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst input = $json;\nconst payload = input.payload ?? input.body ?? input;\nconst changeValue = payload?.entry?.[0]?.changes?.[0]?.value ?? {};\nconst message = changeValue?.messages?.[0] ?? null;\nconst contact = changeValue?.contacts?.[0] ?? null;\nconst metadata = changeValue?.metadata ?? {};\nconst blockers = [];\nif (input.signature_valid !== true) blockers.push('SIGNATURE_NOT_VERIFIED');\nif (!message?.id) blockers.push('EXTERNAL_MESSAGE_ID_MISSING');\nif (!message?.from) blockers.push('SENDER_ID_MISSING');\nif (!metadata?.phone_number_id) blockers.push('PHONE_NUMBER_ID_MISSING');\n\nconst textBody = message?.type === 'text' ? (message?.text?.body ?? '') : '';\nconst externalMessageId = message?.id ?? null;\nconst senderId = message?.from ?? contact?.wa_id ?? null;\nconst phoneNumberId = metadata?.phone_number_id ?? null;\nconst idempotencyKey = phoneNumberId && externalMessageId ? 'meta:' + phoneNumberId + ':' + externalMessageId : null;\nconst correlationId = input.correlation_id ?? externalMessageId ?? null;\n\nconst messageContext = {\n  contract_version: '1.0.0',\n  correlation_id: correlationId,\n  channel: 'whatsapp',\n  transport: 'meta_whatsapp',\n  external_message_id: externalMessageId,\n  idempotency_key: idempotencyKey,\n  sender_id: senderId,\n  sender_display_name: contact?.profile?.name ?? null,\n  phone_number_id: phoneNumberId,\n  display_phone_number: metadata?.display_phone_number ?? null,\n  message_type: message?.type ?? null,\n  text: textBody,\n  occurred_at_unix: message?.timestamp ?? null,\n  raw_payload_ref: 'fixture:inline'\n};\n\nreturn {\n  json: {\n    accepted: blockers.length === 0,\n    duplicate: Boolean(input.duplicate),\n    message_context: messageContext,\n    canonical_event: blockers.length === 0 && !input.duplicate ? {\n      event_type: 'message_received',\n      event_version: '1.0.0',\n      direction: 'inbound',\n      source: 'meta_whatsapp',\n      correlation_id: correlationId,\n      idempotency_key: idempotencyKey,\n      payload: { message_context: messageContext }\n    } : null,\n    requested_actions: blockers.length === 0 && !input.duplicate ? [{ action: 'RECORD_EVENT' }] : [],\n    blockers\n  }\n};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Raw Ingress Fixture": {
+      "main": [
+        [
+          {
+            "node": "Normalize Ingress Envelope",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}

@@ -1,0 +1,36 @@
+name: Test F7 closing contract payment win
+
+on:
+  pull_request:
+    paths:
+      - "src/functions/f2/state-guard.mjs"
+      - "n8n/generated/f2-commercial-transition-guard.generated.js"
+      - "n8n/generated/f2-payment-verification-guard.generated.js"
+      - "n8n/workflows/f7/**"
+      - "tests/f7/**"
+      - ".github/workflows/f7-closing-win.yml"
+  push:
+    branches:
+      - "feat/f7-*"
+    paths:
+      - "src/functions/f2/state-guard.mjs"
+      - "n8n/generated/f2-commercial-transition-guard.generated.js"
+      - "n8n/generated/f2-payment-verification-guard.generated.js"
+      - "n8n/workflows/f7/**"
+      - "tests/f7/**"
+      - ".github/workflows/f7-closing-win.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-f7:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run F7 closing, contract, payment and win tests
+        run: node --test tests/f7/*.test.mjs

@@ -1,0 +1,109 @@
+{
+  "canonical_id": "CM-WF-170",
+  "lab_workflow_id": "OePuPMx1fh6vuXC4",
+  "name": "[LAB][F9] CM-WF-170 Post-sale",
+  "active": false,
+  "isArchived": false,
+  "versionId": "ceef207b-2f46-46a6-ab70-221667fd53bc",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "4d22c393-67ea-48a7-96f4-8b1f80d7bd45",
+      "name": "Receive Post-sale Context",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "708690c8-6dc8-473a-8ca8-84cbe5a7b798",
+      "name": "Prepare Post-sale Readiness",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nreturn {json:{\n  actions_completed_or_skipped:Boolean($json.actions_completed_or_skipped)\n}};\n"
+      }
+    },
+    {
+      "id": "17734cd2-b7af-485d-8d57-516616b0c9b7",
+      "name": "Run F2 Post-sale Readiness",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "// GENERATED ADAPTER FOR n8n CODE NODE.\n// Canonical source: src/functions/f2/readiness.mjs#evaluateModuleReadiness\nfunction result(status, ready, blockers = []) { return { status, ready, blockers }; }\nfunction evaluateModuleReadiness(moduleCode, context = {}) {\n  switch (moduleCode) {\n    case \"delivery\":\n      return context.linkSent === true && context.confirmationPolicySatisfied === true\n        ? result(\"completed\", true)\n        : result(\"in_progress\", false, [\"DELIVERY_POLICY_INCOMPLETE\"]);\n    case \"post_sale\":\n      return context.actionsCompletedOrSkipped === true\n        ? result(\"completed\", true)\n        : result(\"in_progress\", false, [\"POST_SALE_INCOMPLETE\"]);\n    default:\n      return result(\"blocked\", false, [\"UNKNOWN_MODULE_CODE:\" + moduleCode]);\n  }\n}\nreturn {json:evaluateModuleReadiness(\"post_sale\",{\n  actionsCompletedOrSkipped:Boolean($json.actions_completed_or_skipped ?? $json.actionsCompletedOrSkipped)\n})};\n"
+      }
+    },
+    {
+      "id": "ffd95ac2-2b76-46da-8383-8788e0fbcf05",
+      "name": "Plan Post-sale and Consent",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst readiness=$json;\nconst input=$('Receive Post-sale Context').item.json;\nconst trigger=String(input.trigger_type ?? '');\nconst eventId=input.customer_event_id;\nconst consent=input.publication_consent ?? null;\n\nif(trigger==='delivery_link_sent'){\n  return {json:{\n    status:'planned_shadow',\n    readiness,\n    operations:[\n      {action:'UPSERT_MODULE_STATE',customer_event_id:eventId,module_code:'post_sale',status:'in_progress',ready:false},\n      {action:'SCHEDULE_POST_SALE_ACTION',customer_event_id:eventId,action_type:'delivery_confirmation_check'}\n    ],\n    blockers:['SEND_DISABLED']\n  }};\n}\n\nif(trigger==='delivery_confirmed'){\n  if(input.delivery_status!=='confirmed'){\n    return {json:{status:'blocked',readiness,operations:[],blockers:['DELIVERY_NOT_CONFIRMED']}};\n  }\n  return {json:{\n    status:'planned_shadow',\n    readiness,\n    operations:[\n      {action:'UPSERT_MODULE_STATE',customer_event_id:eventId,module_code:'post_sale',status:'in_progress',ready:false},\n      {\n        action:'REQUEST_RESPONSE_COMPOSITION',\n        customer_event_id:eventId,\n        response_action:'COMPOSE_REVIEW_REQUEST',\n        review_url:'https://g.page/click-mais-photo-cabine?share'\n      },\n      {action:'EMIT_EVENT',event_type:'post_sale_review_candidate',customer_event_id:eventId}\n    ],\n    blockers:['SEND_DISABLED']\n  }};\n}\n\nif(trigger==='publication_consent_received'){\n  if(!consent || typeof consent.consent!=='boolean' || !consent.channel){\n    return {json:{status:'blocked',readiness,operations:[],blockers:['PUBLICATION_CONSENT_INVALID']}};\n  }\n  const source=consent.source_type ?? 'customer';\n  if(!['customer','human','contract','integration'].includes(source)){\n    return {json:{status:'blocked',readiness,operations:[],blockers:['PUBLICATION_CONSENT_SOURCE_INVALID']}};\n  }\n  const operations=[\n    {\n      action:'UPSERT_PUBLICATION_CONSENT',\n      customer_event_id:eventId,\n      channel:consent.channel,\n      consent:consent.consent,\n      source_type:source,\n      source_ref:consent.source_ref ?? null\n    },\n    {\n      action:'EMIT_EVENT',\n      event_type:consent.consent?'publication_consent_granted':'publication_consent_denied',\n      customer_event_id:eventId,\n      channel:consent.channel\n    }\n  ];\n  if(consent.consent===false){\n    operations.push({action:'SUPPRESS_PUBLICATION',customer_event_id:eventId,channel:consent.channel});\n  }\n  return {json:{\n    status:consent.consent?'consent_recorded':'suppressed',\n    readiness,\n    operations,\n    delivery_affected:false,\n    blockers:[]\n  }};\n}\n\nif(trigger==='publication_request'){\n  if(!consent || consent.consent!==true || !consent.channel){\n    return {json:{\n      status:'denied',\n      readiness,\n      operations:[],\n      delivery_affected:false,\n      blockers:['PUBLICATION_CONSENT_REQUIRED']\n    }};\n  }\n  return {json:{\n    status:'adapter_required',\n    readiness,\n    operations:[\n      {\n        action:'REQUEST_AUTHORIZED_PUBLICATION_ADAPTER',\n        customer_event_id:eventId,\n        channel:consent.channel,\n        consent_source_ref:consent.source_ref ?? null\n      }\n    ],\n    delivery_affected:false,\n    blockers:['PUBLICATION_ADAPTER_NOT_CONNECTED']\n  }};\n}\n\nif(trigger==='post_sale_complete'){\n  if(!readiness.ready){\n    return {json:{status:'blocked',readiness,operations:[],blockers:readiness.blockers}};\n  }\n  return {json:{\n    status:'completed',\n    readiness,\n    operations:[\n      {action:'UPSERT_MODULE_STATE',customer_event_id:eventId,module_code:'post_sale',status:'completed',ready:true,blockers:[]},\n      {action:'EMIT_EVENT',event_type:'post_sale_completed',customer_event_id:eventId}\n    ],\n    blockers:[]\n  }};\n}\n\nreturn {json:{status:'blocked',readiness,operations:[],blockers:['POST_SALE_TRIGGER_UNKNOWN']}};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Post-sale Context": {
+      "main": [
+        [
+          {
+            "node": "Prepare Post-sale Readiness",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Post-sale Readiness": {
+      "main": [
+        [
+          {
+            "node": "Run F2 Post-sale Readiness",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run F2 Post-sale Readiness": {
+      "main": [
+        [
+          {
+            "node": "Plan Post-sale and Consent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}

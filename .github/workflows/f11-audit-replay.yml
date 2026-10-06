@@ -1,0 +1,30 @@
+name: Test F11 audit and replay
+
+on:
+  pull_request:
+    paths:
+      - "n8n/workflows/f11/**"
+      - "tests/f11/**"
+      - ".github/workflows/f11-audit-replay.yml"
+  push:
+    branches:
+      - "feat/f11-*"
+    paths:
+      - "n8n/workflows/f11/**"
+      - "tests/f11/**"
+      - ".github/workflows/f11-audit-replay.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-f11:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run watchdog and replay evaluator tests
+        run: node --test tests/f11/*.test.mjs
