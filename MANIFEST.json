@@ -26,58 +26,18 @@
   ],
   "registries": {
     "governance_docs": [
-      {
-        "id": "docs-index",
-        "path": "docs/README.md",
-        "status": "homologated"
-      },
-      {
-        "id": "baseline-functional-v1.1",
-        "path": "docs/00_governanca/CLICK_MAIS_OS_BASELINE_FUNCIONAL_v1.1.md",
-        "status": "homologated"
-      },
-      {
-        "id": "decision-register",
-        "path": "docs/00_governanca/REGISTRO_DE_DECISOES.md",
-        "status": "homologated"
-      },
-      {
-        "id": "project-changelog",
-        "path": "docs/00_governanca/CHANGELOG_PROJETO.md",
-        "status": "homologated"
-      },
-      {
-        "id": "f1-schema-implementation-v1.2.1",
-        "path": "docs/07_projeto_executivo/F1_SCHEMA_IMPLEMENTATION_v1.2.1.md",
-        "status": "review"
-      },
-      {
-        "id": "f3-runtime-ingress-v1.2.1",
-        "path": "docs/07_projeto_executivo/F3_RUNTIME_INGRESS_IMPLEMENTATION_v1.2.1.md",
-        "status": "review"
-      }
+      {"id":"docs-index","path":"docs/README.md","status":"homologated"},
+      {"id":"baseline-functional-v1.1","path":"docs/00_governanca/CLICK_MAIS_OS_BASELINE_FUNCIONAL_v1.1.md","status":"homologated"},
+      {"id":"decision-register","path":"docs/00_governanca/REGISTRO_DE_DECISOES.md","status":"homologated"},
+      {"id":"project-changelog","path":"docs/00_governanca/CHANGELOG_PROJETO.md","status":"homologated"},
+      {"id":"f1-schema-implementation-v1.2.1","path":"docs/07_projeto_executivo/F1_SCHEMA_IMPLEMENTATION_v1.2.1.md","status":"review"},
+      {"id":"f3-runtime-ingress-v1.2.1","path":"docs/07_projeto_executivo/F3_RUNTIME_INGRESS_IMPLEMENTATION_v1.2.1.md","status":"review"}
     ],
     "workflows": [
-      {
-        "id": "CM-WF-000",
-        "path": "n8n/workflows/f3/CM-WF-000.lab.json",
-        "status": "review"
-      },
-      {
-        "id": "CM-WF-010",
-        "path": "n8n/workflows/f3/CM-WF-010.lab.json",
-        "status": "review"
-      },
-      {
-        "id": "CM-WF-015",
-        "path": "n8n/workflows/f3/CM-WF-015.lab.json",
-        "status": "review"
-      },
-      {
-        "id": "CM-WF-020",
-        "path": "n8n/workflows/f3/CM-WF-020.lab.json",
-        "status": "review"
-      }
+      {"id":"CM-WF-000","path":"n8n/workflows/f3/CM-WF-000.lab.json","status":"review"},
+      {"id":"CM-WF-010","path":"n8n/workflows/f3/CM-WF-010.lab.json","status":"review"},
+      {"id":"CM-WF-015","path":"n8n/workflows/f3/CM-WF-015.lab.json","status":"review"},
+      {"id":"CM-WF-020","path":"n8n/workflows/f3/CM-WF-020.lab.json","status":"review"}
     ],
     "subflows": [],
     "workflow_specs": [
@@ -88,268 +48,68 @@
       }
     ],
     "schemas": [
-      {
-        "id": "session",
-        "path": "schemas/session.schema.json",
-        "status": "homologated"
-      },
-      {
-        "id": "event",
-        "path": "schemas/event.schema.json",
-        "status": "homologated"
-      },
-      {
-        "id": "state-transition",
-        "path": "schemas/state-transition.schema.json",
-        "status": "homologated"
-      },
-      {
-        "id": "agent-run",
-        "path": "schemas/agent-run.schema.json",
-        "status": "homologated"
-      },
-      {
-        "id": "workflow-run",
-        "path": "schemas/workflow-run.schema.json",
-        "status": "homologated"
-      },
-      {
-        "id": "customer-event",
-        "path": "schemas/customer-event.schema.json",
-        "status": "homologated"
-      },
-      {
-        "id": "event-fact",
-        "path": "schemas/event-fact.schema.json",
-        "status": "homologated"
-      },
-      {
-        "id": "integration-status",
-        "path": "schemas/integration-status.schema.json",
-        "status": "homologated"
-      }
+      {"id":"session","path":"schemas/session.schema.json","status":"homologated"},
+      {"id":"event","path":"schemas/event.schema.json","status":"homologated"},
+      {"id":"state-transition","path":"schemas/state-transition.schema.json","status":"homologated"},
+      {"id":"agent-run","path":"schemas/agent-run.schema.json","status":"homologated"},
+      {"id":"workflow-run","path":"schemas/workflow-run.schema.json","status":"homologated"},
+      {"id":"customer-event","path":"schemas/customer-event.schema.json","status":"homologated"},
+      {"id":"event-fact","path":"schemas/event-fact.schema.json","status":"homologated"},
+      {"id":"integration-status","path":"schemas/integration-status.schema.json","status":"homologated"}
     ],
     "prompts": [],
     "migrations": [
-      {
-        "version": "20261002025715",
-        "name": "bootstrap_event_state_runtime_v01",
-        "path": "supabase/migrations/20261002025715_bootstrap_event_state_runtime_v01.sql",
-        "status": "production"
-      },
-      {
-        "version": "20261002025748",
-        "name": "add_runtime_fk_indexes_v01",
-        "path": "supabase/migrations/20261002025748_add_runtime_fk_indexes_v01.sql",
-        "status": "production"
-      },
-      {
-        "version": "20261002030338",
-        "name": "add_atomic_event_state_helpers_v01",
-        "path": "supabase/migrations/20261002030338_add_atomic_event_state_helpers_v01.sql",
-        "status": "production"
-      },
-      {
-        "version": "20261003050907",
-        "name": "expand_click_mais_os_business_state_v1",
-        "path": "supabase/migrations/20261003050907_expand_click_mais_os_business_state_v1.sql",
-        "status": "production"
-      },
-      {
-        "version": "20261003051005",
-        "name": "add_business_stage_history_and_backend_grants_v1",
-        "path": "supabase/migrations/20261003051005_add_business_stage_history_and_backend_grants_v1.sql",
-        "status": "production"
-      },
-      {
-        "version": "20261003051043",
-        "name": "fix_business_stage_transition_ambiguity_v1",
-        "path": "supabase/migrations/20261003051043_fix_business_stage_transition_ambiguity_v1.sql",
-        "status": "production"
-      },
-      {
-        "version": "20261006002526",
-        "name": "f1_catalog_schema_v121",
-        "path": "supabase/migrations/20261006002526_f1_catalog_schema_v121.sql",
-        "status": "review"
-      },
-      {
-        "version": "20261006002712",
-        "name": "f1_business_compatibility_v121",
-        "path": "supabase/migrations/20261006002712_f1_business_compatibility_v121.sql",
-        "status": "review"
-      },
-      {
-        "version": "20261006002755",
-        "name": "f1_projection_audit_v121",
-        "path": "supabase/migrations/20261006002755_f1_projection_audit_v121.sql",
-        "status": "review"
-      },
-      {
-        "version": "20261006002944",
-        "name": "f1_seed_canonical_catalog_v121",
-        "path": "supabase/migrations/20261006002944_f1_seed_canonical_catalog_v121.sql",
-        "status": "review"
-      },
-      {
-        "version": "20261006003031",
-        "name": "f1_fact_history_helper_v121",
-        "path": "supabase/migrations/20261006003031_f1_fact_history_helper_v121.sql",
-        "status": "review"
-      },
-      {
-        "version": "20261006003237",
-        "name": "f1_fk_index_hardening_v121",
-        "path": "supabase/migrations/20261006003237_f1_fk_index_hardening_v121.sql",
-        "status": "review"
-      }
+      {"version":"20261002025715","name":"bootstrap_event_state_runtime_v01","path":"supabase/migrations/20261002025715_bootstrap_event_state_runtime_v01.sql","status":"production"},
+      {"version":"20261002025748","name":"add_runtime_fk_indexes_v01","path":"supabase/migrations/20261002025748_add_runtime_fk_indexes_v01.sql","status":"production"},
+      {"version":"20261002030338","name":"add_atomic_event_state_helpers_v01","path":"supabase/migrations/20261002030338_add_atomic_event_state_helpers_v01.sql","status":"production"},
+      {"version":"20261003050907","name":"expand_click_mais_os_business_state_v1","path":"supabase/migrations/20261003050907_expand_click_mais_os_business_state_v1.sql","status":"production"},
+      {"version":"20261003051005","name":"add_business_stage_history_and_backend_grants_v1","path":"supabase/migrations/20261003051005_add_business_stage_history_and_backend_grants_v1.sql","status":"production"},
+      {"version":"20261003051043","name":"fix_business_stage_transition_ambiguity_v1","path":"supabase/migrations/20261003051043_fix_business_stage_transition_ambiguity_v1.sql","status":"production"},
+      {"version":"20261006002526","name":"f1_catalog_schema_v121","path":"supabase/migrations/20261006002526_f1_catalog_schema_v121.sql","status":"review"},
+      {"version":"20261006002712","name":"f1_business_compatibility_v121","path":"supabase/migrations/20261006002712_f1_business_compatibility_v121.sql","status":"review"},
+      {"version":"20261006002755","name":"f1_projection_audit_v121","path":"supabase/migrations/20261006002755_f1_projection_audit_v121.sql","status":"review"},
+      {"version":"20261006002944","name":"f1_seed_canonical_catalog_v121","path":"supabase/migrations/20261006002944_f1_seed_canonical_catalog_v121.sql","status":"review"},
+      {"version":"20261006003031","name":"f1_fact_history_helper_v121","path":"supabase/migrations/20261006003031_f1_fact_history_helper_v121.sql","status":"review"},
+      {"version":"20261006003237","name":"f1_fk_index_hardening_v121","path":"supabase/migrations/20261006003237_f1_fk_index_hardening_v121.sql","status":"review"}
     ],
     "decisions": [
-      {
-        "id": "ADR-0001",
-        "path": "docs/decisions/ADR-0001_fonte-canonica-github.md",
-        "status": "homologated"
-      },
-      {
-        "id": "ADR-0002",
-        "path": "docs/decisions/ADR-0002_event-state-engine-minimo.md",
-        "status": "homologated"
-      },
-      {
-        "id": "ADR-0003",
-        "path": "docs/decisions/ADR-0003_click-mais-os-arquitetura-producao.md",
-        "status": "homologated"
-      },
-      {
-        "id": "ADR-0004",
-        "path": "docs/decisions/ADR-0004_onedrive-entrega-canonica-e-publicacao-social.md",
-        "status": "homologated"
-      },
-      {
-        "id": "ADR-0005",
-        "path": "docs/decisions/ADR-0005_trello-cockpit-crm-v1.md",
-        "status": "homologated"
-      },
-      {
-        "id": "ADR-0006",
-        "path": "docs/decisions/ADR-0006_origem-lead-pipeline-comercial-v1.md",
-        "status": "homologated"
-      }
+      {"id":"ADR-0001","path":"docs/decisions/ADR-0001_fonte-canonica-github.md","status":"homologated"},
+      {"id":"ADR-0002","path":"docs/decisions/ADR-0002_event-state-engine-minimo.md","status":"homologated"},
+      {"id":"ADR-0003","path":"docs/decisions/ADR-0003_click-mais-os-arquitetura-producao.md","status":"homologated"},
+      {"id":"ADR-0004","path":"docs/decisions/ADR-0004_onedrive-entrega-canonica-e-publicacao-social.md","status":"homologated"},
+      {"id":"ADR-0005","path":"docs/decisions/ADR-0005_trello-cockpit-crm-v1.md","status":"homologated"},
+      {"id":"ADR-0006","path":"docs/decisions/ADR-0006_origem-lead-pipeline-comercial-v1.md","status":"homologated"}
     ],
     "architecture_docs": [
-      {
-        "id": "click-mais-os-v1",
-        "path": "docs/architecture/CLICK-MAIS-OS-v1.md",
-        "status": "homologated"
-      },
-      {
-        "id": "trello-crm-v1",
-        "path": "docs/architecture/TRELLO-CRM-V1.md",
-        "status": "homologated"
-      },
-      {
-        "id": "module-allocation",
-        "path": "docs/architecture/MODULE-ALLOCATION.md",
-        "status": "homologated"
-      },
-      {
-        "id": "component-map",
-        "path": "docs/architecture/COMPONENT-MAP.md",
-        "status": "homologated"
-      }
+      {"id":"click-mais-os-v1","path":"docs/architecture/CLICK-MAIS-OS-v1.md","status":"homologated"},
+      {"id":"trello-crm-v1","path":"docs/architecture/TRELLO-CRM-V1.md","status":"homologated"},
+      {"id":"module-allocation","path":"docs/architecture/MODULE-ALLOCATION.md","status":"homologated"},
+      {"id":"component-map","path":"docs/architecture/COMPONENT-MAP.md","status":"homologated"}
     ],
     "documentation_sections": [
-      {
-        "id": "governance",
-        "path": "docs/00_governanca/README.md",
-        "status": "homologated"
-      },
-      {
-        "id": "business",
-        "path": "docs/01_negocio/README.md",
-        "status": "development"
-      },
-      {
-        "id": "architecture",
-        "path": "docs/02_arquitetura/README.md",
-        "status": "development"
-      },
-      {
-        "id": "data",
-        "path": "docs/03_dados/README.md",
-        "status": "development"
-      },
-      {
-        "id": "workflows",
-        "path": "docs/04_workflows/README.md",
-        "status": "development"
-      },
-      {
-        "id": "security",
-        "path": "docs/05_seguranca/README.md",
-        "status": "development"
-      },
-      {
-        "id": "tests",
-        "path": "docs/06_testes/README.md",
-        "status": "development"
-      },
-      {
-        "id": "executive-project",
-        "path": "docs/07_projeto_executivo/README.md",
-        "status": "draft"
-      }
+      {"id":"governance","path":"docs/00_governanca/README.md","status":"homologated"},
+      {"id":"business","path":"docs/01_negocio/README.md","status":"development"},
+      {"id":"architecture","path":"docs/02_arquitetura/README.md","status":"development"},
+      {"id":"data","path":"docs/03_dados/README.md","status":"development"},
+      {"id":"workflows","path":"docs/04_workflows/README.md","status":"development"},
+      {"id":"security","path":"docs/05_seguranca/README.md","status":"development"},
+      {"id":"tests","path":"docs/06_testes/README.md","status":"development"},
+      {"id":"executive-project","path":"docs/07_projeto_executivo/README.md","status":"draft"}
     ],
     "integrations": [
-      {
-        "id": "integration-status",
-        "path": "docs/integrations/STATUS.md",
-        "status": "homologated"
-      }
+      {"id":"integration-status","path":"docs/integrations/STATUS.md","status":"homologated"}
     ],
     "knowledge": [
-      {
-        "id": "services",
-        "path": "knowledge/services.md",
-        "status": "draft"
-      },
-      {
-        "id": "pricing",
-        "path": "knowledge/pricing.md",
-        "status": "draft"
-      },
-      {
-        "id": "localities",
-        "path": "knowledge/localities.md",
-        "status": "draft"
-      },
-      {
-        "id": "faq",
-        "path": "knowledge/faq.md",
-        "status": "draft"
-      },
-      {
-        "id": "persona-click",
-        "path": "knowledge/persona-click.md",
-        "status": "draft"
-      },
-      {
-        "id": "policies",
-        "path": "knowledge/policies.md",
-        "status": "draft"
-      }
+      {"id":"services","path":"knowledge/services.md","status":"draft"},
+      {"id":"pricing","path":"knowledge/pricing.md","status":"draft"},
+      {"id":"localities","path":"knowledge/localities.md","status":"draft"},
+      {"id":"faq","path":"knowledge/faq.md","status":"draft"},
+      {"id":"persona-click","path":"knowledge/persona-click.md","status":"draft"},
+      {"id":"policies","path":"knowledge/policies.md","status":"draft"}
     ],
     "tooling": [
-      {
-        "id": "repository-validator",
-        "path": "scripts/validate_repository.py",
-        "status": "homologated"
-      },
-      {
-        "id": "github-validation-workflow",
-        "path": ".github/workflows/validate.yml",
-        "status": "homologated"
-      }
+      {"id":"repository-validator","path":"scripts/validate_repository.py","status":"homologated"},
+      {"id":"github-validation-workflow","path":".github/workflows/validate.yml","status":"homologated"}
     ]
   }
 }
