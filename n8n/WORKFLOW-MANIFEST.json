@@ -277,14 +277,16 @@
       "slug": "campaign-remarketing",
       "name": "Campaign & Remarketing",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [
         "campaign_approval",
         "response_guard",
         "send_disabled"
       ],
-      "purpose": "Segmentar, criar snapshot, exigir aprovação e despachar campanha elegível."
+      "purpose": "Segmentar, criar snapshot, exigir aprovação e despachar campanha elegível.",
+      "lab_workflow_id": "6yOwIFE1dfpePZlj",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-900",
