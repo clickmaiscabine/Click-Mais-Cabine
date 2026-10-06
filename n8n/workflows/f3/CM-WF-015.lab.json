@@ -1,0 +1,57 @@
+{
+  "canonical_id": "CM-WF-015",
+  "lab_workflow_id": "NAX3mBHwvTYistfz",
+  "name": "[LAB][F3] CM-WF-015 Acquisition Attribution",
+  "active": false,
+  "isArchived": false,
+  "versionId": "df58f500-f391-42f3-b6ea-7d068fa7859f",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "71260a31-72b5-457f-a727-f49cee67f843",
+      "name": "Receive Acquisition Hint",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "3a9ebd51-cd09-4ff0-a526-a2154d45e4d0",
+      "name": "Normalize Acquisition Attribution",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst input = $json;\nconst message = input.message_context ?? {};\nconst hint = input.acquisition_hint ?? {};\nconst allowedLanding = new Set(['cabine_fotos','plataforma_360','totem_fotos']);\nconst allowedService = new Set(['cabine_fotos','plataforma_360','totem_fotos']);\nconst allowedSource = new Set(['paid_ads','organic','direct','referral','unknown']);\n\nconst source = allowedSource.has(hint.source) ? hint.source : 'unknown';\nconst landing = allowedLanding.has(hint.landing_page_code) ? hint.landing_page_code : null;\nconst service = allowedService.has(hint.service_interest_code) ? hint.service_interest_code : null;\nconst strong = Boolean(landing && service);\n\nconst acquisitionContext = {\n  contract_version:'1.0.0',\n  correlation_id: message.correlation_id ?? input.correlation_id ?? null,\n  source,\n  medium: hint.medium ?? null,\n  landing_page_code: landing,\n  service_interest_code: service,\n  campaign_code: hint.campaign_code ?? null,\n  utm_source: hint.utm_source ?? null,\n  utm_medium: hint.utm_medium ?? null,\n  utm_campaign: hint.utm_campaign ?? null,\n  utm_content: hint.utm_content ?? null,\n  utm_term: hint.utm_term ?? null,\n  tracking_token: hint.tracking_token ?? null,\n  raw_prefilled_message: hint.raw_prefilled_message ?? message.text ?? null,\n  attribution_confidence: strong ? 1 : (source !== 'unknown' ? 0.6 : 0)\n};\n\nreturn {\n  json:{\n    acquisition_context: acquisitionContext,\n    strong_commercial_signal: strong,\n    requested_actions: strong || source !== 'unknown' ? [{action:'RECORD_ACQUISITION_TOUCHPOINT'}] : [],\n    blockers: []\n  }\n};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Acquisition Hint": {
+      "main": [
+        [
+          {
+            "node": "Normalize Acquisition Attribution",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}
