@@ -1,13 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://clickmaiscabine.local/schemas/event.schema.json",
-  "title": "Click Mais Runtime Event",
+  "title": "Click Mais Runtime Event v1.2.1",
   "type": "object",
   "additionalProperties": false,
   "required": [
     "id",
     "session_id",
     "event_type",
+    "event_version",
     "direction",
     "source",
     "payload",
@@ -23,7 +24,18 @@
       "type": "string",
       "format": "uuid"
     },
+    "customer_event_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
+    },
     "event_type": {
+      "type": "string",
+      "minLength": 1
+    },
+    "event_version": {
       "type": "string",
       "minLength": 1
     },
