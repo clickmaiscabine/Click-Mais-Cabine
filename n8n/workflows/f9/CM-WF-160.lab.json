@@ -1,0 +1,109 @@
+{
+  "canonical_id": "CM-WF-160",
+  "lab_workflow_id": "zVdEzmxOuy80pEuz",
+  "name": "[LAB][F9] CM-WF-160 Delivery",
+  "active": false,
+  "isArchived": false,
+  "versionId": "bc0e67ff-add5-47aa-86b9-c57c7d2f73a4",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "7788019e-bbe0-48e8-9797-b21a81b3c11a",
+      "name": "Receive Delivery Context",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "aaa4cd2a-a4f5-4da1-98d5-35abfaafc1bc",
+      "name": "Prepare Delivery Readiness",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst input=$json;\nconst d=input.existing_delivery ?? {};\nreturn {json:{\n  link_sent:d.status==='sent' || d.status==='confirmed',\n  confirmation_policy_satisfied:d.status==='confirmed'\n}};\n"
+      }
+    },
+    {
+      "id": "a3d2f935-51a0-437f-87b2-0c26aff087bc",
+      "name": "Run F2 Delivery Readiness",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "// GENERATED ADAPTER FOR n8n CODE NODE.\n// Canonical source: src/functions/f2/readiness.mjs#evaluateModuleReadiness\nfunction result(status, ready, blockers = []) { return { status, ready, blockers }; }\nfunction evaluateModuleReadiness(moduleCode, context = {}) {\n  switch (moduleCode) {\n    case \"delivery\":\n      return context.linkSent === true && context.confirmationPolicySatisfied === true\n        ? result(\"completed\", true)\n        : result(\"in_progress\", false, [\"DELIVERY_POLICY_INCOMPLETE\"]);\n    case \"post_sale\":\n      return context.actionsCompletedOrSkipped === true\n        ? result(\"completed\", true)\n        : result(\"in_progress\", false, [\"POST_SALE_INCOMPLETE\"]);\n    default:\n      return result(\"blocked\", false, [\"UNKNOWN_MODULE_CODE:\" + moduleCode]);\n  }\n}\nreturn {json:evaluateModuleReadiness(\"delivery\",{\n  linkSent:Boolean($json.link_sent ?? $json.linkSent),\n  confirmationPolicySatisfied:Boolean($json.confirmation_policy_satisfied ?? $json.confirmationPolicySatisfied)\n})};\n"
+      }
+    },
+    {
+      "id": "7fc1bd83-804e-4db3-9b9e-0e3bf20f3f23",
+      "name": "Plan OneDrive Delivery",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst moduleReadiness=$json;\nconst input=$('Receive Delivery Context').item.json;\nconst eventId=input.customer_event_id;\nconst trigger=String(input.trigger_type ?? '');\nconst delivery=input.existing_delivery ?? null;\nconst lookup=input.onedrive_lookup ?? null;\n\nif(trigger==='event_completed'){\n  if(delivery && ['sent','confirmed'].includes(delivery.status)){\n    return {json:{\n      status:'no_action',\n      module_readiness:moduleReadiness,\n      operations:[],\n      blockers:[]\n    }};\n  }\n  return {json:{\n    status:'adapter_required',\n    module_readiness:moduleReadiness,\n    operations:[\n      {\n        action:'UPSERT_DELIVERY',\n        idempotency_key:'delivery:onedrive:'+String(eventId),\n        customer_event_id:eventId,\n        provider:'onedrive',\n        delivery_kind:'original_media',\n        status:'pending'\n      },\n      {\n        action:'UPSERT_MODULE_STATE',\n        customer_event_id:eventId,\n        module_code:'delivery',\n        status:'in_progress',\n        ready:false,\n        blockers:['ONEDRIVE_LINK_PENDING']\n      },\n      {\n        action:'REQUEST_ONEDRIVE_LOOKUP',\n        idempotency_key:'onedrive-lookup:'+String(eventId),\n        customer_event_id:eventId\n      }\n    ],\n    blockers:['ONEDRIVE_ADAPTER_NOT_CONNECTED']\n  }};\n}\n\nif(trigger==='onedrive_lookup'){\n  const found=lookup?.status==='found' &&\n    lookup?.provider==='onedrive' &&\n    Boolean(lookup?.folder_ref) &&\n    Boolean(lookup?.share_url);\n\n  if(!found){\n    return {json:{\n      status:'pending_human',\n      module_readiness:moduleReadiness,\n      operations:[\n        {\n          action:'UPSERT_DELIVERY',\n          idempotency_key:'delivery:onedrive:'+String(eventId),\n          customer_event_id:eventId,\n          provider:'onedrive',\n          delivery_kind:'original_media',\n          status:'pending',\n          folder_ref:lookup?.folder_ref ?? null,\n          share_url:null\n        },\n        {\n          action:'CREATE_HUMAN_TASK',\n          customer_event_id:eventId,\n          task_type:'delivery_missing_onedrive',\n          reason_code:'ONEDRIVE_LINK_NOT_FOUND'\n        },\n        {\n          action:'UPSERT_MODULE_STATE',\n          customer_event_id:eventId,\n          module_code:'delivery',\n          status:'in_progress',\n          ready:false,\n          blockers:['ONEDRIVE_LINK_NOT_FOUND']\n        }\n      ],\n      blockers:['ONEDRIVE_LINK_NOT_FOUND']\n    }};\n  }\n\n  return {json:{\n    status:'ready_shadow',\n    module_readiness:moduleReadiness,\n    operations:[\n      {\n        action:'UPSERT_DELIVERY',\n        idempotency_key:'delivery:onedrive:'+String(eventId),\n        customer_event_id:eventId,\n        provider:'onedrive',\n        delivery_kind:'original_media',\n        status:'ready',\n        folder_ref:lookup.folder_ref,\n        share_url:lookup.share_url\n      },\n      {action:'EMIT_EVENT',event_type:'delivery_ready',customer_event_id:eventId},\n      {\n        action:'REQUEST_RESPONSE_COMPOSITION',\n        customer_event_id:eventId,\n        response_action:'COMPOSE_DELIVERY_LINK',\n        delivery_link:lookup.share_url,\n        delivery_provider:'onedrive'\n      }\n    ],\n    blockers:['SEND_DISABLED']\n  }};\n}\n\nif(trigger==='dispatch_success'){\n  if(!delivery || delivery.status!=='ready' || !delivery.share_url){\n    return {json:{status:'blocked',module_readiness:moduleReadiness,operations:[],blockers:['DELIVERY_NOT_READY_FOR_SENT']}};\n  }\n  if(String(input.dispatched_share_url ?? '')!==String(delivery.share_url)){\n    return {json:{status:'blocked',module_readiness:moduleReadiness,operations:[],blockers:['DELIVERY_LINK_MISMATCH']}};\n  }\n  return {json:{\n    status:'sent',\n    module_readiness:{status:'in_progress',ready:false,blockers:['DELIVERY_POLICY_INCOMPLETE']},\n    operations:[\n      {action:'UPDATE_DELIVERY_STATUS',delivery_id:delivery.id ?? null,from_status:'ready',to_status:'sent',sent_at:'NOW'},\n      {action:'EMIT_EVENT',event_type:'delivery_link_sent',customer_event_id:eventId,delivery_id:delivery.id ?? null},\n      {action:'UPSERT_MODULE_STATE',customer_event_id:eventId,module_code:'delivery',status:'in_progress',ready:false,blockers:['DELIVERY_CONFIRMATION_PENDING']}\n    ],\n    blockers:[]\n  }};\n}\n\nif(trigger==='customer_confirmation'){\n  if(!delivery || !['sent','confirmed'].includes(delivery.status)){\n    return {json:{status:'blocked',module_readiness:moduleReadiness,operations:[],blockers:['DELIVERY_NOT_SENT']}};\n  }\n  if(delivery.status==='confirmed'){\n    return {json:{status:'no_action',module_readiness:{status:'completed',ready:true,blockers:[]},operations:[],blockers:[]}};\n  }\n  return {json:{\n    status:'confirmed',\n    module_readiness:{status:'completed',ready:true,blockers:[]},\n    operations:[\n      {action:'UPDATE_DELIVERY_STATUS',delivery_id:delivery.id ?? null,from_status:'sent',to_status:'confirmed',confirmed_at:'NOW'},\n      {action:'EMIT_EVENT',event_type:'delivery_confirmed',customer_event_id:eventId,delivery_id:delivery.id ?? null},\n      {action:'UPSERT_MODULE_STATE',customer_event_id:eventId,module_code:'delivery',status:'completed',ready:true,blockers:[]}\n    ],\n    blockers:[]\n  }};\n}\n\nreturn {json:{status:'blocked',module_readiness:moduleReadiness,operations:[],blockers:['DELIVERY_TRIGGER_UNKNOWN']}};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Delivery Context": {
+      "main": [
+        [
+          {
+            "node": "Prepare Delivery Readiness",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Delivery Readiness": {
+      "main": [
+        [
+          {
+            "node": "Run F2 Delivery Readiness",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run F2 Delivery Readiness": {
+      "main": [
+        [
+          {
+            "node": "Plan OneDrive Delivery",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}
