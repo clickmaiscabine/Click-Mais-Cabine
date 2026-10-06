@@ -30,9 +30,15 @@
       {"id":"baseline-functional-v1.1","path":"docs/00_governanca/CLICK_MAIS_OS_BASELINE_FUNCIONAL_v1.1.md","status":"homologated"},
       {"id":"decision-register","path":"docs/00_governanca/REGISTRO_DE_DECISOES.md","status":"homologated"},
       {"id":"project-changelog","path":"docs/00_governanca/CHANGELOG_PROJETO.md","status":"homologated"},
-      {"id":"f1-schema-implementation-v1.2.1","path":"docs/07_projeto_executivo/F1_SCHEMA_IMPLEMENTATION_v1.2.1.md","status":"review"}
+      {"id":"f1-schema-implementation-v1.2.1","path":"docs/07_projeto_executivo/F1_SCHEMA_IMPLEMENTATION_v1.2.1.md","status":"review"},
+      {"id":"f3-runtime-ingress-v1.2.1","path":"docs/07_projeto_executivo/F3_RUNTIME_INGRESS_IMPLEMENTATION_v1.2.1.md","status":"review"}
     ],
-    "workflows": [],
+    "workflows": [
+      {"id":"CM-WF-000","path":"n8n/workflows/f3/CM-WF-000.lab.json","status":"review"},
+      {"id":"CM-WF-010","path":"n8n/workflows/f3/CM-WF-010.lab.json","status":"review"},
+      {"id":"CM-WF-015","path":"n8n/workflows/f3/CM-WF-015.lab.json","status":"review"},
+      {"id":"CM-WF-020","path":"n8n/workflows/f3/CM-WF-020.lab.json","status":"review"}
+    ],
     "subflows": [],
     "workflow_specs": [
       {
