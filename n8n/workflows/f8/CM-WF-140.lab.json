@@ -1,0 +1,135 @@
+{
+  "canonical_id": "CM-WF-140",
+  "lab_workflow_id": "c7zBazrXqitL2n71",
+  "name": "[LAB][F8] CM-WF-140 Logistics & Pre-event",
+  "active": false,
+  "isArchived": false,
+  "versionId": "bb6e2a07-5f0a-41a1-b034-5b043216447c",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "5e669a67-cf1c-45f3-bffd-17026cb9e958",
+      "name": "Receive Logistics Context",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "d9bfd878-c2bb-4de9-83e0-23a32daa755c",
+      "name": "Run F2 Post-win Date Guard",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "// GENERATED ADAPTER FOR n8n CODE NODE.\n// Canonical source: src/functions/f2/state-guard.mjs#guardEventDateChange\nfunction allow() {\n  return { decision: \"allow\", allowed: true, reasonCode: null, nextAction: null };\n}\nfunction guardEventDateChange({ commercialStage, humanAuthorized = false }) {\n  if (commercialStage === \"GANHO\" && !humanAuthorized) {\n    return {\n      decision: \"human\",\n      allowed: false,\n      reasonCode: \"POST_WIN_DATE_CHANGE_REQUIRES_HUMAN_REVIEW\",\n      nextAction: \"human_required\",\n    };\n  }\n  return allow();\n}\nreturn {json:guardEventDateChange({\n  commercialStage:$json.commercial_stage ?? $json.commercialStage ?? null,\n  humanAuthorized:Boolean($json.human_authorized ?? $json.humanAuthorized)\n})};\n"
+      }
+    },
+    {
+      "id": "879ce38e-cd29-4684-a7fe-b43fd7f7edfd",
+      "name": "Prepare Logistics Readiness",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst input=$('Receive Logistics Context').item.json;\nconst items=Array.isArray(input.checklist)?input.checklist:[];\nconst blockers=[];\nfor(const item of items){\n  if(item?.critical!==true) continue;\n  if(!['done','verified','ready'].includes(String(item.status ?? '').toLowerCase())){\n    blockers.push('CHECKLIST_INCOMPLETE:'+String(item.code ?? 'unknown'));\n  }\n}\nfor(const blocker of (input.external_blockers ?? [])){\n  if(blocker) blockers.push(String(blocker));\n}\nreturn {json:{\n  critical_checklist_ready:blockers.length===0,\n  blockers,\n  checklist_snapshot:items\n}};\n"
+      }
+    },
+    {
+      "id": "1f93010c-2e8d-456f-af96-db1799b554e1",
+      "name": "Run F2 Logistics Readiness",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "// GENERATED ADAPTER FOR n8n CODE NODE.\n// Canonical source: src/functions/f2/readiness.mjs#evaluateModuleReadiness\n\nfunction result(status, ready, blockers = []) {\n  return { status, ready, blockers };\n}\nfunction evaluateModuleReadiness(moduleCode, context = {}) {\n  switch (moduleCode) {\n    case \"quote\":\n      return context.quoteReady\n        ? result(\"ready\", true)\n        : result(\"blocked\", false, [\"QUOTE_NOT_READY\"]);\n    case \"contract\":\n      return context.contractStatus === \"signed\"\n        ? result(\"completed\", true)\n        : result(\"in_progress\", false, [\"CONTRACT_NOT_SIGNED\"]);\n    case \"payment\":\n      return context.paymentVerified === true &&\n        [\"signal\", \"full\"].includes(context.paymentKind)\n        ? result(\"completed\", true)\n        : result(\"in_progress\", false, [\"SIGNAL_OR_FULL_PAYMENT_NOT_VERIFIED\"]);\n    case \"art\":\n      return context.artFinalApproved === true\n        ? result(\"completed\", true)\n        : result(\"in_progress\", false, [\"ART_NOT_FINAL\"]);\n    case \"logistics\":\n      return context.criticalChecklistReady === true && !(context.blockers?.length)\n        ? result(\"ready\", true)\n        : result(\"blocked\", false, context.blockers?.length ? context.blockers : [\"LOGISTICS_NOT_READY\"]);\n    case \"delivery\":\n      return context.linkSent === true && context.confirmationPolicySatisfied === true\n        ? result(\"completed\", true)\n        : result(\"in_progress\", false, [\"DELIVERY_POLICY_INCOMPLETE\"]);\n    case \"post_sale\":\n      return context.actionsCompletedOrSkipped === true\n        ? result(\"completed\", true)\n        : result(\"in_progress\", false, [\"POST_SALE_INCOMPLETE\"]);\n    case \"reservation\":\n      return context.reservationStatus === \"confirmed\"\n        ? result(\"completed\", true)\n        : result(\"in_progress\", false, [\"RESERVATION_NOT_CONFIRMED\"]);\n    default:\n      return result(\"blocked\", false, [\"UNKNOWN_MODULE_CODE:\" + moduleCode]);\n  }\n}\nreturn {json:evaluateModuleReadiness(\"logistics\",{\n  criticalChecklistReady:Boolean($json.critical_checklist_ready ?? $json.criticalChecklistReady),\n  blockers:$json.blockers ?? []\n})};\n"
+      }
+    },
+    {
+      "id": "8945dcba-50e3-4ec5-aa32-89e4cd647dc4",
+      "name": "Plan Logistics and Pre-event",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        896,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst readiness=$json;\nconst input=$('Receive Logistics Context').item.json;\nconst dateGuard=$('Run F2 Post-win Date Guard').item.json;\nconst prep=$('Prepare Logistics Readiness').item.json;\nconst eventId=input.customer_event_id;\nconst trigger=String(input.trigger_type ?? '');\n\nif(trigger==='date_changed'){\n  if(!dateGuard.allowed){\n    return {json:{\n      status:'human_required',\n      operations:[\n        {action:'UPDATE_LOGISTICS_RECORD',customer_event_id:eventId,status:'changed'},\n        {action:'ENABLE_HUMAN_LOCK',reason_code:dateGuard.reasonCode},\n        {action:'CREATE_HUMAN_TASK',customer_event_id:eventId,task_type:'logistics_date_review',reason_code:dateGuard.reasonCode},\n        {action:'REQUEST_FACT_REVIEW',customer_event_id:eventId,fact_key:'event_date'}\n      ],\n      trello_move_allowed:false,\n      blockers:[dateGuard.reasonCode]\n    }};\n  }\n  return {json:{\n    status:'planned',\n    operations:[\n      {action:'UPDATE_LOGISTICS_RECORD',customer_event_id:eventId,status:'changed'},\n      {action:'REBUILD_LOGISTICS_CHECKLIST',customer_event_id:eventId},\n      {action:'UPDATE_LOGISTICS_PROJECTION_CONTENT',customer_event_id:eventId,preserve_existing_structure:true,move_list:false}\n    ],\n    trello_move_allowed:false,\n    blockers:[]\n  }};\n}\n\nconst logisticsStatus=readiness.ready?'ready':'blocked';\nconst operations=[\n  {\n    action:'UPSERT_LOGISTICS_RECORD',\n    customer_event_id:eventId,\n    status:logisticsStatus,\n    checklist:prep.checklist_snapshot\n  },\n  {\n    action:'UPSERT_MODULE_STATE',\n    customer_event_id:eventId,\n    module_code:'logistics',\n    status:readiness.status,\n    ready:Boolean(readiness.ready),\n    blockers:readiness.blockers\n  },\n  {\n    action:'UPDATE_LOGISTICS_PROJECTION_CONTENT',\n    customer_event_id:eventId,\n    preserve_existing_structure:true,\n    move_list:false\n  }\n];\nif(readiness.ready){\n  operations.push({action:'EMIT_EVENT',event_type:'logistics_ready',customer_event_id:eventId});\n}\n\nreturn {json:{\n  status:readiness.ready?'ready':'blocked',\n  readiness,\n  operations,\n  trello_move_allowed:false,\n  blockers:readiness.blockers\n}};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Logistics Context": {
+      "main": [
+        [
+          {
+            "node": "Run F2 Post-win Date Guard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run F2 Post-win Date Guard": {
+      "main": [
+        [
+          {
+            "node": "Prepare Logistics Readiness",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Logistics Readiness": {
+      "main": [
+        [
+          {
+            "node": "Run F2 Logistics Readiness",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run F2 Logistics Readiness": {
+      "main": [
+        [
+          {
+            "node": "Plan Logistics and Pre-event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}
