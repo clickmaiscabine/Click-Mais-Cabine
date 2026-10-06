@@ -33,7 +33,9 @@
       {"id":"f1-schema-implementation-v1.2.1","path":"docs/07_projeto_executivo/F1_SCHEMA_IMPLEMENTATION_v1.2.1.md","status":"review"},
       {"id":"f2-deterministic-implementation-v1.2.1","path":"docs/07_projeto_executivo/F2_DETERMINISTIC_LIBRARY_IMPLEMENTATION_v1.2.1.md","status":"review"},
       {"id":"f4-quote-engine-v1.2.1","path":"docs/07_projeto_executivo/F4_QUOTE_ENGINE_IMPLEMENTATION_v1.2.1.md","status":"review"},
-      {"id":"f5-decision-guard-shadow-v1.2.1","path":"docs/07_projeto_executivo/F5_DECISION_GUARD_SHADOW_IMPLEMENTATION_v1.2.1.md","status":"review"}
+      {"id":"f5-decision-guard-shadow-v1.2.1","path":"docs/07_projeto_executivo/F5_DECISION_GUARD_SHADOW_IMPLEMENTATION_v1.2.1.md","status":"review"},
+      {"id":"f6-trello-followup-v1.2.1","path":"docs/07_projeto_executivo/F6_TRELLO_FOLLOWUP_IMPLEMENTATION_v1.2.1.md","status":"review"},
+      {"id":"trello-commercial-migration-readiness-v1.2.1","path":"docs/07_projeto_executivo/TRELLO_COMMERCIAL_MIGRATION_READINESS_v1.2.1.md","status":"review"}
     ],
     "workflows": [
       {"id":"CM-WF-030","path":"n8n/workflows/f4/CM-WF-030.lab.json","status":"review"},
@@ -41,7 +43,10 @@
       {"id":"CM-WF-040","path":"n8n/workflows/f5/CM-WF-040.lab.json","status":"review"},
       {"id":"CM-WF-050","path":"n8n/workflows/f5/CM-WF-050.lab.json","status":"review"},
       {"id":"CM-WF-060","path":"n8n/workflows/f5/CM-WF-060.lab.json","status":"review"},
-      {"id":"CM-WF-061","path":"n8n/workflows/f5/CM-WF-061.lab.json","status":"review"}
+      {"id":"CM-WF-061","path":"n8n/workflows/f5/CM-WF-061.lab.json","status":"review"},
+      {"id":"CM-WF-070","path":"n8n/workflows/f6/CM-WF-070.lab.json","status":"review"},
+      {"id":"CM-WF-071","path":"n8n/workflows/f6/CM-WF-071.lab.json","status":"review"},
+      {"id":"CM-WF-080","path":"n8n/workflows/f6/CM-WF-080.lab.json","status":"review"}
     ],
     "subflows": [],
     "workflow_specs": [
@@ -120,7 +125,10 @@
       {"id":"f2-n8n-quote-kernel-v1.2.1","path":"n8n/generated/f2-quote-kernel.generated.js","status":"review"},
       {"id":"f4-quote-adapter-ci","path":".github/workflows/f4-quote-adapter.yml","status":"review"},
       {"id":"f2-response-guard-n8n-v1.2.1","path":"n8n/generated/f2-response-guard.generated.js","status":"review"},
-      {"id":"f5-decision-guard-ci","path":".github/workflows/f5-decision-guard.yml","status":"review"}
+      {"id":"f5-decision-guard-ci","path":".github/workflows/f5-decision-guard.yml","status":"review"},
+      {"id":"f2-trello-commercial-guard-n8n-v1.2.1","path":"n8n/generated/f2-trello-commercial-guard.generated.js","status":"review"},
+      {"id":"f2-followup-policy-n8n-v1.2.1","path":"n8n/generated/f2-followup-policy.generated.js","status":"review"},
+      {"id":"f6-trello-followup-ci","path":".github/workflows/f6-trello-followup.yml","status":"review"}
     ]
   }
 }

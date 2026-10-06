@@ -1,0 +1,32 @@
+{
+  "observed_at": "2026-10-05",
+  "board_name": "CONTROLE DE ORÇAMENTOS",
+  "board_id": "5ba32eef15231f5a5396914f",
+  "board_url": "https://trello.com/b/18fnAEhK/controle-de-or%C3%A7amentos",
+  "open_card_count_observed": 2907,
+  "open_lists": [
+    "RESPOSTA",
+    "CONTATO",
+    "ORÇ / REMARK 1 - Conteúdo",
+    "ORÇAMENTO / PROX. 30 DIAS",
+    "DUVIDAS/OBJEÇÕES",
+    "CHECK DÚVIDAS",
+    "NEGO-ABORDAGEM / REVISÃO",
+    "NEGOCIAÇÃO FINAL",
+    "FECHAMENTO/DADOS",
+    "FECHAMENTO / CONTRATO",
+    "FECHAMENTO / GANHO",
+    "PERDIDO",
+    "PLATAFORMA360"
+  ],
+  "canonical_target_lists": [
+    "ORÇAMENTO",
+    "RESPOSTA",
+    "FAC / DÚVIDAS",
+    "NEGOCIAÇÃO — BOT / HUMANO",
+    "FECHAMENTO",
+    "GANHO",
+    "PERDIDO"
+  ],
+  "mutation_performed": false
+}

@@ -1,0 +1,57 @@
+{
+  "canonical_id": "CM-WF-070",
+  "lab_workflow_id": "qr2WiKWr00oZMKbh",
+  "name": "[LAB][F6] CM-WF-070 Trello Commercial Projection",
+  "active": false,
+  "isArchived": false,
+  "versionId": "ffcdc7d9-2bf7-42e4-aed4-7cbe7c67aded",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "48edf3fa-62ec-4fed-aae0-a679467b1ce7",
+      "name": "Receive Canonical Projection Context",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "9a30c2b9-e60b-4632-a716-afa483bffc08",
+      "name": "Plan Canonical Trello Projection",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst input=$json;\nconst STAGE_TO_LIST={\n  ORCAMENTO:'ORÇAMENTO',\n  RESPOSTA:'RESPOSTA',\n  FAC_DUVIDAS:'FAC / DÚVIDAS',\n  NEGOCIACAO:'NEGOCIAÇÃO — BOT / HUMANO',\n  FECHAMENTO:'FECHAMENTO',\n  GANHO:'GANHO',\n  PERDIDO:'PERDIDO'\n};\n\nfunction fmtDate(value){\n  if(!value) return 'SEM-DATA';\n  const m=/^(\\d{4})-(\\d{2})-(\\d{2})$/.exec(String(value));\n  return m ? m[3]+'/'+m[2]+'/'+m[1] : 'SEM-DATA';\n}\nfunction money(value){\n  return Number.isFinite(Number(value))\n    ? new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',minimumFractionDigits:0,maximumFractionDigits:0}).format(Number(value))\n    : '—';\n}\nfunction clean(value){\n  return value===null || value===undefined || value==='' ? '—' : String(value);\n}\nfunction fingerprint(text){\n  let hash=2166136261;\n  for(let i=0;i<text.length;i++){\n    hash ^= text.charCodeAt(i);\n    hash = Math.imul(hash,16777619);\n  }\n  return 'fnv1a32:'+((hash>>>0).toString(16).padStart(8,'0'));\n}\n\nconst targetListName=STAGE_TO_LIST[input.commercial_stage] ?? null;\nif(!targetListName){\n  return {json:{\n    status:'blocked',operations:[],projection:null,\n    blockers:['COMMERCIAL_STAGE_NOT_PROJECTABLE']\n  }};\n}\n\nconst listDirectory=Array.isArray(input.list_directory)?input.list_directory:[];\nconst targetList=listDirectory.find((list)=>list.name===targetListName) ?? null;\nif(!targetList){\n  return {json:{\n    status:'migration_required',\n    operations:[],\n    projection:null,\n    missing_list:targetListName,\n    blockers:['TRELLO_CANONICAL_LIST_MISSING:'+targetListName]\n  }};\n}\n\nconst quote=input.quote ?? {};\nconst canCreate =\n  input.source_event_type==='quote_sent' &&\n  quote.status==='presented' &&\n  Boolean(input.qualified_at);\n\nconst existing=input.existing_projection ?? null;\nif(!existing && !canCreate){\n  return {json:{\n    status:'no_projection',\n    operations:[],\n    projection:null,\n    blockers:['CARD_CREATION_REQUIRES_QUOTE_SENT_PRESENTED_QUALIFIED']\n  }};\n}\n\nconst services=Array.isArray(input.services)?input.services.filter(Boolean):[];\nconst mainService=services[0] ?? 'Serviço';\nconst title=fmtDate(input.event_date)+' | '+clean(input.customer_name)+' | '+clean(input.city)+' | '+clean(mainService);\nconst projectionVersion=String(input.stage_version ?? 0)+':'+String(quote.version ?? 0);\n\nconst lines=[\n  'CLICK MAIS OS — PROJEÇÃO COMERCIAL',\n  'EVENT_ID='+clean(input.customer_event_id),\n  'PROJECTION_VERSION='+projectionVersion,\n  'QUOTE_VERSION='+clean(quote.version),\n  '',\n  'Nome: '+clean(input.customer_name),\n  'Data: '+clean(input.event_date),\n  'Cidade: '+clean(input.city),\n  'Tipo de evento: '+clean(input.event_type),\n  'Serviços: '+(services.length?services.join(', '):'—'),\n  'PIX atual: '+money(quote.pix),\n  'Cartão atual: '+money(quote.card),\n  'Stage: '+clean(input.commercial_stage),\n  'Origem: '+clean(input.origin_summary),\n  'Última interação: '+clean(input.last_interaction_at),\n  'Próxima ação: '+clean(input.next_action_at),\n  'HUMAN_LOCK: '+(input.human_lock?'SIM':'NÃO')\n];\nconst description=lines.join(String.fromCharCode(10));\nconst projectionHash=fingerprint(JSON.stringify({\n  title,\n  description,\n  targetListName,\n  projectionVersion\n}));\n\nconst projection={\n  board_role:'commercial',\n  customer_event_id:input.customer_event_id,\n  target_list_name:targetListName,\n  target_list_id:targetList.id,\n  title,\n  description,\n  projection_version:projectionVersion,\n  projection_hash:projectionHash,\n  quote_version:quote.version ?? null,\n  stage_version:input.stage_version ?? null\n};\n\nconst operations=[];\nif(!existing){\n  operations.push({\n    action:'CREATE_CARD',\n    idempotency_key:'trello:commercial:create:'+input.customer_event_id,\n    list_id:targetList.id,\n    name:title,\n    desc:description\n  });\n}else{\n  if(existing.list_name!==targetListName || existing.list_id!==targetList.id){\n    operations.push({\n      action:'MOVE_CARD',\n      card_id:existing.card_id,\n      list_id:targetList.id,\n      reason_code:'CANONICAL_STAGE_PROJECTION'\n    });\n  }\n  if(\n    existing.projection_hash!==projectionHash ||\n    String(existing.projection_version ?? '')!==projectionVersion\n  ){\n    operations.push({\n      action:'UPDATE_CARD',\n      card_id:existing.card_id,\n      name:title,\n      desc:description,\n      reason_code:'PROJECTION_CONTENT_CHANGED'\n    });\n  }\n}\n\nif(operations.length>0){\n  operations.push({\n    action:'RECORD_PROJECTION_AFTER_TRELLO_SUCCESS',\n    customer_event_id:input.customer_event_id,\n    projection_version:projectionVersion,\n    projection_hash:projectionHash,\n    target_list_name:targetListName\n  });\n}\n\nreturn {json:{\n  status:operations.length>0 ? 'planned' : 'in_sync',\n  projection,\n  operations,\n  blockers:[]\n}};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Canonical Projection Context": {
+      "main": [
+        [
+          {
+            "node": "Plan Canonical Trello Projection",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}

@@ -1,0 +1,57 @@
+{
+  "canonical_id": "CM-WF-071",
+  "lab_workflow_id": "GKmiaRZAIf9O1Lni",
+  "name": "[LAB][F6] CM-WF-071 Trello Human Actions",
+  "active": false,
+  "isArchived": false,
+  "versionId": "fe3f1821-dc84-4975-9093-9abfce5b1cdf",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "d9f09eaf-1042-4de3-a281-51f66c041aef",
+      "name": "Receive Trello Human Move",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "caae7e6b-873a-40c4-ad8d-5411783f7d65",
+      "name": "Run F2 Trello Commercial Guard",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "// GENERATED ADAPTER FOR n8n CODE NODE.\n// Canonical source: src/functions/f2/state-guard.mjs\n// Scope: commercial Trello human moves only.\n\nconst COMMERCIAL_NEXT = {\n  PRE_QUOTE: new Set([\"ORCAMENTO\"]),\n  ORCAMENTO: new Set([\"RESPOSTA\", \"FAC_DUVIDAS\", \"NEGOCIACAO\", \"FECHAMENTO\", \"PERDIDO\"]),\n  RESPOSTA: new Set([\"FAC_DUVIDAS\", \"NEGOCIACAO\", \"FECHAMENTO\", \"PERDIDO\", \"ORCAMENTO\"]),\n  FAC_DUVIDAS: new Set([\"RESPOSTA\", \"NEGOCIACAO\", \"FECHAMENTO\", \"PERDIDO\"]),\n  NEGOCIACAO: new Set([\"FECHAMENTO\", \"FAC_DUVIDAS\", \"PERDIDO\"]),\n  FECHAMENTO: new Set([\"GANHO\", \"PERDIDO\"]),\n  GANHO: new Set(),\n  PERDIDO: new Set(),\n};\n\nfunction allow() {\n  return { decision: \"allow\", allowed: true, reasonCode: null, nextAction: null };\n}\n\nfunction deny(reasonCode, nextAction = null) {\n  return { decision: \"deny\", allowed: false, reasonCode, nextAction };\n}\n\nfunction guardCommercialTransition({\n  from,\n  to,\n  actorType = \"system\",\n  expectedVersion = null,\n  actualVersion = null,\n  humanLock = false,\n  quoteSent = false,\n  contractStatus = null,\n  paymentVerified = false,\n  paymentKind = null,\n  lossReasonType = null,\n  source = \"system\",\n  trelloProjectionValid = false,\n}) {\n  if (expectedVersion !== null && actualVersion !== null && expectedVersion !== actualVersion) {\n    return deny(\"STATE_VERSION_CONFLICT\", \"reload_reevaluate\");\n  }\n  if (!(from in COMMERCIAL_NEXT) || !(to in COMMERCIAL_NEXT)) {\n    return deny(\"UNKNOWN_COMMERCIAL_STAGE\");\n  }\n  if (humanLock && actorType !== \"human\") {\n    return deny(\"HUMAN_LOCK_ACTIVE\", \"human_required\");\n  }\n  if (source === \"trello\" && !(actorType === \"human\" && trelloProjectionValid)) {\n    return deny(\"TRELLO_COMMAND_NOT_GUARDED\");\n  }\n  if (!COMMERCIAL_NEXT[from].has(to)) {\n    return deny(\"COMMERCIAL_TRANSITION_NOT_ALLOWED\");\n  }\n  if (to === \"ORCAMENTO\" && !quoteSent) {\n    return deny(\"ORCAMENTO_REQUIRES_QUOTE_SENT\");\n  }\n  if (to === \"PERDIDO\" && ![\"explicit\", \"human\"].includes(lossReasonType)) {\n    return deny(\"LOSS_REQUIRES_EXPLICIT_OR_HUMAN_EVIDENCE\");\n  }\n  if (to === \"GANHO\") {\n    if (from !== \"FECHAMENTO\") return deny(\"GANHO_REQUIRES_FECHAMENTO\");\n    if (contractStatus !== \"signed\") return deny(\"GANHO_REQUIRES_SIGNED_CONTRACT\");\n    if (!(paymentVerified && [\"signal\", \"full\"].includes(paymentKind))) {\n      return deny(\"GANHO_REQUIRES_VERIFIED_SIGNAL_OR_FULL_PAYMENT\");\n    }\n  }\n  return allow();\n}\n\nconst LIST_TO_STAGE = {\n  \"ORÇAMENTO\":\"ORCAMENTO\",\n  \"RESPOSTA\":\"RESPOSTA\",\n  \"FAC / DÚVIDAS\":\"FAC_DUVIDAS\",\n  \"NEGOCIAÇÃO — BOT / HUMANO\":\"NEGOCIACAO\",\n  \"FECHAMENTO\":\"FECHAMENTO\",\n  \"GANHO\":\"GANHO\",\n  \"PERDIDO\":\"PERDIDO\",\n};\n\nconst input=$json;\nconst targetStage=LIST_TO_STAGE[input.target_list_name] ?? null;\nconst canonicalStage=String(input.commercial_stage ?? \"\");\nconst expectedVersion=input.projection_stage_version ?? null;\nconst actualVersion=input.stage_version ?? null;\n\nif(input.actor_authorized !== true){\n  return {json:{\n    status:\"denied\",\n    guard:{decision:\"deny\",allowed:false,reasonCode:\"TRELLO_ACTOR_NOT_AUTHORIZED\",nextAction:null},\n    target_stage:targetStage,\n    transition_request:null,\n    reprojection_required:true,\n    blockers:[\"TRELLO_ACTOR_NOT_AUTHORIZED\"]\n  }};\n}\n\nif(!input.customer_event_id || !input.card_event_id || input.customer_event_id !== input.card_event_id){\n  return {json:{\n    status:\"denied\",\n    guard:{decision:\"deny\",allowed:false,reasonCode:\"TRELLO_CARD_MAPPING_INVALID\",nextAction:null},\n    target_stage:targetStage,\n    transition_request:null,\n    reprojection_required:true,\n    blockers:[\"TRELLO_CARD_MAPPING_INVALID\"]\n  }};\n}\n\nif(!targetStage){\n  return {json:{\n    status:\"denied\",\n    guard:{decision:\"deny\",allowed:false,reasonCode:\"TRELLO_TARGET_LIST_NOT_CANONICAL\",nextAction:null},\n    target_stage:null,\n    transition_request:null,\n    reprojection_required:true,\n    blockers:[\"TRELLO_TARGET_LIST_NOT_CANONICAL\"]\n  }};\n}\n\nconst guard=guardCommercialTransition({\n  from:canonicalStage,\n  to:targetStage,\n  actorType:\"human\",\n  expectedVersion,\n  actualVersion,\n  humanLock:Boolean(input.human_lock),\n  quoteSent:Boolean(input.quote_sent),\n  contractStatus:input.contract_status ?? null,\n  paymentVerified:Boolean(input.payment_verified),\n  paymentKind:input.payment_kind ?? null,\n  lossReasonType:targetStage===\"PERDIDO\" ? \"human\" : null,\n  source:\"trello\",\n  trelloProjectionValid:true,\n});\n\nreturn {json:{\n  status:guard.allowed ? \"authorized\" : \"denied\",\n  guard,\n  target_stage:targetStage,\n  transition_request:guard.allowed ? {\n    action:\"TRANSITION_CUSTOMER_EVENT\",\n    customer_event_id:input.customer_event_id,\n    from_stage:canonicalStage,\n    to_stage:targetStage,\n    expected_version:actualVersion,\n    actor_type:\"human\",\n    source:\"trello\",\n    source_action_id:input.trello_action_id ?? null\n  } : null,\n  reprojection_required:!guard.allowed,\n  blockers:guard.allowed ? [] : [guard.reasonCode]\n}};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Trello Human Move": {
+      "main": [
+        [
+          {
+            "node": "Run F2 Trello Commercial Guard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}
