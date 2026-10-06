@@ -1,0 +1,83 @@
+{
+  "canonical_id": "CM-WF-080",
+  "lab_workflow_id": "PWvkwqnVvEoUBynf",
+  "name": "[LAB][F6] CM-WF-080 Follow-up Controller",
+  "active": false,
+  "isArchived": false,
+  "versionId": "c0485dd0-8f3b-44d4-8dc7-ce83f42d04a7",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "12130f75-ae10-493d-a575-a212231976eb",
+      "name": "Receive Follow-up Context",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "44e1eee7-805b-453b-9127-2fe42c2ac4e2",
+      "name": "Run F2 Follow-up Policy",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "// GENERATED ADAPTER FOR n8n CODE NODE.\n// Canonical source: src/functions/f2/date-promotion.mjs#evaluateFollowupPolicy\n\nfunction evaluateFollowupPolicy({\n  automaticSentCount = 0,\n  customerResponded = false,\n  humanLock = false,\n  commercialStage = null,\n  quoteChanged = false,\n  delayHours = 23,\n}) {\n  if (customerResponded) return { action: \"cancel\", reasonCode: \"CUSTOMER_RESPONDED\", discountAllowed: false };\n  if (humanLock) return { action: \"skip\", reasonCode: \"HUMAN_LOCK_ACTIVE\", discountAllowed: false };\n  if ([\"GANHO\", \"PERDIDO\"].includes(commercialStage)) {\n    return { action: \"cancel\", reasonCode: \"TERMINAL_COMMERCIAL_STAGE\", discountAllowed: false };\n  }\n  if (quoteChanged) return { action: \"cancel\", reasonCode: \"QUOTE_CHANGED\", discountAllowed: false };\n  if (automaticSentCount >= 1) {\n    return { action: \"none\", reasonCode: \"AUTO_FOLLOWUP_LIMIT_REACHED\", discountAllowed: false };\n  }\n  return {\n    action: \"schedule\",\n    reasonCode: \"FIRST_AUTOMATIC_FOLLOWUP\",\n    delayHours,\n    discountAllowed: false,\n  };\n}\n\nreturn {json:evaluateFollowupPolicy({\n  automaticSentCount:Number($json.automatic_sent_count ?? $json.automaticSentCount ?? 0),\n  customerResponded:Boolean($json.customer_responded ?? $json.customerResponded),\n  humanLock:Boolean($json.human_lock ?? $json.humanLock),\n  commercialStage:$json.commercial_stage ?? $json.commercialStage ?? null,\n  quoteChanged:Boolean($json.quote_changed ?? $json.quoteChanged),\n  delayHours:Number($json.delay_hours ?? $json.delayHours ?? 23),\n})};\n"
+      }
+    },
+    {
+      "id": "73d02501-d1d3-4d36-8148-73d7e1d0075f",
+      "name": "Plan Follow-up Lifecycle",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst policy=$json;\nconst input=$('Receive Follow-up Context').item.json;\nconst existing=input.existing_followup ?? null;\nconst operations=[];\n\nfunction addHours(iso,hours){\n  const date=new Date(iso);\n  if(Number.isNaN(date.getTime())) return null;\n  return new Date(date.getTime()+hours*3600000).toISOString();\n}\nfunction timeReached(now,due){\n  const a=new Date(now).getTime();\n  const b=new Date(due).getTime();\n  return Number.isFinite(a)&&Number.isFinite(b)&&a>=b;\n}\n\nif(policy.discountAllowed!==false){\n  return {json:{\n    status:'blocked',\n    policy,\n    operations:[],\n    blockers:['AUTOMATIC_FOLLOWUP_DISCOUNT_FORBIDDEN']\n  }};\n}\n\nif(policy.action==='cancel' || policy.action==='skip'){\n  if(existing && existing.status==='pending'){\n    operations.push({\n      action:'CANCEL_FOLLOWUP',\n      followup_id:existing.id ?? null,\n      reason_code:policy.reasonCode\n    });\n  }\n  return {json:{\n    status:'cancelled_or_skipped',\n    policy,\n    operations,\n    blockers:[]\n  }};\n}\n\nif(policy.action==='none'){\n  return {json:{\n    status:'no_action',\n    policy,\n    operations:[],\n    blockers:[]\n  }};\n}\n\nif(policy.action!=='schedule'){\n  return {json:{\n    status:'blocked',\n    policy,\n    operations:[],\n    blockers:['UNKNOWN_FOLLOWUP_POLICY_ACTION']\n  }};\n}\n\nconst key='followup:'+String(input.customer_event_id)+':quote:'+String(input.quote_version ?? 'na')+':auto1';\n\nif(input.trigger_type==='quote_sent'){\n  if(existing && existing.status==='pending'){\n    return {json:{status:'already_scheduled',policy,operations:[],blockers:[]}};\n  }\n  const dueAt=addHours(input.quote_sent_at,policy.delayHours);\n  if(!dueAt){\n    return {json:{status:'blocked',policy,operations:[],blockers:['QUOTE_SENT_AT_INVALID']}};\n  }\n  operations.push({\n    action:'UPSERT_FOLLOWUP',\n    idempotency_key:key,\n    customer_event_id:input.customer_event_id,\n    due_at:dueAt,\n    automatic:true,\n    ordinal:1,\n    template_key:'FOLLOWUP_23H_NO_DISCOUNT',\n    discount_allowed:false,\n    status:'pending'\n  });\n  return {json:{\n    status:'scheduled',\n    policy,\n    operations,\n    next_action_at:dueAt,\n    blockers:[]\n  }};\n}\n\nif(input.trigger_type==='schedule_tick'){\n  const dueAt=existing?.due_at ?? null;\n  if(!existing || existing.status!=='pending'){\n    return {json:{status:'no_pending_followup',policy,operations:[],blockers:[]}};\n  }\n  if(!timeReached(input.now,dueAt)){\n    return {json:{status:'not_due',policy,operations:[],next_action_at:dueAt,blockers:[]}};\n  }\n  operations.push({\n    action:'REQUEST_RESPONSE_COMPOSITION',\n    customer_event_id:input.customer_event_id,\n    response_action:'COMPOSE_FOLLOWUP_23H_NO_DISCOUNT',\n    followup_id:existing.id ?? null,\n    idempotency_key:key,\n    discount_allowed:false\n  });\n  operations.push({\n    action:'EMIT_EVENT',\n    event_type:'followup_due',\n    customer_event_id:input.customer_event_id,\n    followup_id:existing.id ?? null\n  });\n  return {json:{\n    status:'due_shadow',\n    policy,\n    operations,\n    blockers:['SEND_DISABLED']\n  }};\n}\n\nreturn {json:{\n  status:'no_action',\n  policy,\n  operations:[],\n  blockers:[]\n}};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Follow-up Context": {
+      "main": [
+        [
+          {
+            "node": "Run F2 Follow-up Policy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run F2 Follow-up Policy": {
+      "main": [
+        [
+          {
+            "node": "Plan Follow-up Lifecycle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}
