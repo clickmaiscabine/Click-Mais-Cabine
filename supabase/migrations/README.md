@@ -27,3 +27,17 @@ Cria `business` + `integrations`, liga sessão a contato/evento e adiciona os m�
 O schema do banco vivo e as migrations versionadas devem convergir.
 
 Segredo, dump com PII ou dado operacional real nunca entra nesta pasta.
+
+
+## Fase 1 / v1.2.1 — DEV / review
+
+- `20261006002526_f1_catalog_schema_v121.sql`
+- `20261006002712_f1_business_compatibility_v121.sql`
+- `20261006002755_f1_projection_audit_v121.sql`
+- `20261006002944_f1_seed_canonical_catalog_v121.sql`
+- `20261006003031_f1_fact_history_helper_v121.sql`
+- `20261006003237_f1_fk_index_hardening_v121.sql`
+
+Suíte de aceitação: `../tests/f1_schema_v121_acceptance.sql`.
+
+Status: aplicada no ambiente DEV atual e em revisão; não homologada para avanço a F2.
