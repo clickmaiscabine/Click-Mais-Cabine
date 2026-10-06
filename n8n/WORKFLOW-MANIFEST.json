@@ -50,25 +50,29 @@
       "slug": "quote-engine",
       "name": "Quote Engine",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [
         "f2_deterministic_library"
       ],
-      "purpose": "Executar readiness, localidade e pricing determinístico; produzir quote_generated/quote_ready."
+      "purpose": "Executar readiness, localidade e pricing determinístico; produzir quote_generated/quote_ready.",
+      "lab_workflow_id": "3LlqxQwA5JZBoaZd",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-031",
       "slug": "quote-presentation",
       "name": "Quote Presentation",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [
         "response_guard",
         "send_disabled"
       ],
-      "purpose": "Apresentar quote, qualificar evento e mover estágio para ORCAMENTO; produzir quote_sent."
+      "purpose": "Apresentar quote, qualificar evento e mover estágio para ORCAMENTO; produzir quote_sent.",
+      "lab_workflow_id": "q1ac0eQAPGcyAimY",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-040",
