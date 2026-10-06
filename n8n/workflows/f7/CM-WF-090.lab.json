@@ -1,0 +1,109 @@
+{
+  "canonical_id": "CM-WF-090",
+  "lab_workflow_id": "YnjJOBF1OkGvasWW",
+  "name": "[LAB][F7] CM-WF-090 Closing Intake",
+  "active": false,
+  "isArchived": false,
+  "versionId": "682dc01a-3e5b-4a36-b220-8d4e80da81c6",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "caaa2857-b6c8-4591-b439-902b62a5b165",
+      "name": "Receive Closing Context",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "efc4a97c-1a1f-40f6-8c77-76579a874f6a",
+      "name": "Prepare FECHAMENTO Guard Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst input=$json;\nreturn {json:{\n  from_stage:input.commercial_stage ?? null,\n  to_stage:'FECHAMENTO',\n  actor_type:input.actor_type ?? 'system',\n  expected_version:input.stage_version ?? null,\n  actual_version:input.stage_version ?? null,\n  human_lock:Boolean(input.human_lock),\n  quote_sent:Boolean(input.quote_sent),\n  source:'system'\n}};\n"
+      }
+    },
+    {
+      "id": "ab346ffb-37ed-4afd-9d2d-1d9a05f68f2f",
+      "name": "Run F2 FECHAMENTO Guard",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "// GENERATED ADAPTER FOR n8n CODE NODE.\n// Canonical source: src/functions/f2/state-guard.mjs#guardCommercialTransition\n\nconst COMMERCIAL_NEXT = {\n  PRE_QUOTE: new Set([\"ORCAMENTO\"]),\n  ORCAMENTO: new Set([\"RESPOSTA\", \"FAC_DUVIDAS\", \"NEGOCIACAO\", \"FECHAMENTO\", \"PERDIDO\"]),\n  RESPOSTA: new Set([\"FAC_DUVIDAS\", \"NEGOCIACAO\", \"FECHAMENTO\", \"PERDIDO\", \"ORCAMENTO\"]),\n  FAC_DUVIDAS: new Set([\"RESPOSTA\", \"NEGOCIACAO\", \"FECHAMENTO\", \"PERDIDO\"]),\n  NEGOCIACAO: new Set([\"FECHAMENTO\", \"FAC_DUVIDAS\", \"PERDIDO\"]),\n  FECHAMENTO: new Set([\"GANHO\", \"PERDIDO\"]),\n  GANHO: new Set(),\n  PERDIDO: new Set(),\n};\n\nfunction allow() {\n  return { decision: \"allow\", allowed: true, reasonCode: null, nextAction: null };\n}\nfunction deny(reasonCode, nextAction = null) {\n  return { decision: \"deny\", allowed: false, reasonCode, nextAction };\n}\nfunction guardCommercialTransition({\n  from,\n  to,\n  actorType = \"system\",\n  expectedVersion = null,\n  actualVersion = null,\n  humanLock = false,\n  quoteSent = false,\n  contractStatus = null,\n  paymentVerified = false,\n  paymentKind = null,\n  lossReasonType = null,\n  source = \"system\",\n  trelloProjectionValid = false,\n}) {\n  if (expectedVersion !== null && actualVersion !== null && expectedVersion !== actualVersion) {\n    return deny(\"STATE_VERSION_CONFLICT\", \"reload_reevaluate\");\n  }\n  if (!(from in COMMERCIAL_NEXT) || !(to in COMMERCIAL_NEXT)) {\n    return deny(\"UNKNOWN_COMMERCIAL_STAGE\");\n  }\n  if (humanLock && actorType !== \"human\") {\n    return deny(\"HUMAN_LOCK_ACTIVE\", \"human_required\");\n  }\n  if (source === \"trello\" && !(actorType === \"human\" && trelloProjectionValid)) {\n    return deny(\"TRELLO_COMMAND_NOT_GUARDED\");\n  }\n  if (!COMMERCIAL_NEXT[from].has(to)) {\n    return deny(\"COMMERCIAL_TRANSITION_NOT_ALLOWED\");\n  }\n  if (to === \"ORCAMENTO\" && !quoteSent) {\n    return deny(\"ORCAMENTO_REQUIRES_QUOTE_SENT\");\n  }\n  if (to === \"PERDIDO\" && ![\"explicit\", \"human\"].includes(lossReasonType)) {\n    return deny(\"LOSS_REQUIRES_EXPLICIT_OR_HUMAN_EVIDENCE\");\n  }\n  if (to === \"GANHO\") {\n    if (from !== \"FECHAMENTO\") return deny(\"GANHO_REQUIRES_FECHAMENTO\");\n    if (contractStatus !== \"signed\") return deny(\"GANHO_REQUIRES_SIGNED_CONTRACT\");\n    if (!(paymentVerified && [\"signal\", \"full\"].includes(paymentKind))) {\n      return deny(\"GANHO_REQUIRES_VERIFIED_SIGNAL_OR_FULL_PAYMENT\");\n    }\n  }\n  return allow();\n}\n\nreturn {json:guardCommercialTransition({\n  from:$json.from_stage ?? $json.from ?? null,\n  to:$json.to_stage ?? $json.to ?? null,\n  actorType:$json.actor_type ?? $json.actorType ?? \"system\",\n  expectedVersion:$json.expected_version ?? $json.expectedVersion ?? null,\n  actualVersion:$json.actual_version ?? $json.actualVersion ?? null,\n  humanLock:Boolean($json.human_lock ?? $json.humanLock),\n  quoteSent:Boolean($json.quote_sent ?? $json.quoteSent),\n  contractStatus:$json.contract_status ?? $json.contractStatus ?? null,\n  paymentVerified:Boolean($json.payment_verified ?? $json.paymentVerified),\n  paymentKind:$json.payment_kind ?? $json.paymentKind ?? null,\n  lossReasonType:$json.loss_reason_type ?? $json.lossReasonType ?? null,\n  source:$json.source ?? \"system\",\n  trelloProjectionValid:Boolean($json.trello_projection_valid ?? $json.trelloProjectionValid),\n})};\n"
+      }
+    },
+    {
+      "id": "0cfb4534-c580-4b40-babf-5f8420abfae3",
+      "name": "Plan Closing Intake",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst guard=$json;\nconst input=$('Receive Closing Context').item.json;\n\nif(!guard.allowed){\n  return {json:{\n    status:guard.nextAction==='human_required'?'human_required':'blocked',\n    guard,\n    operations:[],\n    reservation_guaranteed:false,\n    blockers:[guard.reasonCode]\n  }};\n}\n\nconst operations=[{\n  action:'TRANSITION_CUSTOMER_EVENT',\n  customer_event_id:input.customer_event_id,\n  from_stage:input.commercial_stage,\n  to_stage:'FECHAMENTO',\n  expected_version:input.stage_version,\n  reason_code:input.trigger_type==='closing_form_callback'?'CLOSING_FORM_RECEIVED':'CUSTOMER_WANTS_TO_CLOSE',\n  source_event_id:input.source_event_id ?? null\n}];\n\nconst form=input.form_submission ?? null;\nif(form && typeof form==='object'){\n  const allowedFacts=[\n    'customer_name','customer_email','customer_phone',\n    'event_date','event_start_time','locality','event_type',\n    'venue_name','venue_address','service_interest'\n  ];\n  for(const key of allowedFacts){\n    const value=form[key];\n    if(value===null || value===undefined || value==='') continue;\n    operations.push({\n      action:'RECORD_EVENT_FACT',\n      customer_event_id:input.customer_event_id,\n      fact_key:key,\n      fact_value:value,\n      fact_status:'known',\n      source_type:'customer',\n      source_ref:'closing_form',\n      source_event_id:input.source_event_id ?? null\n    });\n  }\n  operations.push({\n    action:'EMIT_EVENT',\n    event_type:'closing_form_received',\n    customer_event_id:input.customer_event_id,\n    idempotency_key:'closing-form:'+String(input.form_submission_id ?? input.source_event_id ?? input.customer_event_id)\n  });\n  operations.push({\n    action:'UPSERT_MODULE_STATE',\n    customer_event_id:input.customer_event_id,\n    module_code:'contract',\n    status:'in_progress',\n    ready:false\n  });\n}else{\n  operations.push({\n    action:'PRESENT_CLOSING_FORM',\n    customer_event_id:input.customer_event_id,\n    form_url:'https://clickmais-microsite.lia-regis.chatgpt.site'\n  });\n  operations.push({\n    action:'EMIT_EVENT',\n    event_type:'customer_wants_to_close',\n    customer_event_id:input.customer_event_id\n  });\n}\n\nreturn {json:{\n  status:'planned',\n  guard,\n  operations,\n  reservation_guaranteed:false,\n  availability_claim:'preliminary',\n  blockers:[]\n}};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Closing Context": {
+      "main": [
+        [
+          {
+            "node": "Prepare FECHAMENTO Guard Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare FECHAMENTO Guard Input": {
+      "main": [
+        [
+          {
+            "node": "Run F2 FECHAMENTO Guard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run F2 FECHAMENTO Guard": {
+      "main": [
+        [
+          {
+            "node": "Plan Closing Intake",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}
