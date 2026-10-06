@@ -130,33 +130,39 @@
       "slug": "trello-commercial-projection",
       "name": "Trello Commercial Projection",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [],
-      "purpose": "Criar/mover/atualizar card Comercial somente a partir do estado canônico; produzir trello_projection_updated."
+      "purpose": "Criar/mover/atualizar card Comercial somente a partir do estado canônico; produzir trello_projection_updated.",
+      "lab_workflow_id": "qr2WiKWr00oZMKbh",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-071",
       "slug": "trello-human-actions",
       "name": "Trello Human Actions",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [],
-      "purpose": "Transformar webhook Trello em comando humano validado por Guard."
+      "purpose": "Transformar webhook Trello em comando humano validado por Guard.",
+      "lab_workflow_id": "GKmiaRZAIf9O1Lni",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-080",
       "slug": "followup-controller",
       "name": "Follow-up Controller",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [
         "response_guard",
         "send_disabled"
       ],
-      "purpose": "Agendar, cancelar ou despachar follow-up permitido; produzir eventos de followup."
+      "purpose": "Agendar, cancelar ou despachar follow-up permitido; produzir eventos de followup.",
+      "lab_workflow_id": "PWvkwqnVvEoUBynf",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-090",
