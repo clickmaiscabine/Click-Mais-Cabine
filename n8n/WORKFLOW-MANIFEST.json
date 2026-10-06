@@ -169,40 +169,48 @@
       "slug": "closing-intake",
       "name": "Closing Intake",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [],
-      "purpose": "Receber intenção/formulário de fechamento e registrar dados; produzir closing_form_received."
+      "purpose": "Receber intenção/formulário de fechamento e registrar dados; produzir closing_form_received.",
+      "lab_workflow_id": "YnjJOBF1OkGvasWW",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-100",
       "slug": "contract-lifecycle",
       "name": "Contract Lifecycle",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [],
-      "purpose": "Gerar, enviar e sincronizar contrato Autentique; produzir contract events."
+      "purpose": "Gerar, enviar e sincronizar contrato Autentique; produzir contract events.",
+      "lab_workflow_id": "lAvm7OngNOegGy0i",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-110",
       "slug": "payment-intake-verification",
       "name": "Payment Intake & Verification",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [],
-      "purpose": "Extrair comprovante, comparar e solicitar verificação humana; produzir payment events."
+      "purpose": "Extrair comprovante, comparar e solicitar verificação humana; produzir payment events.",
+      "lab_workflow_id": "s8hNLWxabnCd5ayX",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-120",
       "slug": "win-operations-handoff",
       "name": "Win & Operations Handoff",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [],
-      "purpose": "Verificar critério GANHO, reserva e projeção Logística; produzir event_won."
+      "purpose": "Verificar critério GANHO, reserva e projeção Logística; produzir event_won.",
+      "lab_workflow_id": "H9XABktvCvmTw89q",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-130",
