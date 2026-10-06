@@ -1,0 +1,109 @@
+{
+  "canonical_id": "CM-WF-120",
+  "lab_workflow_id": "H9XABktvCvmTw89q",
+  "name": "[LAB][F7] CM-WF-120 Win & Operations Handoff",
+  "active": false,
+  "isArchived": false,
+  "versionId": "265bd80f-da26-4de9-808e-a839aebe5535",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "af57d30d-4fd0-4736-b550-91db7c901c3f",
+      "name": "Receive Win Gate Context",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "18922b27-d18b-4c6c-8cf0-2abec8fd71c8",
+      "name": "Prepare GANHO Guard Input",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst input=$json;\nreturn {json:{\n  from_stage:input.commercial_stage ?? null,\n  to_stage:'GANHO',\n  actor_type:'system',\n  expected_version:input.stage_version ?? null,\n  actual_version:input.stage_version ?? null,\n  human_lock:Boolean(input.human_lock),\n  contract_status:input.contract?.status ?? null,\n  payment_verified:input.payment?.human_status==='verified',\n  payment_kind:input.payment?.payment_kind ?? null,\n  source:'system'\n}};\n"
+      }
+    },
+    {
+      "id": "fe2adb79-047d-453b-891a-72bd29d8b6ab",
+      "name": "Run F2 GANHO Guard",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "// GENERATED ADAPTER FOR n8n CODE NODE.\n// Canonical source: src/functions/f2/state-guard.mjs#guardCommercialTransition\n\nconst COMMERCIAL_NEXT = {\n  PRE_QUOTE: new Set([\"ORCAMENTO\"]),\n  ORCAMENTO: new Set([\"RESPOSTA\", \"FAC_DUVIDAS\", \"NEGOCIACAO\", \"FECHAMENTO\", \"PERDIDO\"]),\n  RESPOSTA: new Set([\"FAC_DUVIDAS\", \"NEGOCIACAO\", \"FECHAMENTO\", \"PERDIDO\", \"ORCAMENTO\"]),\n  FAC_DUVIDAS: new Set([\"RESPOSTA\", \"NEGOCIACAO\", \"FECHAMENTO\", \"PERDIDO\"]),\n  NEGOCIACAO: new Set([\"FECHAMENTO\", \"FAC_DUVIDAS\", \"PERDIDO\"]),\n  FECHAMENTO: new Set([\"GANHO\", \"PERDIDO\"]),\n  GANHO: new Set(),\n  PERDIDO: new Set(),\n};\n\nfunction allow() {\n  return { decision: \"allow\", allowed: true, reasonCode: null, nextAction: null };\n}\nfunction deny(reasonCode, nextAction = null) {\n  return { decision: \"deny\", allowed: false, reasonCode, nextAction };\n}\nfunction guardCommercialTransition({\n  from,\n  to,\n  actorType = \"system\",\n  expectedVersion = null,\n  actualVersion = null,\n  humanLock = false,\n  quoteSent = false,\n  contractStatus = null,\n  paymentVerified = false,\n  paymentKind = null,\n  lossReasonType = null,\n  source = \"system\",\n  trelloProjectionValid = false,\n}) {\n  if (expectedVersion !== null && actualVersion !== null && expectedVersion !== actualVersion) {\n    return deny(\"STATE_VERSION_CONFLICT\", \"reload_reevaluate\");\n  }\n  if (!(from in COMMERCIAL_NEXT) || !(to in COMMERCIAL_NEXT)) {\n    return deny(\"UNKNOWN_COMMERCIAL_STAGE\");\n  }\n  if (humanLock && actorType !== \"human\") {\n    return deny(\"HUMAN_LOCK_ACTIVE\", \"human_required\");\n  }\n  if (source === \"trello\" && !(actorType === \"human\" && trelloProjectionValid)) {\n    return deny(\"TRELLO_COMMAND_NOT_GUARDED\");\n  }\n  if (!COMMERCIAL_NEXT[from].has(to)) {\n    return deny(\"COMMERCIAL_TRANSITION_NOT_ALLOWED\");\n  }\n  if (to === \"ORCAMENTO\" && !quoteSent) {\n    return deny(\"ORCAMENTO_REQUIRES_QUOTE_SENT\");\n  }\n  if (to === \"PERDIDO\" && ![\"explicit\", \"human\"].includes(lossReasonType)) {\n    return deny(\"LOSS_REQUIRES_EXPLICIT_OR_HUMAN_EVIDENCE\");\n  }\n  if (to === \"GANHO\") {\n    if (from !== \"FECHAMENTO\") return deny(\"GANHO_REQUIRES_FECHAMENTO\");\n    if (contractStatus !== \"signed\") return deny(\"GANHO_REQUIRES_SIGNED_CONTRACT\");\n    if (!(paymentVerified && [\"signal\", \"full\"].includes(paymentKind))) {\n      return deny(\"GANHO_REQUIRES_VERIFIED_SIGNAL_OR_FULL_PAYMENT\");\n    }\n  }\n  return allow();\n}\n\nreturn {json:guardCommercialTransition({\n  from:$json.from_stage ?? $json.from ?? null,\n  to:$json.to_stage ?? $json.to ?? null,\n  actorType:$json.actor_type ?? $json.actorType ?? \"system\",\n  expectedVersion:$json.expected_version ?? $json.expectedVersion ?? null,\n  actualVersion:$json.actual_version ?? $json.actualVersion ?? null,\n  humanLock:Boolean($json.human_lock ?? $json.humanLock),\n  quoteSent:Boolean($json.quote_sent ?? $json.quoteSent),\n  contractStatus:$json.contract_status ?? $json.contractStatus ?? null,\n  paymentVerified:Boolean($json.payment_verified ?? $json.paymentVerified),\n  paymentKind:$json.payment_kind ?? $json.paymentKind ?? null,\n  lossReasonType:$json.loss_reason_type ?? $json.lossReasonType ?? null,\n  source:$json.source ?? \"system\",\n  trelloProjectionValid:Boolean($json.trello_projection_valid ?? $json.trelloProjectionValid),\n})};\n"
+      }
+    },
+    {
+      "id": "0e09370d-104a-48ac-864b-a265f2096c58",
+      "name": "Plan Win and Operations Handoff",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        672,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst guard=$json;\nconst input=$('Receive Win Gate Context').item.json;\n\nif(!guard.allowed){\n  return {json:{\n    status:guard.nextAction==='human_required'?'human_required':'blocked',\n    operations:[],\n    guard,\n    blockers:[guard.reasonCode]\n  }};\n}\n\nconst eventId=input.customer_event_id;\nconst operations=[{\n  action:'TRANSITION_CUSTOMER_EVENT',\n  customer_event_id:eventId,\n  from_stage:'FECHAMENTO',\n  to_stage:'GANHO',\n  expected_version:input.stage_version,\n  reason_code:'SIGNED_AND_VERIFIED_PAYMENT'\n}];\n\nif(input.reservation?.status!=='confirmed'){\n  operations.push({\n    action:'UPSERT_RESERVATION',\n    idempotency_key:'reservation:'+String(eventId),\n    customer_event_id:eventId,\n    status:'confirmed',\n    source:'win_gate',\n    reason_code:'SIGNED_AND_VERIFIED_PAYMENT'\n  });\n}\n\noperations.push({\n  action:'UPSERT_LOGISTICS_RECORD',\n  idempotency_key:'logistics-record:'+String(eventId),\n  customer_event_id:eventId,\n  status:'pending'\n});\n\nif(!input.logistics_projection?.card_id){\n  operations.push({\n    action:'UPSERT_LOGISTICS_PROJECTION',\n    idempotency_key:'trello:logistics:'+String(eventId),\n    customer_event_id:eventId,\n    board_name:'3.1 - LOGISTICA',\n    target_list_name:'CONTRATOS EM ANDAMENTO',\n    preserve_existing_structure:true,\n    move_other_lists:false\n  });\n}\n\nif((input.operational_stage ?? 'NOT_STARTED')==='NOT_STARTED'){\n  operations.push({\n    action:'TRANSITION_OPERATIONAL_STAGE',\n    customer_event_id:eventId,\n    from_stage:'NOT_STARTED',\n    to_stage:'PRE_EVENT',\n    requires_commercial_stage:'GANHO'\n  });\n}\n\noperations.push({\n  action:'EMIT_EVENT',\n  event_type:'event_won',\n  customer_event_id:eventId,\n  idempotency_key:'event-won:'+String(eventId)\n});\n\nreturn {json:{\n  status:'planned',\n  guard,\n  operations,\n  reservation_confirmed:true,\n  logistics_board_structure_change:false,\n  blockers:[]\n}};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Win Gate Context": {
+      "main": [
+        [
+          {
+            "node": "Prepare GANHO Guard Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare GANHO Guard Input": {
+      "main": [
+        [
+          {
+            "node": "Run F2 GANHO Guard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run F2 GANHO Guard": {
+      "main": [
+        [
+          {
+            "node": "Plan Win and Operations Handoff",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}

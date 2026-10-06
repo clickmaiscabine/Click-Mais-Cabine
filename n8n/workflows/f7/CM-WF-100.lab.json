@@ -1,0 +1,57 @@
+{
+  "canonical_id": "CM-WF-100",
+  "lab_workflow_id": "lAvm7OngNOegGy0i",
+  "name": "[LAB][F7] CM-WF-100 Contract Lifecycle",
+  "active": false,
+  "isArchived": false,
+  "versionId": "55f7d8f5-0ec3-453e-813e-48ac36b7dc89",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "9630abee-ec54-4920-8184-7f9612c474bb",
+      "name": "Receive Contract Context",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "457f9800-c4b3-4828-8ef6-82a2b7592962",
+      "name": "Plan Contract Lifecycle",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst input=$json;\nconst trigger=String(input.trigger_type ?? '');\nconst current=input.latest_contract ?? null;\nconst seen=new Set(Array.isArray(input.seen_provider_event_ids)?input.seen_provider_event_ids:[]);\n\nif(input.human_lock){\n  return {json:{status:'human_required',operations:[],blockers:['HUMAN_LOCK_ACTIVE']}};\n}\n\nif(trigger==='closing_ready'){\n  if(current && ['preparing','sent','signed'].includes(current.status)){\n    return {json:{\n      status:'no_action',\n      operations:[],\n      contract_snapshot:current,\n      blockers:[]\n    }};\n  }\n\n  const nextVersion=Number(input.latest_contract_version ?? current?.contract_version ?? 0)+1;\n  const key='contract:'+String(input.customer_event_id)+':v'+String(nextVersion);\n  return {json:{\n    status:'adapter_required',\n    operations:[\n      {\n        action:'CREATE_CONTRACT_RECORD',\n        idempotency_key:key,\n        customer_event_id:input.customer_event_id,\n        contract_version:nextVersion,\n        provider:'autentique',\n        status:'preparing',\n        source_event_id:input.source_event_id ?? null\n      },\n      {\n        action:'REQUEST_AUTENTIQUE_CREATE',\n        idempotency_key:key,\n        customer_event_id:input.customer_event_id,\n        contract_version:nextVersion\n      }\n    ],\n    blockers:['AUTENTIQUE_ADAPTER_NOT_CONNECTED']\n  }};\n}\n\nif(trigger==='provider_webhook'){\n  const providerEventId=input.provider_event_id ?? null;\n  if(!providerEventId){\n    return {json:{status:'dead_letter',operations:[{action:'DEAD_LETTER',error_class:'CONTRACT_PROVIDER_EVENT_ID_MISSING'}],blockers:['CONTRACT_PROVIDER_EVENT_ID_MISSING']}};\n  }\n  if(seen.has(providerEventId)){\n    return {json:{status:'duplicate_noop',operations:[],blockers:[]}};\n  }\n  if(!current || !current.id){\n    return {json:{status:'dead_letter',operations:[{action:'DEAD_LETTER',error_class:'CONTRACT_MAPPING_NOT_FOUND'}],blockers:['CONTRACT_MAPPING_NOT_FOUND']}};\n  }\n\n  const incoming=String(input.provider_status ?? '').toLowerCase();\n  const rank={not_started:0,preparing:1,sent:2,signed:3};\n  if(!['sent','signed','cancelled'].includes(incoming)){\n    return {json:{status:'human_required',operations:[{action:'CREATE_HUMAN_TASK',reason_code:'CONTRACT_PROVIDER_STATUS_UNKNOWN'}],blockers:['CONTRACT_PROVIDER_STATUS_UNKNOWN']}};\n  }\n\n  if(incoming==='cancelled' && current.status==='signed'){\n    return {json:{\n      status:'human_required',\n      operations:[\n        {action:'ENABLE_HUMAN_LOCK',reason_code:'NON_STANDARD_POST_CONTRACT_CHANGE'},\n        {action:'CREATE_HUMAN_TASK',reason_code:'NON_STANDARD_POST_CONTRACT_CHANGE'},\n        {action:'RECORD_PROVIDER_EVENT',provider_event_id:providerEventId,ignored:false}\n      ],\n      blockers:['NON_STANDARD_POST_CONTRACT_CHANGE']\n    }};\n  }\n\n  if(current.status==='signed' && incoming!=='signed'){\n    return {json:{\n      status:'stale_noop',\n      operations:[{action:'RECORD_PROVIDER_EVENT',provider_event_id:providerEventId,ignored:true,reason_code:'SIGNED_CONTRACT_NO_REGRESSION'}],\n      blockers:[]\n    }};\n  }\n\n  if(incoming!=='cancelled' && rank[incoming] < (rank[current.status] ?? -1)){\n    return {json:{\n      status:'stale_noop',\n      operations:[{action:'RECORD_PROVIDER_EVENT',provider_event_id:providerEventId,ignored:true,reason_code:'CONTRACT_STATUS_REGRESSION'}],\n      blockers:[]\n    }};\n  }\n\n  const operations=[\n    {\n      action:'UPDATE_CONTRACT_STATUS',\n      contract_id:current.id,\n      provider_event_id:providerEventId,\n      from_status:current.status,\n      to_status:incoming,\n      source_event_id:input.source_event_id ?? null\n    },\n    {action:'RECORD_PROVIDER_EVENT',provider_event_id:providerEventId,ignored:false}\n  ];\n  if(incoming==='sent') operations.push({action:'EMIT_EVENT',event_type:'contract_sent',customer_event_id:input.customer_event_id});\n  if(incoming==='signed') operations.push({action:'EMIT_EVENT',event_type:'contract_signed',customer_event_id:input.customer_event_id});\n\n  return {json:{status:'planned',operations,blockers:[]}};\n}\n\nreturn {json:{status:'blocked',operations:[],blockers:['CONTRACT_TRIGGER_UNKNOWN']}};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Contract Context": {
+      "main": [
+        [
+          {
+            "node": "Plan Contract Lifecycle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}
