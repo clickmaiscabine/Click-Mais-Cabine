@@ -1,0 +1,57 @@
+{
+  "canonical_id": "CM-WF-910",
+  "lab_workflow_id": "p8KBlobl5UVJe4CC",
+  "name": "[LAB][F11] CM-WF-910 Replay & Shadow Evaluator",
+  "active": false,
+  "isArchived": false,
+  "versionId": "d23028cd-1b01-4717-b805-ff90c0549615",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "44e7f77f-9a0f-4b05-8125-43462f76ffa7",
+      "name": "Receive Replay Cases",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "0848702b-39d1-4f23-9e02-b3475bc93c97",
+      "name": "Evaluate Replay and Shadow Cases",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst input=$json;\nconst cases=Array.isArray(input.cases)?input.cases:[];\n\nfunction stable(value){\n  if(value===null || typeof value!=='object') return JSON.stringify(value);\n  if(Array.isArray(value)) return '['+value.map(stable).join(',')+']';\n  return '{'+Object.keys(value).sort().map(k=>JSON.stringify(k)+':'+stable(value[k])).join(',')+'}';\n}\nfunction equal(a,b){ return stable(a)===stable(b); }\nfunction subset(expected,actual){\n  if(expected===null || typeof expected!=='object') return equal(expected,actual);\n  if(Array.isArray(expected)) return equal(expected,actual);\n  if(actual===null || typeof actual!=='object') return false;\n  return Object.keys(expected).every((key)=>subset(expected[key],actual[key]));\n}\nfunction pushCheck(checks,name,pass,details=null){\n  checks.push({name,pass:Boolean(pass),details});\n}\nfunction answerChecks(expected,response,checks){\n  const c=expected ?? {};\n  const text=response===null || response===undefined ? '' : String(response);\n  if(Object.prototype.hasOwnProperty.call(c,'response_required')){\n    pushCheck(checks,'response_required',c.response_required ? text.length>0 : text.length===0,{length:text.length});\n  }\n  if(Array.isArray(c.must_include)){\n    for(const value of c.must_include) pushCheck(checks,'must_include:'+value,text.includes(String(value)));\n  }\n  if(Array.isArray(c.must_not_include)){\n    for(const value of c.must_not_include) pushCheck(checks,'must_not_include:'+value,!text.includes(String(value)));\n  }\n  if(Number.isFinite(Number(c.max_chars))){\n    pushCheck(checks,'max_chars',text.length<=Number(c.max_chars),{actual:text.length,max:Number(c.max_chars)});\n  }\n  if(Object.prototype.hasOwnProperty.call(c,'exact_response')){\n    pushCheck(checks,'exact_response',text===String(c.exact_response));\n  }\n  if(c.forbid_internal_tier===true){\n    pushCheck(checks,'forbid_internal_tier',!/\\bT\\d{3,5}\\b/i.test(text));\n  }\n}\n\nconst evaluations=[];\nfor(const entry of cases){\n  const fixture=entry?.fixture ?? {};\n  const candidate=entry?.candidate ?? {};\n  const expected=fixture.expected_ref ?? entry?.expected_ref ?? null;\n  const checks=[];\n\n  const effects=Array.isArray(candidate.side_effects)?candidate.side_effects:[];\n  pushCheck(checks,'zero_side_effects',effects.length===0,{count:effects.length});\n\n  if(expected){\n    if(Object.prototype.hasOwnProperty.call(expected,'action')){\n      pushCheck(checks,'action_match',equal(expected.action,candidate.action ?? null),{\n        expected:expected.action,actual:candidate.action ?? null\n      });\n    }\n    if(Object.prototype.hasOwnProperty.call(expected,'state')){\n      pushCheck(checks,'state_match',subset(expected.state,candidate.state ?? null),{\n        expected:expected.state,actual:candidate.state ?? null\n      });\n    }\n    if(Object.prototype.hasOwnProperty.call(expected,'guard')){\n      pushCheck(checks,'guard_match',subset(expected.guard,candidate.guard ?? null),{\n        expected:expected.guard,actual:candidate.guard ?? null\n      });\n    }\n    answerChecks(expected.answer_constraints,candidate.response,checks);\n  }\n\n  const failed=checks.filter(c=>!c.pass);\n  let verdict='not_evaluated';\n  if(expected){\n    verdict=failed.length?'fail':(expected.review_required===true?'review':'pass');\n  }else if(effects.length>0){\n    verdict='fail';\n  }\n\n  const metrics={\n    checks_total:checks.length,\n    checks_passed:checks.filter(c=>c.pass).length,\n    checks_failed:failed.length,\n    side_effect_count:effects.length,\n    pass_rate:checks.length ? checks.filter(c=>c.pass).length/checks.length : null\n  };\n\n  evaluations.push({\n    fixture_id:fixture.id ?? entry?.fixture_id ?? null,\n    input_event_id:fixture.input_event_id ?? null,\n    customer_event_id:fixture.customer_event_id ?? null,\n    correlation_id:fixture.correlation_id ?? null,\n    verdict,\n    checks,\n    metrics,\n    candidate_action:candidate.action ?? {},\n    candidate_response:candidate.response ?? null,\n    expected_ref:expected,\n    context_snapshot:fixture.context_snapshot ?? {},\n    side_effects:effects\n  });\n}\n\nconst summary={pass:0,fail:0,review:0,not_evaluated:0,total:evaluations.length};\nfor(const e of evaluations) summary[e.verdict]=(summary[e.verdict]??0)+1;\n\nconst operations=evaluations.map((e)=>({\n  action:'RECORD_SHADOW_EVALUATION',\n  input_event_id:e.input_event_id,\n  customer_event_id:e.customer_event_id,\n  correlation_id:e.correlation_id,\n  candidate_action:e.candidate_action,\n  candidate_response:e.candidate_response,\n  expected_ref:e.expected_ref,\n  verdict:e.verdict,\n  metrics:e.metrics,\n  context_snapshot:e.context_snapshot\n}));\n\nreturn {json:{\n  status:summary.fail>0?'fail':summary.review>0?'review':'pass',\n  replay_run_id:input.replay_run_id ?? null,\n  summary,\n  evaluations,\n  operations,\n  side_effects_executed:false,\n  blockers:[]\n}};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Replay Cases": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Replay and Shadow Cases",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}

@@ -293,20 +293,24 @@
       "slug": "audit-watchdog",
       "name": "Audit Watchdog",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [],
-      "purpose": "Detectar inconsistências, vencimentos e estados impossíveis; produzir alerts/tasks."
+      "purpose": "Detectar inconsistências, vencimentos e estados impossíveis; produzir alerts/tasks.",
+      "lab_workflow_id": "t75Whbitv18ToyFj",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-910",
       "slug": "replay-shadow-evaluator",
       "name": "Replay & Shadow Evaluator",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [],
-      "purpose": "Reexecutar fixtures/corpus e comparar candidatos em shadow; produzir shadow_evaluated."
+      "purpose": "Reexecutar fixtures/corpus e comparar candidatos em shadow; produzir shadow_evaluated.",
+      "lab_workflow_id": "p8KBlobl5UVJe4CC",
+      "lab_folder": "Click Mais OS - LAB"
     }
   ]
 }
