@@ -30,7 +30,8 @@
       {"id":"baseline-functional-v1.1","path":"docs/00_governanca/CLICK_MAIS_OS_BASELINE_FUNCIONAL_v1.1.md","status":"homologated"},
       {"id":"decision-register","path":"docs/00_governanca/REGISTRO_DE_DECISOES.md","status":"homologated"},
       {"id":"project-changelog","path":"docs/00_governanca/CHANGELOG_PROJETO.md","status":"homologated"},
-      {"id":"f1-schema-implementation-v1.2.1","path":"docs/07_projeto_executivo/F1_SCHEMA_IMPLEMENTATION_v1.2.1.md","status":"review"}
+      {"id":"f1-schema-implementation-v1.2.1","path":"docs/07_projeto_executivo/F1_SCHEMA_IMPLEMENTATION_v1.2.1.md","status":"review"},
+      {"id":"f2-deterministic-implementation-v1.2.1","path":"docs/07_projeto_executivo/F2_DETERMINISTIC_LIBRARY_IMPLEMENTATION_v1.2.1.md","status":"review"}
     ],
     "workflows": [],
     "subflows": [],
@@ -103,7 +104,10 @@
     ],
     "tooling": [
       {"id":"repository-validator","path":"scripts/validate_repository.py","status":"homologated"},
-      {"id":"github-validation-workflow","path":".github/workflows/validate.yml","status":"homologated"}
+      {"id":"github-validation-workflow","path":".github/workflows/validate.yml","status":"homologated"},
+      {"id":"f2-deterministic-library-v1.2.1","path":"src/functions/f2/index.mjs","status":"review"},
+      {"id":"f2-deterministic-tests-v1.2.1","path":"tests/f2/deterministic-library.test.mjs","status":"review"},
+      {"id":"f2-deterministic-ci","path":".github/workflows/f2-deterministic.yml","status":"review"}
     ]
   }
 }
