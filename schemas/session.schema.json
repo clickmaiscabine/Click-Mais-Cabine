@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://clickmaiscabine.local/schemas/session.schema.json",
-  "title": "Click Mais Runtime Session",
+  "title": "Click Mais Runtime Session v1.2.1",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -46,6 +46,20 @@
     "context": {
       "type": "object",
       "additionalProperties": true
+    },
+    "contact_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
+    },
+    "active_customer_event_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "uuid"
     },
     "created_at": {
       "type": "string",
