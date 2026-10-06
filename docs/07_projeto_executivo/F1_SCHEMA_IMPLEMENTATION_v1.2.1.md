@@ -79,18 +79,23 @@ A suíte é transacional e finaliza com `ROLLBACK`; fixtures não persistem.
 
 A Fase 0 v1.2.1 foi declarada pelo responsável como especificação executável vigente, mas o `main` ainda contém documentos de governança que anunciam v1.1. A implementação foi isolada nesta branch e não altera silenciosamente a arquitetura. A atualização integral do pacote canônico no `main` deve ocorrer no processo de homologação/merge.
 
-### DIV-F1-002 — RLS legado em core/audit
+### DIV-F1-002 — RLS legado em core/audit — verificado, sem correção automática
 
-O advisor anterior sinalizou RLS desabilitado em:
+RLS permanece desabilitado em:
 - `core.sessions`;
 - `core.events`;
 - `core.state_transitions`;
 - `audit.agent_runs`;
 - `audit.workflow_runs`.
 
-A ADR-0002 registra esses schemas como não expostos à Data API por padrão. Não foi aplicada correção automática de RLS porque habilitar RLS sem política explícita pode bloquear o runtime. A decisão/política deve ser homologada antes de qualquer alteração nesses cinco objetos.
+Verificação direta após F1:
+- `anon`: sem USAGE nos schemas `core`/`audit` e sem SELECT nas cinco tabelas;
+- `authenticated`: sem USAGE e sem SELECT;
+- `service_role`: SELECT permitido.
 
-Os novos objetos F1 usam RLS habilitado, sem policies de cliente e com acesso backend via `service_role`.
+Isso coincide com ADR-0002, que define esses schemas como não expostos à Data API por padrão. Não foi aplicada correção automática de RLS: habilitá-lo sem política explícita poderia bloquear o runtime e não existe incompatibilidade objetiva de acesso cliente no estado verificado.
+
+Os novos objetos F1 usam RLS habilitado, sem policies de cliente, com acesso backend via `service_role`. O advisor registra `rls_enabled_no_policy` como INFO nesses objetos; neste desenho backend-only isso é esperado.
 
 ## Rastreamento
 
@@ -110,7 +115,7 @@ Os novos objetos F1 usam RLS habilitado, sem policies de cliente e com acesso ba
 
 F1 permanece em **review**, não `homologated`, até:
 1. revisão humana desta implementação;
-2. decisão explícita sobre DIV-F1-002 ou confirmação documental de que os schemas legados permanecem fora da Data API com o modelo atual;
+2. confirmação na homologação de que o modelo backend-only de `core/audit` permanece vigente;
 3. merge controlado da branch após revisão.
 
 F2 não deve iniciar antes desse gate.
