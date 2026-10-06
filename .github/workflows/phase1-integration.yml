@@ -1,0 +1,34 @@
+name: Phase 1 integration gate
+
+on:
+  pull_request:
+    paths:
+      - "MANIFEST.json"
+      - "n8n/WORKFLOW-MANIFEST.json"
+      - "n8n/workflows/**"
+      - "tests/integration/**"
+      - ".github/workflows/phase1-integration.yml"
+  push:
+    branches:
+      - "feat/phase1-integration-*"
+    paths:
+      - "MANIFEST.json"
+      - "n8n/WORKFLOW-MANIFEST.json"
+      - "n8n/workflows/**"
+      - "tests/integration/**"
+      - ".github/workflows/phase1-integration.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  phase1-integration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Validate integrated workflow registry
+        run: node --test tests/integration/*.test.mjs
