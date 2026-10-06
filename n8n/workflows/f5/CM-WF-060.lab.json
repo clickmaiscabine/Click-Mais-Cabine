@@ -1,0 +1,57 @@
+{
+  "canonical_id": "CM-WF-060",
+  "lab_workflow_id": "DBdzsxMlMqsB86YD",
+  "name": "[LAB][F5] CM-WF-060 Response Composer",
+  "active": false,
+  "isArchived": false,
+  "versionId": "2c7e7ea5-f844-49cb-aeae-89f9751d5ad5",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "3789b79f-3895-42e5-b1bf-0c2724bd3f06",
+      "name": "Receive Authorized Action",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "f506c364-c707-4d66-812d-f815f79b97f7",
+      "name": "Compose Bounded Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst input=$json;\nif(input.action_authorized !== true){\n  return {json:{\n    contract_version:'1.0.0',status:'blocked',candidate_text:null,\n    claimed_prices:null,availability_claim:'none',asked_fact_keys:[],\n    blockers:['ACTION_NOT_AUTHORIZED']\n  }};\n}\n\nconst action=String(input.action ?? '').toUpperCase();\nconst facts=input.facts ?? {};\nconst presentation=input.presentation ?? {};\nconst nl=String.fromCharCode(10);\nconst money=(value)=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',minimumFractionDigits:0,maximumFractionDigits:0}).format(Number(value));\n\nif(action==='RESPONDER_AGUARDAR_DECISAO'){\n  return {json:{\n    contract_version:'1.0.0',status:'ready',\n    candidate_text:'Claro, sem problema 😊 Se quiser, posso te ajudar a comparar os serviços ou esclarecer qualquer item do orçamento. A reserva da data acontece somente após contrato e sinal.',\n    claimed_prices:null,availability_claim:'none',asked_fact_keys:[],blockers:[]\n  }};\n}\n\nif(action==='COMPOSE_HANDOFF_ACK'){\n  return {json:{\n    contract_version:'1.0.0',status:'ready',\n    candidate_text:'Essa situação precisa de uma confirmação da nossa equipe para eu não te passar uma informação incorreta. Já vou encaminhar para o responsável 😊',\n    claimed_prices:null,availability_claim:'none',asked_fact_keys:[],blockers:[]\n  }};\n}\n\nif(action==='REQUEST_CLOSING'){\n  return {json:{\n    contract_version:'1.0.0',status:'ready',\n    candidate_text:'Que ótimo! 😊 Para iniciarmos o fechamento, preencha este formulário: https://clickmais-microsite.lia-regis.chatgpt.site'+nl+nl+'Depois nossa equipe confirma o contrato e o pagamento do sinal.',\n    claimed_prices:null,availability_claim:'none',asked_fact_keys:[],blockers:[]\n  }};\n}\n\nif(action==='COMPOSE_QUOTE_PRESENTATION'){\n  const prices=presentation.customer_visible_prices ?? {};\n  if(!Number.isFinite(Number(prices.pix)) || !Number.isFinite(Number(prices.card))){\n    return {json:{contract_version:'1.0.0',status:'blocked',candidate_text:null,claimed_prices:null,availability_claim:'none',asked_fact_keys:[],blockers:['PRESENTATION_PRICE_MISSING']}};\n  }\n  const intro=presentation.promotion_applied\n    ? 'Conseguimos uma condição especial para sua data 🔥'\n    : 'Segue seu orçamento 😊';\n  const text=intro+nl+nl+'✅ PIX: '+money(prices.pix)+nl+'✅ CARTÃO: '+money(prices.card)+' em até 10x sem juros.'+nl+nl+'A disponibilidade é preliminar. A data fica garantida somente após contrato e pagamento do sinal.';\n  return {json:{\n    contract_version:'1.0.0',status:'ready',candidate_text:text,\n    claimed_prices:{pix:Number(prices.pix),card:Number(prices.card)},\n    availability_claim:'preliminary',asked_fact_keys:[],blockers:[]\n  }};\n}\n\nif(action==='ASK_ONE_CLARIFYING_QUESTION'){\n  const missing=String(input.missing_fact_key ?? '');\n  const questions={\n    'service_interest':'Qual serviço você deseja para o evento?',\n    'event_date':'Qual é a data do evento?',\n    'locality':'Em qual cidade ou região será o evento?',\n    'event_type':'Qual é o tipo de evento?'\n  };\n  const question=questions[missing] ?? null;\n  if(!question){\n    return {json:{contract_version:'1.0.0',status:'model_required',candidate_text:null,model_input:{action,facts},claimed_prices:null,availability_claim:'none',asked_fact_keys:[],blockers:['NO_FIXED_TEMPLATE']}};\n  }\n  return {json:{\n    contract_version:'1.0.0',status:'ready',candidate_text:question,\n    claimed_prices:null,availability_claim:'none',asked_fact_keys:[missing],blockers:[]\n  }};\n}\n\nreturn {json:{\n  contract_version:'1.0.0',status:'model_required',candidate_text:null,\n  model_input:{\n    action,\n    facts,\n    constraints:{\n      tone:'simpática, objetiva, comercial, acolhedora e segura',\n      one_question_at_a_time:true,\n      do_not_repeat_known_facts:true,\n      do_not_invent_price_availability_service:true\n    }\n  },\n  claimed_prices:null,availability_claim:'none',asked_fact_keys:[],\n  blockers:['LLM_CREDENTIAL_NOT_CONNECTED']\n}};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Authorized Action": {
+      "main": [
+        [
+          {
+            "node": "Compose Bounded Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}
