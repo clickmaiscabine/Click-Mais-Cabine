@@ -35,7 +35,8 @@
       {"id":"f4-quote-engine-v1.2.1","path":"docs/07_projeto_executivo/F4_QUOTE_ENGINE_IMPLEMENTATION_v1.2.1.md","status":"review"},
       {"id":"f5-decision-guard-shadow-v1.2.1","path":"docs/07_projeto_executivo/F5_DECISION_GUARD_SHADOW_IMPLEMENTATION_v1.2.1.md","status":"review"},
       {"id":"f6-trello-followup-v1.2.1","path":"docs/07_projeto_executivo/F6_TRELLO_FOLLOWUP_IMPLEMENTATION_v1.2.1.md","status":"review"},
-      {"id":"trello-commercial-migration-readiness-v1.2.1","path":"docs/07_projeto_executivo/TRELLO_COMMERCIAL_MIGRATION_READINESS_v1.2.1.md","status":"review"}
+      {"id":"trello-commercial-migration-readiness-v1.2.1","path":"docs/07_projeto_executivo/TRELLO_COMMERCIAL_MIGRATION_READINESS_v1.2.1.md","status":"review"},
+      {"id":"f7-closing-contract-payment-win-v1.2.1","path":"docs/07_projeto_executivo/F7_CLOSING_CONTRACT_PAYMENT_WIN_IMPLEMENTATION_v1.2.1.md","status":"review"}
     ],
     "workflows": [
       {"id":"CM-WF-030","path":"n8n/workflows/f4/CM-WF-030.lab.json","status":"review"},
@@ -46,7 +47,11 @@
       {"id":"CM-WF-061","path":"n8n/workflows/f5/CM-WF-061.lab.json","status":"review"},
       {"id":"CM-WF-070","path":"n8n/workflows/f6/CM-WF-070.lab.json","status":"review"},
       {"id":"CM-WF-071","path":"n8n/workflows/f6/CM-WF-071.lab.json","status":"review"},
-      {"id":"CM-WF-080","path":"n8n/workflows/f6/CM-WF-080.lab.json","status":"review"}
+      {"id":"CM-WF-080","path":"n8n/workflows/f6/CM-WF-080.lab.json","status":"review"},
+      {"id":"CM-WF-090","path":"n8n/workflows/f7/CM-WF-090.lab.json","status":"review"},
+      {"id":"CM-WF-100","path":"n8n/workflows/f7/CM-WF-100.lab.json","status":"review"},
+      {"id":"CM-WF-110","path":"n8n/workflows/f7/CM-WF-110.lab.json","status":"review"},
+      {"id":"CM-WF-120","path":"n8n/workflows/f7/CM-WF-120.lab.json","status":"review"}
     ],
     "subflows": [],
     "workflow_specs": [
@@ -128,7 +133,10 @@
       {"id":"f5-decision-guard-ci","path":".github/workflows/f5-decision-guard.yml","status":"review"},
       {"id":"f2-trello-commercial-guard-n8n-v1.2.1","path":"n8n/generated/f2-trello-commercial-guard.generated.js","status":"review"},
       {"id":"f2-followup-policy-n8n-v1.2.1","path":"n8n/generated/f2-followup-policy.generated.js","status":"review"},
-      {"id":"f6-trello-followup-ci","path":".github/workflows/f6-trello-followup.yml","status":"review"}
+      {"id":"f6-trello-followup-ci","path":".github/workflows/f6-trello-followup.yml","status":"review"},
+      {"id":"f2-commercial-transition-guard-n8n-v1.2.1","path":"n8n/generated/f2-commercial-transition-guard.generated.js","status":"review"},
+      {"id":"f2-payment-verification-guard-n8n-v1.2.1","path":"n8n/generated/f2-payment-verification-guard.generated.js","status":"review"},
+      {"id":"f7-closing-win-ci","path":".github/workflows/f7-closing-win.yml","status":"review"}
     ]
   }
 }
