@@ -129,3 +129,23 @@ function allow() {
 function deny(reasonCode, nextAction = null) {
   return { decision: "deny", allowed: false, reasonCode, nextAction };
 }
+
+
+const HUMAN_LOCK_REASONS = new Set([
+  "FINANCIAL",
+  "LEGAL",
+  "COMPLAINT",
+  "BARGAIN",
+  "EXTRA_DISCOUNT",
+  "CUSTOMER_PRICE_PROPOSAL",
+  "NON_STANDARD_POST_CONTRACT_CHANGE",
+  "LOCALITY_NO_RULE",
+  "CRITICAL_FACT_CONFLICT",
+  "SPECIAL_OPERATION",
+  "PAYMENT_DIVERGENCE",
+  "ADDON_PRICE_MISSING",
+]);
+
+export function requiresHumanLock(reasonCode) {
+  return HUMAN_LOCK_REASONS.has(String(reasonCode ?? "").toUpperCase());
+}
