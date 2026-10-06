@@ -32,11 +32,16 @@
       {"id":"project-changelog","path":"docs/00_governanca/CHANGELOG_PROJETO.md","status":"homologated"},
       {"id":"f1-schema-implementation-v1.2.1","path":"docs/07_projeto_executivo/F1_SCHEMA_IMPLEMENTATION_v1.2.1.md","status":"review"},
       {"id":"f2-deterministic-implementation-v1.2.1","path":"docs/07_projeto_executivo/F2_DETERMINISTIC_LIBRARY_IMPLEMENTATION_v1.2.1.md","status":"review"},
-      {"id":"f4-quote-engine-v1.2.1","path":"docs/07_projeto_executivo/F4_QUOTE_ENGINE_IMPLEMENTATION_v1.2.1.md","status":"review"}
+      {"id":"f4-quote-engine-v1.2.1","path":"docs/07_projeto_executivo/F4_QUOTE_ENGINE_IMPLEMENTATION_v1.2.1.md","status":"review"},
+      {"id":"f5-decision-guard-shadow-v1.2.1","path":"docs/07_projeto_executivo/F5_DECISION_GUARD_SHADOW_IMPLEMENTATION_v1.2.1.md","status":"review"}
     ],
     "workflows": [
       {"id":"CM-WF-030","path":"n8n/workflows/f4/CM-WF-030.lab.json","status":"review"},
-      {"id":"CM-WF-031","path":"n8n/workflows/f4/CM-WF-031.lab.json","status":"review"}
+      {"id":"CM-WF-031","path":"n8n/workflows/f4/CM-WF-031.lab.json","status":"review"},
+      {"id":"CM-WF-040","path":"n8n/workflows/f5/CM-WF-040.lab.json","status":"review"},
+      {"id":"CM-WF-050","path":"n8n/workflows/f5/CM-WF-050.lab.json","status":"review"},
+      {"id":"CM-WF-060","path":"n8n/workflows/f5/CM-WF-060.lab.json","status":"review"},
+      {"id":"CM-WF-061","path":"n8n/workflows/f5/CM-WF-061.lab.json","status":"review"}
     ],
     "subflows": [],
     "workflow_specs": [
@@ -113,7 +118,9 @@
       {"id":"f2-deterministic-tests-v1.2.1","path":"tests/f2/deterministic-library.test.mjs","status":"review"},
       {"id":"f2-deterministic-ci","path":".github/workflows/f2-deterministic.yml","status":"review"},
       {"id":"f2-n8n-quote-kernel-v1.2.1","path":"n8n/generated/f2-quote-kernel.generated.js","status":"review"},
-      {"id":"f4-quote-adapter-ci","path":".github/workflows/f4-quote-adapter.yml","status":"review"}
+      {"id":"f4-quote-adapter-ci","path":".github/workflows/f4-quote-adapter.yml","status":"review"},
+      {"id":"f2-response-guard-n8n-v1.2.1","path":"n8n/generated/f2-response-guard.generated.js","status":"review"},
+      {"id":"f5-decision-guard-ci","path":".github/workflows/f5-decision-guard.yml","status":"review"}
     ]
   }
 }

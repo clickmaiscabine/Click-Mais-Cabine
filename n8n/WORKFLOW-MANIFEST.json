@@ -79,43 +79,51 @@
       "slug": "commercial-decision-router",
       "name": "Commercial Decision Router",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [],
-      "purpose": "Classificar decisão semântica em choices autorizadas e propor estado/ação."
+      "purpose": "Classificar decisão semântica em choices autorizadas e propor estado/ação.",
+      "lab_workflow_id": "W3zYsDTomYrvHKXF",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-050",
       "slug": "human-handoff",
       "name": "Human Handoff",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [],
-      "purpose": "Criar e gerir human_lock e human_task; produzir lock enabled/released."
+      "purpose": "Criar e gerir human_lock e human_task; produzir lock enabled/released.",
+      "lab_workflow_id": "9xycWVMjVQuEMlhn",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-060",
       "slug": "response-composer",
       "name": "Response Composer",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [],
-      "purpose": "Compor texto curto a partir de ação autorizada, fatos e templates; produzir response_candidate."
+      "purpose": "Compor texto curto a partir de ação autorizada, fatos e templates; produzir response_candidate.",
+      "lab_workflow_id": "DBdzsxMlMqsB86YD",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-061",
       "slug": "response-guard-dispatch",
       "name": "Response Guard & Dispatch",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [
         "meta_whatsapp_credentials",
         "send_disabled"
       ],
-      "purpose": "Aplicar segurança, janela e SEND_ENABLED; produzir sent/shadow."
+      "purpose": "Aplicar segurança, janela e SEND_ENABLED; produzir sent/shadow.",
+      "lab_workflow_id": "D2AmPjDxoKUQ8yYt",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-070",
