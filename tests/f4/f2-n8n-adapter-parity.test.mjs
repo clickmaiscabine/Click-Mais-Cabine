@@ -22,20 +22,35 @@ const RULES = {
   comboSecondMainDiscountRate: 0.50,
 };
 
-const LOCALITIES = [
-  { id:"l1", canonical_name:"mogi das cruzes", normalized_name:"mogi das cruzes", pricing_tier_id:"T1190", status:"active" },
-  { id:"l2", canonical_name:"jundiaí", normalized_name:"jundiai", pricing_tier_id:"T1690", status:"active" },
-  { id:"l3", canonical_name:"raposo tavares", normalized_name:"raposo tavares", pricing_tier_id:null, status:"human_required" },
-];
-const ALIASES = [
-  { locality_id:"l1", alias:"Mogi", normalized_alias:"mogi" },
-  { locality_id:"l2", alias:"Jundiai", normalized_alias:"jundiai" },
+const MATRIX = [
+  ["T1190",1190,1410,1785,2110,1000,1180,1500,1770],
+  ["T1290",1290,1530,1935,2290,1100,1300,1650,1950],
+  ["T1390",1390,1650,2085,2470,1200,1420,1800,2130],
+  ["T1490",1490,1760,2235,2640,1300,1540,1950,2310],
+  ["T1590",1590,1880,2385,2820,1400,1660,2100,2480],
+  ["T1690",1690,2000,2535,3000,1500,1770,2250,2660],
+  ["T1790",1790,2120,2685,3170,1600,1890,2400,2840],
+  ["T1890",1890,2240,2835,3350,1700,2010,2550,3010],
 ];
 
-const TIERS = [
-  { id:"T1190", code:"T1190", pix_base:1190 },
-  { id:"T1690", code:"T1690", pix_base:1690 },
+const LOCALITIES = MATRIX.map(([code]) => ({
+  id:"loc-"+code,
+  canonical_name:"localidade "+code.toLowerCase(),
+  normalized_name:"localidade "+code.toLowerCase(),
+  pricing_tier_id:code,
+  status:"active",
+})).concat([
+  { id:"mogi", canonical_name:"mogi das cruzes", normalized_name:"mogi das cruzes", pricing_tier_id:"T1190", status:"active" },
+  { id:"jundiai", canonical_name:"jundiaí", normalized_name:"jundiai", pricing_tier_id:"T1690", status:"active" },
+  { id:"raposo", canonical_name:"raposo tavares", normalized_name:"raposo tavares", pricing_tier_id:null, status:"human_required" },
+]);
+
+const ALIASES = [
+  { locality_id:"mogi", alias:"Mogi", normalized_alias:"mogi" },
+  { locality_id:"jundiai", alias:"Jundiai", normalized_alias:"jundiai" },
 ];
+
+const TIERS = MATRIX.map(([code,pix]) => ({id:code,code,pix_base:pix}));
 
 const MAIN = (code="cabine_fotos") => ({code,category:"main",quoteableAutomatically:true,quantity:1});
 const PANEL = {code:"painel_fotografico_2x1",category:"addon",quoteableAutomatically:false,quantity:1};
@@ -62,6 +77,7 @@ function compare(input) {
   assert.deepEqual(actual.readiness,expected.readiness);
   assert.deepEqual(actual.date_policy,expected.datePolicy);
   assert.deepEqual(actual.quote_result,expected.quoteResult);
+  return actual;
 }
 
 test("adapter: normal quote parity",()=>compare({
@@ -94,18 +110,36 @@ test("adapter: missing addon price parity",()=>compare({
   services:[MAIN(),PANEL],rule_set:RULES,reference_date:"2026-10-05"
 }));
 
-for (const [id,pix,card] of [
-  ["T1190",1190,1410],
-  ["T1690",1690,2000],
-]) {
-  test("adapter matrix "+id,()=>{
-    const input={
-      facts:{service_interest:["cabine_fotos"],event_date:"2027-01-10",locality:id==="T1190"?"Mogi":"Jundiaí",event_type:"aniversário"},
+for (const [code,pix,card,comboPix,comboCard,promoPix,promoCard,comboPromoPix,comboPromoCard] of MATRIX) {
+  test("adapter full matrix "+code,()=>{
+    const locality="localidade "+code.toLowerCase();
+
+    const normal=compare({
+      facts:{service_interest:["cabine_fotos"],event_date:"2027-01-10",locality,event_type:"aniversário"},
       localities:LOCALITIES,locality_aliases:ALIASES,pricing_tiers:TIERS,
       services:[MAIN()],rule_set:RULES,reference_date:"2026-10-05"
-    };
-    const actual=executeAdapter(input).json;
-    assert.deepEqual(actual.quote_result.customerVisible,{pix,card});
-    compare(input);
+    });
+    assert.deepEqual(normal.quote_result.customerVisible,{pix,card});
+
+    const combo=compare({
+      facts:{service_interest:["cabine_fotos","plataforma_360"],event_date:"2027-01-10",locality,event_type:"aniversário"},
+      localities:LOCALITIES,locality_aliases:ALIASES,pricing_tiers:TIERS,
+      services:[MAIN(),MAIN("plataforma_360")],rule_set:RULES,reference_date:"2026-10-05"
+    });
+    assert.deepEqual(combo.quote_result.customerVisible,{pix:comboPix,card:comboCard});
+
+    const promo=compare({
+      facts:{service_interest:["cabine_fotos"],event_date:"2026-11-04",locality,event_type:"aniversário"},
+      localities:LOCALITIES,locality_aliases:ALIASES,pricing_tiers:TIERS,
+      services:[MAIN()],rule_set:RULES,reference_date:"2026-10-05"
+    });
+    assert.deepEqual(promo.quote_result.customerVisible,{pix:promoPix,card:promoCard});
+
+    const comboPromo=compare({
+      facts:{service_interest:["cabine_fotos","plataforma_360"],event_date:"2026-11-04",locality,event_type:"aniversário"},
+      localities:LOCALITIES,locality_aliases:ALIASES,pricing_tiers:TIERS,
+      services:[MAIN(),MAIN("plataforma_360")],rule_set:RULES,reference_date:"2026-10-05"
+    });
+    assert.deepEqual(comboPromo.quote_result.customerVisible,{pix:comboPromoPix,card:comboPromoCard});
   });
 }
