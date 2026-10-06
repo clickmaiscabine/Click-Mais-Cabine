@@ -1,0 +1,57 @@
+{
+  "canonical_id": "CM-WF-130",
+  "lab_workflow_id": "DMW67sv5KY69F0Zp",
+  "name": "[LAB][F8] CM-WF-130 Art Lifecycle",
+  "active": false,
+  "isArchived": false,
+  "versionId": "c538613a-a246-4dee-a805-8f6a26dae5d4",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "2a68739b-13a3-4ce7-9166-5af126b9c27a",
+      "name": "Receive Art Context",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "e6abca3d-2aed-40b7-a22b-03b1866031e3",
+      "name": "Plan Art Lifecycle",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst input=$json;\nconst trigger=String(input.trigger_type ?? '');\nconst eventId=input.customer_event_id;\nconst current=input.current_art ?? null;\nconst actor=String(input.actor_type ?? 'system').toLowerCase();\n\nconst choiceAliases={\n  'APROVADA':'approved',\n  'APPROVED':'approved',\n  'PEDIU_ALTERAÇÃO':'change_requested',\n  'PEDIU_ALTERACAO':'change_requested',\n  'CHANGE':'change_requested',\n  'QUESTION':'question',\n  'DUVIDA':'question',\n  'DÚVIDA':'question',\n  'UNDEFINED':'undefined',\n  'INDEFINIDO':'undefined'\n};\nconst canonicalChoices=['approved','change_requested','question','undefined'];\n\nif(trigger==='event_won'){\n  if(input.art_required!==true){\n    return {json:{\n      status:'not_applicable',\n      operations:[{\n        action:'UPSERT_MODULE_STATE',\n        customer_event_id:eventId,\n        module_code:'art',\n        status:'not_applicable',\n        ready:true\n      }],\n      blockers:[]\n    }};\n  }\n  if(current){\n    return {json:{status:'no_action',operations:[],blockers:[]}};\n  }\n  return {json:{\n    status:'planned',\n    operations:[\n      {action:'CREATE_ART_JOB',customer_event_id:eventId,status:'awaiting_briefing',version:1},\n      {action:'UPSERT_MODULE_STATE',customer_event_id:eventId,module_code:'art',status:'in_progress',ready:false}\n    ],\n    blockers:[]\n  }};\n}\n\nif(trigger==='briefing_received'){\n  if(!input.briefing_payload || typeof input.briefing_payload!=='object'){\n    return {json:{status:'blocked',operations:[],blockers:['ART_BRIEFING_MISSING']}};\n  }\n  return {json:{\n    status:'adapter_required',\n    operations:[\n      {action:'UPDATE_ART_JOB',art_job_id:current?.id ?? null,status:'generating',briefing_payload:input.briefing_payload},\n      {action:'CREATE_HUMAN_TASK',customer_event_id:eventId,task_type:'art_production',reason_code:'ART_DRAFT_REQUIRED'}\n    ],\n    blockers:['ART_PRODUCTION_ADAPTER_NOT_CONNECTED']\n  }};\n}\n\nif(trigger==='draft_ready'){\n  if(!input.draft_ref){\n    return {json:{status:'blocked',operations:[],blockers:['ART_DRAFT_REF_MISSING']}};\n  }\n  return {json:{\n    status:'planned',\n    operations:[\n      {action:'UPDATE_ART_JOB',art_job_id:current?.id ?? null,status:'awaiting_customer',draft_ref:input.draft_ref},\n      {action:'EMIT_EVENT',event_type:'art_draft_ready',customer_event_id:eventId},\n      {action:'REQUEST_ART_CUSTOMER_REVIEW',customer_event_id:eventId,draft_ref:input.draft_ref}\n    ],\n    blockers:[]\n  }};\n}\n\nif(trigger==='customer_message'){\n  const raw=String(input.jev_choice ?? '').trim();\n  if(!raw){\n    return {json:{\n      status:'model_required',\n      allowed_choices:canonicalChoices,\n      operations:[{action:'CALL_JEV',purpose:'art_customer_decision',allowed_choices:canonicalChoices}],\n      blockers:['JEV_NOT_CONNECTED']\n    }};\n  }\n  const choice=choiceAliases[raw.toUpperCase()] ?? raw.toLowerCase();\n  if(!canonicalChoices.includes(choice)){\n    return {json:{\n      status:'human_required',\n      allowed_choices:canonicalChoices,\n      operations:[{action:'CREATE_HUMAN_TASK',customer_event_id:eventId,task_type:'art_review',reason_code:'ART_CHOICE_OUT_OF_VOCABULARY'}],\n      blockers:['ART_CHOICE_OUT_OF_VOCABULARY']\n    }};\n  }\n\n  if(choice==='approved'){\n    return {json:{\n      status:'pre_approved',\n      decision:choice,\n      operations:[\n        {action:'UPDATE_ART_JOB',art_job_id:current?.id ?? null,status:'pre_approved',customer_decision:'approved'},\n        {action:'CREATE_HUMAN_TASK',customer_event_id:eventId,task_type:'art_final_review',reason_code:'CUSTOMER_PRE_APPROVED_ART'}\n      ],\n      blockers:[]\n    }};\n  }\n  if(choice==='change_requested'){\n    return {json:{\n      status:'human_review',\n      decision:choice,\n      operations:[\n        {action:'UPDATE_ART_JOB',art_job_id:current?.id ?? null,status:'human_revision',customer_decision:'change_requested'},\n        {action:'CREATE_HUMAN_TASK',customer_event_id:eventId,task_type:'art_revision',reason_code:'CUSTOMER_CHANGE_REQUESTED'}\n      ],\n      blockers:[]\n    }};\n  }\n  if(choice==='question'){\n    return {json:{\n      status:'question',\n      decision:choice,\n      operations:[\n        {action:'UPDATE_ART_JOB',art_job_id:current?.id ?? null,customer_decision:'question'},\n        {action:'REQUEST_ART_QUESTION_RESPONSE',customer_event_id:eventId}\n      ],\n      blockers:[]\n    }};\n  }\n  return {json:{\n    status:'undefined',\n    decision:choice,\n    operations:[\n      {action:'UPDATE_ART_JOB',art_job_id:current?.id ?? null,customer_decision:'undefined'},\n      {action:'ASK_ART_CLARIFICATION',customer_event_id:eventId}\n    ],\n    blockers:[]\n  }};\n}\n\nif(trigger==='human_finalize'){\n  if(actor!=='human'){\n    return {json:{status:'denied',operations:[],blockers:['ART_FINAL_REQUIRES_HUMAN']}};\n  }\n  if(!input.final_ref){\n    return {json:{status:'blocked',operations:[],blockers:['ART_FINAL_REF_MISSING']}};\n  }\n  return {json:{\n    status:'final',\n    operations:[\n      {action:'UPDATE_ART_JOB',art_job_id:current?.id ?? null,status:'final',final_ref:input.final_ref},\n      {action:'UPSERT_MODULE_STATE',customer_event_id:eventId,module_code:'art',status:'completed',ready:true},\n      {action:'EMIT_EVENT',event_type:'art_final',customer_event_id:eventId}\n    ],\n    blockers:[]\n  }};\n}\n\nif(trigger==='human_cancel'){\n  if(actor!=='human'){\n    return {json:{status:'denied',operations:[],blockers:['ART_CANCEL_REQUIRES_HUMAN']}};\n  }\n  return {json:{\n    status:'cancelled',\n    operations:[\n      {action:'UPDATE_ART_JOB',art_job_id:current?.id ?? null,status:'cancelled'},\n      {action:'UPSERT_MODULE_STATE',customer_event_id:eventId,module_code:'art',status:'blocked',ready:false,blockers:['ART_CANCELLED']}\n    ],\n    blockers:[]\n  }};\n}\n\nreturn {json:{status:'blocked',operations:[],blockers:['ART_TRIGGER_UNKNOWN']}};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Art Context": {
+      "main": [
+        [
+          {
+            "node": "Plan Art Lifecycle",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}
