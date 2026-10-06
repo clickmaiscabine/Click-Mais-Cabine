@@ -1,0 +1,57 @@
+{
+  "canonical_id": "CM-WF-040",
+  "lab_workflow_id": "W3zYsDTomYrvHKXF",
+  "name": "[LAB][F5] CM-WF-040 Commercial Decision Router",
+  "active": false,
+  "isArchived": false,
+  "versionId": "c71b8482-66a7-4252-98dd-43787c54829d",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "3e406ac8-8ceb-4520-94f9-81d34da50cc4",
+      "name": "Receive Decision Context",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "42098020-f01f-481a-98f6-121eb9785192",
+      "name": "Validate Closed JEV Decision",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst input=$json;\nconst canonicalChoices=['QUER_FECHAR','QUER_PENSAR','PEDIU_DESCONTO','TEM_DUVIDA','DESISTIU','HUMANO','INDEFINIDO'];\nconst aliases={\n  'ACEITOU':'QUER_FECHAR',\n  'QUER_CONTRATAR':'QUER_FECHAR',\n  'PRECISA_HUMANO':'HUMANO'\n};\nconst rawChoice=String(input.jev_choice ?? input.choice ?? '').trim().toUpperCase();\n\nif(!rawChoice){\n  return {json:{\n    contract_version:'1.0.0',\n    status:'model_required',\n    decision:null,\n    allowed_choices:canonicalChoices,\n    model_request:{\n      action:'CALL_JEV',\n      stage:input.commercial_stage ?? null,\n      message:input.message ?? '',\n      allowed_choices:canonicalChoices\n    },\n    next_action:null,\n    blockers:['JEV_NOT_CONNECTED']\n  }};\n}\n\nconst choice=aliases[rawChoice] ?? rawChoice;\nif(!canonicalChoices.includes(choice)){\n  return {json:{\n    contract_version:'1.0.0',\n    status:'human_required',\n    decision:null,\n    allowed_choices:canonicalChoices,\n    model_request:null,\n    next_action:{action:'HANDOFF_HUMANO',reason_code:'JEV_CHOICE_OUT_OF_VOCABULARY',force_lock:true},\n    blockers:['JEV_CHOICE_OUT_OF_VOCABULARY']\n  }};\n}\n\nconst routes={\n  'QUER_FECHAR':{action:'REQUEST_CLOSING'},\n  'QUER_PENSAR':{action:'RESPONDER_AGUARDAR_DECISAO'},\n  'PEDIU_DESCONTO':{action:'HANDOFF_HUMANO',reason_code:'BARGAIN',force_lock:true},\n  'TEM_DUVIDA':{action:'RESPONDER_DUVIDA'},\n  'DESISTIU':{action:'PROPOSE_LOSS',loss_reason_type:'explicit'},\n  'HUMANO':{action:'HANDOFF_HUMANO',reason_code:'SEMANTIC_HUMAN',force_lock:true},\n  'INDEFINIDO':{action:'ASK_ONE_CLARIFYING_QUESTION'}\n};\n\nreturn {json:{\n  contract_version:'1.0.0',\n  status:'ready',\n  decision:choice,\n  allowed_choices:canonicalChoices,\n  model_request:null,\n  next_action:routes[choice],\n  blockers:[]\n}};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Decision Context": {
+      "main": [
+        [
+          {
+            "node": "Validate Closed JEV Decision",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}
