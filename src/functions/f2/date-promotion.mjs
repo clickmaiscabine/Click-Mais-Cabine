@@ -76,3 +76,29 @@ export function evaluateDatePolicy({
         },
   };
 }
+
+
+export function evaluateFollowupPolicy({
+  automaticSentCount = 0,
+  customerResponded = false,
+  humanLock = false,
+  commercialStage = null,
+  quoteChanged = false,
+  delayHours = 23,
+}) {
+  if (customerResponded) return { action: "cancel", reasonCode: "CUSTOMER_RESPONDED", discountAllowed: false };
+  if (humanLock) return { action: "skip", reasonCode: "HUMAN_LOCK_ACTIVE", discountAllowed: false };
+  if (["GANHO", "PERDIDO"].includes(commercialStage)) {
+    return { action: "cancel", reasonCode: "TERMINAL_COMMERCIAL_STAGE", discountAllowed: false };
+  }
+  if (quoteChanged) return { action: "cancel", reasonCode: "QUOTE_CHANGED", discountAllowed: false };
+  if (automaticSentCount >= 1) {
+    return { action: "none", reasonCode: "AUTO_FOLLOWUP_LIMIT_REACHED", discountAllowed: false };
+  }
+  return {
+    action: "schedule",
+    reasonCode: "FIRST_AUTOMATIC_FOLLOWUP",
+    delayHours,
+    discountAllowed: false,
+  };
+}
