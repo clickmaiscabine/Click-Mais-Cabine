@@ -64,6 +64,17 @@ function evaluateResponseGuard({
 }
 
 const input=$json;
+if(input.guard_required!==true){
+  return {json:{
+    decision:"not_applicable",
+    dispatchAllowed:false,
+    campaignDispatchAllowed:false,
+    delivery_mode:null,
+    blockers:[],
+    shadow:true,
+    lifecycle_plan:input.lifecycle_plan ?? null
+  }};
+}
 const blockers=[];
 const campaign=input.campaign ?? {};
 const member=input.member ?? {};
@@ -104,7 +115,8 @@ if(blockers.length>0){
     campaignDispatchAllowed:false,
     delivery_mode:deliveryMode,
     blockers:[...new Set(blockers)],
-    shadow:true
+    shadow:true,
+    lifecycle_plan:input.lifecycle_plan ?? null
   }};
 }
 
@@ -136,5 +148,6 @@ return {json:{
   approved_template_name:deliveryMode==="template"?input.approved_template_name:null,
   blockers:merged,
   shadow:true,
-  eventType:responseGuard.eventType ?? "campaign_shadow_candidate"
+  eventType:responseGuard.eventType ?? "campaign_shadow_candidate",
+  lifecycle_plan:input.lifecycle_plan ?? null
 }};
