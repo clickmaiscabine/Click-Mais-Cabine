@@ -1,0 +1,57 @@
+{
+  "canonical_id": "CM-WF-900",
+  "lab_workflow_id": "t75Whbitv18ToyFj",
+  "name": "[LAB][F11] CM-WF-900 Audit Watchdog",
+  "active": false,
+  "isArchived": false,
+  "versionId": "b01c8dd4-8076-4958-a446-cb7ac1ef0449",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "cbee1af3-c3b1-462c-9f61-5438c9185deb",
+      "name": "Receive Audit Snapshot",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "24cc232a-f6f8-437e-b0ae-d9bdfec9fb77",
+      "name": "Evaluate Canonical Watchdog Findings",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst input=$json;\nconst s=input.snapshot ?? {};\nconst findings=[];\n\nfunction add(kind,item,priority,reasonCode,message){\n  const ref=item?.id ?? item?.customer_event_id ?? item?.source_event_id ?? item?.card_id ?? item?.key ?? 'unknown';\n  findings.push({\n    kind,\n    priority,\n    reason_code:reasonCode,\n    customer_event_id:item?.customer_event_id ?? null,\n    source_ref:String(ref),\n    message,\n    context:item ?? {},\n    dedupe_key:'watchdog:'+kind+':'+String(ref),\n    auto_correction_allowed:false\n  });\n}\n\nfor(const item of (s.overdue_followups ?? [])){\n  add('followup_overdue',item,'high','FOLLOWUP_OVERDUE','Follow-up automático pendente está vencido.');\n}\nfor(const item of (s.impossible_states ?? [])){\n  add('impossible_state',item,'critical','IMPOSSIBLE_STATE','Combinação de estados viola a máquina canônica.');\n}\nfor(const item of (s.signed_payment_inconsistencies ?? [])){\n  add('signed_payment_inconsistent',item,'critical','SIGNED_PAYMENT_STATE_INCOHERENT','Contrato assinado sem estado financeiro coerente.');\n}\nfor(const item of (s.invalid_wins ?? [])){\n  add('invalid_win',item,'critical','GANHO_WITHOUT_CRITERIA','Evento em GANHO sem contrato assinado + pagamento verificado.');\n}\nfor(const item of (s.upcoming_logistics_blocked ?? [])){\n  const days=Number(item?.days_until_event);\n  const priority=Number.isFinite(days) && days<=2 ? 'critical' : 'high';\n  add('logistics_blocked_near_event',item,priority,'LOGISTICS_BLOCKED_NEAR_EVENT','Evento próximo permanece com logística bloqueada.');\n}\nfor(const item of (s.delayed_deliveries ?? [])){\n  add('delivery_overdue',item,'high','DELIVERY_OVERDUE','Entrega pós-evento excedeu o SLA esperado.');\n}\nfor(const item of (s.projection_drifts ?? [])){\n  const priority=item?.drift_status==='error' ? 'high' : 'normal';\n  add('projection_drift',item,priority,'TRELLO_PROJECTION_DRIFT','Projeção Trello diverge do estado canônico.');\n}\nfor(const item of (s.open_dead_letters ?? [])){\n  add('dead_letter',item,'high','DEAD_LETTER_OPEN','Evento esgotou retries e requer resolução controlada.');\n}\nfor(const item of (s.duplicate_campaign_members ?? [])){\n  add('campaign_member_duplicate',item,'high','CAMPAIGN_MEMBER_DUPLICATE','Campanha contém membro duplicado para o mesmo evento.');\n}\nfor(const item of (s.recurring_state_version_conflicts ?? [])){\n  add('state_version_conflict_recurring',item,'high','STATE_VERSION_CONFLICT_RECURRING','Conflitos recorrentes de versão indicam concorrência ou adapter incorreto.');\n}\n\nconst rank={critical:4,high:3,normal:2,low:1};\nfindings.sort((a,b)=>(rank[b.priority]??0)-(rank[a.priority]??0)||a.kind.localeCompare(b.kind));\n\nconst operations=findings.map((finding)=>({\n  action:'CREATE_HUMAN_TASK',\n  customer_event_id:finding.customer_event_id,\n  task_type:'audit_watchdog',\n  priority:finding.priority,\n  reason_code:finding.reason_code,\n  payload:{\n    dedupe_key:finding.dedupe_key,\n    kind:finding.kind,\n    source_ref:finding.source_ref,\n    message:finding.message,\n    context:finding.context,\n    auto_correction_allowed:false\n  }\n}));\n\nconst counts={critical:0,high:0,normal:0,low:0,total:findings.length};\nfor(const f of findings) counts[f.priority]=(counts[f.priority]??0)+1;\n\nreturn {json:{\n  status:findings.length?'findings':'clean',\n  evaluated_at:input.now ?? null,\n  counts,\n  findings,\n  operations,\n  auto_corrections:[],\n  blockers:[]\n}};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Audit Snapshot": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Canonical Watchdog Findings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}
