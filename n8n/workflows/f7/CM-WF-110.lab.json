@@ -1,0 +1,83 @@
+{
+  "canonical_id": "CM-WF-110",
+  "lab_workflow_id": "s8hNLWxabnCd5ayX",
+  "name": "[LAB][F7] CM-WF-110 Payment Intake & Verification",
+  "active": false,
+  "isArchived": false,
+  "versionId": "ff20a274-7869-477b-89b8-97b725fe02aa",
+  "activeVersionId": null,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true
+  },
+  "nodes": [
+    {
+      "id": "82a3db4f-5055-4434-8aac-e6be15cfdb44",
+      "name": "Receive Payment Context",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    },
+    {
+      "id": "074548b6-e9c7-4b41-a81a-7e4240f4219c",
+      "name": "Run F2 Payment Verification Guard",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        224,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "// GENERATED ADAPTER FOR n8n CODE NODE.\n// Canonical source: src/functions/f2/state-guard.mjs#guardPaymentVerification\n\nfunction deny(reasonCode, nextAction = null) {\n  return { decision: \"deny\", allowed: false, reasonCode, nextAction };\n}\nfunction allow() {\n  return { decision: \"allow\", allowed: true, reasonCode: null, nextAction: null };\n}\nfunction guardPaymentVerification({ actorType }) {\n  if ([\"llm\", \"jev\"].includes(actorType)) {\n    return deny(\"PAYMENT_VERIFICATION_FORBIDDEN_ACTOR\");\n  }\n  if (actorType !== \"human\") {\n    return deny(\"PAYMENT_VERIFICATION_REQUIRES_HUMAN\");\n  }\n  return allow();\n}\nreturn {json:guardPaymentVerification({\n  actorType:$json.actor_type ?? $json.actorType ?? null\n})};\n"
+      }
+    },
+    {
+      "id": "45c86930-fac7-4404-a0d7-c939494aeaca",
+      "name": "Plan Payment Intake & Verification",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "\nconst verificationGuard=$json;\nconst input=$('Receive Payment Context').item.json;\nconst trigger=String(input.trigger_type ?? '');\n\nconst cents=(value)=>{\n  if(value===null || value===undefined || value==='') return null;\n  const n=Number(value);\n  return Number.isFinite(n)?Math.round(n*100):null;\n};\n\nif(trigger==='proof_received'){\n  const expected=cents(input.expected_amount);\n  const extracted=cents(input.extracted_amount);\n  let extractionStatus='unreadable';\n  if(extracted!==null && expected!==null){\n    extractionStatus=extracted===expected?'apparent_ok':'divergent';\n  }else if(extracted!==null && expected===null){\n    extractionStatus='apparent_ok';\n  }\n\n  const key='payment-proof:'+String(input.external_transaction_ref ?? input.source_event_id ?? input.proof_ref ?? input.customer_event_id);\n  const operations=[\n    {\n      action:'UPSERT_PAYMENT_EVIDENCE',\n      idempotency_key:key,\n      customer_event_id:input.customer_event_id,\n      payment_kind:input.payment_kind,\n      expected_amount:input.expected_amount ?? null,\n      extracted_amount:input.extracted_amount ?? null,\n      extraction_status:extractionStatus,\n      human_status:'pending',\n      proof_ref:input.proof_ref ?? null,\n      external_transaction_ref:input.external_transaction_ref ?? null,\n      source_event_id:input.source_event_id ?? null\n    },\n    {\n      action:'CREATE_HUMAN_TASK',\n      task_type:'payment_verification',\n      reason_code:extractionStatus==='divergent'?'PAYMENT_DIVERGENCE':'PAYMENT_VERIFICATION_REQUIRED',\n      customer_event_id:input.customer_event_id,\n      priority:extractionStatus==='divergent'?'high':'normal'\n    }\n  ];\n  if(extractionStatus==='divergent'){\n    operations.push({action:'ENABLE_HUMAN_LOCK',reason_code:'PAYMENT_DIVERGENCE'});\n  }\n  return {json:{\n    status:'pending_human_verification',\n    extraction_status:extractionStatus,\n    payment_verified:false,\n    operations,\n    blockers:extractionStatus==='divergent'?['PAYMENT_DIVERGENCE']:[]\n  }};\n}\n\nif(trigger==='human_verification'){\n  if(!verificationGuard.allowed){\n    return {json:{\n      status:'denied',\n      payment_verified:false,\n      operations:[],\n      guard:verificationGuard,\n      blockers:[verificationGuard.reasonCode]\n    }};\n  }\n\n  const paymentId=(input.current_payment?.id ?? input.payment_id ?? null);\n  if(!paymentId){\n    return {json:{status:'blocked',payment_verified:false,operations:[],guard:verificationGuard,blockers:['PAYMENT_ID_REQUIRED_FOR_VERIFICATION']}};\n  }\n\n  const decision=String(input.verification_decision ?? '').toLowerCase();\n  if(!['verified','rejected'].includes(decision)){\n    return {json:{status:'blocked',payment_verified:false,operations:[],guard:verificationGuard,blockers:['PAYMENT_VERIFICATION_DECISION_INVALID']}};\n  }\n  const current=input.current_payment ?? {};\n  const operations=[{\n    action:'VERIFY_PAYMENT',\n    payment_id:paymentId,\n    expected_verification_version:current.verification_version ?? 0,\n    human_status:decision,\n    verified_by:input.actor_ref ?? null,\n    actor_type:'human'\n  }];\n  operations.push({\n    action:'EMIT_EVENT',\n    event_type:decision==='verified'?'payment_verified':'payment_rejected',\n    customer_event_id:input.customer_event_id,\n    payment_id:paymentId\n  });\n  return {json:{\n    status:decision,\n    payment_verified:decision==='verified',\n    operations,\n    guard:verificationGuard,\n    blockers:[]\n  }};\n}\n\nreturn {json:{status:'blocked',payment_verified:false,operations:[],blockers:['PAYMENT_TRIGGER_UNKNOWN']}};\n"
+      }
+    }
+  ],
+  "connections": {
+    "Receive Payment Context": {
+      "main": [
+        [
+          {
+            "node": "Run F2 Payment Verification Guard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run F2 Payment Verification Guard": {
+      "main": [
+        [
+          {
+            "node": "Plan Payment Intake & Verification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodeGroups": []
+}
