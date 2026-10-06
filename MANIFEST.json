@@ -105,6 +105,11 @@
         "id": "f11-audit-replay-v1.2.1",
         "path": "docs/07_projeto_executivo/F11_AUDIT_REPLAY_IMPLEMENTATION_v1.2.1.md",
         "status": "review"
+      },
+      {
+        "id": "phase1-integration-status-v1.2.1",
+        "path": "docs/07_projeto_executivo/PHASE1_INTEGRATION_STATUS_v1.2.1.md",
+        "status": "review"
       }
     ],
     "workflows": [
@@ -618,6 +623,11 @@
       {
         "id": "f11-audit-replay-ci",
         "path": ".github/workflows/f11-audit-replay.yml",
+        "status": "review"
+      },
+      {
+        "id": "phase1-integration-ci",
+        "path": ".github/workflows/phase1-integration.yml",
         "status": "review"
       }
     ]
