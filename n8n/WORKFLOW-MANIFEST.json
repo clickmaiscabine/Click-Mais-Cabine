@@ -217,30 +217,36 @@
       "slug": "art-lifecycle",
       "name": "Art Lifecycle",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [],
-      "purpose": "Gerir briefing, draft, decisão e revisão humana de arte; produzir art events."
+      "purpose": "Gerir briefing, draft, decisão e revisão humana de arte; produzir art events.",
+      "lab_workflow_id": "DMW67sv5KY69F0Zp",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-140",
       "slug": "logistics-pre-event",
       "name": "Logistics & Pre-event",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [],
-      "purpose": "Gerir checklist, equipe, segurança e readiness sem alterar a estrutura protegida do board Logística."
+      "purpose": "Gerir checklist, equipe, segurança e readiness sem alterar a estrutura protegida do board Logística.",
+      "lab_workflow_id": "c7zBazrXqitL2n71",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-150",
       "slug": "event-execution-closure",
       "name": "Event Execution Closure",
       "status": "review",
-      "implementation": "spec_only",
+      "implementation": "lab_draft",
       "runtime_enabled": false,
       "blocked_by": [],
-      "purpose": "Registrar início, conclusão ou cancelamento operacional do evento."
+      "purpose": "Registrar início, conclusão ou cancelamento operacional do evento.",
+      "lab_workflow_id": "9U1T8EaKiRgErt5N",
+      "lab_folder": "Click Mais OS - LAB"
     },
     {
       "id": "CM-WF-160",
