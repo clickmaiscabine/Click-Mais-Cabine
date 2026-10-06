@@ -36,7 +36,8 @@
       {"id":"f5-decision-guard-shadow-v1.2.1","path":"docs/07_projeto_executivo/F5_DECISION_GUARD_SHADOW_IMPLEMENTATION_v1.2.1.md","status":"review"},
       {"id":"f6-trello-followup-v1.2.1","path":"docs/07_projeto_executivo/F6_TRELLO_FOLLOWUP_IMPLEMENTATION_v1.2.1.md","status":"review"},
       {"id":"trello-commercial-migration-readiness-v1.2.1","path":"docs/07_projeto_executivo/TRELLO_COMMERCIAL_MIGRATION_READINESS_v1.2.1.md","status":"review"},
-      {"id":"f7-closing-contract-payment-win-v1.2.1","path":"docs/07_projeto_executivo/F7_CLOSING_CONTRACT_PAYMENT_WIN_IMPLEMENTATION_v1.2.1.md","status":"review"}
+      {"id":"f7-closing-contract-payment-win-v1.2.1","path":"docs/07_projeto_executivo/F7_CLOSING_CONTRACT_PAYMENT_WIN_IMPLEMENTATION_v1.2.1.md","status":"review"},
+      {"id":"f8-art-logistics-event-v1.2.1","path":"docs/07_projeto_executivo/F8_ART_LOGISTICS_EVENT_IMPLEMENTATION_v1.2.1.md","status":"review"}
     ],
     "workflows": [
       {"id":"CM-WF-030","path":"n8n/workflows/f4/CM-WF-030.lab.json","status":"review"},
@@ -51,7 +52,10 @@
       {"id":"CM-WF-090","path":"n8n/workflows/f7/CM-WF-090.lab.json","status":"review"},
       {"id":"CM-WF-100","path":"n8n/workflows/f7/CM-WF-100.lab.json","status":"review"},
       {"id":"CM-WF-110","path":"n8n/workflows/f7/CM-WF-110.lab.json","status":"review"},
-      {"id":"CM-WF-120","path":"n8n/workflows/f7/CM-WF-120.lab.json","status":"review"}
+      {"id":"CM-WF-120","path":"n8n/workflows/f7/CM-WF-120.lab.json","status":"review"},
+      {"id":"CM-WF-130","path":"n8n/workflows/f8/CM-WF-130.lab.json","status":"review"},
+      {"id":"CM-WF-140","path":"n8n/workflows/f8/CM-WF-140.lab.json","status":"review"},
+      {"id":"CM-WF-150","path":"n8n/workflows/f8/CM-WF-150.lab.json","status":"review"}
     ],
     "subflows": [],
     "workflow_specs": [
@@ -136,7 +140,11 @@
       {"id":"f6-trello-followup-ci","path":".github/workflows/f6-trello-followup.yml","status":"review"},
       {"id":"f2-commercial-transition-guard-n8n-v1.2.1","path":"n8n/generated/f2-commercial-transition-guard.generated.js","status":"review"},
       {"id":"f2-payment-verification-guard-n8n-v1.2.1","path":"n8n/generated/f2-payment-verification-guard.generated.js","status":"review"},
-      {"id":"f7-closing-win-ci","path":".github/workflows/f7-closing-win.yml","status":"review"}
+      {"id":"f7-closing-win-ci","path":".github/workflows/f7-closing-win.yml","status":"review"},
+      {"id":"f2-logistics-readiness-n8n-v1.2.1","path":"n8n/generated/f2-logistics-readiness.generated.js","status":"review"},
+      {"id":"f2-event-date-change-guard-n8n-v1.2.1","path":"n8n/generated/f2-event-date-change-guard.generated.js","status":"review"},
+      {"id":"f2-operational-transition-guard-n8n-v1.2.1","path":"n8n/generated/f2-operational-transition-guard.generated.js","status":"review"},
+      {"id":"f8-art-logistics-event-ci","path":".github/workflows/f8-art-logistics-event.yml","status":"review"}
     ]
   }
 }
