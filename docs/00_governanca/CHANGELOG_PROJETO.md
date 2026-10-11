@@ -1,5 +1,11 @@
 # Changelog do Projeto — Click Mais OS
 
+## 2026-10-10 — Permissão do link OneDrive de entrega
+
+- Registrada a decisão DEC-016: usar link padrão OneDrive “Anyone/qualquer pessoa com o link”, somente para visualização e com download permitido.
+- O link será enviado ao cliente contratado pelo WhatsApp, sem exigir autenticação ou identificação por e-mail; o cliente pode repassá-lo, e qualquer pessoa que obtenha o link poderá acessar as fotos.
+- A política de compartilhamento depende de a opção “Anyone” estar habilitada na conta OneDrive; o fluxo deverá reportar bloqueio de configuração, sem gerar um link com escopo diferente em silêncio.
+
 ## 2026-10-10 — Prazo da entrega pós-evento
 
 - Registrada a decisão DEC-015: programar o envio do link canônico da pasta OneDrive para 12h do dia calendário seguinte à data da festa, no fuso America/Sao_Paulo.
