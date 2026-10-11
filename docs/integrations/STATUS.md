@@ -1,11 +1,11 @@
 # Status das integrações — Click Mais OS
 
-Atualizado: 2026-10-05  
+Atualizado: 2026-10-10  
 Este arquivo não contém segredos, usuários pessoais, senhas nem tokens.
 
 | Integração | Papel | Estado | Runtime |
 |---|---|---|---|
-| Meta WhatsApp Business Platform | transporte oficial e número de teste/produção | credenciais pendentes | standby |
+| Meta WhatsApp Business Platform | transporte oficial e número de teste/produção | teste configurado, segundo usuário/documento; token com Hermes | teste liberado; produção não homologada |
 | **Trello** | **cockpit humano e CRM visual da V1** | **ativo** | **habilitado/projeção** |
 | Chatwoot | fora do projeto V1 | out_of_scope_v1 | desabilitado |
 | Supabase | Event State Engine + auditoria | ativo | habilitado |

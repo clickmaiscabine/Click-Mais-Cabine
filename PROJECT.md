@@ -103,7 +103,7 @@ No repositório existem:
 
 ## Integrações
 
-- **Meta/WhatsApp**: aguarda credenciais da nova estrutura; primeiro uso será com número de teste.
+- **Meta/WhatsApp**: configuração do ambiente de teste concluída segundo Regis e o documento de 09/10/2026; token sob guarda do Hermes. Ver [registro de configuração](docs/integrations/META_WHATSAPP_TEST_SETUP.md). Instalação da credencial no runtime e evidências correlacionadas dos workflows serão registradas na validação; produção não está homologada.
 - **Chatwoot**: fora do projeto V1.
 
 ## Trello CRM V1

@@ -35,3 +35,4 @@ decisão humana registrada
 ```
 
 Nenhum documento do Projeto Executivo pode alterar silenciosamente uma decisão homologada.
+\n## Meta / WhatsApp — configuração de teste\n\n- [Estado atual e inventário](integrations/META_WHATSAPP_TEST_SETUP.md).\n- [Referência visual sanitizada](integrations/sources/2026-10-09_doc-final-click-mais.sanitized.html).\n- [Handoff seguro da credencial](05_seguranca/META_TOKEN_HANDOFF.md).\n

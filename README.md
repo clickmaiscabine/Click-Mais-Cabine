@@ -164,7 +164,7 @@ Projeto operacional: **Chatbot Clique Mais**.
 
 ## 8. Integrações
 
-- Meta/WhatsApp: standby até credenciais/número de teste.
+- Meta/WhatsApp: ambiente de teste liberado conforme documentação de 09/10/2026 e confirmação de Regis; token sob guarda do Hermes. Ver [configuração e evidências](docs/integrations/META_WHATSAPP_TEST_SETUP.md). Produção ainda depende de homologação.
 - Trello: ativo e adotado como cockpit humano da V1.
 - Chatwoot: fora do escopo V1.
 - OneDrive: entrega canônica.
@@ -194,7 +194,7 @@ Ainda não significa:
 - Projeto Executivo concluído;
 - workflows n8n executáveis concluídos;
 - pricing engine final;
-- Meta ativa;
+- Meta habilitada em produção;
 - sincronização Trello V1 pronta;
 - JEV runtime;
 - compositor/Guards em produção.

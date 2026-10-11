@@ -1,5 +1,13 @@
 # Changelog do Projeto — Click Mais OS
 
+## 2026-10-10 — Ambiente Meta / WhatsApp de teste
+
+- Registrada configuração concluída conforme declaração de Regis e documento de 09/10/2026.
+- Adicionados inventário, evidências relatadas, referência visual sanitizada e handoff seguro do token com Hermes.
+- Atualizadas referências antigas de standby em README, PROJECT, ARCHITECTURE, manifesto e status das integrações.
+- Sinalizadas divergência do Business Portfolio ID e contagem incompatível de destinatários/vagas.
+- Nenhum segredo versionado; nenhuma mudança em Meta, n8n, Supabase ou número real; produção não homologada.
+
 ## 2026-10-05 — Baseline Funcional v1.1
 
 ### Adicionado

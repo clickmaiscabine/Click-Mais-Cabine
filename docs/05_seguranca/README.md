@@ -15,3 +15,4 @@ Princípios:
 - LLM não possui autoridade própria sobre preço, pagamento, contrato ou descontos;
 - ações relevantes precisam ser auditáveis;
 - segredos nunca são versionados no GitHub.
+\n## Meta / WhatsApp\n\n[Handoff do token sob guarda do Hermes](META_TOKEN_HANDOFF.md): destino seguro e validação no ambiente de teste.\n
