@@ -1,5 +1,11 @@
 # Changelog do Projeto — Click Mais OS
 
+## 2026-10-10 — Prazo da entrega pós-evento
+
+- Registrada a decisão DEC-015: programar o envio do link canônico da pasta OneDrive para 12h do dia calendário seguinte à data da festa, no fuso America/Sao_Paulo.
+- O envio depende de a pasta estar pronta e vinculada ao evento; publicação social permanece separada da entrega do cliente.
+- A decisão detalha a ADR-0004 e deverá ser incorporada à especificação do CM-WF-140; ainda não representa workflow n8n executável.
+
 ## 2026-10-10 — Ambiente Meta / WhatsApp de teste
 
 - Registrada configuração concluída conforme declaração de Regis e documento de 09/10/2026.
