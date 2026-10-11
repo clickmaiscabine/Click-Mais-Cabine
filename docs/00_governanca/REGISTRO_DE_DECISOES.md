@@ -1,7 +1,7 @@
 # Registro de Decisões — Click Mais OS
 
 Status: homologated  
-Atualizado em: 2026-10-05
+Atualizado em: 2026-10-10
 
 Este arquivo registra decisões humanas funcionais e arquiteturais em linguagem curta. ADRs detalham decisões arquiteturais quando necessário.
 
@@ -21,6 +21,7 @@ Este arquivo registra decisões humanas funcionais e arquiteturais em linguagem 
 | DEC-012 | Leads PERDIDOS permanecem na base histórica e podem pertencer a coortes; elegibilidade de campanha é decidida por regra própria. | homologated | nova |
 | DEC-013 | Trello Comercial e Trello Logística são quadros com responsabilidades diferentes; operação logística não deve ser duplicada no funil comercial. | homologated | consolida arquitetura |
 | DEC-014 | O Projeto Executivo pode detalhar decisões homologadas, mas qualquer mudança exige registro explícito e, quando arquitetural, ADR. | homologated | governança |
+| DEC-015 | Para eventos com data registrada, programar a entrega do link OneDrive para 12h do dia calendário seguinte à data da festa, no fuso America/Sao_Paulo; executar o envio quando a pasta estiver pronta e vinculada ao evento. | homologated | detalha ADR-0004; workflow CM-WF-140 |
 
 ## Regra de alteração
 
