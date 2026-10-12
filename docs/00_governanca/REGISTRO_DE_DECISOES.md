@@ -1,7 +1,7 @@
 # Registro de Decisões — Click Mais OS
 
 Status: homologated  
-Atualizado em: 2026-10-10
+Atualizado em: 2026-10-11
 
 Este arquivo registra decisões humanas funcionais e arquiteturais em linguagem curta. ADRs detalham decisões arquiteturais quando necessário.
 
@@ -23,6 +23,9 @@ Este arquivo registra decisões humanas funcionais e arquiteturais em linguagem 
 | DEC-014 | O Projeto Executivo pode detalhar decisões homologadas, mas qualquer mudança exige registro explícito e, quando arquitetural, ADR. | homologated | governança |
 | DEC-015 | Para eventos com data registrada, programar a entrega do link OneDrive para 12h do dia calendário seguinte à data da festa, no fuso America/Sao_Paulo; executar o envio quando a pasta estiver pronta e vinculada ao evento. | homologated | detalha ADR-0004; workflow CM-WF-140 |
 | DEC-016 | Entregar ao cliente um link OneDrive padrão “Anyone/qualquer pessoa com o link”, somente para visualização, com download permitido; não exigir autenticação ou identidade do destinatário. O cliente recebe o link pelo WhatsApp e pode repassá-lo; qualquer pessoa que o obtenha poderá acessar as fotos. | homologated | detalha ADR-0004; workflow CM-WF-140 |
+
+| DEC-017 | Responsável homologou em 11/10/2026 a planilha CLICK_MAIS_AUDITORIA_LOCALIDADES_E_PRECOS.xlsx como base canônica para preços por localidade e regras de orçamento; 233 localidades OK e Raposo Tavares permanece com revisão humana; o XLSX e YAML integral ficam em acervo restrito, pois este repositório é público. SHA-256 XLSX: `80942ae22c307d9cdf31a9a82f458fce34c47b9ec0e576cfceaaa5c1f5bf96f3`. [Fonte restrita e decisão](https://app.notion.com/p/3eb9fb22b1fa81bcbbbeff9a92ad140d). | homologated | encerra pendência de aprovação comercial para a Meta 1; não autoriza nova faixa por distância nem publicar regras internas no repositório público |
+| DEC-018 | Responsável homologa a configuração do Meta WhatsApp TEST e a disponibilização do número de teste para automações n8n; isto não equivale a homologação da execução E2E de orçamento, credencial no runtime ou número comercial/produção. [Fonte e escopo](https://app.notion.com/p/3eb9fb22b1fa81bcbbbeff9a92ad140d). | homologated | encerra pendência de configuração inicial Meta TEST; mantém testes T005/T024 e gate de produção |
 
 ## Regra de alteração
 
