@@ -1,6 +1,7 @@
 # Meta / WhatsApp — ambiente de teste liberado para n8n
 
-Status: development  
+Status: homologated  
+Escopo da homologação: **configuração do ambiente Meta TEST, por decisão expressa do responsável em 11/10/2026; dispatch de orçamento e produção não homologados**  
 Registro: 2026-10-10 (America/Sao_Paulo)  
 Marco documentado na fonte: 2026-10-09, 21:56 BRT  
 Fonte: [documento visual recebido, com telefones pessoais mascarados](sources/2026-10-09_doc-final-click-mais.sanitized.html).
@@ -83,3 +84,10 @@ Os rótulos podem variar na interface. Não usar o link de System User com o Bus
 O HTML recebido foi preservado como referência visual histórica em versão sanitizada: números pessoais foram mascarados, o título foi ajustado e foi acrescentada indicação de leitura deste registro. IDs dos ativos e número de teste permanecem disponíveis. O original recebido não foi editado.
 
 As afirmações de “100% OK”, validade infinita, vagas e migração presentes na fonte não substituem as ressalvas e o alcance das evidências descritos aqui.
+
+
+## Homologação da configuração por decisão do responsável — 11/10/2026
+
+O responsável confirma expressamente que a Meta WhatsApp está configurada para desenvolvimento das automações, com **número de teste disponível**. Este marco de **provisionamento/configuração TEST está HOMOLOGADO**, conforme DEC-018 e [registro no Notion](https://app.notion.com/p/3eb9fb22b1fa81bcbbbeff9a92ad140d).
+
+Não significa que o novo workflow de orçamento foi implementado ou testado, nem que o token já está comprovadamente instalado no n8n, nem que a API do número comercial pode ser ativada. Permanecem necessários: confirmar credencial de runtime sem expor token; identificar webhook/execução/ID de mensagem; validar janela/template, destinatário e Guard; e comprovar E2E de orçamento em TEST antes de qualquer alteração de produção.
