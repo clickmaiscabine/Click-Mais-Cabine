@@ -11,8 +11,8 @@
 - A Baseline Funcional v1.1 e o Registro de Decisões definem GitHub como fonte de artefatos, Supabase como estado canônico, n8n como orquestrador, Meta WhatsApp como transporte oficial e Trello como projeção operacional humana.
 - No main, n8n/WORKFLOW-MANIFEST.json é um registro de workflows planejados; não há snapshots executáveis de envio. Os itens relevantes são CM-WF-000 (entrada), CM-WF-010 (identidade/contexto), CM-WF-020 (normalização de fatos), CM-WF-030 (regras comerciais), CM-WF-050 (guard), CM-WF-060 (compositor) e CM-WF-070 (guard/dispatch).
 - O schema/migration atual já possui business.quotes com versão, estado, totais PIX/cartão, fonte e snapshot de preço, além de presented_at. Não há no main um contrato dedicado para tentativa de envio, resposta da Meta, identificador de mensagem, estado ambíguo ou idempotência de dispatch.
-- knowledge/pricing.md não contém valores aprovados; knowledge/localities.md e knowledge/services.md ainda estão em draft. A planilha anexada indica faixas propostas como provisórias e exige validação humana antes de uso como base oficial.
-- A documentação de Meta registra ambiente de teste e evidência documental de Hello World, sem homologar workflow comercial, instalação da credencial no runtime ou produção. O teste inicial deve permanecer limitado aos destinatários autorizados.
+- Em 11/10/2026, DEC-017 homologou a planilha de preços e localidades; knowledge/pricing.md e knowledge/localities.md agora registram a versão/SHA e apontam à cópia integral privada (GitHub é público). knowledge/services.md continua draft quanto à descrição/duração de pacotes e deve bloquear promessas não catalogadas. Antes do dispatch, importar versão homologada em armazenamento protegido e executar testes de paridade.
+- DEC-018 homologou a **configuração** Meta TEST por declaração do responsável; documentação preexistente registra Hello World. Ainda faltam validação de credencial no n8n, ciclo E2E de orçamento e correlação IDs/webhooks. Produção não está homologada. Testes somente com destinatários autorizados.
 - PR draft #10 (F4) contém motor determinístico e apresentação de orçamento em LAB, mas sem persistência Supabase, envio Meta ou ativação. PR draft #18 reúne snapshots LAB da Fase 1 e declara SEND_ENABLED=false, zero credenciais no LAB e nenhum workflow ativo.
 - Há divergência de IDs que deve ser resolvida antes de reutilizar F4: no main, CM-WF-030 é business-rules-engine; no F4, CM-WF-030 é Quote Engine e CM-WF-031 é Quote Presentation. Não importar esses IDs/artefatos por cópia ou merge sem reconciliação com o manifesto e as decisões vigentes.
 - A raiz atual possui pipeline de validação documental, schemas, migrations e templates de teste, mas o main não contém testes de dispatch Meta nem execução comercial ativa.
@@ -84,7 +84,7 @@ Chatwoot continua fora do escopo da V1. O quadro 3.1 - LOGISTICA não será alte
 ## 8. Sequência de implementação proposta
 
 1. Revisão deste pacote e confirmação das premissas comerciais.
-2. Homologação da fonte única de preço/localidade/serviços e conciliação dos PRs F4/Fase 1 com a arquitetura atual.
+2. Usar a fonte única de preço/localidade/serviços **já homologada** (DEC-017), com importação protegida e testes de paridade; conciliar PRs F4/Fase 1 com a arquitetura atual.
 3. Fechamento dos contratos de entrada, quote, dispatch, idempotência, audit e eventos de retorno da Meta.
 4. Testes dos contratos e regras determinísticas antes do workflow.
 5. Implementação de snapshots somente LAB, mantendo produção desabilitada.
@@ -94,4 +94,4 @@ Chatwoot continua fora do escopo da V1. O quadro 3.1 - LOGISTICA não será alte
 
 ## 9. Gate antes do código
 
-A implementação não deve começar enquanto não forem resolvidos ou aceitos como premissas: (a) a fonte comercial homologada para valores e localidades; (b) a colisão de IDs e o estado dos PRs F4/#10 e integração/#18; (c) a apresentação inicial como texto no WhatsApp e o envio automático apenas quando o Guard aprovar; (d) a elegibilidade Meta para a janela/template de envio. Este pacote não declara nenhuma dessas condições homologada.
+A implementação não deve começar enquanto não forem resolvidos ou aceitos como premissas: (a) a integração técnica segura da fonte comercial já homologada, com testes de paridade; (b) a colisão de IDs e o estado dos PRs F4/#10 e integração/#18; (c) a apresentação inicial como texto no WhatsApp e o envio automático apenas quando o Guard aprovar; (d) a elegibilidade Meta para a janela/template de envio. Este pacote não declara nenhuma dessas condições homologada.
