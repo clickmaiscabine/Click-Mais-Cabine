@@ -8,10 +8,11 @@
 ## Fase 0 — Revisão antes do código
 
 - [ ] T001 Revisar a spec, o plano, as premissas de mensagem textual e a fronteira entre pedido de orçamento e atendimento geral.
-- [ ] T002 Homologar uma fonte versionada para preço, localidade, serviços, adicionais, descontos e condições. Confrontar a planilha anexada, que declara faixas provisórias, sem promovê-la automaticamente a fonte oficial.
+- [x] T002 Homologação comercial concluída por decisão humana em 11/10/2026 (DEC-017): XLSX original com SHA-256 `80942ae22c307d9cdf31a9a82f458fce34c47b9ec0e576cfceaaa5c1f5bf96f3`, YAML integral privado, 8 faixas e 233 localidades OK; Raposo Tavares exige humano. A carga protegida no runtime e os testes de paridade continuam em T012/T021; adicionais sem preço não podem ser automatizados.
 - [ ] T003 Revisar PR draft #10 (F4) e PR draft #18 (integração da Fase 1) contra o main atual; registrar quais artefatos podem ser reutilizados.
 - [ ] T004 Resolver a colisão de responsabilidades/IDs: CM-WF-030 no main é business-rules-engine; CM-WF-030 no F4 é Quote Engine; CM-WF-031 de apresentação aparece apenas nas branches draft.
 - [ ] T005 Confirmar contrato de envio com Meta: janela aplicável, uso de template aprovado quando necessário, destinatários de teste permitidos e correlação de resposta/webhook.
+  - Configuração inicial Meta TEST homologada pelo responsável (DEC-018); **T005 permanece pendente** para validação técnica do contrato de envio, credencial no n8n e correlação E2E.
 - [ ] T006 Fechar a decisão de envio automático após todas as validações versus necessidade de revisão humana prévia; manter human_lock e exceções sempre bloqueantes.
 
 ## Fase 1 — Contratos e dados
