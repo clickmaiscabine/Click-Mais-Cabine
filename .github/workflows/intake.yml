@@ -1,0 +1,20 @@
+name: Validate WhatsApp intake LAB
+on:
+  pull_request:
+    paths: ['src/functions/intake/**','src/adapters/intake/**','supabase/**','tests/intake/**','scripts/build_intake_workflow.mjs','n8n/generated/intake/**','package*.json','.github/workflows/intake.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  intake:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run test:intake
+      - run: npm run build:intake
+      - run: git diff --exit-code -- n8n/generated/intake

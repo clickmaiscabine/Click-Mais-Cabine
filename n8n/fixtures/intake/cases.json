@@ -1,0 +1,2097 @@
+[
+  {
+    "id": "greeting",
+    "payload": {
+      "messages": [
+        {
+          "id": "sim-greeting",
+          "from": "5511000000001",
+          "timestamp": "1791957600",
+          "type": "text",
+          "text": {
+            "body": "Olá"
+          }
+        }
+      ],
+      "metadata": {
+        "phone_number_id": "100000000001"
+      }
+    },
+    "snapshot": {
+      "facts": [],
+      "contact": null,
+      "session": null,
+      "services": [],
+      "duplicate": false,
+      "human_lock": false,
+      "localities": [
+        {
+          "aliases": [
+            "mogi"
+          ],
+          "canonical_name": "mogi das cruzes"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "suzano"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "santa isabel"
+        }
+      ],
+      "customer_event": null,
+      "identity_ambiguous": false
+    },
+    "semantic": {
+      "answers": {}
+    },
+    "commit_result": {
+      "route": "ASK_MISSING_FIELD",
+      "status": "committed",
+      "effects": {
+        "database_write": true,
+        "whatsapp_reply": false,
+        "quote_calculation": false
+      },
+      "session_id": "b6c1a61c-caaf-453f-86ae-7bbd442b0fae",
+      "state_version": 1,
+      "source_event_id": "00184955-2308-46e2-823f-f720503d4fc0",
+      "customer_event_id": "4a836686-5ec9-4f31-9281-b2e5613f0811",
+      "proposed_response": "Somos a Click Mais! Trabalhamos com Cabine de Fotos, Totem, Plataforma 360, Set Fotográfico e Fotógrafo. Qual serviço você deseja orçar?",
+      "ready_for_quote_checks": false
+    },
+    "expected": {
+      "route": "ASK_MISSING_FIELD",
+      "next_field": "service_interest",
+      "missing_required": [
+        "service_interest",
+        "event_type",
+        "event_date",
+        "locality"
+      ],
+      "facts": {
+        "service_interest": [],
+        "acquisition_source": "unknown"
+      },
+      "conflicts": {},
+      "proposed_response": "Somos a Click Mais! Trabalhamos com Cabine de Fotos, Totem, Plataforma 360, Set Fotográfico e Fotógrafo. Qual serviço você deseja orçar?",
+      "ready_for_quote_checks": false
+    }
+  },
+  {
+    "id": "many-fields",
+    "payload": {
+      "messages": [
+        {
+          "id": "sim-many-fields",
+          "from": "5511000000002",
+          "timestamp": "1791957600",
+          "type": "text",
+          "text": {
+            "body": "Quero cabine para casamento dia 24/01/2027 em Suzano"
+          }
+        }
+      ],
+      "metadata": {
+        "phone_number_id": "100000000001"
+      }
+    },
+    "snapshot": {
+      "facts": [],
+      "contact": null,
+      "session": null,
+      "services": [],
+      "duplicate": false,
+      "human_lock": false,
+      "localities": [
+        {
+          "aliases": [
+            "mogi"
+          ],
+          "canonical_name": "mogi das cruzes"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "suzano"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "santa isabel"
+        }
+      ],
+      "customer_event": null,
+      "identity_ambiguous": false
+    },
+    "semantic": {
+      "answers": {
+        "event_date": {
+          "choice": "c0",
+          "confidence": 0.99
+        },
+        "event_type": {
+          "choice": "c0",
+          "confidence": 0.99
+        },
+        "locality": {
+          "choice": "c0",
+          "confidence": 0.99
+        },
+        "service_interest": {
+          "choice": "c0",
+          "confidence": 0.99
+        }
+      }
+    },
+    "commit_result": {
+      "route": "QUOTE_CHECKS",
+      "status": "committed",
+      "effects": {
+        "database_write": true,
+        "whatsapp_reply": false,
+        "quote_calculation": false
+      },
+      "session_id": "b16b5611-db2a-4fc5-ada0-9cf9374639aa",
+      "state_version": 1,
+      "source_event_id": "fa6e20fd-f704-4dda-95b8-4d5631d884f2",
+      "customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69",
+      "proposed_response": null,
+      "ready_for_quote_checks": true
+    },
+    "expected": {
+      "route": "QUOTE_CHECKS",
+      "next_field": null,
+      "missing_required": [],
+      "facts": {
+        "service_interest": [
+          "cabine_fotos"
+        ],
+        "event_type": "casamento",
+        "event_date": "2027-01-24",
+        "locality": "suzano",
+        "acquisition_source": "unknown"
+      },
+      "conflicts": {},
+      "proposed_response": null,
+      "ready_for_quote_checks": true
+    }
+  },
+  {
+    "id": "sequence-service",
+    "payload": {
+      "messages": [
+        {
+          "id": "sim-sequence-service",
+          "from": "5511000000003",
+          "timestamp": "1791957600",
+          "type": "text",
+          "text": {
+            "body": "Quero cabine de fotos"
+          }
+        }
+      ],
+      "metadata": {
+        "phone_number_id": "100000000001"
+      }
+    },
+    "snapshot": {
+      "facts": [],
+      "contact": null,
+      "session": null,
+      "services": [],
+      "duplicate": false,
+      "human_lock": false,
+      "localities": [
+        {
+          "aliases": [
+            "mogi"
+          ],
+          "canonical_name": "mogi das cruzes"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "suzano"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "santa isabel"
+        }
+      ],
+      "customer_event": null,
+      "identity_ambiguous": false
+    },
+    "semantic": {
+      "answers": {
+        "service_interest": {
+          "choice": "c0",
+          "confidence": 0.99
+        }
+      }
+    },
+    "commit_result": {
+      "route": "ASK_MISSING_FIELD",
+      "status": "committed",
+      "effects": {
+        "database_write": true,
+        "whatsapp_reply": false,
+        "quote_calculation": false
+      },
+      "session_id": "3347e930-13a6-487c-a9d2-bb63b5bca61c",
+      "state_version": 1,
+      "source_event_id": "6ab89c35-544e-44e3-99ba-787419f10cf0",
+      "customer_event_id": "0de38fb2-8725-47f7-babd-ad5643c4110a",
+      "proposed_response": "Qual é a finalidade da festa ou do evento?",
+      "ready_for_quote_checks": false
+    },
+    "expected": {
+      "route": "ASK_MISSING_FIELD",
+      "next_field": "event_type",
+      "missing_required": [
+        "event_type",
+        "event_date",
+        "locality"
+      ],
+      "facts": {
+        "service_interest": [
+          "cabine_fotos"
+        ],
+        "acquisition_source": "unknown"
+      },
+      "conflicts": {},
+      "proposed_response": "Qual é a finalidade da festa ou do evento?",
+      "ready_for_quote_checks": false
+    }
+  },
+  {
+    "id": "sequence-date-purpose",
+    "payload": {
+      "messages": [
+        {
+          "id": "sim-sequence-date-purpose",
+          "from": "5511000000003",
+          "timestamp": "1791957600",
+          "type": "text",
+          "text": {
+            "body": "É um aniversário dia 24/01/2027"
+          }
+        }
+      ],
+      "metadata": {
+        "phone_number_id": "100000000001"
+      }
+    },
+    "snapshot": {
+      "facts": [
+        {
+          "id": "6fd44da1-78a5-40e2-ad31-ee5d930f032c",
+          "critical": false,
+          "fact_key": "service_interest",
+          "metadata": {
+            "evidence": "Quero cabine de fotos",
+            "explicit_service_change": true
+          },
+          "valid_to": null,
+          "actor_ref": "whatsapp-intake",
+          "confidence": 1,
+          "created_at": "2026-10-14T07:27:00.755+00:00",
+          "fact_value": [
+            "cabine_fotos"
+          ],
+          "is_current": true,
+          "source_ref": "sim-sequence-service",
+          "valid_from": "2026-10-14T07:27:00.755+00:00",
+          "fact_status": "known",
+          "source_type": "customer",
+          "source_event_id": "6ab89c35-544e-44e3-99ba-787419f10cf0",
+          "customer_event_id": "0de38fb2-8725-47f7-babd-ad5643c4110a",
+          "supersedes_fact_id": null
+        }
+      ],
+      "contact": {
+        "id": "29dc8693-ab18-4a4a-b14b-1116b694322e",
+        "metadata": {},
+        "created_at": "2026-10-14T07:27:00.755+00:00",
+        "phone_e164": null,
+        "updated_at": "2026-10-14T07:27:00.755+00:00",
+        "whatsapp_id": "5511000000003",
+        "display_name": null,
+        "contact_category": "unknown",
+        "relationship_type": "unknown",
+        "chatwoot_contact_id": null
+      },
+      "session": {
+        "id": "3347e930-13a6-487c-a9d2-bb63b5bca61c",
+        "status": "active",
+        "channel": "whatsapp",
+        "context": {
+          "quote_intake": {
+            "last_action_key": "ASK_MISSING_FIELD:event_type:null",
+            "last_message_id": "sim-sequence-service"
+          }
+        },
+        "contact_id": "29dc8693-ab18-4a4a-b14b-1116b694322e",
+        "created_at": "2026-10-14T07:27:00.755+00:00",
+        "updated_at": "2026-10-14T07:27:00.755+00:00",
+        "current_state": "new",
+        "state_version": 1,
+        "external_session_key": "meta:100000000001:5511000000003",
+        "active_customer_event_id": "0de38fb2-8725-47f7-babd-ad5643c4110a"
+      },
+      "services": [
+        {
+          "id": "89b68ef8-7305-48b2-a7e4-01447d3d8400",
+          "status": "interested",
+          "metadata": {},
+          "quantity": 1,
+          "created_at": "2026-10-14T07:27:00.755+00:00",
+          "service_id": "205af602-afc4-4672-8bda-b313dd8e12f3",
+          "updated_at": "2026-10-14T07:27:00.755+00:00",
+          "service_code": "cabine_fotos",
+          "customer_event_id": "0de38fb2-8725-47f7-babd-ad5643c4110a"
+        }
+      ],
+      "duplicate": false,
+      "human_lock": false,
+      "localities": [
+        {
+          "aliases": [
+            "mogi"
+          ],
+          "canonical_name": "mogi das cruzes"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "suzano"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "santa isabel"
+        }
+      ],
+      "customer_event": {
+        "id": "0de38fb2-8725-47f7-babd-ad5643c4110a",
+        "city": null,
+        "status": "active",
+        "won_at": null,
+        "lost_at": null,
+        "district": null,
+        "metadata": {
+          "quote_intake": {
+            "version": 1,
+            "conflicts": {}
+          }
+        },
+        "closed_at": null,
+        "contact_id": "29dc8693-ab18-4a4a-b14b-1116b694322e",
+        "created_at": "2026-10-14T07:27:00.755+00:00",
+        "deleted_at": null,
+        "event_date": null,
+        "event_type": null,
+        "updated_at": "2026-10-14T07:27:00.755+00:00",
+        "venue_name": null,
+        "locality_id": null,
+        "qualified_at": null,
+        "stage_version": 0,
+        "venue_address": null,
+        "lifecycle_stage": "lead_new",
+        "commercial_stage": "PRE_QUOTE",
+        "event_start_time": null,
+        "operational_stage": "NOT_STARTED",
+        "external_event_key": null,
+        "primary_touchpoint_id": null
+      },
+      "identity_ambiguous": false
+    },
+    "semantic": {
+      "answers": {
+        "event_date": {
+          "choice": "c0",
+          "confidence": 0.99
+        },
+        "event_type": {
+          "choice": "c0",
+          "confidence": 0.99
+        }
+      }
+    },
+    "commit_result": {
+      "route": "ASK_MISSING_FIELD",
+      "status": "committed",
+      "effects": {
+        "database_write": true,
+        "whatsapp_reply": false,
+        "quote_calculation": false
+      },
+      "session_id": "3347e930-13a6-487c-a9d2-bb63b5bca61c",
+      "state_version": 2,
+      "source_event_id": "8d284b79-92ac-4658-b697-d2cdec592326",
+      "customer_event_id": "0de38fb2-8725-47f7-babd-ad5643c4110a",
+      "proposed_response": "Em qual cidade ou localidade será o evento?",
+      "ready_for_quote_checks": false
+    },
+    "expected": {
+      "route": "ASK_MISSING_FIELD",
+      "next_field": "locality",
+      "missing_required": [
+        "locality"
+      ],
+      "facts": {
+        "service_interest": [
+          "cabine_fotos"
+        ],
+        "event_type": "aniversario",
+        "event_date": "2027-01-24",
+        "locality": null,
+        "acquisition_source": "unknown"
+      },
+      "conflicts": {},
+      "proposed_response": "Em qual cidade ou localidade será o evento?",
+      "ready_for_quote_checks": false
+    }
+  },
+  {
+    "id": "sequence-city",
+    "payload": {
+      "messages": [
+        {
+          "id": "sim-sequence-city",
+          "from": "5511000000003",
+          "timestamp": "1791957600",
+          "type": "text",
+          "text": {
+            "body": "Em Suzano"
+          }
+        }
+      ],
+      "metadata": {
+        "phone_number_id": "100000000001"
+      }
+    },
+    "snapshot": {
+      "facts": [
+        {
+          "id": "6bf3be9d-82a5-4b68-a455-9970a25a9bd8",
+          "critical": false,
+          "fact_key": "event_date",
+          "metadata": {
+            "evidence": "É um aniversário dia 24/01/2027"
+          },
+          "valid_to": null,
+          "actor_ref": "whatsapp-intake",
+          "confidence": 1,
+          "created_at": "2026-10-14T07:27:00.774+00:00",
+          "fact_value": "2027-01-24",
+          "is_current": true,
+          "source_ref": "sim-sequence-date-purpose",
+          "valid_from": "2026-10-14T07:27:00.774+00:00",
+          "fact_status": "known",
+          "source_type": "customer",
+          "source_event_id": "8d284b79-92ac-4658-b697-d2cdec592326",
+          "customer_event_id": "0de38fb2-8725-47f7-babd-ad5643c4110a",
+          "supersedes_fact_id": null
+        },
+        {
+          "id": "9bc14a8d-8140-4348-bf89-bb6240f4aa85",
+          "critical": false,
+          "fact_key": "event_type",
+          "metadata": {
+            "evidence": "É um aniversário dia 24/01/2027"
+          },
+          "valid_to": null,
+          "actor_ref": "whatsapp-intake",
+          "confidence": 1,
+          "created_at": "2026-10-14T07:27:00.774+00:00",
+          "fact_value": "aniversario",
+          "is_current": true,
+          "source_ref": "sim-sequence-date-purpose",
+          "valid_from": "2026-10-14T07:27:00.774+00:00",
+          "fact_status": "known",
+          "source_type": "customer",
+          "source_event_id": "8d284b79-92ac-4658-b697-d2cdec592326",
+          "customer_event_id": "0de38fb2-8725-47f7-babd-ad5643c4110a",
+          "supersedes_fact_id": null
+        },
+        {
+          "id": "6fd44da1-78a5-40e2-ad31-ee5d930f032c",
+          "critical": false,
+          "fact_key": "service_interest",
+          "metadata": {
+            "evidence": "Quero cabine de fotos",
+            "explicit_service_change": true
+          },
+          "valid_to": null,
+          "actor_ref": "whatsapp-intake",
+          "confidence": 1,
+          "created_at": "2026-10-14T07:27:00.755+00:00",
+          "fact_value": [
+            "cabine_fotos"
+          ],
+          "is_current": true,
+          "source_ref": "sim-sequence-service",
+          "valid_from": "2026-10-14T07:27:00.755+00:00",
+          "fact_status": "known",
+          "source_type": "customer",
+          "source_event_id": "6ab89c35-544e-44e3-99ba-787419f10cf0",
+          "customer_event_id": "0de38fb2-8725-47f7-babd-ad5643c4110a",
+          "supersedes_fact_id": null
+        }
+      ],
+      "contact": {
+        "id": "29dc8693-ab18-4a4a-b14b-1116b694322e",
+        "metadata": {},
+        "created_at": "2026-10-14T07:27:00.755+00:00",
+        "phone_e164": null,
+        "updated_at": "2026-10-14T07:27:00.755+00:00",
+        "whatsapp_id": "5511000000003",
+        "display_name": null,
+        "contact_category": "unknown",
+        "relationship_type": "unknown",
+        "chatwoot_contact_id": null
+      },
+      "session": {
+        "id": "3347e930-13a6-487c-a9d2-bb63b5bca61c",
+        "status": "active",
+        "channel": "whatsapp",
+        "context": {
+          "quote_intake": {
+            "last_action_key": "ASK_MISSING_FIELD:locality:null",
+            "last_message_id": "sim-sequence-date-purpose"
+          }
+        },
+        "contact_id": "29dc8693-ab18-4a4a-b14b-1116b694322e",
+        "created_at": "2026-10-14T07:27:00.755+00:00",
+        "updated_at": "2026-10-14T07:27:00.774+00:00",
+        "current_state": "new",
+        "state_version": 2,
+        "external_session_key": "meta:100000000001:5511000000003",
+        "active_customer_event_id": "0de38fb2-8725-47f7-babd-ad5643c4110a"
+      },
+      "services": [
+        {
+          "id": "89b68ef8-7305-48b2-a7e4-01447d3d8400",
+          "status": "interested",
+          "metadata": {},
+          "quantity": 1,
+          "created_at": "2026-10-14T07:27:00.755+00:00",
+          "service_id": "205af602-afc4-4672-8bda-b313dd8e12f3",
+          "updated_at": "2026-10-14T07:27:00.755+00:00",
+          "service_code": "cabine_fotos",
+          "customer_event_id": "0de38fb2-8725-47f7-babd-ad5643c4110a"
+        }
+      ],
+      "duplicate": false,
+      "human_lock": false,
+      "localities": [
+        {
+          "aliases": [
+            "mogi"
+          ],
+          "canonical_name": "mogi das cruzes"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "suzano"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "santa isabel"
+        }
+      ],
+      "customer_event": {
+        "id": "0de38fb2-8725-47f7-babd-ad5643c4110a",
+        "city": null,
+        "status": "active",
+        "won_at": null,
+        "lost_at": null,
+        "district": null,
+        "metadata": {
+          "quote_intake": {
+            "version": 2,
+            "conflicts": {}
+          }
+        },
+        "closed_at": null,
+        "contact_id": "29dc8693-ab18-4a4a-b14b-1116b694322e",
+        "created_at": "2026-10-14T07:27:00.755+00:00",
+        "deleted_at": null,
+        "event_date": "2027-01-24",
+        "event_type": "aniversario",
+        "updated_at": "2026-10-14T07:27:00.774+00:00",
+        "venue_name": null,
+        "locality_id": null,
+        "qualified_at": null,
+        "stage_version": 0,
+        "venue_address": null,
+        "lifecycle_stage": "lead_new",
+        "commercial_stage": "PRE_QUOTE",
+        "event_start_time": null,
+        "operational_stage": "NOT_STARTED",
+        "external_event_key": null,
+        "primary_touchpoint_id": null
+      },
+      "identity_ambiguous": false
+    },
+    "semantic": {
+      "answers": {
+        "locality": {
+          "choice": "c0",
+          "confidence": 0.99
+        }
+      }
+    },
+    "commit_result": {
+      "route": "QUOTE_CHECKS",
+      "status": "committed",
+      "effects": {
+        "database_write": true,
+        "whatsapp_reply": false,
+        "quote_calculation": false
+      },
+      "session_id": "3347e930-13a6-487c-a9d2-bb63b5bca61c",
+      "state_version": 3,
+      "source_event_id": "a8160890-fbea-49d3-8dbc-5659945c967c",
+      "customer_event_id": "0de38fb2-8725-47f7-babd-ad5643c4110a",
+      "proposed_response": null,
+      "ready_for_quote_checks": true
+    },
+    "expected": {
+      "route": "QUOTE_CHECKS",
+      "next_field": null,
+      "missing_required": [],
+      "facts": {
+        "event_date": "2027-01-24",
+        "event_type": "aniversario",
+        "service_interest": [
+          "cabine_fotos"
+        ],
+        "locality": "suzano",
+        "acquisition_source": "unknown"
+      },
+      "conflicts": {},
+      "proposed_response": null,
+      "ready_for_quote_checks": true
+    }
+  },
+  {
+    "id": "combo",
+    "payload": {
+      "messages": [
+        {
+          "id": "sim-combo",
+          "from": "5511000000004",
+          "timestamp": "1791957600",
+          "type": "text",
+          "text": {
+            "body": "Quero cabine e plataforma para casamento dia 24/01/2027 em Suzano"
+          }
+        }
+      ],
+      "metadata": {
+        "phone_number_id": "100000000001"
+      }
+    },
+    "snapshot": {
+      "facts": [],
+      "contact": null,
+      "session": null,
+      "services": [],
+      "duplicate": false,
+      "human_lock": false,
+      "localities": [
+        {
+          "aliases": [
+            "mogi"
+          ],
+          "canonical_name": "mogi das cruzes"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "suzano"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "santa isabel"
+        }
+      ],
+      "customer_event": null,
+      "identity_ambiguous": false
+    },
+    "semantic": {
+      "answers": {
+        "event_date": {
+          "choice": "c0",
+          "confidence": 0.99
+        },
+        "event_type": {
+          "choice": "c0",
+          "confidence": 0.99
+        },
+        "locality": {
+          "choice": "c0",
+          "confidence": 0.99
+        },
+        "service_interest": {
+          "choice": "c0",
+          "confidence": 0.99
+        }
+      }
+    },
+    "commit_result": {
+      "route": "QUOTE_CHECKS",
+      "status": "committed",
+      "effects": {
+        "database_write": true,
+        "whatsapp_reply": false,
+        "quote_calculation": false
+      },
+      "session_id": "7654f6d6-5b76-4d09-9538-f1decd69d15e",
+      "state_version": 1,
+      "source_event_id": "1c157290-8cc2-4192-a251-57e6f9accf79",
+      "customer_event_id": "19435774-b1fd-48e5-9dad-f213c967995b",
+      "proposed_response": null,
+      "ready_for_quote_checks": true
+    },
+    "expected": {
+      "route": "QUOTE_CHECKS",
+      "next_field": null,
+      "missing_required": [],
+      "facts": {
+        "service_interest": [
+          "cabine_fotos",
+          "plataforma_360"
+        ],
+        "event_type": "casamento",
+        "event_date": "2027-01-24",
+        "locality": "suzano",
+        "acquisition_source": "unknown"
+      },
+      "conflicts": {},
+      "proposed_response": null,
+      "ready_for_quote_checks": true
+    }
+  },
+  {
+    "id": "negation",
+    "payload": {
+      "messages": [
+        {
+          "id": "sim-negation",
+          "from": "5511000000005",
+          "timestamp": "1791957600",
+          "type": "text",
+          "text": {
+            "body": "Não quero totem nem plataforma, quero só cabine"
+          }
+        }
+      ],
+      "metadata": {
+        "phone_number_id": "100000000001"
+      }
+    },
+    "snapshot": {
+      "facts": [],
+      "contact": null,
+      "session": null,
+      "services": [],
+      "duplicate": false,
+      "human_lock": false,
+      "localities": [
+        {
+          "aliases": [
+            "mogi"
+          ],
+          "canonical_name": "mogi das cruzes"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "suzano"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "santa isabel"
+        }
+      ],
+      "customer_event": null,
+      "identity_ambiguous": false
+    },
+    "semantic": {
+      "answers": {
+        "service_interest": {
+          "choice": "c0",
+          "confidence": 0.99
+        }
+      }
+    },
+    "commit_result": {
+      "route": "ASK_MISSING_FIELD",
+      "status": "committed",
+      "effects": {
+        "database_write": true,
+        "whatsapp_reply": false,
+        "quote_calculation": false
+      },
+      "session_id": "0bffb75f-0a98-479d-9ae1-879991e85afc",
+      "state_version": 1,
+      "source_event_id": "a0fa1612-0aee-4369-9f3f-531e192ea5dd",
+      "customer_event_id": "3188b946-20ba-48bd-ae67-32cc6f6392fd",
+      "proposed_response": "Qual é a finalidade da festa ou do evento?",
+      "ready_for_quote_checks": false
+    },
+    "expected": {
+      "route": "ASK_MISSING_FIELD",
+      "next_field": "event_type",
+      "missing_required": [
+        "event_type",
+        "event_date",
+        "locality"
+      ],
+      "facts": {
+        "service_interest": [
+          "cabine_fotos"
+        ],
+        "acquisition_source": "unknown"
+      },
+      "conflicts": {},
+      "proposed_response": "Qual é a finalidade da festa ou do evento?",
+      "ready_for_quote_checks": false
+    }
+  },
+  {
+    "id": "source-unidentified",
+    "payload": {
+      "messages": [
+        {
+          "id": "sim-source-unidentified",
+          "from": "5511000000006",
+          "timestamp": "1791957600",
+          "type": "text",
+          "text": {
+            "body": "Gostaria de solicitar um orçamento de cabine para casamento dia 24/01/2027 em Suzano"
+          }
+        }
+      ],
+      "metadata": {
+        "phone_number_id": "100000000001"
+      }
+    },
+    "snapshot": {
+      "facts": [],
+      "contact": null,
+      "session": null,
+      "services": [],
+      "duplicate": false,
+      "human_lock": false,
+      "localities": [
+        {
+          "aliases": [
+            "mogi"
+          ],
+          "canonical_name": "mogi das cruzes"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "suzano"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "santa isabel"
+        }
+      ],
+      "customer_event": null,
+      "identity_ambiguous": false
+    },
+    "semantic": {
+      "answers": {
+        "event_date": {
+          "choice": "c0",
+          "confidence": 0.99
+        },
+        "event_type": {
+          "choice": "c0",
+          "confidence": 0.99
+        },
+        "locality": {
+          "choice": "c0",
+          "confidence": 0.99
+        },
+        "service_interest": {
+          "choice": "c0",
+          "confidence": 0.99
+        }
+      }
+    },
+    "commit_result": {
+      "route": "QUOTE_CHECKS",
+      "status": "committed",
+      "effects": {
+        "database_write": true,
+        "whatsapp_reply": false,
+        "quote_calculation": false
+      },
+      "session_id": "a1e90fdc-a5bf-4b70-885f-d45f8d853916",
+      "state_version": 1,
+      "source_event_id": "8a829b5b-98ec-4de5-9abc-4b95dc810387",
+      "customer_event_id": "23c6d7f5-84ed-46e6-949d-9f0ebf6420c4",
+      "proposed_response": null,
+      "ready_for_quote_checks": true
+    },
+    "expected": {
+      "route": "QUOTE_CHECKS",
+      "next_field": null,
+      "missing_required": [],
+      "facts": {
+        "service_interest": [
+          "cabine_fotos"
+        ],
+        "event_type": "casamento",
+        "event_date": "2027-01-24",
+        "locality": "suzano",
+        "acquisition_source": "unknown"
+      },
+      "conflicts": {},
+      "proposed_response": null,
+      "ready_for_quote_checks": true
+    }
+  },
+  {
+    "id": "name-absent",
+    "payload": {
+      "messages": [
+        {
+          "id": "sim-name-absent",
+          "from": "5511000000007",
+          "timestamp": "1791957600",
+          "type": "text",
+          "text": {
+            "body": "Quero totem para casamento dia 24/01/2027 em Suzano"
+          }
+        }
+      ],
+      "metadata": {
+        "phone_number_id": "100000000001"
+      }
+    },
+    "snapshot": {
+      "facts": [],
+      "contact": null,
+      "session": null,
+      "services": [],
+      "duplicate": false,
+      "human_lock": false,
+      "localities": [
+        {
+          "aliases": [
+            "mogi"
+          ],
+          "canonical_name": "mogi das cruzes"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "suzano"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "santa isabel"
+        }
+      ],
+      "customer_event": null,
+      "identity_ambiguous": false
+    },
+    "semantic": {
+      "answers": {
+        "event_date": {
+          "choice": "c0",
+          "confidence": 0.99
+        },
+        "event_type": {
+          "choice": "c0",
+          "confidence": 0.99
+        },
+        "locality": {
+          "choice": "c0",
+          "confidence": 0.99
+        },
+        "service_interest": {
+          "choice": "c0",
+          "confidence": 0.99
+        }
+      }
+    },
+    "commit_result": {
+      "route": "QUOTE_CHECKS",
+      "status": "committed",
+      "effects": {
+        "database_write": true,
+        "whatsapp_reply": false,
+        "quote_calculation": false
+      },
+      "session_id": "004971fe-052a-4698-96af-5c9da32921c0",
+      "state_version": 1,
+      "source_event_id": "0eb9f8f5-6aec-4323-9484-3562ab8419b4",
+      "customer_event_id": "f1fa1b3f-621d-48ee-a441-07907c1b7a56",
+      "proposed_response": null,
+      "ready_for_quote_checks": true
+    },
+    "expected": {
+      "route": "QUOTE_CHECKS",
+      "next_field": null,
+      "missing_required": [],
+      "facts": {
+        "service_interest": [
+          "totem_fotos"
+        ],
+        "event_type": "casamento",
+        "event_date": "2027-01-24",
+        "locality": "suzano",
+        "acquisition_source": "unknown"
+      },
+      "conflicts": {},
+      "proposed_response": null,
+      "ready_for_quote_checks": true
+    }
+  },
+  {
+    "id": "conflict",
+    "payload": {
+      "messages": [
+        {
+          "id": "sim-conflict",
+          "from": "5511000000002",
+          "timestamp": "1791957600",
+          "type": "text",
+          "text": {
+            "body": "Dia 25/01/2027"
+          }
+        }
+      ],
+      "metadata": {
+        "phone_number_id": "100000000001"
+      }
+    },
+    "snapshot": {
+      "facts": [
+        {
+          "id": "167a4a23-134c-40a3-a6f6-54bd56dcd9f1",
+          "critical": false,
+          "fact_key": "event_date",
+          "metadata": {
+            "evidence": "Quero cabine para casamento dia 24/01/2027 em Suzano"
+          },
+          "valid_to": null,
+          "actor_ref": "whatsapp-intake",
+          "confidence": 1,
+          "created_at": "2026-10-14T07:27:00.737+00:00",
+          "fact_value": "2027-01-24",
+          "is_current": true,
+          "source_ref": "sim-many-fields",
+          "valid_from": "2026-10-14T07:27:00.737+00:00",
+          "fact_status": "known",
+          "source_type": "customer",
+          "source_event_id": "fa6e20fd-f704-4dda-95b8-4d5631d884f2",
+          "customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69",
+          "supersedes_fact_id": null
+        },
+        {
+          "id": "132714e6-3174-4e94-97c6-08d4bbbdb679",
+          "critical": false,
+          "fact_key": "event_type",
+          "metadata": {
+            "evidence": "Quero cabine para casamento dia 24/01/2027 em Suzano"
+          },
+          "valid_to": null,
+          "actor_ref": "whatsapp-intake",
+          "confidence": 1,
+          "created_at": "2026-10-14T07:27:00.737+00:00",
+          "fact_value": "casamento",
+          "is_current": true,
+          "source_ref": "sim-many-fields",
+          "valid_from": "2026-10-14T07:27:00.737+00:00",
+          "fact_status": "known",
+          "source_type": "customer",
+          "source_event_id": "fa6e20fd-f704-4dda-95b8-4d5631d884f2",
+          "customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69",
+          "supersedes_fact_id": null
+        },
+        {
+          "id": "b1583f96-14f1-44cb-8797-055833aa3199",
+          "critical": false,
+          "fact_key": "locality",
+          "metadata": {
+            "evidence": "Quero cabine para casamento dia 24/01/2027 em Suzano"
+          },
+          "valid_to": null,
+          "actor_ref": "whatsapp-intake",
+          "confidence": 1,
+          "created_at": "2026-10-14T07:27:00.737+00:00",
+          "fact_value": "suzano",
+          "is_current": true,
+          "source_ref": "sim-many-fields",
+          "valid_from": "2026-10-14T07:27:00.737+00:00",
+          "fact_status": "known",
+          "source_type": "customer",
+          "source_event_id": "fa6e20fd-f704-4dda-95b8-4d5631d884f2",
+          "customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69",
+          "supersedes_fact_id": null
+        },
+        {
+          "id": "2641bcad-0662-4e1b-a0d4-2735338f1d64",
+          "critical": false,
+          "fact_key": "service_interest",
+          "metadata": {
+            "evidence": "Quero cabine para casamento dia 24/01/2027 em Suzano",
+            "explicit_service_change": true
+          },
+          "valid_to": null,
+          "actor_ref": "whatsapp-intake",
+          "confidence": 1,
+          "created_at": "2026-10-14T07:27:00.737+00:00",
+          "fact_value": [
+            "cabine_fotos"
+          ],
+          "is_current": true,
+          "source_ref": "sim-many-fields",
+          "valid_from": "2026-10-14T07:27:00.737+00:00",
+          "fact_status": "known",
+          "source_type": "customer",
+          "source_event_id": "fa6e20fd-f704-4dda-95b8-4d5631d884f2",
+          "customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69",
+          "supersedes_fact_id": null
+        }
+      ],
+      "contact": {
+        "id": "9c66869f-d360-4958-8c89-dc7a8da64af4",
+        "metadata": {},
+        "created_at": "2026-10-14T07:27:00.737+00:00",
+        "phone_e164": null,
+        "updated_at": "2026-10-14T07:27:00.737+00:00",
+        "whatsapp_id": "5511000000002",
+        "display_name": null,
+        "contact_category": "unknown",
+        "relationship_type": "unknown",
+        "chatwoot_contact_id": null
+      },
+      "session": {
+        "id": "b16b5611-db2a-4fc5-ada0-9cf9374639aa",
+        "status": "active",
+        "channel": "whatsapp",
+        "context": {
+          "quote_intake": {
+            "last_action_key": "QUOTE_CHECKS:{\"acquisition_source\":\"unknown\",\"event_date\":\"2027-01-24\",\"event_type\":\"casamento\",\"locality\":\"suzano\",\"service_interest\":[\"cabine_fotos\"]}",
+            "last_message_id": "sim-many-fields"
+          }
+        },
+        "contact_id": "9c66869f-d360-4958-8c89-dc7a8da64af4",
+        "created_at": "2026-10-14T07:27:00.737+00:00",
+        "updated_at": "2026-10-14T07:27:00.737+00:00",
+        "current_state": "new",
+        "state_version": 1,
+        "external_session_key": "meta:100000000001:5511000000002",
+        "active_customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69"
+      },
+      "services": [
+        {
+          "id": "25657b0d-1991-439d-9af2-1b5df66ba943",
+          "status": "interested",
+          "metadata": {},
+          "quantity": 1,
+          "created_at": "2026-10-14T07:27:00.737+00:00",
+          "service_id": "205af602-afc4-4672-8bda-b313dd8e12f3",
+          "updated_at": "2026-10-14T07:27:00.737+00:00",
+          "service_code": "cabine_fotos",
+          "customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69"
+        }
+      ],
+      "duplicate": false,
+      "human_lock": false,
+      "localities": [
+        {
+          "aliases": [
+            "mogi"
+          ],
+          "canonical_name": "mogi das cruzes"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "suzano"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "santa isabel"
+        }
+      ],
+      "customer_event": {
+        "id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69",
+        "city": "suzano",
+        "status": "active",
+        "won_at": null,
+        "lost_at": null,
+        "district": null,
+        "metadata": {
+          "quote_intake": {
+            "version": 1,
+            "conflicts": {}
+          }
+        },
+        "closed_at": null,
+        "contact_id": "9c66869f-d360-4958-8c89-dc7a8da64af4",
+        "created_at": "2026-10-14T07:27:00.737+00:00",
+        "deleted_at": null,
+        "event_date": "2027-01-24",
+        "event_type": "casamento",
+        "updated_at": "2026-10-14T07:27:00.737+00:00",
+        "venue_name": null,
+        "locality_id": null,
+        "qualified_at": null,
+        "stage_version": 0,
+        "venue_address": null,
+        "lifecycle_stage": "lead_new",
+        "commercial_stage": "PRE_QUOTE",
+        "event_start_time": null,
+        "operational_stage": "NOT_STARTED",
+        "external_event_key": null,
+        "primary_touchpoint_id": null
+      },
+      "identity_ambiguous": false
+    },
+    "semantic": {
+      "answers": {
+        "event_date": {
+          "choice": "c0",
+          "confidence": 0.99
+        }
+      }
+    },
+    "commit_result": {
+      "route": "CLARIFY_CONFLICT",
+      "status": "committed",
+      "effects": {
+        "database_write": true,
+        "whatsapp_reply": false,
+        "quote_calculation": false
+      },
+      "session_id": "b16b5611-db2a-4fc5-ada0-9cf9374639aa",
+      "state_version": 2,
+      "source_event_id": "ef003deb-8ee3-4dc5-aa45-eeb76662e431",
+      "customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69",
+      "proposed_response": "Pode confirmar a data com o ano? Recebi informações diferentes ou ambíguas.",
+      "ready_for_quote_checks": false
+    },
+    "expected": {
+      "route": "CLARIFY_CONFLICT",
+      "next_field": "event_date",
+      "missing_required": [],
+      "facts": {
+        "event_date": "2027-01-24",
+        "event_type": "casamento",
+        "locality": "suzano",
+        "service_interest": [
+          "cabine_fotos"
+        ],
+        "acquisition_source": "unknown"
+      },
+      "conflicts": {
+        "event_date": {
+          "current_value": "2027-01-24",
+          "candidate_values": [
+            "2027-01-25"
+          ],
+          "evidence": "Dia 25/01/2027"
+        }
+      },
+      "proposed_response": "Pode confirmar a data com o ano? Recebi informações diferentes ou ambíguas.",
+      "ready_for_quote_checks": false
+    }
+  },
+  {
+    "id": "conflict-persists",
+    "payload": {
+      "messages": [
+        {
+          "id": "sim-conflict-persists",
+          "from": "5511000000002",
+          "timestamp": "1791957600",
+          "type": "text",
+          "text": {
+            "body": "Olá"
+          }
+        }
+      ],
+      "metadata": {
+        "phone_number_id": "100000000001"
+      }
+    },
+    "snapshot": {
+      "facts": [
+        {
+          "id": "167a4a23-134c-40a3-a6f6-54bd56dcd9f1",
+          "critical": false,
+          "fact_key": "event_date",
+          "metadata": {
+            "evidence": "Quero cabine para casamento dia 24/01/2027 em Suzano"
+          },
+          "valid_to": null,
+          "actor_ref": "whatsapp-intake",
+          "confidence": 1,
+          "created_at": "2026-10-14T07:27:00.737+00:00",
+          "fact_value": "2027-01-24",
+          "is_current": true,
+          "source_ref": "sim-many-fields",
+          "valid_from": "2026-10-14T07:27:00.737+00:00",
+          "fact_status": "known",
+          "source_type": "customer",
+          "source_event_id": "fa6e20fd-f704-4dda-95b8-4d5631d884f2",
+          "customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69",
+          "supersedes_fact_id": null
+        },
+        {
+          "id": "132714e6-3174-4e94-97c6-08d4bbbdb679",
+          "critical": false,
+          "fact_key": "event_type",
+          "metadata": {
+            "evidence": "Quero cabine para casamento dia 24/01/2027 em Suzano"
+          },
+          "valid_to": null,
+          "actor_ref": "whatsapp-intake",
+          "confidence": 1,
+          "created_at": "2026-10-14T07:27:00.737+00:00",
+          "fact_value": "casamento",
+          "is_current": true,
+          "source_ref": "sim-many-fields",
+          "valid_from": "2026-10-14T07:27:00.737+00:00",
+          "fact_status": "known",
+          "source_type": "customer",
+          "source_event_id": "fa6e20fd-f704-4dda-95b8-4d5631d884f2",
+          "customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69",
+          "supersedes_fact_id": null
+        },
+        {
+          "id": "b1583f96-14f1-44cb-8797-055833aa3199",
+          "critical": false,
+          "fact_key": "locality",
+          "metadata": {
+            "evidence": "Quero cabine para casamento dia 24/01/2027 em Suzano"
+          },
+          "valid_to": null,
+          "actor_ref": "whatsapp-intake",
+          "confidence": 1,
+          "created_at": "2026-10-14T07:27:00.737+00:00",
+          "fact_value": "suzano",
+          "is_current": true,
+          "source_ref": "sim-many-fields",
+          "valid_from": "2026-10-14T07:27:00.737+00:00",
+          "fact_status": "known",
+          "source_type": "customer",
+          "source_event_id": "fa6e20fd-f704-4dda-95b8-4d5631d884f2",
+          "customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69",
+          "supersedes_fact_id": null
+        },
+        {
+          "id": "2641bcad-0662-4e1b-a0d4-2735338f1d64",
+          "critical": false,
+          "fact_key": "service_interest",
+          "metadata": {
+            "evidence": "Quero cabine para casamento dia 24/01/2027 em Suzano",
+            "explicit_service_change": true
+          },
+          "valid_to": null,
+          "actor_ref": "whatsapp-intake",
+          "confidence": 1,
+          "created_at": "2026-10-14T07:27:00.737+00:00",
+          "fact_value": [
+            "cabine_fotos"
+          ],
+          "is_current": true,
+          "source_ref": "sim-many-fields",
+          "valid_from": "2026-10-14T07:27:00.737+00:00",
+          "fact_status": "known",
+          "source_type": "customer",
+          "source_event_id": "fa6e20fd-f704-4dda-95b8-4d5631d884f2",
+          "customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69",
+          "supersedes_fact_id": null
+        }
+      ],
+      "contact": {
+        "id": "9c66869f-d360-4958-8c89-dc7a8da64af4",
+        "metadata": {},
+        "created_at": "2026-10-14T07:27:00.737+00:00",
+        "phone_e164": null,
+        "updated_at": "2026-10-14T07:27:00.737+00:00",
+        "whatsapp_id": "5511000000002",
+        "display_name": null,
+        "contact_category": "unknown",
+        "relationship_type": "unknown",
+        "chatwoot_contact_id": null
+      },
+      "session": {
+        "id": "b16b5611-db2a-4fc5-ada0-9cf9374639aa",
+        "status": "active",
+        "channel": "whatsapp",
+        "context": {
+          "quote_intake": {
+            "last_action_key": "CLARIFY_CONFLICT:event_date:{\"candidate_values\":[\"2027-01-25\"],\"current_value\":\"2027-01-24\",\"evidence\":\"Dia 25/01/2027\"}",
+            "last_message_id": "sim-conflict"
+          }
+        },
+        "contact_id": "9c66869f-d360-4958-8c89-dc7a8da64af4",
+        "created_at": "2026-10-14T07:27:00.737+00:00",
+        "updated_at": "2026-10-14T07:27:00.841+00:00",
+        "current_state": "new",
+        "state_version": 2,
+        "external_session_key": "meta:100000000001:5511000000002",
+        "active_customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69"
+      },
+      "services": [
+        {
+          "id": "25657b0d-1991-439d-9af2-1b5df66ba943",
+          "status": "interested",
+          "metadata": {},
+          "quantity": 1,
+          "created_at": "2026-10-14T07:27:00.737+00:00",
+          "service_id": "205af602-afc4-4672-8bda-b313dd8e12f3",
+          "updated_at": "2026-10-14T07:27:00.737+00:00",
+          "service_code": "cabine_fotos",
+          "customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69"
+        }
+      ],
+      "duplicate": false,
+      "human_lock": false,
+      "localities": [
+        {
+          "aliases": [
+            "mogi"
+          ],
+          "canonical_name": "mogi das cruzes"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "suzano"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "santa isabel"
+        }
+      ],
+      "customer_event": {
+        "id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69",
+        "city": "suzano",
+        "status": "active",
+        "won_at": null,
+        "lost_at": null,
+        "district": null,
+        "metadata": {
+          "quote_intake": {
+            "version": 2,
+            "conflicts": {
+              "event_date": {
+                "evidence": "Dia 25/01/2027",
+                "current_value": "2027-01-24",
+                "candidate_values": [
+                  "2027-01-25"
+                ]
+              }
+            }
+          }
+        },
+        "closed_at": null,
+        "contact_id": "9c66869f-d360-4958-8c89-dc7a8da64af4",
+        "created_at": "2026-10-14T07:27:00.737+00:00",
+        "deleted_at": null,
+        "event_date": "2027-01-24",
+        "event_type": "casamento",
+        "updated_at": "2026-10-14T07:27:00.841+00:00",
+        "venue_name": null,
+        "locality_id": null,
+        "qualified_at": null,
+        "stage_version": 0,
+        "venue_address": null,
+        "lifecycle_stage": "lead_new",
+        "commercial_stage": "PRE_QUOTE",
+        "event_start_time": null,
+        "operational_stage": "NOT_STARTED",
+        "external_event_key": null,
+        "primary_touchpoint_id": null
+      },
+      "identity_ambiguous": false
+    },
+    "semantic": {
+      "answers": {}
+    },
+    "commit_result": {
+      "route": "CLARIFY_CONFLICT",
+      "status": "committed",
+      "effects": {
+        "database_write": true,
+        "whatsapp_reply": false,
+        "quote_calculation": false
+      },
+      "session_id": "b16b5611-db2a-4fc5-ada0-9cf9374639aa",
+      "state_version": 3,
+      "source_event_id": "c4a00aaa-aaf9-4b4f-80cc-d42d86ec5005",
+      "customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69",
+      "proposed_response": null,
+      "ready_for_quote_checks": false
+    },
+    "expected": {
+      "route": "CLARIFY_CONFLICT",
+      "next_field": "event_date",
+      "missing_required": [],
+      "facts": {
+        "event_date": "2027-01-24",
+        "event_type": "casamento",
+        "locality": "suzano",
+        "service_interest": [
+          "cabine_fotos"
+        ],
+        "acquisition_source": "unknown"
+      },
+      "conflicts": {
+        "event_date": {
+          "evidence": "Dia 25/01/2027",
+          "current_value": "2027-01-24",
+          "candidate_values": [
+            "2027-01-25"
+          ]
+        }
+      },
+      "proposed_response": null,
+      "ready_for_quote_checks": false
+    }
+  },
+  {
+    "id": "conflict-resolved",
+    "payload": {
+      "messages": [
+        {
+          "id": "sim-conflict-resolved",
+          "from": "5511000000002",
+          "timestamp": "1791957600",
+          "type": "text",
+          "text": {
+            "body": "Confirmo 25/01/2027"
+          }
+        }
+      ],
+      "metadata": {
+        "phone_number_id": "100000000001"
+      }
+    },
+    "snapshot": {
+      "facts": [
+        {
+          "id": "167a4a23-134c-40a3-a6f6-54bd56dcd9f1",
+          "critical": false,
+          "fact_key": "event_date",
+          "metadata": {
+            "evidence": "Quero cabine para casamento dia 24/01/2027 em Suzano"
+          },
+          "valid_to": null,
+          "actor_ref": "whatsapp-intake",
+          "confidence": 1,
+          "created_at": "2026-10-14T07:27:00.737+00:00",
+          "fact_value": "2027-01-24",
+          "is_current": true,
+          "source_ref": "sim-many-fields",
+          "valid_from": "2026-10-14T07:27:00.737+00:00",
+          "fact_status": "known",
+          "source_type": "customer",
+          "source_event_id": "fa6e20fd-f704-4dda-95b8-4d5631d884f2",
+          "customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69",
+          "supersedes_fact_id": null
+        },
+        {
+          "id": "132714e6-3174-4e94-97c6-08d4bbbdb679",
+          "critical": false,
+          "fact_key": "event_type",
+          "metadata": {
+            "evidence": "Quero cabine para casamento dia 24/01/2027 em Suzano"
+          },
+          "valid_to": null,
+          "actor_ref": "whatsapp-intake",
+          "confidence": 1,
+          "created_at": "2026-10-14T07:27:00.737+00:00",
+          "fact_value": "casamento",
+          "is_current": true,
+          "source_ref": "sim-many-fields",
+          "valid_from": "2026-10-14T07:27:00.737+00:00",
+          "fact_status": "known",
+          "source_type": "customer",
+          "source_event_id": "fa6e20fd-f704-4dda-95b8-4d5631d884f2",
+          "customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69",
+          "supersedes_fact_id": null
+        },
+        {
+          "id": "b1583f96-14f1-44cb-8797-055833aa3199",
+          "critical": false,
+          "fact_key": "locality",
+          "metadata": {
+            "evidence": "Quero cabine para casamento dia 24/01/2027 em Suzano"
+          },
+          "valid_to": null,
+          "actor_ref": "whatsapp-intake",
+          "confidence": 1,
+          "created_at": "2026-10-14T07:27:00.737+00:00",
+          "fact_value": "suzano",
+          "is_current": true,
+          "source_ref": "sim-many-fields",
+          "valid_from": "2026-10-14T07:27:00.737+00:00",
+          "fact_status": "known",
+          "source_type": "customer",
+          "source_event_id": "fa6e20fd-f704-4dda-95b8-4d5631d884f2",
+          "customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69",
+          "supersedes_fact_id": null
+        },
+        {
+          "id": "2641bcad-0662-4e1b-a0d4-2735338f1d64",
+          "critical": false,
+          "fact_key": "service_interest",
+          "metadata": {
+            "evidence": "Quero cabine para casamento dia 24/01/2027 em Suzano",
+            "explicit_service_change": true
+          },
+          "valid_to": null,
+          "actor_ref": "whatsapp-intake",
+          "confidence": 1,
+          "created_at": "2026-10-14T07:27:00.737+00:00",
+          "fact_value": [
+            "cabine_fotos"
+          ],
+          "is_current": true,
+          "source_ref": "sim-many-fields",
+          "valid_from": "2026-10-14T07:27:00.737+00:00",
+          "fact_status": "known",
+          "source_type": "customer",
+          "source_event_id": "fa6e20fd-f704-4dda-95b8-4d5631d884f2",
+          "customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69",
+          "supersedes_fact_id": null
+        }
+      ],
+      "contact": {
+        "id": "9c66869f-d360-4958-8c89-dc7a8da64af4",
+        "metadata": {},
+        "created_at": "2026-10-14T07:27:00.737+00:00",
+        "phone_e164": null,
+        "updated_at": "2026-10-14T07:27:00.737+00:00",
+        "whatsapp_id": "5511000000002",
+        "display_name": null,
+        "contact_category": "unknown",
+        "relationship_type": "unknown",
+        "chatwoot_contact_id": null
+      },
+      "session": {
+        "id": "b16b5611-db2a-4fc5-ada0-9cf9374639aa",
+        "status": "active",
+        "channel": "whatsapp",
+        "context": {
+          "quote_intake": {
+            "last_action_key": "CLARIFY_CONFLICT:event_date:{\"candidate_values\":[\"2027-01-25\"],\"current_value\":\"2027-01-24\",\"evidence\":\"Dia 25/01/2027\"}",
+            "last_message_id": "sim-conflict-persists"
+          }
+        },
+        "contact_id": "9c66869f-d360-4958-8c89-dc7a8da64af4",
+        "created_at": "2026-10-14T07:27:00.737+00:00",
+        "updated_at": "2026-10-14T07:27:00.849+00:00",
+        "current_state": "new",
+        "state_version": 3,
+        "external_session_key": "meta:100000000001:5511000000002",
+        "active_customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69"
+      },
+      "services": [
+        {
+          "id": "25657b0d-1991-439d-9af2-1b5df66ba943",
+          "status": "interested",
+          "metadata": {},
+          "quantity": 1,
+          "created_at": "2026-10-14T07:27:00.737+00:00",
+          "service_id": "205af602-afc4-4672-8bda-b313dd8e12f3",
+          "updated_at": "2026-10-14T07:27:00.737+00:00",
+          "service_code": "cabine_fotos",
+          "customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69"
+        }
+      ],
+      "duplicate": false,
+      "human_lock": false,
+      "localities": [
+        {
+          "aliases": [
+            "mogi"
+          ],
+          "canonical_name": "mogi das cruzes"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "suzano"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "santa isabel"
+        }
+      ],
+      "customer_event": {
+        "id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69",
+        "city": "suzano",
+        "status": "active",
+        "won_at": null,
+        "lost_at": null,
+        "district": null,
+        "metadata": {
+          "quote_intake": {
+            "version": 3,
+            "conflicts": {
+              "event_date": {
+                "evidence": "Dia 25/01/2027",
+                "current_value": "2027-01-24",
+                "candidate_values": [
+                  "2027-01-25"
+                ]
+              }
+            }
+          }
+        },
+        "closed_at": null,
+        "contact_id": "9c66869f-d360-4958-8c89-dc7a8da64af4",
+        "created_at": "2026-10-14T07:27:00.737+00:00",
+        "deleted_at": null,
+        "event_date": "2027-01-24",
+        "event_type": "casamento",
+        "updated_at": "2026-10-14T07:27:00.849+00:00",
+        "venue_name": null,
+        "locality_id": null,
+        "qualified_at": null,
+        "stage_version": 0,
+        "venue_address": null,
+        "lifecycle_stage": "lead_new",
+        "commercial_stage": "PRE_QUOTE",
+        "event_start_time": null,
+        "operational_stage": "NOT_STARTED",
+        "external_event_key": null,
+        "primary_touchpoint_id": null
+      },
+      "identity_ambiguous": false
+    },
+    "semantic": {
+      "answers": {
+        "event_date": {
+          "choice": "c0",
+          "confidence": 0.99
+        }
+      }
+    },
+    "commit_result": {
+      "route": "QUOTE_CHECKS",
+      "status": "committed",
+      "effects": {
+        "database_write": true,
+        "whatsapp_reply": false,
+        "quote_calculation": false
+      },
+      "session_id": "b16b5611-db2a-4fc5-ada0-9cf9374639aa",
+      "state_version": 4,
+      "source_event_id": "852944a2-35b2-4bfe-9890-e15b5ca8ae14",
+      "customer_event_id": "83ce09d3-0a96-4d80-8cf1-d24c13302b69",
+      "proposed_response": null,
+      "ready_for_quote_checks": true
+    },
+    "expected": {
+      "route": "QUOTE_CHECKS",
+      "next_field": null,
+      "missing_required": [],
+      "facts": {
+        "event_date": "2027-01-25",
+        "event_type": "casamento",
+        "locality": "suzano",
+        "service_interest": [
+          "cabine_fotos"
+        ],
+        "acquisition_source": "unknown"
+      },
+      "conflicts": {},
+      "proposed_response": null,
+      "ready_for_quote_checks": true
+    }
+  },
+  {
+    "id": "semantic-extraction",
+    "payload": {
+      "messages": [
+        {
+          "id": "sim-semantic-extraction",
+          "from": "5511000000008",
+          "timestamp": "1791957600",
+          "type": "text",
+          "text": {
+            "body": "Quero cabine. Evento é uma reunião de equipe. Cidade: Recife. Dia 24 de janeiro de 2027"
+          }
+        }
+      ],
+      "metadata": {
+        "phone_number_id": "100000000001"
+      }
+    },
+    "snapshot": {
+      "facts": [],
+      "contact": null,
+      "session": null,
+      "services": [],
+      "duplicate": false,
+      "human_lock": false,
+      "localities": [
+        {
+          "aliases": [
+            "mogi"
+          ],
+          "canonical_name": "mogi das cruzes"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "suzano"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "santa isabel"
+        }
+      ],
+      "customer_event": null,
+      "identity_ambiguous": false
+    },
+    "semantic": {
+      "answers": {
+        "event_date": {
+          "choice": "c0",
+          "confidence": 0.99
+        },
+        "event_type": {
+          "choice": "c0",
+          "confidence": 0.99
+        },
+        "locality": {
+          "choice": "c0",
+          "confidence": 0.99
+        },
+        "service_interest": {
+          "choice": "c0",
+          "confidence": 0.99
+        }
+      }
+    },
+    "commit_result": {
+      "route": "QUOTE_CHECKS",
+      "status": "committed",
+      "effects": {
+        "database_write": true,
+        "whatsapp_reply": false,
+        "quote_calculation": false
+      },
+      "session_id": "664ab5b6-1fee-4b5a-9b1f-efa2c17aad3a",
+      "state_version": 1,
+      "source_event_id": "b40d8ccf-7ff0-4835-bfa9-c94274d8ef5e",
+      "customer_event_id": "e4ed59c9-3639-4046-8662-4213d85f4290",
+      "proposed_response": null,
+      "ready_for_quote_checks": true
+    },
+    "expected": {
+      "route": "QUOTE_CHECKS",
+      "next_field": null,
+      "missing_required": [],
+      "facts": {
+        "service_interest": [
+          "cabine_fotos"
+        ],
+        "event_type": "reunião de equipe",
+        "event_date": "2027-01-24",
+        "locality": "Recife",
+        "acquisition_source": "unknown"
+      },
+      "conflicts": {},
+      "proposed_response": null,
+      "ready_for_quote_checks": true
+    }
+  },
+  {
+    "id": "two-options",
+    "payload": {
+      "messages": [
+        {
+          "id": "sim-two-options",
+          "from": "5511000000009",
+          "timestamp": "1791957600",
+          "type": "text",
+          "text": {
+            "body": "Quero cabine ou totem"
+          }
+        }
+      ],
+      "metadata": {
+        "phone_number_id": "100000000001"
+      }
+    },
+    "snapshot": {
+      "facts": [],
+      "contact": null,
+      "session": null,
+      "services": [],
+      "duplicate": false,
+      "human_lock": false,
+      "localities": [
+        {
+          "aliases": [
+            "mogi"
+          ],
+          "canonical_name": "mogi das cruzes"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "suzano"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "santa isabel"
+        }
+      ],
+      "customer_event": null,
+      "identity_ambiguous": false
+    },
+    "semantic": {
+      "answers": {}
+    },
+    "commit_result": {
+      "route": "CLARIFY_CONFLICT",
+      "status": "committed",
+      "effects": {
+        "database_write": true,
+        "whatsapp_reply": false,
+        "quote_calculation": false
+      },
+      "session_id": "fe50e1be-97dc-42b1-a6ac-80186856b2df",
+      "state_version": 1,
+      "source_event_id": "c4b5dc62-a737-411a-a2fb-ceb7e333bf2c",
+      "customer_event_id": "7a703fb5-753a-4540-973e-ca2fecc68c62",
+      "proposed_response": "Pode confirmar o serviço desejado? Recebi informações diferentes ou ambíguas.",
+      "ready_for_quote_checks": false
+    },
+    "expected": {
+      "route": "CLARIFY_CONFLICT",
+      "next_field": "service_interest",
+      "missing_required": [
+        "service_interest",
+        "event_type",
+        "event_date",
+        "locality"
+      ],
+      "facts": {
+        "service_interest": [],
+        "acquisition_source": "unknown"
+      },
+      "conflicts": {
+        "service_interest": {
+          "current_value": [],
+          "candidate_values": [],
+          "evidence": "Quero cabine ou totem"
+        }
+      },
+      "proposed_response": "Pode confirmar o serviço desejado? Recebi informações diferentes ou ambíguas.",
+      "ready_for_quote_checks": false
+    }
+  },
+  {
+    "id": "address",
+    "payload": {
+      "messages": [
+        {
+          "id": "sim-address",
+          "from": "5511000000010",
+          "timestamp": "1791957600",
+          "type": "text",
+          "text": {
+            "body": "Quero cabine para casamento dia 24/01/2027 em Suzano. Endereço: Rua Exemplo, 100"
+          }
+        }
+      ],
+      "metadata": {
+        "phone_number_id": "100000000001"
+      }
+    },
+    "snapshot": {
+      "facts": [],
+      "contact": null,
+      "session": null,
+      "services": [],
+      "duplicate": false,
+      "human_lock": false,
+      "localities": [
+        {
+          "aliases": [
+            "mogi"
+          ],
+          "canonical_name": "mogi das cruzes"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "suzano"
+        },
+        {
+          "aliases": [],
+          "canonical_name": "santa isabel"
+        }
+      ],
+      "customer_event": null,
+      "identity_ambiguous": false
+    },
+    "semantic": {
+      "answers": {
+        "event_date": {
+          "choice": "c0",
+          "confidence": 0.99
+        },
+        "venue_address": {
+          "choice": "c0",
+          "confidence": 0.99
+        },
+        "event_type": {
+          "choice": "c0",
+          "confidence": 0.99
+        },
+        "locality": {
+          "choice": "c0",
+          "confidence": 0.99
+        },
+        "service_interest": {
+          "choice": "c0",
+          "confidence": 0.99
+        }
+      }
+    },
+    "commit_result": {
+      "route": "QUOTE_CHECKS",
+      "status": "committed",
+      "effects": {
+        "database_write": true,
+        "whatsapp_reply": false,
+        "quote_calculation": false
+      },
+      "session_id": "76cd48de-ce76-4118-bd21-24d0989ff6eb",
+      "state_version": 1,
+      "source_event_id": "2edfacb0-225c-4513-ab91-ad504fe6406d",
+      "customer_event_id": "467e72c0-5350-4387-9e27-4e3c41a17f09",
+      "proposed_response": null,
+      "ready_for_quote_checks": true
+    },
+    "expected": {
+      "route": "QUOTE_CHECKS",
+      "next_field": null,
+      "missing_required": [],
+      "facts": {
+        "service_interest": [
+          "cabine_fotos"
+        ],
+        "event_type": "casamento",
+        "event_date": "2027-01-24",
+        "locality": "suzano",
+        "acquisition_source": "unknown",
+        "venue_address": "Rua Exemplo, 100"
+      },
+      "conflicts": {},
+      "proposed_response": null,
+      "ready_for_quote_checks": true
+    }
+  }
+]

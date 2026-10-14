@@ -1,0 +1,243 @@
+{
+  "status": "review",
+  "date": "2026-10-14",
+  "workflow_id": "o1yr47lPPi3CIC1c",
+  "external_calls": "pinned; no real external I/O",
+  "local_database": "PGlite PostgreSQL isolated; persistence/reopen tested",
+  "unit_tests": {
+    "passed": 17,
+    "failed": 0
+  },
+  "cases": [
+    {
+      "case": "greeting",
+      "execution_id": "174",
+      "status": "success",
+      "checks": {
+        "execution": true,
+        "route": true,
+        "facts": true,
+        "next_field": true,
+        "response": true,
+        "guard": true
+      },
+      "passed": true
+    },
+    {
+      "case": "many-fields",
+      "execution_id": "175",
+      "status": "success",
+      "checks": {
+        "execution": true,
+        "route": true,
+        "facts": true,
+        "next_field": true,
+        "response": true,
+        "guard": true
+      },
+      "passed": true
+    },
+    {
+      "case": "sequence-service",
+      "execution_id": "176",
+      "status": "success",
+      "checks": {
+        "execution": true,
+        "route": true,
+        "facts": true,
+        "next_field": true,
+        "response": true,
+        "guard": true
+      },
+      "passed": true
+    },
+    {
+      "case": "sequence-date-purpose",
+      "execution_id": "177",
+      "status": "success",
+      "checks": {
+        "execution": true,
+        "route": true,
+        "facts": true,
+        "next_field": true,
+        "response": true,
+        "guard": true
+      },
+      "passed": true
+    },
+    {
+      "case": "sequence-city",
+      "execution_id": "178",
+      "status": "success",
+      "checks": {
+        "execution": true,
+        "route": true,
+        "facts": true,
+        "next_field": true,
+        "response": true,
+        "guard": true
+      },
+      "passed": true
+    },
+    {
+      "case": "combo",
+      "execution_id": "179",
+      "status": "success",
+      "checks": {
+        "execution": true,
+        "route": true,
+        "facts": true,
+        "next_field": true,
+        "response": true,
+        "guard": true
+      },
+      "passed": true
+    },
+    {
+      "case": "negation",
+      "execution_id": "180",
+      "status": "success",
+      "checks": {
+        "execution": true,
+        "route": true,
+        "facts": true,
+        "next_field": true,
+        "response": true,
+        "guard": true
+      },
+      "passed": true
+    },
+    {
+      "case": "source-unidentified",
+      "execution_id": "181",
+      "status": "success",
+      "checks": {
+        "execution": true,
+        "route": true,
+        "facts": true,
+        "next_field": true,
+        "response": true,
+        "guard": true
+      },
+      "passed": true
+    },
+    {
+      "case": "name-absent",
+      "execution_id": "182",
+      "status": "success",
+      "checks": {
+        "execution": true,
+        "route": true,
+        "facts": true,
+        "next_field": true,
+        "response": true,
+        "guard": true
+      },
+      "passed": true
+    },
+    {
+      "case": "conflict",
+      "execution_id": "183",
+      "status": "success",
+      "checks": {
+        "execution": true,
+        "route": true,
+        "facts": true,
+        "next_field": true,
+        "response": true,
+        "guard": true
+      },
+      "passed": true
+    },
+    {
+      "case": "conflict-persists",
+      "execution_id": "184",
+      "status": "success",
+      "checks": {
+        "execution": true,
+        "route": true,
+        "facts": true,
+        "next_field": true,
+        "response": true,
+        "guard": true
+      },
+      "passed": true
+    },
+    {
+      "case": "conflict-resolved",
+      "execution_id": "185",
+      "status": "success",
+      "checks": {
+        "execution": true,
+        "route": true,
+        "facts": true,
+        "next_field": true,
+        "response": true,
+        "guard": true
+      },
+      "passed": true
+    },
+    {
+      "case": "semantic-extraction",
+      "execution_id": "186",
+      "status": "success",
+      "checks": {
+        "execution": true,
+        "route": true,
+        "facts": true,
+        "next_field": true,
+        "response": true,
+        "guard": true
+      },
+      "passed": true
+    },
+    {
+      "case": "two-options",
+      "execution_id": "187",
+      "status": "success",
+      "checks": {
+        "execution": true,
+        "route": true,
+        "facts": true,
+        "next_field": true,
+        "response": true,
+        "guard": true
+      },
+      "passed": true
+    },
+    {
+      "case": "address",
+      "execution_id": "188",
+      "status": "success",
+      "checks": {
+        "execution": true,
+        "route": true,
+        "facts": true,
+        "next_field": true,
+        "response": true,
+        "guard": true
+      },
+      "passed": true
+    }
+  ],
+  "failure_cases": [
+    {
+      "case": "stale-context-retry-exhaustion",
+      "execution_id": "189",
+      "status": "success",
+      "route": "RETRY_EXHAUSTED",
+      "attempts": 3,
+      "passed": true
+    },
+    {
+      "case": "missing-dev-rpc",
+      "execution_id": "190",
+      "status": "success",
+      "route": "PERSISTENCE_BLOCKED",
+      "attempts": 1,
+      "passed": true
+    }
+  ],
+  "schema_validation": "Canonical snapshots validated with Ajv 2020 and format checks",
+  "backend_validation": "service_role invoker succeeds; anon denied; unauthorized transaction rolls back"
+}

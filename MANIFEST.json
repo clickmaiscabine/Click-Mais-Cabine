@@ -47,13 +47,26 @@
         "status": "homologated"
       }
     ],
-    "workflows": [],
+    "workflows": [
+      {
+        "id": "CM-WF-000-intake-lab",
+        "path": "n8n/workflows/CM-WF-000_whatsapp-intake-lab.json",
+        "status": "review",
+        "runtime_enabled": false,
+        "lab_workflow_id": "o1yr47lPPi3CIC1c"
+      }
+    ],
     "subflows": [],
     "workflow_specs": [
       {
         "id": "click-mais-os-workflow-manifest",
         "path": "n8n/WORKFLOW-MANIFEST.json",
         "status": "development"
+      },
+      {
+        "id": "intake-audit-20261014",
+        "path": "docs/04_workflows/WHATSAPP_INTAKE_AUDIT_2026-10-14.md",
+        "status": "review"
       }
     ],
     "schemas": [
@@ -134,6 +147,42 @@
         "version": "20261003051043",
         "name": "fix_business_stage_transition_ambiguity_v1",
         "path": "supabase/migrations/20261003051043_fix_business_stage_transition_ambiguity_v1.sql",
+        "status": "production"
+      },
+      {
+        "version": "20261006002526",
+        "name": "f1_catalog_schema_v121",
+        "path": "supabase/migrations/20261006002526_f1_catalog_schema_v121.sql",
+        "status": "production"
+      },
+      {
+        "version": "20261006002712",
+        "name": "f1_business_compatibility_v121",
+        "path": "supabase/migrations/20261006002712_f1_business_compatibility_v121.sql",
+        "status": "production"
+      },
+      {
+        "version": "20261006002755",
+        "name": "f1_projection_audit_v121",
+        "path": "supabase/migrations/20261006002755_f1_projection_audit_v121.sql",
+        "status": "production"
+      },
+      {
+        "version": "20261006002944",
+        "name": "f1_seed_canonical_catalog_v121",
+        "path": "supabase/migrations/20261006002944_f1_seed_canonical_catalog_v121.sql",
+        "status": "production"
+      },
+      {
+        "version": "20261006003031",
+        "name": "f1_fact_history_helper_v121",
+        "path": "supabase/migrations/20261006003031_f1_fact_history_helper_v121.sql",
+        "status": "production"
+      },
+      {
+        "version": "20261006003237",
+        "name": "f1_fk_index_hardening_v121",
+        "path": "supabase/migrations/20261006003237_f1_fk_index_hardening_v121.sql",
         "status": "production"
       }
     ],
@@ -299,6 +348,41 @@
         "id": "meta-token-handoff",
         "path": "docs/05_seguranca/META_TOKEN_HANDOFF.md",
         "status": "development"
+      }
+    ],
+    "functions": [
+      {
+        "id": "whatsapp-intake-kernel",
+        "path": "src/functions/intake/intake.mjs",
+        "status": "review"
+      },
+      {
+        "id": "whatsapp-intake-persistence-adapter",
+        "path": "src/adapters/intake/persistence.mjs",
+        "status": "review"
+      },
+      {
+        "id": "whatsapp-intake-dev-rpcs",
+        "path": "supabase/functions/quote_intake.sql",
+        "status": "review",
+        "production_applied": false
+      }
+    ],
+    "tests": [
+      {
+        "id": "intake-tests",
+        "path": "tests/intake/intake.test.mjs",
+        "status": "review"
+      },
+      {
+        "id": "intake-lab-evidence",
+        "path": "n8n/tests/intake-evidence.json",
+        "status": "review"
+      },
+      {
+        "id": "intake-fixtures",
+        "path": "n8n/fixtures/intake/cases.json",
+        "status": "review"
       }
     ]
   }
