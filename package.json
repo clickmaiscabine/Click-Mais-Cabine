@@ -1,0 +1,14 @@
+{
+  "name": "click-mais-intake-lab",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:intake": "node --test tests/intake/*.test.mjs",
+    "build:intake": "node scripts/build_intake_workflow.mjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.3.14",
+    "ajv": "8.17.1",
+    "ajv-formats": "3.0.1"
+  }
+}

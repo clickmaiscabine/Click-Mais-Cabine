@@ -1,23 +1,180 @@
 {
-  "manifest_version": "1.2.0",
-  "note": "Architecture/spec registry only. These entries do not claim that executable n8n JSON files exist. ADR-0006 and Baseline v1.1 are binding.",
+  "manifest_version": "1.2.1-intake-review",
+  "note": "Registry includes the executable CM-WF-000 intake LAB draft. Production runtime remains disabled. Other entries retain their existing spec status; observed F3 kernels on other branches are documented separately. DEC-017/018 override earlier intake assumptions.",
   "workflows": [
-    {"id":"CM-WF-000","slug":"whatsapp-ingress-orchestrator","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":["meta_whatsapp"],"purpose":"Receive normalized inbound messages, preserve acquisition/origin signals when available, correlate identity/session/event and route work."},
-    {"id":"CM-WF-010","slug":"identity-context","status":"development","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Resolve contact, active event, commercial qualification, lifecycle and human handoff state."},
-    {"id":"CM-WF-020","slug":"fact-normalization","status":"development","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Normalize typed facts, provenance and conflicts before business rules."},
-    {"id":"CM-WF-030","slug":"business-rules-engine","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Run deterministic pricing/date/completeness and other homologated rules."},
-    {"id":"CM-WF-040","slug":"jev-decision","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Call JEV only for semantic ambiguity using authorized choices."},
-    {"id":"CM-WF-050","slug":"action-guard","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Validate proposed action against state, authority and human lock."},
-    {"id":"CM-WF-060","slug":"response-composer","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Compose WhatsApp-friendly language from action, facts and templates."},
-    {"id":"CM-WF-070","slug":"response-guard-dispatch","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":["meta_whatsapp"],"purpose":"Validate final response and dispatch through the official channel."},
-    {"id":"CM-WF-100","slug":"contract","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Bridge closing, microsite, contract creation/signature and state updates."},
-    {"id":"CM-WF-110","slug":"payment","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Read proof, compare expected/received and await human verification."},
-    {"id":"CM-WF-120","slug":"art","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Catalog briefing, layout, draft, customer decision and designer finalization."},
-    {"id":"CM-WF-130","slug":"logistics-pre-event","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Prepare operational checklist and pre-event safety confirmation."},
-    {"id":"CM-WF-140","slug":"delivery-post-sale","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Locate canonical OneDrive event folder, send link and continue post-sale."},
-    {"id":"CM-WF-150","slug":"crm-followup-remarketing","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Segment qualified leads from canonical Supabase history, schedule allowed follow-ups, identify idle dates and create approved campaigns."},
-    {"id":"CM-WF-160","slug":"trello-crm-projection","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Create Trello Commercial card only after quote sent, then project canonical pipeline state into human-readable cards, lists and labels."},
-    {"id":"CM-WF-161","slug":"trello-human-actions","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Receive Trello human actions, validate them through Guards, persist authorized changes in Supabase and audit the actor/source."},
-    {"id":"CM-WF-900","slug":"audit-watchdog","status":"draft","implementation":"spec_only","runtime_enabled":false,"blocked_by":[],"purpose":"Detect impossible states, overdue actions and execution anomalies."}
+    {
+      "id": "CM-WF-000",
+      "slug": "whatsapp-ingress-orchestrator",
+      "status": "review",
+      "implementation": "lab_workflow",
+      "runtime_enabled": false,
+      "blocked_by": [
+        "dev_persistence_rpc_installation",
+        "dev_persistence_endpoint_configuration",
+        "runtime_homologation"
+      ],
+      "purpose": "Receive normalized inbound messages, preserve acquisition/origin signals when available, correlate identity/session/event and route work.",
+      "path": "n8n/workflows/CM-WF-000_whatsapp-intake-lab.json",
+      "lab_workflow_id": "o1yr47lPPi3CIC1c",
+      "observed_meta_receiver": {
+        "workflow_id": "iIAtpaRgvtssABsB",
+        "version_id": "4fbe99a0-38e6-484a-a30f-5d747f30de23",
+        "active": true,
+        "role": "test_ingress_and_classification_only",
+        "evidence_execution": "172",
+        "modified_in_this_delivery": false
+      },
+      "prior_f3_lab": {
+        "workflow_id": "62B4rRjMHhuPqSOe",
+        "branch": "feat/phase1-integration-v1.2.1",
+        "role": "snapshot_kernel"
+      }
+    },
+    {
+      "id": "CM-WF-010",
+      "slug": "identity-context",
+      "status": "development",
+      "implementation": "spec_only",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Resolve contact, active event, commercial qualification, lifecycle and human handoff state."
+    },
+    {
+      "id": "CM-WF-020",
+      "slug": "fact-normalization",
+      "status": "development",
+      "implementation": "spec_only",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Normalize typed facts, provenance and conflicts before business rules."
+    },
+    {
+      "id": "CM-WF-030",
+      "slug": "business-rules-engine",
+      "status": "draft",
+      "implementation": "spec_only",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Run deterministic pricing/date/completeness and other homologated rules."
+    },
+    {
+      "id": "CM-WF-040",
+      "slug": "jev-decision",
+      "status": "draft",
+      "implementation": "spec_only",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Call JEV only for semantic ambiguity using authorized choices."
+    },
+    {
+      "id": "CM-WF-050",
+      "slug": "action-guard",
+      "status": "draft",
+      "implementation": "spec_only",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Validate proposed action against state, authority and human lock."
+    },
+    {
+      "id": "CM-WF-060",
+      "slug": "response-composer",
+      "status": "draft",
+      "implementation": "spec_only",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Compose WhatsApp-friendly language from action, facts and templates."
+    },
+    {
+      "id": "CM-WF-070",
+      "slug": "response-guard-dispatch",
+      "status": "draft",
+      "implementation": "spec_only",
+      "runtime_enabled": false,
+      "blocked_by": [
+        "meta_whatsapp"
+      ],
+      "purpose": "Validate final response and dispatch through the official channel."
+    },
+    {
+      "id": "CM-WF-100",
+      "slug": "contract",
+      "status": "draft",
+      "implementation": "spec_only",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Bridge closing, microsite, contract creation/signature and state updates."
+    },
+    {
+      "id": "CM-WF-110",
+      "slug": "payment",
+      "status": "draft",
+      "implementation": "spec_only",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Read proof, compare expected/received and await human verification."
+    },
+    {
+      "id": "CM-WF-120",
+      "slug": "art",
+      "status": "draft",
+      "implementation": "spec_only",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Catalog briefing, layout, draft, customer decision and designer finalization."
+    },
+    {
+      "id": "CM-WF-130",
+      "slug": "logistics-pre-event",
+      "status": "draft",
+      "implementation": "spec_only",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Prepare operational checklist and pre-event safety confirmation."
+    },
+    {
+      "id": "CM-WF-140",
+      "slug": "delivery-post-sale",
+      "status": "draft",
+      "implementation": "spec_only",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Locate canonical OneDrive event folder, send link and continue post-sale."
+    },
+    {
+      "id": "CM-WF-150",
+      "slug": "crm-followup-remarketing",
+      "status": "draft",
+      "implementation": "spec_only",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Segment qualified leads from canonical Supabase history, schedule allowed follow-ups, identify idle dates and create approved campaigns."
+    },
+    {
+      "id": "CM-WF-160",
+      "slug": "trello-crm-projection",
+      "status": "draft",
+      "implementation": "spec_only",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Create Trello Commercial card only after quote sent, then project canonical pipeline state into human-readable cards, lists and labels."
+    },
+    {
+      "id": "CM-WF-161",
+      "slug": "trello-human-actions",
+      "status": "draft",
+      "implementation": "spec_only",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Receive Trello human actions, validate them through Guards, persist authorized changes in Supabase and audit the actor/source."
+    },
+    {
+      "id": "CM-WF-900",
+      "slug": "audit-watchdog",
+      "status": "draft",
+      "implementation": "spec_only",
+      "runtime_enabled": false,
+      "blocked_by": [],
+      "purpose": "Detect impossible states, overdue actions and execution anomalies."
+    }
   ]
 }

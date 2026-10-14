@@ -16,6 +16,12 @@ Esta pasta organiza a documentação do projeto em camadas. A numeração define
 7. `06_testes/` — estratégia de homologação, replay, shadow mode e casos adversos.
 8. `07_projeto_executivo/` — projeto executivo consolidado e seus anexos.
 
+## Primeiro fluxo WhatsApp — entrega de laboratório
+
+- [Auditoria, funcionamento, mapeamento e evidências](04_workflows/WHATSAPP_INTAKE_AUDIT_2026-10-14.md).
+- [Especificação](../specs/002-whatsapp-intake/spec.md), [plano](../specs/002-whatsapp-intake/plan.md) e [tarefas](../specs/002-whatsapp-intake/tasks.md).
+- Implementação em review; produção preservada e RPCs novas ainda não promovidas.
+
 ## Documentação preexistente
 
 As pastas `docs/architecture/` e `docs/decisions/` permanecem preservadas. Elas contêm a fundação arquitetural e ADRs anteriores.

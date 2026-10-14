@@ -49,3 +49,11 @@
 - human lock/handoff;
 - auditoria;
 - separação Trello Comercial × Trello Logística.
+# 2026-10-14 — Primeiro fluxo WhatsApp em LAB
+
+- Ficha cumulativa DEC-017/018 implementada em branch isolada baseada no PR #19.
+- Correspondência entre manifesto, receiver Meta ativo e kernels F3 registrada.
+- Contratos/migrations v1.2.1 já aplicados alinhados com main; nenhum DDL operacional executado.
+- Kernel, transação idempotente, controle de versão, conflitos e n8n draft testados.
+- Produção, Meta, Trello e PR #19 preservados. RPCs DEV ainda dependem de instalação/homologação.
+- Evidências: `docs/04_workflows/WHATSAPP_INTAKE_AUDIT_2026-10-14.md`.
