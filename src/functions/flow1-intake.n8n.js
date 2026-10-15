@@ -2,7 +2,7 @@ const i=$json,p=i.body??i.payload??i,v=p.entry?.[0]?.changes?.[0]?.value??p.valu
 const st=JSON.parse(JSON.stringify(i.state??{})),facts=st.facts??{},extracted={},conflicts={},evidence={},id=i.message_id??m.id??null,processed=st.processed_message_ids??[],duplicate=!!id&&processed.includes(id);
 function add(k,val,src='customer'){if(val===null||val===undefined||val===''||(Array.isArray(val)&&!val.length))return;const old=facts[k];if(old!==undefined&&JSON.stringify(old)!==JSON.stringify(val)){conflicts[k]={existing:old,incoming:val};return;}if(old===undefined){facts[k]=val;extracted[k]=val;evidence[k]=src;}}
 let category='commercial';
-if(/\b(fotos? (3x4|para documento|para documentos|de documento)|foto de rg|passaporte)\b/.test(t))category='out_of_scope';
+if(/\b(fotos?.{0,35}(documentos?|3x4|rg|passaporte)|foto de rg|passaporte)\b/.test(t))category='out_of_scope';
 if(/\b(ja estao chegando|ja esta chegando|quando voces chegam|frete da festa|orcamento do frete)\b/.test(t))category='operational';
 if(['vendor','personal','staff','automated','institution'].includes(i.contact_category))category='noncommercial';
 const services=[
@@ -27,7 +27,7 @@ else if(/\bformatura\b/.test(t))purpose='formatura';
 const months={janeiro:1,fevereiro:2,marco:3,abril:4,maio:5,junho:6,julho:7,agosto:8,setembro:9,outubro:10,novembro:11,dezembro:12,jan:1,fev:2,mar:3,abr:4,mai:5,jun:6,jul:7,ago:8,set:9,out:10,nov:11,dez:12};
 const toDate=(d,m,y)=>{d=+d;m=+m;y=+y;if(y<100)y+=2000;if(y<2020||y>2100||m<1||m>12||d<1||d>31)return null;const iso=y+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0');let z=new Date(iso+'T12:00:00Z');return z.getUTCDate()===d&&z.getUTCMonth()+1===m&&z.getUTCFullYear()===y?iso:null};
 let date=null,partial=null,dm=t.match(/\b(\d{1,2})[ /.-]+(\d{1,2})[ /.-]+(\d{2,4})\b/);if(dm)date=toDate(dm[1],dm[2],dm[3]);if(!date){dm=t.match(/\b(\d{1,2})\s*(?:de\s+)?(janeiro|fevereiro|marco|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro|jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez)\s*(?:de\s+)?(\d{4})\b/);if(dm)date=toDate(dm[1],months[dm[2]],dm[3]);}
-if(!date){let q=t.match(/\b(\d{1,2})[/.](\d{1,2})\b/);if(q)partial=q[0];else if(/\b(mes que vem|segundo semestre|em (janeiro|fevereiro|marco|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)|ainda estou vendo a data)\b/.test(t))partial=text;}
+if(!date){let q=t.match(/\b(\d{1,2})[/.](\d{1,2})\b/);if(q)partial=q[0];else {let dayMonth=t.match(/\b(\d{1,2})\s*(?:de\s+)?(janeiro|fevereiro|marco|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)\b/);if(dayMonth)partial=dayMonth[0];}if(!partial&&/\b(mes que vem|segundo semestre|em (janeiro|fevereiro|marco|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)|ainda estou vendo a data)\b/.test(t))partial=text;}
 const cities=['mogi das cruzes','suzano','poa','santa isabel','guarulhos','itaquaquecetuba','bertioga','santo andre','ferraz de vasconcelos','santos','campinas','sao bernardo do campo','sao paulo','ar uja'];
 const aliases={'mogi das cruzes':['mogi das cruzes','mogi'],'itaquaquecetuba':['itaquaquecetuba','itaqua'],'sao bernardo do campo':['sao bernardo do campo','sbc'],'ar uja':['aruja']};
 const located=cities.filter(c=>(aliases[c]??[c]).some(a=>(' '+t+' ').includes(' '+a+' ')));
