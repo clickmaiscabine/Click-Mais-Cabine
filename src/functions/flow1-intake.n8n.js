@@ -6,9 +6,9 @@ if(/\b(fotos?.{0,35}(documentos?|3x4|rg|passaporte)|foto de rg|passaporte)\b/.te
 if(/\b(ja estao chegando|ja esta chegando|quando voces chegam|frete da festa|orcamento do frete)\b/.test(t))category='operational';
 if(['vendor','personal','staff','automated','institution'].includes(i.contact_category))category='noncommercial';
 const services=[
-['cabine_fotos',/\bcabine( de fotos?| fotografica)?\b|\bfotos? (na hora|impressas? na hora)\b/g],
+['cabine_fotos',/\bcabine( de fotos?| fotografica)?\b/g],
 ['totem_fotos',/\btotem( de fotos?)?\b/g],
-['plataforma_360',/\bplataforma( 360)?\b|\b360( graus)?\b|\bgiratoria\b|\bvideo girando\b|\bgira e grava\b/g],
+['plataforma_360',/\bplataforma( 360)?\b|\b360( graus)?\b|\bgiratoria\b|\bvideo girando\b|\bgira e grava\b|\baquele que gira\b|\baquela que gira\b/g],
 ['set_fotografico',/\bset fotografico\b|\bcenario fotografico\b/g],
 ['fotografo',/\bfotografo (para|de) eventos?\b/g]
 ];
