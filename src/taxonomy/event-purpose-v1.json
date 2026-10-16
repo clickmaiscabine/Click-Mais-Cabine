@@ -1,6 +1,6 @@
 {
   "id": "cm-event-purpose",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Base canônica de finalidade; códigos operacionais legados intocados. A categoria não é autorização de brinde.",
   "operational_codes": [
     "casamento",
@@ -104,7 +104,7 @@
       "subtype": "confraternizacao_corporativa",
       "code": "empresarial",
       "priority": 107,
-      "pattern": "\\b(confraternizacao (da empresa|da firma|corporativa|dos funcionarios|da equipe|do pessoal do trabalho)|festa (de funcionarios|da firma|da empresa)|evento de rh|festa de fim de ano da empresa)\\b",
+      "pattern": "\\b(confraternizacao (da empresa|da firma|corporativa|dos funcionarios|da equipe|do pessoal do trabalho)|festa (de funcionarios|da firma|da empresa)|festa de fim de ano da empresa)\\b",
       "certainty": "direct"
     },
     {
