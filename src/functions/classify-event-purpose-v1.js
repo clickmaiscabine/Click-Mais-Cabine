@@ -1,6 +1,6 @@
 // Pure deterministic engine: no database, network, clock, credentials, WhatsApp or JEV.
 function classifyPurposeV1(input, taxonomy) {
-  if (!taxonomy || taxonomy.version !== '1.0.0') throw new Error('unsupported_taxonomy_version');
+  if (!taxonomy || taxonomy.version !== '1.0.1') throw new Error('unsupported_taxonomy_version');
   const original = String(input?.text ?? '');
   const norm = s => String(s ?? '').normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '').toLowerCase()
@@ -51,7 +51,7 @@ function classifyPurposeV1(input, taxonomy) {
     const contextual = taxonomy.contextual_terms.some(p => new RegExp(p).test(text));
     // An isolated date, place or party FORMAT is not a request for semantic event classification.
     const otherField = /\b(data|dia \d{1,2}|outubro|novembro|dezembro|janeiro|fevereiro|marco|abril|maio|junho|julho|agosto|setembro|endereco|local|bairro|regiao|avenida|shopping|mogi|suzano|sao paulo|guarulhos|confirmo a data|fechando a data)\b/.test(text)
-      || /^\d{1,2}[\/.-]\d{1,2}/.test(text);
+      || /\b\d{1,2}[\/.-]\d{1,2}\b/.test(original) || /\b(mogi|br[aá]s cubas|braz cubas|vila oliveira|shangai|alto tiet[eê]|umc|shopping|suzano|guarulhos|po[aá]|itaqua|localiza[cç][aã]o|convite|gps|sexta|fim do m[eê]s)\b/i.test(original);
     const route = otherField || features.length ? 'clarify'
       : context.pending_question === 'purpose' ? 'jev' : 'none';
     return result(contextual || features.length ? 'ambiguous':'unclassified',
