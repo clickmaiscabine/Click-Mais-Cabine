@@ -1440,5 +1440,75 @@
       "requires_jev": false,
       "status": "unclassified"
     }
+  },
+  {
+    "id": "EP-104",
+    "text": "Casamneto",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "casamento",
+      "group": "matrimonial",
+      "subtype": "casamento",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-105",
+    "text": "Debutnate",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "debutante",
+      "group": "aniversario_pessoal",
+      "subtype": "debutante",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-106",
+    "text": "Aniversairo",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "aniversario_nao_especificado",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-107",
+    "text": "Anivesario",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "aniversario_nao_especificado",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-108",
+    "text": "Formautra",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "formatura",
+      "group": "formatura",
+      "subtype": "formatura",
+      "requires_jev": false,
+      "status": "identified"
+    }
   }
 ]
