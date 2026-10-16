@@ -38,13 +38,13 @@
 - A análise estática do JSON do laboratório confirmou **14 nós**, versão inativa, nenhum nó novo de envio de WhatsApp e nenhum gatilho webhook concorrente. Os códigos internos do rascunho, motor e fonte SDK foram comparados e estão sincronizados.
 - Cenário de mensagem duplicada: `DUPLICATE_NOOP`, sem novos fatos e sem JEV. Cenário de correção `aniversario` → `casamento`: `CLARIFY_CONFLICT`, sem sobrescrita automática nem JEV.
 - As regressões abrangem grupos pessoais, matrimoniais, empresariais, religiosos/culturais, formatura, números com e sem contexto, conflitos, formatos transversais, datas e localidades.
-- O runner Node e o workflow de CI foram escritos, mas a execução autônoma no GitHub Actions ainda precisa ser confirmada.
+- CI Node confirmado: execução [GitHub Actions #38848593207](https://github.com/clickmaiscabine/Click-Mais-Cabine/actions/runs/38848593207), job `purpose-tests` concluído com **success**, incluindo `node --test tests/event-purpose-v1.test.cjs tests/flow1-purpose-bridge.test.cjs`.
 
 **Importante:** os testes ocorreram em JavaScript simulado/isolado. Não foram executados envios à Meta, chamadas JEV pagas, gravações de dados reais ou atualizações de workflows n8n. Isso não é homologação ponta a ponta.
 
 ## Portões pendentes (não afirmar concluído)
 
-1. Executar CI Node a partir do commit final da branch e confirmar execução real.
+1. **Concluído:** CI Node de 108 casos na unidade e na ponte de integração (GitHub Actions #38848593207).
 2. Importar exclusivamente a candidata inativa no projeto/laboratório n8n apropriado, sem publicar webhook.
 3. Validar RPC real em transação controlada com fixture fictícia e rollback, nunca sobre fichas reais.
 4. Validar persistência de procedência no `core.events` e `business.event_facts` com confirmação no snapshot após leitura.
