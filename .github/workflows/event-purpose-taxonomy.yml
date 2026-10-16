@@ -1,0 +1,29 @@
+name: Event purpose taxonomy regression
+on:
+  push:
+    branches: ['codex/event-purpose-taxonomy-v1-*']
+    paths:
+      - 'src/functions/flow1-intake.n8n.js'
+      - 'src/functions/classify-event-purpose-v1.js'
+      - 'src/taxonomy/event-purpose-v1.json'
+      - 'tests/event-purpose-v1*'
+      - 'tests/flow1-purpose-bridge.test.cjs'
+      - 'n8n/quote-flow1-taxonomy-v1.draft.n8n.json'
+  pull_request:
+    paths:
+      - 'src/functions/flow1-intake.n8n.js'
+      - 'src/functions/classify-event-purpose-v1.js'
+      - 'src/taxonomy/event-purpose-v1.json'
+      - 'tests/event-purpose-v1*'
+      - 'tests/flow1-purpose-bridge.test.cjs'
+permissions:
+  contents: read
+jobs:
+  purpose-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node --test tests/event-purpose-v1.test.cjs tests/flow1-purpose-bridge.test.cjs
