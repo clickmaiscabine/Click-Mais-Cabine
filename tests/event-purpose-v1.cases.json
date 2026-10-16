@@ -1,0 +1,1444 @@
+[
+  {
+    "id": "EP-001",
+    "text": "Casamento",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "casamento",
+      "group": "matrimonial",
+      "subtype": "casamento",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-002",
+    "text": "Minha irmã vai casar",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "casamento",
+      "group": "matrimonial",
+      "subtype": "casamento",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-003",
+    "text": "A noiva vai organizar uma festa",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "casamento",
+      "group": "matrimonial",
+      "subtype": "casamento",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-004",
+    "text": "É aniversário de casamento dos meus pais",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "casamento",
+      "group": "matrimonial",
+      "subtype": "aniversario_casamento",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-005",
+    "text": "Aniversário de matrimônio",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "casamento",
+      "group": "matrimonial",
+      "subtype": "aniversario_casamento",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-006",
+    "text": "Vamos comemorar 25 anos de união",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "casamento",
+      "group": "matrimonial",
+      "subtype": "aniversario_casamento",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-007",
+    "text": "Completamos 25 anos juntos",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "casamento",
+      "group": "matrimonial",
+      "subtype": "aniversario_casamento",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-008",
+    "text": "Vamos comemorar 25 anos juntos",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "casamento",
+      "group": "matrimonial",
+      "subtype": "aniversario_casamento",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-009",
+    "text": "Bodas de prata",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "casamento",
+      "group": "matrimonial",
+      "subtype": "bodas",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-010",
+    "text": "Bodas de ouro",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "casamento",
+      "group": "matrimonial",
+      "subtype": "bodas",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-011",
+    "text": "Vamos fazer bodas de ouro",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "casamento",
+      "group": "matrimonial",
+      "subtype": "bodas",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-012",
+    "text": "Meus pais fazem bodas de ouro",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "casamento",
+      "group": "matrimonial",
+      "subtype": "bodas",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-013",
+    "text": "Renovação de votos",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "casamento",
+      "group": "matrimonial",
+      "subtype": "renovacao_votos",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-014",
+    "text": "Vamos renovar os votos",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "casamento",
+      "group": "matrimonial",
+      "subtype": "renovacao_votos",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-015",
+    "text": "Confirmação dos votos",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "casamento",
+      "group": "matrimonial",
+      "subtype": "renovacao_votos",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-016",
+    "text": "Noivado",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "casamento",
+      "group": "matrimonial",
+      "subtype": "noivado",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-017",
+    "text": "Festa de noivado",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "casamento",
+      "group": "matrimonial",
+      "subtype": "noivado",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-018",
+    "text": "Aniversário da empresa",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "aniversario_empresa",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-019",
+    "text": "A empresa completa 30 anos",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "aniversario_empresa",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-020",
+    "text": "Aniversário da firma",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "aniversario_empresa",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-021",
+    "text": "15 anos da empresa",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "aniversario_empresa",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-022",
+    "text": "Confraternização da empresa",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "confraternizacao_corporativa",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-023",
+    "text": "Festa de funcionários",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "confraternizacao_corporativa",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-024",
+    "text": "Confraternização corporativa",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "confraternizacao_corporativa",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-025",
+    "text": "Confraternização do pessoal da escola",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "escolar",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-026",
+    "text": "Evento escolar",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "escolar",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-027",
+    "text": "Festa da escola",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "escolar",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-028",
+    "text": "Simpósio",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "academico",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-029",
+    "text": "Jornada acadêmica",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "academico",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-030",
+    "text": "Premiação empresarial",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "premiacao_empresa",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-031",
+    "text": "Feira comercial",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "feira_comercial",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-032",
+    "text": "Feira de negócios",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "feira_comercial",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-033",
+    "text": "Congresso",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "congresso_profissional",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-034",
+    "text": "Encontro profissional",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "congresso_profissional",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-035",
+    "text": "Evento institucional",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "corporativo_generico",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-036",
+    "text": "Evento de RH",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "corporativo_generico",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-037",
+    "text": "Evento corporativo",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "corporativo_generico",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-038",
+    "text": "Bar Mitzvah",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": "cultural_religioso",
+      "subtype": "bar_mitzvah",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-039",
+    "text": "Bat Mitzvah",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": "cultural_religioso",
+      "subtype": "bat_mitzvah",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-040",
+    "text": "Seijin-shiki",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": "cultural_religioso",
+      "subtype": "seijin_shiki",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-041",
+    "text": "Vesak",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": "cultural_religioso",
+      "subtype": "vesak",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-042",
+    "text": "Aniversário de batismo",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": "cultural_religioso",
+      "subtype": "aniversario_batismo",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-043",
+    "text": "Onomástico",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": "cultural_religioso",
+      "subtype": "onomastico",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-044",
+    "text": "Dia do Santo",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": "cultural_religioso",
+      "subtype": "onomastico",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-045",
+    "text": "É uma comemoração religiosa de maioridade",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": "cultural_religioso",
+      "subtype": "marco_religioso_nao_especificado",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-046",
+    "text": "Aniversário no calendário hebraico",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "calendario_hebraico",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-047",
+    "text": "Aniversário hebraico",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "calendario_hebraico",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-048",
+    "text": "Minha filha vai fazer 15 anos",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "debutante",
+      "group": "aniversario_pessoal",
+      "subtype": "debutante",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-049",
+    "text": "Quero festa de 15 anos",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "debutante",
+      "group": "aniversario_pessoal",
+      "subtype": "debutante",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-050",
+    "text": "Debutante",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "debutante",
+      "group": "aniversario_pessoal",
+      "subtype": "debutante",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-051",
+    "text": "Quinceañera",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "debutante",
+      "group": "aniversario_pessoal",
+      "subtype": "debutante",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-052",
+    "text": "Sweet Sixteen",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "sweet_sixteen",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-053",
+    "text": "Festa de 16 anos",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "sweet_sixteen",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-054",
+    "text": "Mesversário",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "mesversario",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-055",
+    "text": "Um aninho",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "primeiro_aniversario",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-056",
+    "text": "Primeiro aniversário",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "primeiro_aniversario",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-057",
+    "text": "Half-birthday",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "meio_aniversario",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-058",
+    "text": "Meio aniversário",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "meio_aniversario",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-059",
+    "text": "Aniversário póstumo",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "aniversario_postumo",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-060",
+    "text": "Aniversário infantil",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "infantil",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-061",
+    "text": "Aniversário do meu filho",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "infantil",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-062",
+    "text": "Festa de 50 anos",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "marco_de_idade",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-063",
+    "text": "Meio século",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "marco_de_idade",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-064",
+    "text": "Meu filho vai fazer 7 anos",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "infantil",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-065",
+    "text": "Minha mãe completa 60 anos",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "idade_informada",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-066",
+    "text": "Minha mãe completa 60",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "idade_informada",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-067",
+    "text": "Vamos comemorar os 40 dela",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "idade_informada",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-068",
+    "text": "Aniversário",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "aniversario_nao_especificado",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-069",
+    "text": "Niver",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "aniversario_nao_especificado",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-070",
+    "text": "B-day",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "aniversario_nao_especificado",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-071",
+    "text": "Vamos cantar parabéns para minha filha",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "aniversario_nao_especificado",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-072",
+    "text": "Formatura",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "formatura",
+      "group": "formatura",
+      "subtype": "formatura",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-073",
+    "text": "Colação de grau",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "formatura",
+      "group": "formatura",
+      "subtype": "formatura",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-074",
+    "text": "Baile de formatura",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "formatura",
+      "group": "formatura",
+      "subtype": "formatura",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-075",
+    "text": "4",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "corporativo_generico",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-076",
+    "text": "3",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "debutante",
+      "group": "aniversario_pessoal",
+      "subtype": "debutante",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-077",
+    "text": "2",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "aniversario_nao_especificado",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-078",
+    "text": "1",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": "casamento",
+      "group": "matrimonial",
+      "subtype": "casamento",
+      "requires_jev": false,
+      "status": "identified"
+    }
+  },
+  {
+    "id": "EP-079",
+    "text": "Festa de aniversário e casamento",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "conflict"
+    }
+  },
+  {
+    "id": "EP-080",
+    "text": "Aniversário de casamento e aniversário da empresa",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "conflict"
+    }
+  },
+  {
+    "id": "EP-081",
+    "text": "Festa surpresa",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "ambiguous"
+    }
+  },
+  {
+    "id": "EP-082",
+    "text": "Festa temática surpresa",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "ambiguous"
+    }
+  },
+  {
+    "id": "EP-083",
+    "text": "Festa beneficente virtual",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "ambiguous"
+    }
+  },
+  {
+    "id": "EP-084",
+    "text": "Data especial",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "ambiguous"
+    }
+  },
+  {
+    "id": "EP-085",
+    "text": "Uma data especial",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "ambiguous"
+    }
+  },
+  {
+    "id": "EP-086",
+    "text": "Quero algo para presentear",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": true,
+      "status": "unclassified"
+    }
+  },
+  {
+    "id": "EP-087",
+    "text": "Vamos só alegrar meu avô",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": true,
+      "status": "unclassified"
+    }
+  },
+  {
+    "id": "EP-088",
+    "text": "25/10 às 19h",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "unclassified"
+    }
+  },
+  {
+    "id": "EP-089",
+    "text": "25 de outubro",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "unclassified"
+    }
+  },
+  {
+    "id": "EP-090",
+    "text": "Ainda estou fechando a data",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "unclassified"
+    }
+  },
+  {
+    "id": "EP-091",
+    "text": "Te confirmo até sexta",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "unclassified"
+    }
+  },
+  {
+    "id": "EP-092",
+    "text": "A data é 25/10",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "unclassified"
+    }
+  },
+  {
+    "id": "EP-093",
+    "text": "Mogi das Cruzes",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "unclassified"
+    }
+  },
+  {
+    "id": "EP-094",
+    "text": "Braz Cubas",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "unclassified"
+    }
+  },
+  {
+    "id": "EP-095",
+    "text": "Região do Shangai",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "unclassified"
+    }
+  },
+  {
+    "id": "EP-096",
+    "text": "Zona Leste de São Paulo",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "unclassified"
+    }
+  },
+  {
+    "id": "EP-097",
+    "text": "Perto do Mogi Shopping",
+    "context": {
+      "pending_question": "purpose"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "unclassified"
+    }
+  },
+  {
+    "id": "EP-098",
+    "text": "3",
+    "context": {
+      "pending_question": "service"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "unclassified"
+    }
+  },
+  {
+    "id": "EP-099",
+    "text": "4",
+    "context": {
+      "pending_question": "service"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "unclassified"
+    }
+  },
+  {
+    "id": "EP-100",
+    "text": "2",
+    "context": {
+      "pending_question": "service"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "unclassified"
+    }
+  },
+  {
+    "id": "EP-101",
+    "text": "3",
+    "context": {
+      "pending_question": "none"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "unclassified"
+    }
+  },
+  {
+    "id": "EP-102",
+    "text": "4",
+    "context": {
+      "pending_question": "none"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "unclassified"
+    }
+  },
+  {
+    "id": "EP-103",
+    "text": "2",
+    "context": {
+      "pending_question": "none"
+    },
+    "expected": {
+      "operational": null,
+      "group": null,
+      "subtype": null,
+      "requires_jev": false,
+      "status": "unclassified"
+    }
+  }
+]
