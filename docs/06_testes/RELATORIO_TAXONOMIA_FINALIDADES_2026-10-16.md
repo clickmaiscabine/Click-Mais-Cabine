@@ -34,8 +34,9 @@
 ## Resultados de simulação
 
 - Foram validadas **108/108 classificações puras** após o ajuste de erros comuns, sem chamadas ao JEV.
-- Foram validados **103/103 casos no código de extração do Flow 1** antes da expansão de cinco erros comuns de grafia; a nova expansão foi validada no classificador puro.
-- A análise estática do JSON do laboratório confirmou **14 nós**, nenhum nó novo de envio de WhatsApp e nenhum gatilho webhook concorrente.
+- Foram validados **108/108 casos no código de extração compilado do Flow 1**, incluindo cinco erros comuns de grafia, sem chamadas reais à Meta, Supabase ou JEV.
+- A análise estática do JSON do laboratório confirmou **14 nós**, versão inativa, nenhum nó novo de envio de WhatsApp e nenhum gatilho webhook concorrente. Os códigos internos do rascunho, motor e fonte SDK foram comparados e estão sincronizados.
+- Cenário de mensagem duplicada: `DUPLICATE_NOOP`, sem novos fatos e sem JEV. Cenário de correção `aniversario` → `casamento`: `CLARIFY_CONFLICT`, sem sobrescrita automática nem JEV.
 - As regressões abrangem grupos pessoais, matrimoniais, empresariais, religiosos/culturais, formatura, números com e sem contexto, conflitos, formatos transversais, datas e localidades.
 - O runner Node e o workflow de CI foram escritos, mas a execução autônoma no GitHub Actions ainda precisa ser confirmada.
 
