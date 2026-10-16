@@ -1,6 +1,6 @@
 {
   "id": "cm-event-purpose",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Base canônica de finalidade; códigos operacionais legados intocados. A categoria não é autorização de brinde.",
   "operational_codes": [
     "casamento",
@@ -59,7 +59,7 @@
       "subtype": "casamento",
       "code": "casamento",
       "priority": 108,
-      "pattern": "\\b(casamento|casar|noiva|noivo|matrimonio|celebracao de uniao)\\b",
+      "pattern": "\\b(casamento|casamneto|casameto|casar|noiva|noivo|matrimonio|celebracao de uniao)\\b",
       "certainty": "direct"
     },
     {
@@ -230,7 +230,7 @@
       "subtype": "debutante",
       "code": "debutante",
       "priority": 118,
-      "pattern": "\\b(debutante|festa de 15 anos|15 anos da minha filha|festa dos quinze anos|quinze anos|quinceanera)\\b",
+      "pattern": "\\b(debutante|debutnate|festa de 15 anos|15 anos da minha filha|festa dos quinze anos|quinze anos|quinceanera)\\b",
       "certainty": "direct"
     },
     {
@@ -320,7 +320,7 @@
       "subtype": "aniversario_nao_especificado",
       "code": "aniversario",
       "priority": 66,
-      "pattern": "\\b(aniversario|niver|b.day|mais um ano de vida|fazer anos|dia do aniversario|aniversariante)\\b",
+      "pattern": "\\b(aniversario|aniversairo|anivesario|aniverssario|niver|b.day|mais um ano de vida|fazer anos|dia do aniversario|aniversariante)\\b",
       "certainty": "direct"
     },
     {
@@ -338,7 +338,7 @@
       "subtype": "formatura",
       "code": "formatura",
       "priority": 115,
-      "pattern": "\\b(formatura|colacao de grau|festa dos formandos|baile de formatura|conclusao do curso|cerimonia de graduacao)\\b",
+      "pattern": "\\b(formatura|formautra|colacao de grau|festa dos formandos|baile de formatura|conclusao do curso|cerimonia de graduacao)\\b",
       "certainty": "direct"
     }
   ],
