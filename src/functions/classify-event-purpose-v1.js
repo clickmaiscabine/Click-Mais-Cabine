@@ -1,6 +1,6 @@
 // Pure deterministic engine: no database, network, clock, credentials, WhatsApp or JEV.
 function classifyPurposeV1(input, taxonomy) {
-  if (!taxonomy || taxonomy.version !== '1.0.1') throw new Error('unsupported_taxonomy_version');
+  if (!taxonomy || taxonomy.version !== '1.0.2') throw new Error('unsupported_taxonomy_version');
   const original = String(input?.text ?? '');
   const norm = s => String(s ?? '').normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '').toLowerCase()
