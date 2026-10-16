@@ -1,0 +1,396 @@
+{
+  "id": "cm-event-purpose",
+  "version": "1.0.0",
+  "description": "Base canônica de finalidade; códigos operacionais legados intocados. A categoria não é autorização de brinde.",
+  "operational_codes": [
+    "casamento",
+    "aniversario",
+    "debutante",
+    "empresarial",
+    "formatura"
+  ],
+  "groups": {
+    "aniversario_pessoal": "Aniversário pessoal",
+    "matrimonial": "Casamento e comemorações matrimoniais",
+    "empresarial_institucional": "Corporativo, escolar e institucional",
+    "cultural_religioso": "Celebrações culturais ou religiosas",
+    "formatura": "Formaturas"
+  },
+  "rules": [
+    {
+      "id": "M01",
+      "group": "matrimonial",
+      "subtype": "aniversario_casamento",
+      "code": "casamento",
+      "priority": 120,
+      "pattern": "\\b(aniversario (de |do |da )?(casamento|matrimonio|uniao)|\\d{1,3} anos (de (casados|casamento|matrimonio|uniao)|juntos)|comemorar \\d{1,3} anos (de uniao|juntos))\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "M02",
+      "group": "matrimonial",
+      "subtype": "bodas",
+      "code": "casamento",
+      "priority": 119,
+      "pattern": "\\b(bodas?( de (papel|algodao|prata|ouro|diamante|porcelana|rubi|perola|esmeralda|cristal))?|bodas)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "M03",
+      "group": "matrimonial",
+      "subtype": "renovacao_votos",
+      "code": "casamento",
+      "priority": 116,
+      "pattern": "\\b(renovacao de votos|renovar os votos|reafirmacao dos votos|confirmacao dos votos)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "M04",
+      "group": "matrimonial",
+      "subtype": "noivado",
+      "code": "casamento",
+      "priority": 115,
+      "pattern": "\\b(noivado|festa de noivado|ficamos noivos)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "M05",
+      "group": "matrimonial",
+      "subtype": "casamento",
+      "code": "casamento",
+      "priority": 108,
+      "pattern": "\\b(casamento|casar|noiva|noivo|matrimonio|celebracao de uniao)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "E01",
+      "group": "empresarial_institucional",
+      "subtype": "aniversario_empresa",
+      "code": "empresarial",
+      "priority": 121,
+      "pattern": "\\b(aniversario (da |de |do )?(empresa|firma|companhia|negocio|instituicao)|empresa (faz|completa|vai fazer|esta fazendo) \\d{1,3} anos|(\\d{1,3} anos) (da |de )?(empresa|firma|fundacao)|centenario da empresa)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "E02",
+      "group": "empresarial_institucional",
+      "subtype": "escolar",
+      "code": "empresarial",
+      "priority": 113,
+      "pattern": "\\b(confraternizacao (do pessoal|da equipe|dos funcionarios|de professores) da escola|festa da escola|evento escolar|festa dos professores|festa da turma|gincana escolar)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "E03",
+      "group": "empresarial_institucional",
+      "subtype": "academico",
+      "code": "empresarial",
+      "priority": 112,
+      "pattern": "\\b(simposio|congresso academico|encontro academico|jornada academica|semana academica)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "E04",
+      "group": "empresarial_institucional",
+      "subtype": "fundacao_institucional",
+      "code": "empresarial",
+      "priority": 111,
+      "pattern": "\\b(aniversario de fundacao|fundacao (da escola|da universidade|do instituto)|aniversario (do instituto|da faculdade|da universidade))\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "E05",
+      "group": "empresarial_institucional",
+      "subtype": "confraternizacao_corporativa",
+      "code": "empresarial",
+      "priority": 107,
+      "pattern": "\\b(confraternizacao (da empresa|da firma|corporativa|dos funcionarios|da equipe|do pessoal do trabalho)|festa (de funcionarios|da firma|da empresa)|evento de rh|festa de fim de ano da empresa)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "E06",
+      "group": "empresarial_institucional",
+      "subtype": "premiacao_empresa",
+      "code": "empresarial",
+      "priority": 105,
+      "pattern": "\\b(premiacao empresarial|premiacao (da empresa|dos colaboradores)|premio corporativo|reconhecimento da equipe)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "E07",
+      "group": "empresarial_institucional",
+      "subtype": "feira_comercial",
+      "code": "empresarial",
+      "priority": 104,
+      "pattern": "\\b(feira comercial|feira de negocios|exposicao comercial|feira profissional)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "E08",
+      "group": "empresarial_institucional",
+      "subtype": "congresso_profissional",
+      "code": "empresarial",
+      "priority": 103,
+      "pattern": "\\b(congresso|encontro profissional|seminario institucional)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "E09",
+      "group": "empresarial_institucional",
+      "subtype": "corporativo_generico",
+      "code": "empresarial",
+      "priority": 90,
+      "pattern": "\\b(evento corporativo|evento empresarial|evento institucional|confraternizacao da firma|evento de rh|pessoal do rh)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "R01",
+      "group": "cultural_religioso",
+      "subtype": "bar_mitzvah",
+      "code": null,
+      "priority": 118,
+      "pattern": "\\b(bar mitzv[ah]+|bar mitsv[ah]+)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "R02",
+      "group": "cultural_religioso",
+      "subtype": "bat_mitzvah",
+      "code": null,
+      "priority": 118,
+      "pattern": "\\b(bat mitzv[ah]+|bat mitsv[ah]+)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "R03",
+      "group": "cultural_religioso",
+      "subtype": "seijin_shiki",
+      "code": null,
+      "priority": 118,
+      "pattern": "\\b(seijin.?shiki|dia da maioridade japonesa)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "R04",
+      "group": "cultural_religioso",
+      "subtype": "vesak",
+      "code": null,
+      "priority": 118,
+      "pattern": "\\b(vesak|visakha puja)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "R05",
+      "group": "cultural_religioso",
+      "subtype": "aniversario_batismo",
+      "code": null,
+      "priority": 117,
+      "pattern": "\\b(aniversario (de |do )?batismo|comemoracao do batismo)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "R06",
+      "group": "cultural_religioso",
+      "subtype": "onomastico",
+      "code": null,
+      "priority": 117,
+      "pattern": "\\b(onomastico|dia do santo|dia do meu santo)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "R07",
+      "group": "cultural_religioso",
+      "subtype": "data_hebraica_nao_especificada",
+      "code": null,
+      "priority": 104,
+      "pattern": "\\b(data comemorativa (no |do )?calendario (hebraico|judaico)|festa do calendario hebraico)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "R08",
+      "group": "cultural_religioso",
+      "subtype": "marco_religioso_nao_especificado",
+      "code": null,
+      "priority": 103,
+      "pattern": "\\b(comemoracao religiosa de maioridade|cerimonia religiosa de maioridade|rito religioso de passagem)\\b",
+      "certainty": "contextual"
+    },
+    {
+      "id": "P01",
+      "group": "aniversario_pessoal",
+      "subtype": "calendario_hebraico",
+      "code": "aniversario",
+      "priority": 119,
+      "pattern": "\\b(aniversario (no |pelo |em )?calendario (hebraico|judaico)|aniversario hebraico)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "P02",
+      "group": "aniversario_pessoal",
+      "subtype": "debutante",
+      "code": "debutante",
+      "priority": 118,
+      "pattern": "\\b(debutante|festa de 15 anos|15 anos da minha filha|festa dos quinze anos|quinze anos|quinceanera)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "P03",
+      "group": "aniversario_pessoal",
+      "subtype": "sweet_sixteen",
+      "code": "aniversario",
+      "priority": 117,
+      "pattern": "\\b(sweet sixteen|festa de 16 anos|dezesseis anos)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "P04",
+      "group": "aniversario_pessoal",
+      "subtype": "mesversario",
+      "code": "aniversario",
+      "priority": 117,
+      "pattern": "\\b(mesversario|comemoracao mensal do bebe)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "P05",
+      "group": "aniversario_pessoal",
+      "subtype": "primeiro_aniversario",
+      "code": "aniversario",
+      "priority": 116,
+      "pattern": "\\b(um aninho|1 aninho|primeiro aniversario|festa de 1 ano|completar 1 aninho)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "P06",
+      "group": "aniversario_pessoal",
+      "subtype": "meio_aniversario",
+      "code": "aniversario",
+      "priority": 116,
+      "pattern": "\\b(half.birthday|meio aniversario)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "P07",
+      "group": "aniversario_pessoal",
+      "subtype": "aniversario_postumo",
+      "code": "aniversario",
+      "priority": 115,
+      "pattern": "\\b(aniversario postumo|aniversario de nascimento (de|do|da) (falecido|falecida)|homenagem no aniversario de nascimento)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "P08",
+      "group": "aniversario_pessoal",
+      "subtype": "infantil",
+      "code": "aniversario",
+      "priority": 113,
+      "pattern": "\\b(aniversario infantil|aniversario (do|da) (meu filho|minha filha|pequeno|pequena|crianca)|niver (do|da) (filho|filha))\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "P09",
+      "group": "aniversario_pessoal",
+      "subtype": "adolescente",
+      "code": "aniversario",
+      "priority": 110,
+      "pattern": "\\b(aniversario adolescente|aniversario de adolescente)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "P10",
+      "group": "aniversario_pessoal",
+      "subtype": "centenario_pessoal",
+      "code": "aniversario",
+      "priority": 110,
+      "pattern": "\\b(centenario (da|do|de) (minha mae|meu pai|minha avo|meu avo|uma pessoa)|100 anos (da|do) (minha mae|meu pai|meu avo|minha avo))\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "P11",
+      "group": "aniversario_pessoal",
+      "subtype": "marco_de_idade",
+      "code": "aniversario",
+      "priority": 109,
+      "pattern": "\\b(meio seculo|cinquentao|cinquentona|sessentao|sessentona|festa de (18|20|21|30|40|50|60|70|80|90|100) anos|aniversario de (18|20|21|30|40|50|60|70|80|90|100) anos|festa de maioridade)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "P12",
+      "group": "aniversario_pessoal",
+      "subtype": "aniversario_nao_especificado",
+      "code": "aniversario",
+      "priority": 66,
+      "pattern": "\\b(aniversario|niver|b.day|mais um ano de vida|fazer anos|dia do aniversario|aniversariante)\\b",
+      "certainty": "direct"
+    },
+    {
+      "id": "P13",
+      "group": "aniversario_pessoal",
+      "subtype": "aniversario_nao_especificado",
+      "code": "aniversario",
+      "priority": 64,
+      "pattern": "\\b(cantar parabens para (meu|minha|nosso|nossa)|assoprar velinhas (do|da|com)|apagar velinhas (do|da|com))\\b",
+      "certainty": "contextual"
+    },
+    {
+      "id": "F01",
+      "group": "formatura",
+      "subtype": "formatura",
+      "code": "formatura",
+      "priority": 115,
+      "pattern": "\\b(formatura|colacao de grau|festa dos formandos|baile de formatura|conclusao do curso|cerimonia de graduacao)\\b",
+      "certainty": "direct"
+    }
+  ],
+  "features": [
+    {
+      "id": "surpresa",
+      "pattern": "\\b(surpresa|festa surpresa)\\b"
+    },
+    {
+      "id": "tematico",
+      "pattern": "\\b(tematic[ao]|festa a fantasia|tema da festa)\\b"
+    },
+    {
+      "id": "beneficente",
+      "pattern": "\\b(beneficente|solidari[ao]|arrecadacao)\\b"
+    },
+    {
+      "id": "virtual",
+      "pattern": "\\b(virtual|online|por videochamada)\\b"
+    },
+    {
+      "id": "religioso",
+      "pattern": "\\b(religios[ao]|espiritual|igreja|templo)\\b"
+    },
+    {
+      "id": "cultural",
+      "pattern": "\\b(cultural|tradicional|judaic[ao]|hebraic[ao]|japones[ao])\\b"
+    }
+  ],
+  "contextual_terms": [
+    "\\b(data especial|dia importante|presentinho|mimo|presentear|festinha|nao deixar passar em branco|pessoa especial|cartaozinho|bolo e balao)\\b"
+  ],
+  "numeric_menu": {
+    "1": {
+      "code": "casamento",
+      "group": "matrimonial",
+      "subtype": "casamento"
+    },
+    "2": {
+      "code": "aniversario",
+      "group": "aniversario_pessoal",
+      "subtype": "aniversario_nao_especificado"
+    },
+    "3": {
+      "code": "debutante",
+      "group": "aniversario_pessoal",
+      "subtype": "debutante"
+    },
+    "4": {
+      "code": "empresarial",
+      "group": "empresarial_institucional",
+      "subtype": "corporativo_generico"
+    }
+  }
+}
