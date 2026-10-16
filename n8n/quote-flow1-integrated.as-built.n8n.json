@@ -1,0 +1,442 @@
+{
+  "_metadata": {
+    "generated_at": "2026-10-16",
+    "source_workflow_id": "3RAuwFaHIaZvOMjU",
+    "active": true,
+    "active_version_id": "73e49c2d-f0c1-4ef0-a075-73cdff7e43c7",
+    "draft_version_id": "73e49c2d-f0c1-4ef0-a075-73cdff7e43c7",
+    "note": "Current published/draft snapshot; credential IDs and names only, no secret values"
+  },
+  "name": "[LAB] Click — orçamento F1 + Supabase + JEV (sem respostas)",
+  "nodes": [
+    {
+      "id": "274d8688-4164-46c9-a6c7-b97850cbe5ec",
+      "name": "Manual — casos simulados",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -352,
+        80
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "b3d0435f-4e60-4a8d-b0d4-70f9b576453e",
+      "name": "Normalizar WhatsApp",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -128,
+        176
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const x=$json,p=x.body??x.payload??x,v=p.entry?.[0]?.changes?.[0]?.value??p.changes?.[0]?.value??p.value??p;\nconst m=v.messages?.[0]??x.message??null,contact=v.contacts?.[0]??{},meta=v.metadata??{};\nconst sid=x.sender_id??m?.from??contact.wa_id??null,id=x.message_id??m?.id??null;\nconst text=x.text??(m?.type==='text'?m?.text?.body:null);\nconst accepted=!!sid&&!!id&&typeof text==='string'&&text.length>0&&/^[0-9]{8,20}$/.test(String(sid));\nreturn {json:{accepted,sender_id:sid,message_id:id,text:text??'',message:m,\n  phone_number_id:meta.phone_number_id??null,message_type:m?.type??'text',\n  occurred_at:m?.timestamp?new Date(Number(m.timestamp)*1000).toISOString():null,\n  cta:{verified:false},contact_category:'unknown',\n  validation_error:accepted?null:'invalid_missing_sender_message_or_nontext',\n  effects:{whatsapp_reply:false}}};"
+      }
+    },
+    {
+      "id": "a42f6c16-fe78-44e2-ac10-92bc12ec40fa",
+      "name": "Mensagem válida?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        96,
+        176
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.accepted }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "d17e5181-fb17-4515-8c67-e33d949c9b91",
+      "name": "FLOW1 — extrair dados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        768,
+        80
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const i=$json,p=i.body??i.payload??i,v=p.entry?.[0]?.changes?.[0]?.value??p.value??p,m=v.messages?.[0]??{},text=String(i.text??m.text?.body??i.message??''),clean=s=>String(s??'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().replace(/[^a-z0-9/°\\s-]/g,' ').replace(/\\s+/g,' ').trim(),t=clean(text);\nconst st=JSON.parse(JSON.stringify(i.state??{})),facts=st.facts??{},extracted={},conflicts={},evidence={},id=i.message_id??m.id??null,processed=st.processed_message_ids??[],duplicate=!!id&&processed.includes(id);st.pending_conflicts=st.pending_conflicts??{};\nfunction add(k,val,src='customer'){if(val===null||val===undefined||val===''||(Array.isArray(val)&&!val.length))return;const old=facts[k],pending=st.pending_conflicts[k];if(pending){if(JSON.stringify(val)===JSON.stringify(pending.incoming)||JSON.stringify(val)===JSON.stringify(pending.existing)){facts[k]=val;extracted[k]=val;evidence[k]='customer_clarification';delete st.pending_conflicts[k];return;}conflicts[k]={existing:old,incoming:val};st.pending_conflicts[k]=conflicts[k];return;}if(old!==undefined&&JSON.stringify(old)!==JSON.stringify(val)){conflicts[k]={existing:old,incoming:val};st.pending_conflicts[k]=conflicts[k];return;}if(old===undefined){facts[k]=val;extracted[k]=val;evidence[k]=src;}}\nlet category='commercial';\nif(/\\b(fotos?.{0,35}(documentos?|3x4|rg|passaporte)|foto de rg|passaporte)\\b/.test(t))category='out_of_scope';\nif(/\\b(ja estao chegando|ja esta chegando|quando voces chegam|frete da festa|orcamento do frete)\\b/.test(t))category='operational';\nif(['vendor','personal','staff','automated','institution'].includes(i.contact_category))category='noncommercial';\nconst services=[\n['cabine_fotos',/\\bcabine( de fotos?| fotografica)?\\b/g],\n['totem_fotos',/\\btotem( de fotos?)?\\b/g],\n['plataforma_360',/\\bplataforma( 360)?\\b|\\b360( graus)?\\b|\\bgiratoria\\b|\\bvideo girando\\b|\\bgira e grava\\b|\\baquele que gira\\b|\\baquela que gira\\b/g],\n['set_fotografico',/\\bset fotografico\\b|\\bcenario fotografico\\b/g],\n['fotografo',/\\bfotografo (para|de) eventos?\\b/g]\n];\nconst mentioned=[];for(const [code,re] of services){let ok=false;for(const hit of t.matchAll(re)){const prefix=t.slice(Math.max(0,hit.index-35),hit.index);if(/(nao quero|nao tenho interesse em|sem|dispenso|nao gostaria de)( a| o| de| da| do)?\\s*$/.test(prefix))continue;ok=true;}if(ok)mentioned.push(code)}\nconst comparing=/\\b(em duvida entre|qual e melhor|diferencas? entre|quais as diferencas)\\b/.test(t)||(/\\b(voces tem|trabalham com)\\b/.test(t)&&mentioned.length>1);\nlet desired=comparing?[]:mentioned.slice();\nconst cta=i.cta??{};const allowed=['cabine_fotos','totem_fotos','plataforma_360','set_fotografico','fotografo'];\nif(!desired.length&&cta.verified===true&&allowed.includes(cta.service_code))desired=[cta.service_code];\nif(!desired.length&&st.pending_question==='service'&&/^[1-5]$/.test(t))desired=[allowed[Number(t)-1]];\nlet purpose=null;\nif(/\\b(casamento|casar|noiva|noivo)\\b/.test(t))purpose='casamento';\nelse if(/\\b(debutante|15 anos|quinze anos)\\b/.test(t))purpose='debutante';\nelse if(/\\b(aniversario|aniversariante|faz \\d+ anos|festa surpresa)\\b/.test(t))purpose='aniversario';\nelse if(/\\b(confraternizacao|corporativ|empresa|empresarial|firma|eventos internos|sou do rh)\\b/.test(t))purpose='empresarial';\nelse if(/\\bformatura\\b/.test(t))purpose='formatura';\n// Numeric choices are interpreted ONLY when the last prompt asked the event purpose.\nif(!purpose&&st.pending_question==='purpose'&&/^[1-4]$/.test(t))purpose={1:'casamento',2:'aniversario',3:'debutante',4:'empresarial'}[Number(t)];\nconst months={janeiro:1,fevereiro:2,marco:3,abril:4,maio:5,junho:6,julho:7,agosto:8,setembro:9,outubro:10,novembro:11,dezembro:12,jan:1,fev:2,mar:3,abr:4,mai:5,jun:6,jul:7,ago:8,set:9,out:10,nov:11,dez:12};\nconst toDate=(d,m,y)=>{d=+d;m=+m;y=+y;if(y<100)y+=2000;if(y<2020||y>2100||m<1||m>12||d<1||d>31)return null;const iso=y+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0');let z=new Date(iso+'T12:00:00Z');return z.getUTCDate()===d&&z.getUTCMonth()+1===m&&z.getUTCFullYear()===y?iso:null};\nlet date=null,partial=null,dm=t.match(/\\b(\\d{1,2})[ /.-]+(\\d{1,2})[ /.-]+(\\d{2,4})\\b/);if(dm)date=toDate(dm[1],dm[2],dm[3]);if(!date){dm=t.match(/\\b(\\d{1,2})\\s*(?:de\\s+)?(janeiro|fevereiro|marco|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro|jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez)\\s*(?:de\\s+)?(\\d{4})\\b/);if(dm)date=toDate(dm[1],months[dm[2]],dm[3]);}\nif(!date){let q=t.match(/\\b(\\d{1,2})[/.](\\d{1,2})\\b/);if(q)partial=q[0];else {let dayMonth=t.match(/\\b(\\d{1,2})\\s*(?:de\\s+)?(janeiro|fevereiro|marco|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)\\b/);if(dayMonth)partial=dayMonth[0];}if(!partial&&/\\b(mes que vem|segundo semestre|em (janeiro|fevereiro|marco|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)|ainda estou vendo a data)\\b/.test(t))partial=text;}\nif(!date&&facts.event_date_partial&&/\\bano\\b/.test(t)){const yy=t.match(/\\b(20\\d{2})\\b/),dd=String(facts.event_date_partial).match(/^(\\d{1,2})[/.](\\d{1,2})$/);if(yy&&dd)date=toDate(dd[1],dd[2],yy[1]);}\nconst cities=['mogi das cruzes','suzano','poa','santa isabel','guarulhos','itaquaquecetuba','bertioga','santo andre','ferraz de vasconcelos','santos','campinas','sao bernardo do campo','sao paulo','ar uja'];\nconst aliases={'mogi das cruzes':['mogi das cruzes','mogi'],'itaquaquecetuba':['itaquaquecetuba','itaqua'],'sao bernardo do campo':['sao bernardo do campo','sbc'],'ar uja':['aruja']};\nconst located=cities.filter(c=>(aliases[c]??[c]).some(a=>(' '+t+' ').includes(' '+a+' ')));\nlet city=located.length===1?located[0]:null;\nif(city==='ar uja')city='aruja';\nlet district=city==='sao paulo'?(t.match(/\\bzona (leste|oeste|norte|sul|central)\\b/)??[])[0]:null;\nconst vagueGeo=/\\b(alto tiete|grande sao paulo)\\b/.test(t);\nconst rel=/\\b(sou a noiva|sou noiva)\\b/.test(t)?'noiva':/\\b(sou o noivo|sou noivo)\\b/.test(t)?'noivo':/\\bmae (da|do) (noiva|noivo|debutante|aniversariante)\\b/.test(t)?'mae':/\\bpai (da|do) (noiva|noivo|debutante|aniversariante)\\b/.test(t)?'pai':/\\b(irma|irmao|tia|tio|sobrinha)\\b/.test(t)?'familiar':/\\b(sou assessora|somos assessoria|sou organizadora|trabalho com cerimonial)\\b/.test(t)?'assessoria':/\\b(sou a debutante|a debutante sou eu)\\b/.test(t)?'homenageada':/\\b(sou do rh|responsavel pelas cotacoes)\\b/.test(t)?'responsavel_empresa':null;\nconst who=text.match(/\\b(?:me chamo|meu nome é|sou a|sou o)\\s+([A-Za-zÀ-ÿ]+(?:\\s+[A-Za-zÀ-ÿ]+)?)/i);if(who&&/^(noiva|noivo|mae|mãe|pai|debutante|assessora|responsavel|responsável|organizadora|pessoa|irma|irmã|irmao|irmão|rh)\\b/i.test(who[1]))who[1]=null;\nlet origin=null;for(const [o,re] of [['google_maps',/\\b(google maps|no maps|no perfil da empresa no maps)\\b/],['instagram',/\\b(instagram|pelo insta)\\b/],['facebook',/\\b(facebook|pelo face|no face)\\b/],['google',/\\bgoogle\\b/],['foto_impressa',/\\b(foto impressa|verso da foto|fotos da festa|lembranca impressa|material.*fotos)\\b/],['indicacao',/\\b(indicacao|indicou|recomendou|passou o contato|me passou o contato)\\b/]])if(!origin&&re.test(t))origin=o;\nif(cta.verified===true&&cta.source)origin=cta.source;\nif(!duplicate&&category==='commercial'){add('services',desired,cta.verified&&mentioned.length===0?'verified_cta':'customer');add('purpose',purpose);add('event_date',date);if(city&&city!=='sao paulo')add('city',city);if(city==='sao paulo')add('city',city);add('district',district);add('relationship_to_event',rel);if(who)add('contact_name',who[1]);add('acquisition_source',origin,cta.verified?'verified_cta':'customer_declared');if(partial)add('event_date_partial',partial);}\nconst missing=[];if(!facts.services?.length)missing.push('service');if(!facts.purpose)missing.push('purpose');if(!facts.event_date)missing.push('event_date');if(!facts.city||(facts.city==='sao paulo'&&!facts.district))missing.push('event_location');\nconst routeMap={service:'FLOW_1_SERVICE',purpose:'FLOW_2_PURPOSE',event_date:'FLOW_3_DATE',event_location:'FLOW_4_LOCALITY'};\nlet next=missing.length?routeMap[missing[0]]:'FLOW_5_READY';if(category!=='commercial')next=category==='operational'?'ROUTE_OPERATIONS':'ROUTE_HUMAN';if(Object.keys(st.pending_conflicts).length)next='CLARIFY_CONFLICT';if(duplicate)next='DUPLICATE_NOOP';if(i.human_lock)next='HUMAN_LOCK_NO_REPLY';\nlet question=next==='FLOW_1_SERVICE'?'Qual serviço deseja orçar?\\n1. Cabine de Fotos\\n2. Totem de Fotos\\n3. Plataforma 360\\n4. Set Fotográfico\\n5. Fotógrafo':next==='FLOW_2_PURPOSE'?'Para qual ocasião será o serviço?\\n1. Casamento\\n2. Aniversário\\n3. Debutante (15 anos)\\n4. Evento empresarial':next==='FLOW_3_DATE'?'Qual é a data completa da festa (dia, mês e ano)?':next==='FLOW_4_LOCALITY'?(facts.city==='sao paulo'?'Qual o bairro ou região em São Paulo?':'Em qual cidade será a festa?'):next==='FLOW_5_READY'?'Já tenho os dados necessários para verificar seu orçamento. 😊':next==='CLARIFY_CONFLICT'?'Pode confirmar os dados divergentes sobre '+Object.keys(st.pending_conflicts).join(', ')+'?':null;\nif(!duplicate&&id)processed.push(id);\nif(!duplicate&&question&&category==='commercial')st.introduced=true;\nst.facts=facts;st.processed_message_ids=[...new Set(processed)].slice(-100);st.pending_question=next==='FLOW_1_SERVICE'?'service':next==='FLOW_2_PURPOSE'?'purpose':next==='FLOW_3_DATE'?'event_date':next==='FLOW_4_LOCALITY'?'event_location':null;\n// Deterministic fields and numeric menu options never use an LLM.\n// JEV only handles an unresolved semantic service description, or an open-text\n// purpose reply to a purpose question (never a fixed numeric option).\nconst serviceHint=/\\b(equipamento|maquina|foto|fotografias?|video|gira|giratoria|imprime|impressao|lembrancas?|selfie|camera|espelho|fotografo|fotografico)\\b/.test(t);\nconst safeSemantic=category==='commercial'&&!duplicate&&!i.human_lock&&!Object.keys(st.pending_conflicts).length&&t.length>7&&!/^[1-5]$/.test(t)&&!comparing;\nlet semanticTarget=null;\nif(safeSemantic&&!facts.services?.length&&!desired.length&&serviceHint&&!cta.verified)semanticTarget='service';\nelse if(safeSemantic&&facts.services?.length&&!facts.purpose&&!purpose&&i.state?.pending_question==='purpose')semanticTarget='purpose';\nconst greet=!i.state?.introduced&&category==='commercial'&&question?'Olá! Eu sou a Click, assistente virtual da Click Mais Cabine 😊\\n\\n':'';\nreturn {json:{sender_id:i.sender_id??m.from??null,text,requires_jev:semanticTarget!==null,semantic_target:semanticTarget,flow:'FLOW_1',version:'0.2.1-no-redundant-jev',message_id:id,accepted:!!text,duplicate,category,extracted,conflicts,evidence,services_mentioned:mentioned,service_needs_choice:comparing,date_partial:partial,locality_partial:vagueGeo,context:st,missing_required:missing,next_flow:next,ready_for_quote_checks:next==='FLOW_5_READY',suggested_reply:question?greet+question:null,effects:{database_write:false,whatsapp_reply:false,quote_calculation:false}}};"
+      }
+    },
+    {
+      "id": "0fe209d2-edcd-43bd-9541-6a5c554bad2d",
+      "name": "JEV necessário?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        992,
+        80
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.requires_jev }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "a2bf2b76-8f55-4c7d-ac8b-8d898e0cb6e4",
+      "name": "JEV 1.13 — desambiguar",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1440,
+        0
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/alpha/decisions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openRouterApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.jev_request }}",
+        "options": {
+          "response": {}
+        }
+      },
+      "credentials": {
+        "openRouterApi": {
+          "id": "Q2lOvNp2yO1Oh35O",
+          "name": "OpenRouter account"
+        }
+      }
+    },
+    {
+      "id": "5dc1b6bc-8ac9-476e-a4a1-f525be9111fe",
+      "name": "Validar resposta JEV",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1664,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const original=$('FLOW1 — extrair dados').item.json;\nconst target=original.semantic_target;\nconst ans=target==='purpose'?$json.answers?.event_purpose??{}:$json.answers?.product_interest??{};\nconst choice=ans.choice??null,confidence=Number(ans.confidence??0);\nconst serviceMap={cabine_fotos:['cabine_fotos'],totem_fotos:['totem_fotos'],plataforma_360:['plataforma_360'],set_fotografico:['set_fotografico'],fotografo:['fotografo'],combo_cabine_plataforma:['cabine_fotos','plataforma_360'],combo_todos:['cabine_fotos','totem_fotos','plataforma_360']};\nconst purposes=['casamento','aniversario','debutante','empresarial','formatura'];\nconst fact={...original.extracted},proof={...original.evidence};\nif(target==='service'&&!fact.services?.length&&confidence>=0.8&&serviceMap[choice]&&!original.service_needs_choice){\n fact.services=serviceMap[choice];proof.services='jev_semantic_choice_'+confidence;\n}\nif(target==='purpose'&&!fact.purpose&&confidence>=0.8&&purposes.includes(choice)){\n fact.purpose=choice;proof.purpose='jev_semantic_choice_'+confidence;\n}\nreturn {json:{...original,extracted:fact,evidence:proof,\n jev:{target,choice,confidence,accepted:(target==='purpose'?!!fact.purpose:!!fact.services?.length),model:$json.model??'typesafe/jev-1.13'},\n effects:{database_write:false,whatsapp_reply:false}}};"
+      }
+    },
+    {
+      "id": "c1fcf328-cb60-4d04-aa8e-9469e00c4da3",
+      "name": "Supabase — aplicar ficha atomicamente",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1888,
+        96
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://tsuuqcodmyuwqxfwevps.supabase.co/rest/v1/rpc/cm_quote_flow1_apply_v1",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {p_sender_id:$json.sender_id,p_external_message_id:$json.message_id,p_extracted:$json.extracted,p_evidence:$json.evidence,p_message_text:$json.text,p_category:$json.category} }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "credentials": {
+        "supabaseApi": {
+          "id": "MDQZJj7pCequa6xj",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "id": "a2ac1898-97a8-4243-9539-fe252f3daa7f",
+      "name": "Roteador — preparar próximo flow",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2112,
+        96
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const x=$json,flow=x.next_flow??'ROUTE_HUMAN';\nconst state=x.context?.facts??{};\nlet response=null;\nif(flow==='FLOW_1_SERVICE')response='Olá! Sou a Click, assistente virtual da Click Mais Cabine. 😊 Qual serviço deseja orçar?\\n1. Cabine de Fotos\\n2. Totem de Fotos\\n3. Plataforma 360\\n4. Set Fotográfico\\n5. Fotógrafo';\nif(flow==='FLOW_2_PURPOSE')response='Para qual ocasião será o serviço?\\n1. Casamento\\n2. Aniversário\\n3. Debutante (15 anos)\\n4. Evento empresarial';\nif(flow==='FLOW_3_DATE')response='Qual a data completa da festa (dia, mês e ano)?';\nif(flow==='FLOW_4_LOCALITY')response=state.city==='sao paulo'?'Em qual bairro ou região de São Paulo será a festa?':'Em qual cidade será a festa?';\nif(flow==='FLOW_5_READY')response='Perfeito! Já tenho as informações necessárias para verificar o orçamento. Um instante, por favor.';\nif(flow==='CLARIFY_CONFLICT')response='Encontrei informações diferentes sobre o evento. Poderia confirmar a informação correta?';\nreturn {json:{...x,flow1_handoff:{next_flow:flow,draft_response:response,\n  route_executable:true,draft_only:true,auto_send:false,\n  ready_for_price:flow==='FLOW_5_READY'},effects:{whatsapp_reply:false,quote_calculation:false}}};"
+      }
+    },
+    {
+      "id": "7083ebf6-4ec0-48c9-a2de-060ae02d5c02",
+      "name": "Descartar mensagem inválida",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        320,
+        272
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "return {json:{accepted:false,next_flow:'IGNORED_INVALID_INBOUND',reason:$json.validation_error??'invalid_inbound',effects:{database_write:false,whatsapp_reply:false}}};"
+      }
+    },
+    {
+      "id": "99383307-369b-4b57-9878-602cdd0e66d5",
+      "name": "Supabase — carregar ficha persistente",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        320,
+        80
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://tsuuqcodmyuwqxfwevps.supabase.co/rest/v1/rpc/cm_quote_flow1_snapshot_v1",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {p_sender_id:$json.sender_id} }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "credentials": {
+        "supabaseApi": {
+          "id": "MDQZJj7pCequa6xj",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "id": "d8921d61-e8f4-4b63-accf-c1bfecf12040",
+      "name": "Restaurar contexto persistente",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        544,
+        80
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const source=$('Normalizar WhatsApp').item.json;\nconst payload=$json??{};\nconst state=payload.state&&typeof payload.state==='object'&&!Array.isArray(payload.state)?payload.state:{};\nreturn {json:{...source,state,human_lock:payload.human_lock===true,\n  persistence_ref:{session_id:payload.session_id??null,customer_event_id:payload.customer_event_id??null,loaded:!!payload.found}}};"
+      }
+    },
+    {
+      "id": "57341369-8929-4ea2-a941-47ca127f2f9c",
+      "name": "Montar requisição JEV",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1216,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const source=$json;\nconst forPurpose=source.semantic_target==='purpose';\nconst service={type:'choice',\n instructions:'Identifique apenas serviço de evento solicitado. Não interprete dúvidas entre serviços como combo, respeite negações, e escolha sem_interesse_claro se insuficiente.',\n criteria:{cabine_fotos:'Quer cabine de fotos.',totem_fotos:'Quer totem de fotos.',plataforma_360:'Quer plataforma 360.',set_fotografico:'Quer set fotográfico.',fotografo:'Quer fotógrafo.',combo_cabine_plataforma:'Quer CONTRATAR cabine e plataforma juntas.',combo_todos:'Quer contratar cabine, totem e 360 juntos.',sem_interesse_claro:'Nenhum serviço identificável com confiança.'}};\nconst purpose={type:'choice',\n instructions:'Classifique a finalidade descrita em linguagem livre segundo as opções comerciais. Não invente ocasião não dita. Se um encontro só quer alegrar familiar sem data comemorativa/objetivo identificado, escolha outro_indefinido. Debutante é um subtipo de aniversário para política comercial; nesta versão preserve o código específico.',\n criteria:{casamento:'Cerimônia de casamento, união ou celebração matrimonial.',aniversario:'Aniversário de pessoa, festa infantil ou adulta.',debutante:'Festa de 15 anos, debutante.',empresarial:'Confraternização, evento de empresa ou institucional.',formatura:'Formatura ou celebração de formandos.',outro_indefinido:'Finalidade não comprovada ou sem enquadramento claro.'}};\nreturn {json:{...source,jev_request:{model:'typesafe/jev-1.13',state:{message:source.text,channel:'whatsapp'},questions:forPurpose?{event_purpose:purpose}:{product_interest:service}}}};"
+      }
+    },
+    {
+      "id": "d3517074-0d3a-49d7-aace-4d424c106168",
+      "name": "Entrada via orquestrador Meta",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -352,
+        272
+      ],
+      "parameters": {
+        "inputSource": "passthrough"
+      }
+    }
+  ],
+  "connections": {
+    "Manual — casos simulados": {
+      "main": [
+        [
+          {
+            "node": "Normalizar WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalizar WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "Mensagem válida?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem válida?": {
+      "main": [
+        [
+          {
+            "node": "Supabase — carregar ficha persistente",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Descartar mensagem inválida",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FLOW1 — extrair dados": {
+      "main": [
+        [
+          {
+            "node": "JEV necessário?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JEV necessário?": {
+      "main": [
+        [
+          {
+            "node": "Montar requisição JEV",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Supabase — aplicar ficha atomicamente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JEV 1.13 — desambiguar": {
+      "main": [
+        [
+          {
+            "node": "Validar resposta JEV",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar resposta JEV": {
+      "main": [
+        [
+          {
+            "node": "Supabase — aplicar ficha atomicamente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase — aplicar ficha atomicamente": {
+      "main": [
+        [
+          {
+            "node": "Roteador — preparar próximo flow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase — carregar ficha persistente": {
+      "main": [
+        [
+          {
+            "node": "Restaurar contexto persistente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restaurar contexto persistente": {
+      "main": [
+        [
+          {
+            "node": "FLOW1 — extrair dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Montar requisição JEV": {
+      "main": [
+        [
+          {
+            "node": "JEV 1.13 — desambiguar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Entrada via orquestrador Meta": {
+      "main": [
+        [
+          {
+            "node": "Normalizar WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "binaryMode": "separate"
+  }
+}

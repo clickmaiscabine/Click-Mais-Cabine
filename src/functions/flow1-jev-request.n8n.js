@@ -1,0 +1,9 @@
+const source=$json;
+const forPurpose=source.semantic_target==='purpose';
+const service={type:'choice',
+ instructions:'Identifique apenas serviço de evento solicitado. Não interprete dúvidas entre serviços como combo, respeite negações, e escolha sem_interesse_claro se insuficiente.',
+ criteria:{cabine_fotos:'Quer cabine de fotos.',totem_fotos:'Quer totem de fotos.',plataforma_360:'Quer plataforma 360.',set_fotografico:'Quer set fotográfico.',fotografo:'Quer fotógrafo.',combo_cabine_plataforma:'Quer CONTRATAR cabine e plataforma juntas.',combo_todos:'Quer contratar cabine, totem e 360 juntos.',sem_interesse_claro:'Nenhum serviço identificável com confiança.'}};
+const purpose={type:'choice',
+ instructions:'Classifique a finalidade descrita em linguagem livre segundo as opções comerciais. Não invente ocasião não dita. Se um encontro só quer alegrar familiar sem data comemorativa/objetivo identificado, escolha outro_indefinido. Debutante é um subtipo de aniversário para política comercial; nesta versão preserve o código específico.',
+ criteria:{casamento:'Cerimônia de casamento, união ou celebração matrimonial.',aniversario:'Aniversário de pessoa, festa infantil ou adulta.',debutante:'Festa de 15 anos, debutante.',empresarial:'Confraternização, evento de empresa ou institucional.',formatura:'Formatura ou celebração de formandos.',outro_indefinido:'Finalidade não comprovada ou sem enquadramento claro.'}};
+return {json:{...source,jev_request:{model:'typesafe/jev-1.13',state:{message:source.text,channel:'whatsapp'},questions:forPurpose?{event_purpose:purpose}:{product_interest:service}}}};

@@ -47,7 +47,13 @@
         "status": "homologated"
       }
     ],
-    "workflows": [],
+    "workflows": [
+      {
+        "id": "cm-wf-000-quote-flow1-lab",
+        "path": "n8n/quote-flow1-orchestrator.workflow-sdk.js",
+        "status": "development"
+      }
+    ],
     "subflows": [],
     "workflow_specs": [
       {
@@ -134,6 +140,18 @@
         "version": "20261003051043",
         "name": "fix_business_stage_transition_ambiguity_v1",
         "path": "supabase/migrations/20261003051043_fix_business_stage_transition_ambiguity_v1.sql",
+        "status": "production"
+      },
+      {
+        "version": "20261015174256",
+        "name": "cm_quote_flow1_atomic_ingest_v1",
+        "path": "supabase/migrations/20261015174256_cm_quote_flow1_atomic_ingest_v1.sql",
+        "status": "production"
+      },
+      {
+        "version": "20261015175200",
+        "name": "cm_quote_flow1_snapshot_v1",
+        "path": "supabase/migrations/20261015175200_cm_quote_flow1_snapshot_v1.sql",
         "status": "production"
       }
     ],
