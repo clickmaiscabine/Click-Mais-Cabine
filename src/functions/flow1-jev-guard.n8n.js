@@ -9,7 +9,7 @@ if(target==='service'&&!fact.services?.length&&confidence>=0.8&&serviceMap[choic
  fact.services=serviceMap[choice];proof.services='jev_semantic_choice_'+confidence;
 }
 if(target==='purpose'&&!fact.purpose&&confidence>=0.8&&purposes.includes(choice)){
- fact.purpose=choice;proof.purpose='jev_semantic_choice_'+confidence;
+ fact.purpose=choice;proof.purpose={source:'jev',choice,confidence,threshold:0.80,group:choice==='casamento'?'matrimonial':choice==='empresarial'?'empresarial_institucional':choice==='formatura'?'formatura':'aniversario_pessoal',subtype:choice==='debutante'?'debutante':null,taxonomy_version:'1.0.1'};
 }
 return {json:{...original,extracted:fact,evidence:proof,
  jev:{target,choice,confidence,accepted:(target==='purpose'?!!fact.purpose:!!fact.services?.length),model:$json.model??'typesafe/jev-1.13'},
