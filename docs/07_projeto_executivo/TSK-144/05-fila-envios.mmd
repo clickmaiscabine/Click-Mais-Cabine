@@ -1,0 +1,19 @@
+flowchart TD
+  A[Novo: proposta e sequência aprovadas] --> Q[(Supabase: outbound_queue)]
+  Q --> W[Novo: worker agendado]
+  W --> L{human_lock ou cancelada?}
+  L -->|sim| C[Cancelar pendentes e auditar]
+  L -->|não| J{Janela Meta de 24h?}
+  J -->|sim| G[Response Guard]
+  J -->|não| T{Template autorizado?}
+  T -->|não| H[Human Handoff]
+  T -->|sim| G
+  G --> M[Meta API: enviar]
+  M --> R{Confirmação recebida?}
+  R -->|sim| S[(Supabase: message_id, status, tentativa)]
+  R -->|não| X[Novo: retry controlado]
+  X --> Q
+  S --> N{Fim da sequência?}
+  N -->|não| W
+  N -->|sim| TR[Adaptar: criar cartão Trello idempotente]
+  TR --> FU[Adaptar: agendar follow-up 23h]

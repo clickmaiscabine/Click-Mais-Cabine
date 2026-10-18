@@ -1,0 +1,20 @@
+flowchart TD
+  A[Contexto com serviços, data e localidade] --> L{Localidade homologada?}
+  L -->|não| H[Human Handoff: localidade não cadastrada]
+  L -->|sim| S{Quantidade de serviços}
+  S -->|1| P[Quote Engine: preço homologado]
+  S -->|2| C[Quote Engine: combo homologado]
+  S -->|3+| R[Human Handoff: Regis]
+  P --> AGENDA[(Supabase: espelho Trello)]
+  C --> AGENDA
+  AGENDA --> D{Reservas ativas}
+  D -->|0 ou 1| DISP[Disponibilidade preliminar]
+  D -->|2+| LOT[Data comprovadamente lotada]
+  D -->|falha/desatualizado| INC[Orçar sem citar agenda]
+  DISP --> G[Quote Presentation]
+  INC --> G
+  LOT --> Q{Cliente quer orçamento?}
+  Q -->|não| F[Agradecer e encerrar]
+  Q -->|sim| I[Preço integral sem desconto/brinde]
+  I --> G
+  G --> V[(Supabase: proposta e versão da tabela)]

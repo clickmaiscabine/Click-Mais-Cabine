@@ -1,0 +1,18 @@
+flowchart TD
+  A[Mensagem recebida] --> D{message_id já processado?}
+  D -->|sim| X[Encerrar idempotente]
+  D -->|não| N[Existente: normalizar telefone e mensagem]
+  N --> C[(Supabase: contato)]
+  C --> E{Há evento compatível?}
+  E -->|sim| R[Carregar ficha e estado]
+  E -->|não| O[Novo: criar/selecionar oportunidade por festa]
+  O --> R
+  R --> F[Existente: extrair fatos determinísticos]
+  F --> J{Ambiguidade?}
+  J -->|sim| V[Existente: JEV com opções fechadas]
+  J -->|não| M[Novo: mesclar fatos cumulativos]
+  V --> M
+  M --> S[(Supabase: fatos, origem e conflito)]
+  S --> P{Dados mínimos completos?}
+  P -->|não| Q[Novo: uma pergunta pendente]
+  P -->|sim| K[Encaminhar disponibilidade e preço]

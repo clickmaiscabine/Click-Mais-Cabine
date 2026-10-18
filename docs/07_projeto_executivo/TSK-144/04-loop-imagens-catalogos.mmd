@@ -1,0 +1,16 @@
+flowchart TD
+  A[Proposta autorizada] --> I[Novo: inicializar itens ordenados]
+  I --> S{Próximo serviço?}
+  S -->|sim| M[Novo: recuperar imagem oficial]
+  M --> V[Novo: validar imagem do serviço]
+  V --> Q[(Fila: imagem)]
+  Q --> C[(Fila: catálogo homologado)]
+  C --> K[Novo: confirmar entrega técnica]
+  K --> S
+  S -->|não| O[(Fila: orçamento Pix e cartão)]
+  O --> B[(Fila: serviços e benefícios)]
+  B --> P[(Fila: histórico e prova social)]
+  P --> D[(Fila: despedida)]
+  D --> L{Data lotada?}
+  L -->|não| R[(Fila: pergunta de reserva)]
+  L -->|sim| E[Encerrar sem pergunta de reserva]

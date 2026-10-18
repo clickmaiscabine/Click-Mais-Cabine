@@ -1,0 +1,16 @@
+flowchart LR
+  WA[Meta WhatsApp TEST] --> IN[Existente: Meta LAB Ingress]
+  IN --> F1[Existente: F1 Persistência]
+  F1 --> DB[(Supabase: estado canônico)]
+  DB --> AV{Novo: disponibilidade}
+  AV -->|livre ou inconclusiva| PR[Adaptar: Quote Engine]
+  AV -->|lotada| LOT[Adaptar: fluxo data lotada]
+  PR --> CP[Adaptar: Quote Presentation]
+  CP --> Q[(Novo: fila persistente)]
+  Q --> GU[Adaptar: Response Guard]
+  GU --> API[Proposto: Meta API]
+  API --> TR[Adaptar: Trello Commercial]
+  TR --> FU[Adaptar: Follow-up Controller]
+  LOT --> Q
+  F1 --> HH[Adaptar: Human Handoff]
+  HH --> Q

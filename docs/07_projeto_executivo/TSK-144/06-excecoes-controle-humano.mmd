@@ -1,0 +1,16 @@
+flowchart TD
+  A[Evento ou mensagem] --> D{Exceção detectada?}
+  D -->|3+ serviços| H[Human Handoff: Regis]
+  D -->|localidade ausente| H
+  D -->|negociação/desconto| H
+  D -->|data lotada com interesse| H
+  D -->|falha Meta/Supabase/Trello| E[(Audit log e recuperação)]
+  D -->|mudança de festa| N[Novo: criar/selecionar outra oportunidade]
+  D -->|atendimento humano| L[(Supabase: human_lock)]
+  H --> L
+  L --> C[Cancelar fila pendente]
+  E --> R{Reprocessável sem duplicar?}
+  R -->|sim| Q[Reenfileirar com idempotency_key]
+  R -->|não| H
+  N --> A
+  C --> M[Humano retoma e libera manualmente]
