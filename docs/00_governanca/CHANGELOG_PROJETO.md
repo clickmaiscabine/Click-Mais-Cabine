@@ -1,5 +1,12 @@
 # Changelog do Projeto — Click Mais OS
 
+## 2026-10-18 — Precificação corporativa homologada (BR-002)
+
+- Registrada DEC-017 e BR-002 para eventos corporativos: 1, 2 ou 3 períodos de 4h/dia; multiplicadores 1,0, 1,5 e 2,0; multiplicação pelo número de dias.
+- Valor à vista empresarial = 82% do total do cartão, com sinal de 50%, sem aplicar cumulativamente a regra social Pix + 18%.
+- Incluídos módulo determinístico `src/functions/corporate-pricing.cjs` e 36 testes `node:test` (36/36 aprovados no ambiente local).
+- Somente branch de proposta: nenhuma alteração em n8n, Meta WhatsApp, Supabase ou produção.
+
 ## 2026-10-10 — Permissão do link OneDrive de entrega
 
 - Registrada a decisão DEC-016: usar link padrão OneDrive “Anyone/qualquer pessoa com o link”, somente para visualização e com download permitido.
