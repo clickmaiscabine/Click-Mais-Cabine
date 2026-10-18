@@ -1,7 +1,7 @@
 # Registro de Decisões — Click Mais OS
 
 Status: homologated  
-Atualizado em: 2026-10-10
+Atualizado em: 2026-10-18
 
 Este arquivo registra decisões humanas funcionais e arquiteturais em linguagem curta. ADRs detalham decisões arquiteturais quando necessário.
 
@@ -23,6 +23,8 @@ Este arquivo registra decisões humanas funcionais e arquiteturais em linguagem 
 | DEC-014 | O Projeto Executivo pode detalhar decisões homologadas, mas qualquer mudança exige registro explícito e, quando arquitetural, ADR. | homologated | governança |
 | DEC-015 | Para eventos com data registrada, programar a entrega do link OneDrive para 12h do dia calendário seguinte à data da festa, no fuso America/Sao_Paulo; executar o envio quando a pasta estiver pronta e vinculada ao evento. | homologated | detalha ADR-0004; workflow CM-WF-140 |
 | DEC-016 | Entregar ao cliente um link OneDrive padrão “Anyone/qualquer pessoa com o link”, somente para visualização, com download permitido; não exigir autenticação ou identidade do destinatário. O cliente recebe o link pelo WhatsApp e pode repassá-lo; qualquer pessoa que o obtenha poderá acessar as fotos. | homologated | detalha ADR-0004; workflow CM-WF-140 |
+
+| DEC-017 | Cálculo corporativo homologado: 1/2/3 períodos de 4h usam multiplicadores 1,0/1,5/2,0; total por dias; à vista = 82% do valor parcelado; 50% de sinal. Separado da precificação social, conforme BR-002. | homologated | nova; regra BR-002; exige testes antes da integração |
 
 ## Regra de alteração
 
