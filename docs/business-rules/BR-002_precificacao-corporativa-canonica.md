@@ -4,7 +4,11 @@
 **Status de integração:** código preparado e testado localmente, NÃO implantado em n8n/WhatsApp/Supabase de produção.  
 **Escopo:** eventos corporativos, sem alterar preços do fluxo social.  
 **Documento oficial no Drive:** https://docs.google.com/document/d/1Z--hPmKF7uRZ79BB7z39GGU0FP3km3IyvqzfKzPvn1Y/edit  
-**Fonte canônica da faixa:** `01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI.txt`.
+**Fonte canônica da faixa:** [01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI.txt](https://drive.google.com/file/d/1ZkoS54blFcWQxC66OTnHuI9ZBu_ErFmH/view?usp=drivesdk), arquivo Drive de ID `1ZkoS54blFcWQxC66OTnHuI9ZBu_ErFmH`.
+
+**Versão exata conferida em 18/10/2026:** revisão Drive `0B6VWt3lEydcWUFVOSTYrS0RESm9NRERaUUpBNzNMUm9IcG4wPQ`, última modificação `2026-08-30T05:50:16.516Z`. As oito faixas desta BR-002 foram cotejadas com a coluna **Pix unitário** dessa revisão. A coluna **Cartão unitário** pertence à regra social e **não** é base do cálculo empresarial. Não utilizar anexos de auditoria antigos como fonte substituta.
+
+**Governança da versão:** este registro identifica a revisão homologada usada na elaboração; o Quote Engine deverá usar a versão operacional vigente da base canônica e registrar a versão efetivamente consultada em cada orçamento. Se houver revisão posterior, não presumir que as faixas permaneceram iguais; revalidar tabela de correspondência e testes antes da integração.
 
 ## Entradas
 
@@ -34,7 +38,7 @@ A tabela é **derivada**, não substitui a fonte canônica de preços por locali
 - Total do evento e preço no cartão = valor de 1 dia × dias.
 - Preço à vista = total × 0,82.
 - Sinal = 50% do valor à vista; saldo = valor à vista − sinal.
-- Cálculo em centavos; nenhuma aproximação para centenas.
+- Cálculo em centavos inteiros; nenhuma aproximação para dezenas/centenas. Para frações de centavo intermediárias (ex.: base de R$ 1,01 × 1,5), arredondar tecnicamente uma vez ao centavo por dia, com empate para cima (half-up), depois multiplicar pelos dias; aplicar 82% e sinal também com arredondamento técnico half-up. Este comportamento não altera os oito preços-base homologados.
 - A aplicação de 18% da regra do cartão social **não** entra nesse cálculo. Não aplicar promoção social de antecedência automaticamente no corporativo sem uma decisão expressa de composição.
 
 ## Exemplos de aceite
@@ -55,4 +59,4 @@ O último caso testa apenas a matemática: R$ 1.200 não é faixa homologada. N�
 - Bloquear Álbum de Assinaturas como brinde para GRUPO_CORPORATIVO.
 - Capacidade de 500 pessoas, nota fiscal e inclusão de custos extraordinários só devem ser prometidos com respaldo da base de serviços em vigor.
 - O módulo matemático `src/functions/corporate-pricing.cjs` não seleciona localidade nem autoriza campanha; exige entrada previamente validada no Quote Engine.
-- Testes em `src/functions/corporate-pricing.test.cjs` usam o `node:test` nativo.
+- Testes em `src/functions/corporate-pricing.test.cjs` usam o `node:test` nativo (44 casos após correções de revisão) e são executados automaticamente em `.github/workflows/validate.yml` para cada PR contra `main`. Valores positivos menores que R$ 0,01 ou com frações de centavo na entrada, assim como overflow monetário, são recusados com erro específico.
