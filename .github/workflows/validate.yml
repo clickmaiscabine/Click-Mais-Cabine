@@ -22,3 +22,9 @@ jobs:
           python-version: "3.12"
       - name: Validate repository
         run: python scripts/validate_repository.py
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Test JavaScript business rules
+        run: node --test src/functions/*.test.cjs
