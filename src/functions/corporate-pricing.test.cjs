@@ -56,3 +56,36 @@ for (const entradas of [
 ]) {
   test('Recusar entrada inválida '+JSON.stringify(entradas), () => assert.throws(() => calcular(entradas), RangeError));
 }
+
+
+test('Base positiva subcentavo é rejeitada: sem orçamento zero', () => {
+  assert.throws(() => calcular({dias_evento:1,periodos_por_dia:1,valor_base_1_periodo:0.000001}), /casas decimais|R\\$ 0,01/);
+});
+test('Base válida com centavos: cálculo não dispara falso erro de limite', () => {
+  const r = calcular({dias_evento:1,periodos_por_dia:2,valor_base_1_periodo:1.23});
+  assert.equal(r.valor_1_dia, 1.85);
+  assert.equal(r.valor_avista, 1.52);
+  assert.equal(r.sinal_50, 0.76);
+});
+test('Base de 1 centavo permanece positiva', () => {
+  const r = calcular({dias_evento:1,periodos_por_dia:1,valor_base_1_periodo:0.01});
+  assert.equal(r.valor_total, 0.01);
+  assert.equal(r.valor_avista, 0.01);
+});
+test('Soma decimal representável em centavos é aceita', () => {
+  const r = calcular({dias_evento:1,periodos_por_dia:1,valor_base_1_periodo:0.1 + 0.2});
+  assert.equal(r.valor_total, 0.3);
+});
+test('Overflow no total retorna erro de limite explícito', () => {
+  assert.throws(() => calcular({dias_evento:Number.MAX_SAFE_INTEGER,periodos_por_dia:3,valor_base_1_periodo:1190}), /limite seguro/);
+});
+test('Entrada monetária enorme retorna erro correto', () => {
+  assert.throws(() => calcular({dias_evento:1,periodos_por_dia:1,valor_base_1_periodo:Number.MAX_VALUE}), /limite monetário seguro/);
+});
+test('Fração de centavo não é aceita como preço-base', () => {
+  assert.throws(() => calcular({dias_evento:1,periodos_por_dia:1,valor_base_1_periodo:1.234}), /duas casas/);
+});
+test('Meio centavo na aplicação de 1,5 é arredondado tecnicamente para cima', () => {
+  const r = calcular({dias_evento:1,periodos_por_dia:2,valor_base_1_periodo:1.01});
+  assert.equal(r.valor_1_dia, 1.52);
+});
