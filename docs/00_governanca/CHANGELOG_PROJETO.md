@@ -1,5 +1,12 @@
 # Changelog do Projeto — Click Mais OS
 
+## 2026-10-19 — BR-002, qualificação, agenda e apresentação em LAB
+
+- F1 corporativo cumulativo conectado ao motor existente, com todas as datas e reconciliação da agenda sem modificar reservas.
+- Apresentação/compositor reutilizados; preços corporativos exatos, origem dos fatos, persistência, idempotência, fila e handoff BR-001 preservados.
+- 404 testes JavaScript e guardas SQL em rollback aprovados; replays com serviços reais e um envio de validação Meta TEST confirmado (`sent`).
+- E2E corporativo genuíno e confirmação `delivered`/`read` pendentes; PR em rascunho, sem promoção para produção. Ver `docs/06_testes/BR002_TURNOS_3_5_IMPLEMENTACAO.md`.
+
 ## 2026-10-18 — BR-002 integrada ao Quote Engine LAB (Turno 2)
 
 - Atualizado somente o CM-WF-030 LAB existente, mantido não publicado e com dois nós.

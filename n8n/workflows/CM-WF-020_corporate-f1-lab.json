@@ -1,0 +1,898 @@
+{
+  "id": "3RAuwFaHIaZvOMjU",
+  "name": "[LAB] Click — orçamento F1 + Supabase + JEV (sem respostas)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "274d8688-4164-46c9-a6c7-b97850cbe5ec",
+      "name": "Manual — casos simulados",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -352,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const x=$json,p=x.body??x.payload??x,v=p.entry?.[0]?.changes?.[0]?.value??p.changes?.[0]?.value??p.value??p;\nconst m=v.messages?.[0]??x.message??null,contact=v.contacts?.[0]??{},meta=v.metadata??{};\nconst sid=x.sender_id??m?.from??contact.wa_id??null,id=x.message_id??m?.id??null;\nconst text=x.text??(m?.type==='text'?m?.text?.body:null);\nconst accepted=String(x.phone_number_id??meta.phone_number_id)==='1350381714825884'&&String(sid)==='5511956390586'&&!!sid&&!!id&&typeof text==='string'&&text.length>0&&/^[0-9]{8,20}$/.test(String(sid));\nreturn {json:{accepted,sender_id:sid,message_id:id,text:text??'',message:m,\n  phone_number_id:x.phone_number_id??meta.phone_number_id??null,transport_origin:x.transport_origin??'lab_replay',message_type:m?.type??'text',\n  occurred_at:(m?.timestamp??x.occurred_at)?new Date(Number(m?.timestamp??x.occurred_at)*1000).toISOString():null,\n  cta:{verified:false},contact_category:'unknown',\n  validation_error:accepted?null:'invalid_missing_sender_message_or_nontext',\n  effects:{whatsapp_reply:false}}};"
+      },
+      "id": "b3d0435f-4e60-4a8d-b0d4-70f9b576453e",
+      "name": "Normalizar WhatsApp",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -128,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.accepted }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "a42f6c16-fe78-44e2-ac10-92bc12ec40fa",
+      "name": "Mensagem válida?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        96,
+        176
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const TAXONOMY={\"id\":\"cm-event-purpose\",\"version\":\"1.0.2\",\"description\":\"Base canônica de finalidade; códigos operacionais legados intocados. A categoria não é autorização de brinde.\",\"operational_codes\":[\"casamento\",\"aniversario\",\"debutante\",\"empresarial\",\"formatura\"],\"groups\":{\"aniversario_pessoal\":\"Aniversário pessoal\",\"matrimonial\":\"Casamento e comemorações matrimoniais\",\"empresarial_institucional\":\"Corporativo, escolar e institucional\",\"cultural_religioso\":\"Celebrações culturais ou religiosas\",\"formatura\":\"Formaturas\"},\"rules\":[{\"id\":\"M01\",\"group\":\"matrimonial\",\"subtype\":\"aniversario_casamento\",\"code\":\"casamento\",\"priority\":120,\"pattern\":\"\\\\b(aniversario (de |do |da )?(casamento|matrimonio|uniao)|\\\\d{1,3} anos (de (casados|casamento|matrimonio|uniao)|juntos)|comemorar \\\\d{1,3} anos (de uniao|juntos))\\\\b\",\"certainty\":\"direct\"},{\"id\":\"M02\",\"group\":\"matrimonial\",\"subtype\":\"bodas\",\"code\":\"casamento\",\"priority\":119,\"pattern\":\"\\\\b(bodas?( de (papel|algodao|prata|ouro|diamante|porcelana|rubi|perola|esmeralda|cristal))?|bodas)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"M03\",\"group\":\"matrimonial\",\"subtype\":\"renovacao_votos\",\"code\":\"casamento\",\"priority\":116,\"pattern\":\"\\\\b(renovacao de votos|renovar os votos|reafirmacao dos votos|confirmacao dos votos)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"M04\",\"group\":\"matrimonial\",\"subtype\":\"noivado\",\"code\":\"casamento\",\"priority\":115,\"pattern\":\"\\\\b(noivado|festa de noivado|ficamos noivos)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"M05\",\"group\":\"matrimonial\",\"subtype\":\"casamento\",\"code\":\"casamento\",\"priority\":108,\"pattern\":\"\\\\b(casamento|casamneto|casameto|casar|noiva|noivo|matrimonio|celebracao de uniao)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"E01\",\"group\":\"empresarial_institucional\",\"subtype\":\"aniversario_empresa\",\"code\":\"empresarial\",\"priority\":121,\"pattern\":\"\\\\b(aniversario (da |de |do )?(empresa|firma|companhia|negocio|instituicao)|empresa (faz|completa|vai fazer|esta fazendo) \\\\d{1,3} anos|(\\\\d{1,3} anos) (da |de )?(empresa|firma|fundacao)|centenario da empresa)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"E02\",\"group\":\"empresarial_institucional\",\"subtype\":\"escolar\",\"code\":\"empresarial\",\"priority\":113,\"pattern\":\"\\\\b(confraternizacao (do pessoal|da equipe|dos funcionarios|de professores) da escola|festa da escola|evento escolar|festa dos professores|festa da turma|gincana escolar)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"E03\",\"group\":\"empresarial_institucional\",\"subtype\":\"academico\",\"code\":\"empresarial\",\"priority\":112,\"pattern\":\"\\\\b(simposio|congresso academico|encontro academico|jornada academica|semana academica)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"E04\",\"group\":\"empresarial_institucional\",\"subtype\":\"fundacao_institucional\",\"code\":\"empresarial\",\"priority\":111,\"pattern\":\"\\\\b(aniversario de fundacao|fundacao (da escola|da universidade|do instituto)|aniversario (do instituto|da faculdade|da universidade))\\\\b\",\"certainty\":\"direct\"},{\"id\":\"E05\",\"group\":\"empresarial_institucional\",\"subtype\":\"confraternizacao_corporativa\",\"code\":\"empresarial\",\"priority\":107,\"pattern\":\"\\\\b(confraternizacao (da empresa|da firma|corporativa|dos funcionarios|da equipe|do pessoal do trabalho)|festa (de funcionarios|da firma|da empresa)|festa de fim de ano da empresa)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"E06\",\"group\":\"empresarial_institucional\",\"subtype\":\"premiacao_empresa\",\"code\":\"empresarial\",\"priority\":105,\"pattern\":\"\\\\b(premiacao empresarial|premiacao (da empresa|dos colaboradores)|premio corporativo|reconhecimento da equipe)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"E07\",\"group\":\"empresarial_institucional\",\"subtype\":\"feira_comercial\",\"code\":\"empresarial\",\"priority\":104,\"pattern\":\"\\\\b(feira comercial|feira de negocios|exposicao comercial|feira profissional)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"E08\",\"group\":\"empresarial_institucional\",\"subtype\":\"congresso_profissional\",\"code\":\"empresarial\",\"priority\":103,\"pattern\":\"\\\\b(congresso|encontro profissional|seminario institucional)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"E09\",\"group\":\"empresarial_institucional\",\"subtype\":\"corporativo_generico\",\"code\":\"empresarial\",\"priority\":90,\"pattern\":\"\\\\b(evento corporativo|evento empresarial|evento institucional|confraternizacao da firma|evento de rh|pessoal do rh)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"R01\",\"group\":\"cultural_religioso\",\"subtype\":\"bar_mitzvah\",\"code\":null,\"priority\":118,\"pattern\":\"\\\\b(bar mitzv[ah]+|bar mitsv[ah]+)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"R02\",\"group\":\"cultural_religioso\",\"subtype\":\"bat_mitzvah\",\"code\":null,\"priority\":118,\"pattern\":\"\\\\b(bat mitzv[ah]+|bat mitsv[ah]+)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"R03\",\"group\":\"cultural_religioso\",\"subtype\":\"seijin_shiki\",\"code\":null,\"priority\":118,\"pattern\":\"\\\\b(seijin.?shiki|dia da maioridade japonesa)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"R04\",\"group\":\"cultural_religioso\",\"subtype\":\"vesak\",\"code\":null,\"priority\":118,\"pattern\":\"\\\\b(vesak|visakha puja)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"R05\",\"group\":\"cultural_religioso\",\"subtype\":\"aniversario_batismo\",\"code\":null,\"priority\":117,\"pattern\":\"\\\\b(aniversario (de |do )?batismo|comemoracao do batismo)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"R06\",\"group\":\"cultural_religioso\",\"subtype\":\"onomastico\",\"code\":null,\"priority\":117,\"pattern\":\"\\\\b(onomastico|dia do santo|dia do meu santo)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"R07\",\"group\":\"cultural_religioso\",\"subtype\":\"data_hebraica_nao_especificada\",\"code\":null,\"priority\":104,\"pattern\":\"\\\\b(data comemorativa (no |do )?calendario (hebraico|judaico)|festa do calendario hebraico)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"R08\",\"group\":\"cultural_religioso\",\"subtype\":\"marco_religioso_nao_especificado\",\"code\":null,\"priority\":103,\"pattern\":\"\\\\b(comemoracao religiosa de maioridade|cerimonia religiosa de maioridade|rito religioso de passagem)\\\\b\",\"certainty\":\"contextual\"},{\"id\":\"P01\",\"group\":\"aniversario_pessoal\",\"subtype\":\"calendario_hebraico\",\"code\":\"aniversario\",\"priority\":119,\"pattern\":\"\\\\b(aniversario (no |pelo |em )?calendario (hebraico|judaico)|aniversario hebraico)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"P02\",\"group\":\"aniversario_pessoal\",\"subtype\":\"debutante\",\"code\":\"debutante\",\"priority\":118,\"pattern\":\"\\\\b(debutante|debutnate|festa de 15 anos|15 anos da minha filha|festa dos quinze anos|quinze anos|quinceanera)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"P03\",\"group\":\"aniversario_pessoal\",\"subtype\":\"sweet_sixteen\",\"code\":\"aniversario\",\"priority\":117,\"pattern\":\"\\\\b(sweet sixteen|festa de 16 anos|dezesseis anos)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"P04\",\"group\":\"aniversario_pessoal\",\"subtype\":\"mesversario\",\"code\":\"aniversario\",\"priority\":117,\"pattern\":\"\\\\b(mesversario|comemoracao mensal do bebe)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"P05\",\"group\":\"aniversario_pessoal\",\"subtype\":\"primeiro_aniversario\",\"code\":\"aniversario\",\"priority\":116,\"pattern\":\"\\\\b(um aninho|1 aninho|primeiro aniversario|festa de 1 ano|completar 1 aninho)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"P06\",\"group\":\"aniversario_pessoal\",\"subtype\":\"meio_aniversario\",\"code\":\"aniversario\",\"priority\":116,\"pattern\":\"\\\\b(half.birthday|meio aniversario)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"P07\",\"group\":\"aniversario_pessoal\",\"subtype\":\"aniversario_postumo\",\"code\":\"aniversario\",\"priority\":115,\"pattern\":\"\\\\b(aniversario postumo|aniversario de nascimento (de|do|da) (falecido|falecida)|homenagem no aniversario de nascimento)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"P08\",\"group\":\"aniversario_pessoal\",\"subtype\":\"infantil\",\"code\":\"aniversario\",\"priority\":113,\"pattern\":\"\\\\b(aniversario infantil|aniversario (do|da) (meu filho|minha filha|pequeno|pequena|crianca)|niver (do|da) (filho|filha))\\\\b\",\"certainty\":\"direct\"},{\"id\":\"P09\",\"group\":\"aniversario_pessoal\",\"subtype\":\"adolescente\",\"code\":\"aniversario\",\"priority\":110,\"pattern\":\"\\\\b(aniversario adolescente|aniversario de adolescente)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"P10\",\"group\":\"aniversario_pessoal\",\"subtype\":\"centenario_pessoal\",\"code\":\"aniversario\",\"priority\":110,\"pattern\":\"\\\\b(centenario (da|do|de) (minha mae|meu pai|minha avo|meu avo|uma pessoa)|100 anos (da|do) (minha mae|meu pai|meu avo|minha avo))\\\\b\",\"certainty\":\"direct\"},{\"id\":\"P11\",\"group\":\"aniversario_pessoal\",\"subtype\":\"marco_de_idade\",\"code\":\"aniversario\",\"priority\":109,\"pattern\":\"\\\\b(meio seculo|cinquentao|cinquentona|sessentao|sessentona|festa de (18|20|21|30|40|50|60|70|80|90|100) anos|aniversario de (18|20|21|30|40|50|60|70|80|90|100) anos|festa de maioridade)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"P12\",\"group\":\"aniversario_pessoal\",\"subtype\":\"aniversario_nao_especificado\",\"code\":\"aniversario\",\"priority\":66,\"pattern\":\"\\\\b(aniversario|aniversairo|anivesario|aniverssario|niver|b.day|mais um ano de vida|fazer anos|dia do aniversario|aniversariante)\\\\b\",\"certainty\":\"direct\"},{\"id\":\"P13\",\"group\":\"aniversario_pessoal\",\"subtype\":\"aniversario_nao_especificado\",\"code\":\"aniversario\",\"priority\":64,\"pattern\":\"\\\\b(cantar parabens para (meu|minha|nosso|nossa)|assoprar velinhas (do|da|com)|apagar velinhas (do|da|com))\\\\b\",\"certainty\":\"contextual\"},{\"id\":\"F01\",\"group\":\"formatura\",\"subtype\":\"formatura\",\"code\":\"formatura\",\"priority\":115,\"pattern\":\"\\\\b(formatura|formautra|colacao de grau|festa dos formandos|baile de formatura|conclusao do curso|cerimonia de graduacao)\\\\b\",\"certainty\":\"direct\"}],\"features\":[{\"id\":\"surpresa\",\"pattern\":\"\\\\b(surpresa|festa surpresa)\\\\b\"},{\"id\":\"tematico\",\"pattern\":\"\\\\b(tematic[ao]|festa a fantasia|tema da festa)\\\\b\"},{\"id\":\"beneficente\",\"pattern\":\"\\\\b(beneficente|solidari[ao]|arrecadacao)\\\\b\"},{\"id\":\"virtual\",\"pattern\":\"\\\\b(virtual|online|por videochamada)\\\\b\"},{\"id\":\"religioso\",\"pattern\":\"\\\\b(religios[ao]|espiritual|igreja|templo)\\\\b\"},{\"id\":\"cultural\",\"pattern\":\"\\\\b(cultural|tradicional|judaic[ao]|hebraic[ao]|japones[ao])\\\\b\"}],\"contextual_terms\":[\"\\\\b(data especial|dia importante|presentinho|mimo|presentear|festinha|nao deixar passar em branco|pessoa especial|cartaozinho|bolo e balao)\\\\b\"],\"numeric_menu\":{\"1\":{\"code\":\"casamento\",\"group\":\"matrimonial\",\"subtype\":\"casamento\"},\"2\":{\"code\":\"aniversario\",\"group\":\"aniversario_pessoal\",\"subtype\":\"aniversario_nao_especificado\"},\"3\":{\"code\":\"debutante\",\"group\":\"aniversario_pessoal\",\"subtype\":\"debutante\"},\"4\":{\"code\":\"empresarial\",\"group\":\"empresarial_institucional\",\"subtype\":\"corporativo_generico\"}}};\nconst OFFICIAL={\"file_id\":\"1ZkoS54blFcWQxC66OTnHuI9ZBu_ErFmH\",\"url\":\"https://drive.google.com/file/d/1ZkoS54blFcWQxC66OTnHuI9ZBu_ErFmH/view\",\"revision_id\":\"0B6VWt3lEydcWUFVOSTYrS0RESm9NRERaUUpBNzNMUm9IcG4wPQ\",\"modified_at\":\"2026-08-30T05:50:16.516Z\",\"verified_at\":\"2026-10-19T00:09:00Z\",\"scope\":\"BR-002: somente coluna Pix unitário\",\"snapshot\":\"localidades-precos.approved.md\",\"sha256\":\"ff58f5c02796e070eaa8d898df777b7b110f3339361b115aa740e135c4c226bb\",\"tiers\":[{\"code\":\"T1190\",\"pix_base\":1190},{\"code\":\"T1290\",\"pix_base\":1290},{\"code\":\"T1390\",\"pix_base\":1390},{\"code\":\"T1490\",\"pix_base\":1490},{\"code\":\"T1590\",\"pix_base\":1590},{\"code\":\"T1690\",\"pix_base\":1690},{\"code\":\"T1790\",\"pix_base\":1790},{\"code\":\"T1890\",\"pix_base\":1890}],\"localities\":[{\"id\":\"bras cubas\",\"canonical_name\":\"brás cubas\",\"normalized_name\":\"bras cubas\",\"pricing_tier_id\":\"T1190\",\"status\":\"active\"},{\"id\":\"jundiapeba\",\"canonical_name\":\"jundiapeba\",\"normalized_name\":\"jundiapeba\",\"pricing_tier_id\":\"T1190\",\"status\":\"active\"},{\"id\":\"mogi das cruzes\",\"canonical_name\":\"mogi das cruzes\",\"normalized_name\":\"mogi das cruzes\",\"pricing_tier_id\":\"T1190\",\"status\":\"active\"},{\"id\":\"quatinga\",\"canonical_name\":\"quatinga\",\"normalized_name\":\"quatinga\",\"pricing_tier_id\":\"T1190\",\"status\":\"active\"},{\"id\":\"sabauna\",\"canonical_name\":\"sabaúna\",\"normalized_name\":\"sabauna\",\"pricing_tier_id\":\"T1190\",\"status\":\"active\"},{\"id\":\"aruja\",\"canonical_name\":\"arujá\",\"normalized_name\":\"aruja\",\"pricing_tier_id\":\"T1290\",\"status\":\"active\"},{\"id\":\"biritiba mirim\",\"canonical_name\":\"biritiba mirim\",\"normalized_name\":\"biritiba mirim\",\"pricing_tier_id\":\"T1290\",\"status\":\"active\"},{\"id\":\"biritiba ussu\",\"canonical_name\":\"biritiba ussu\",\"normalized_name\":\"biritiba ussu\",\"pricing_tier_id\":\"T1290\",\"status\":\"active\"},{\"id\":\"taiacupeba\",\"canonical_name\":\"taiaçupeba\",\"normalized_name\":\"taiacupeba\",\"pricing_tier_id\":\"T1290\",\"status\":\"active\"},{\"id\":\"boa vista paulista\",\"canonical_name\":\"boa vista paulista\",\"normalized_name\":\"boa vista paulista\",\"pricing_tier_id\":\"T1390\",\"status\":\"active\"},{\"id\":\"cidade kemel\",\"canonical_name\":\"cidade kemel\",\"normalized_name\":\"cidade kemel\",\"pricing_tier_id\":\"T1390\",\"status\":\"active\"},{\"id\":\"cidade tiradentes\",\"canonical_name\":\"cidade tiradentes\",\"normalized_name\":\"cidade tiradentes\",\"pricing_tier_id\":\"T1390\",\"status\":\"active\"},{\"id\":\"ferraz de vasconcelos\",\"canonical_name\":\"ferraz de vasconcelos\",\"normalized_name\":\"ferraz de vasconcelos\",\"pricing_tier_id\":\"T1390\",\"status\":\"active\"},{\"id\":\"guaianases\",\"canonical_name\":\"guaianases\",\"normalized_name\":\"guaianases\",\"pricing_tier_id\":\"T1390\",\"status\":\"active\"},{\"id\":\"guararema\",\"canonical_name\":\"guararema\",\"normalized_name\":\"guararema\",\"pricing_tier_id\":\"T1390\",\"status\":\"active\"},{\"id\":\"itaquaquecetuba\",\"canonical_name\":\"itaquaquecetuba\",\"normalized_name\":\"itaquaquecetuba\",\"pricing_tier_id\":\"T1390\",\"status\":\"active\"},{\"id\":\"poa\",\"canonical_name\":\"poá\",\"normalized_name\":\"poa\",\"pricing_tier_id\":\"T1390\",\"status\":\"active\"},{\"id\":\"santa margarida paulista\",\"canonical_name\":\"santa margarida paulista\",\"normalized_name\":\"santa margarida paulista\",\"pricing_tier_id\":\"T1390\",\"status\":\"active\"},{\"id\":\"santo antonio paulista\",\"canonical_name\":\"santo antônio paulista\",\"normalized_name\":\"santo antonio paulista\",\"pricing_tier_id\":\"T1390\",\"status\":\"active\"},{\"id\":\"suzano\",\"canonical_name\":\"suzano\",\"normalized_name\":\"suzano\",\"pricing_tier_id\":\"T1390\",\"status\":\"active\"},{\"id\":\"vila curuca\",\"canonical_name\":\"vila curuçá\",\"normalized_name\":\"vila curuca\",\"pricing_tier_id\":\"T1390\",\"status\":\"active\"},{\"id\":\"artur alvim\",\"canonical_name\":\"artur alvim\",\"normalized_name\":\"artur alvim\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"bertioga\",\"canonical_name\":\"bertioga\",\"normalized_name\":\"bertioga\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"cangaiba\",\"canonical_name\":\"cangaíba\",\"normalized_name\":\"cangaiba\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"capuava\",\"canonical_name\":\"capuava\",\"normalized_name\":\"capuava\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"carrao\",\"canonical_name\":\"carrão\",\"normalized_name\":\"carrao\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"cidade lider\",\"canonical_name\":\"cidade líder\",\"normalized_name\":\"cidade lider\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"ermelino matarazzo\",\"canonical_name\":\"ermelino matarazzo\",\"normalized_name\":\"ermelino matarazzo\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"guarulhos\",\"canonical_name\":\"guarulhos\",\"normalized_name\":\"guarulhos\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"igarata\",\"canonical_name\":\"igaratá\",\"normalized_name\":\"igarata\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"itaim paulista\",\"canonical_name\":\"itaim paulista\",\"normalized_name\":\"itaim paulista\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"itaquera\",\"canonical_name\":\"itaquera\",\"normalized_name\":\"itaquera\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"jacarei\",\"canonical_name\":\"jacareí\",\"normalized_name\":\"jacarei\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"jardim helena\",\"canonical_name\":\"jardim helena\",\"normalized_name\":\"jardim helena\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"jardim presidente dutra\",\"canonical_name\":\"jardim presidente dutra\",\"normalized_name\":\"jardim presidente dutra\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"jardim santa luzia\",\"canonical_name\":\"jardim santa luzia\",\"normalized_name\":\"jardim santa luzia\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"jose bonifacio\",\"canonical_name\":\"josé bonifácio\",\"normalized_name\":\"jose bonifacio\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"lajeado\",\"canonical_name\":\"lajeado\",\"normalized_name\":\"lajeado\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"maua\",\"canonical_name\":\"mauá\",\"normalized_name\":\"maua\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"nossa senhora do remedio\",\"canonical_name\":\"nossa senhora do remédio\",\"normalized_name\":\"nossa senhora do remedio\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"ouro fino paulista\",\"canonical_name\":\"ouro fino paulista\",\"normalized_name\":\"ouro fino paulista\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"palmeiras\",\"canonical_name\":\"palmeiras\",\"normalized_name\":\"palmeiras\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"penha\",\"canonical_name\":\"penha\",\"normalized_name\":\"penha\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"ponte rasa\",\"canonical_name\":\"ponte rasa\",\"normalized_name\":\"ponte rasa\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"ribeirao pires\",\"canonical_name\":\"ribeirão pires\",\"normalized_name\":\"ribeirao pires\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"rio grande da serra\",\"canonical_name\":\"rio grande da serra\",\"normalized_name\":\"rio grande da serra\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"salesopolis\",\"canonical_name\":\"salesópolis\",\"normalized_name\":\"salesopolis\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"santa isabel\",\"canonical_name\":\"santa isabel\",\"normalized_name\":\"santa isabel\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"santo andre\",\"canonical_name\":\"santo andré\",\"normalized_name\":\"santo andre\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"sao mateus\",\"canonical_name\":\"são mateus\",\"normalized_name\":\"sao mateus\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"sao miguel paulista\",\"canonical_name\":\"são miguel paulista\",\"normalized_name\":\"sao miguel paulista\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"saverio\",\"canonical_name\":\"savério\",\"normalized_name\":\"saverio\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"vila jacui\",\"canonical_name\":\"vila jacuí\",\"normalized_name\":\"vila jacui\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"vila medeiros\",\"canonical_name\":\"vila medeiros\",\"normalized_name\":\"vila medeiros\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"zona leste\",\"canonical_name\":\"zona leste\",\"normalized_name\":\"zona leste\",\"pricing_tier_id\":\"T1490\",\"status\":\"active\"},{\"id\":\"agua rasa\",\"canonical_name\":\"água rasa\",\"normalized_name\":\"agua rasa\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"aldeia\",\"canonical_name\":\"aldeia\",\"normalized_name\":\"aldeia\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"alphaville\",\"canonical_name\":\"alphaville\",\"normalized_name\":\"alphaville\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"alto de pinheiros\",\"canonical_name\":\"alto de pinheiros\",\"normalized_name\":\"alto de pinheiros\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"anhanguera\",\"canonical_name\":\"anhanguera\",\"normalized_name\":\"anhanguera\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"area continental\",\"canonical_name\":\"área continental\",\"normalized_name\":\"area continental\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"aricanduva\",\"canonical_name\":\"aricanduva\",\"normalized_name\":\"aricanduva\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"barra funda\",\"canonical_name\":\"barra funda\",\"normalized_name\":\"barra funda\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"barueri\",\"canonical_name\":\"barueri\",\"normalized_name\":\"barueri\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"bela vista\",\"canonical_name\":\"bela vista\",\"normalized_name\":\"bela vista\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"belem\",\"canonical_name\":\"belém\",\"normalized_name\":\"belem\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"berrini\",\"canonical_name\":\"berrini\",\"normalized_name\":\"berrini\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"bom retiro\",\"canonical_name\":\"bom retiro\",\"normalized_name\":\"bom retiro\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"bras\",\"canonical_name\":\"brás\",\"normalized_name\":\"bras\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"brasilandia\",\"canonical_name\":\"brasilândia\",\"normalized_name\":\"brasilandia\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"brooklin\",\"canonical_name\":\"brooklin\",\"normalized_name\":\"brooklin\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"butanta\",\"canonical_name\":\"butantã\",\"normalized_name\":\"butanta\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"cacapava\",\"canonical_name\":\"caçapava\",\"normalized_name\":\"cacapava\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"cachoeirinha\",\"canonical_name\":\"cachoeirinha\",\"normalized_name\":\"cachoeirinha\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"cambuci\",\"canonical_name\":\"cambuci\",\"normalized_name\":\"cambuci\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"campo belo\",\"canonical_name\":\"campo belo\",\"normalized_name\":\"campo belo\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"campo grande\",\"canonical_name\":\"campo grande\",\"normalized_name\":\"campo grande\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"caninde\",\"canonical_name\":\"canindé\",\"normalized_name\":\"caninde\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"carapicuiba\",\"canonical_name\":\"carapicuíba\",\"normalized_name\":\"carapicuiba\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"casa verde\",\"canonical_name\":\"casa verde\",\"normalized_name\":\"casa verde\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"chacara santo antonio\",\"canonical_name\":\"chácara santo antônio\",\"normalized_name\":\"chacara santo antonio\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"cidade ademar\",\"canonical_name\":\"cidade ademar\",\"normalized_name\":\"cidade ademar\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"cidade dutra\",\"canonical_name\":\"cidade dutra\",\"normalized_name\":\"cidade dutra\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"cidade moncoes\",\"canonical_name\":\"cidade monções\",\"normalized_name\":\"cidade moncoes\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"consolacao\",\"canonical_name\":\"consolação\",\"normalized_name\":\"consolacao\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"cursino\",\"canonical_name\":\"cursino\",\"normalized_name\":\"cursino\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"diadema\",\"canonical_name\":\"diadema\",\"normalized_name\":\"diadema\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"franco da rocha\",\"canonical_name\":\"franco da rocha\",\"normalized_name\":\"franco da rocha\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"freguesia do o\",\"canonical_name\":\"freguesia do ó\",\"normalized_name\":\"freguesia do o\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"guarapiranga\",\"canonical_name\":\"guarapiranga\",\"normalized_name\":\"guarapiranga\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"guaruja\",\"canonical_name\":\"guarujá\",\"normalized_name\":\"guaruja\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"higienopolis\",\"canonical_name\":\"higienópolis\",\"normalized_name\":\"higienopolis\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"iguatemi\",\"canonical_name\":\"iguatemi\",\"normalized_name\":\"iguatemi\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"interlagos\",\"canonical_name\":\"interlagos\",\"normalized_name\":\"interlagos\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"ipiranga\",\"canonical_name\":\"ipiranga\",\"normalized_name\":\"ipiranga\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"itaim bibi\",\"canonical_name\":\"itaim bibi\",\"normalized_name\":\"itaim bibi\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"jabaquara\",\"canonical_name\":\"jabaquara\",\"normalized_name\":\"jabaquara\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"jacana\",\"canonical_name\":\"jaçanã\",\"normalized_name\":\"jacana\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"jaguara\",\"canonical_name\":\"jaguara\",\"normalized_name\":\"jaguara\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"jaguare\",\"canonical_name\":\"jaguaré\",\"normalized_name\":\"jaguare\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"jandira\",\"canonical_name\":\"jandira\",\"normalized_name\":\"jandira\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"jaragua\",\"canonical_name\":\"jaraguá\",\"normalized_name\":\"jaragua\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"jardim america\",\"canonical_name\":\"jardim américa\",\"normalized_name\":\"jardim america\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"jardim angela\",\"canonical_name\":\"jardim ângela\",\"normalized_name\":\"jardim angela\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"jardim apura\",\"canonical_name\":\"jardim apura\",\"normalized_name\":\"jardim apura\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"jardim belval\",\"canonical_name\":\"jardim belval\",\"normalized_name\":\"jardim belval\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"jardim miriam\",\"canonical_name\":\"jardim miriam\",\"normalized_name\":\"jardim miriam\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"jardim paulista\",\"canonical_name\":\"jardim paulista\",\"normalized_name\":\"jardim paulista\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"jardim prudencia\",\"canonical_name\":\"jardim prudência\",\"normalized_name\":\"jardim prudencia\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"jardim silveira\",\"canonical_name\":\"jardim silveira\",\"normalized_name\":\"jardim silveira\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"jardins\",\"canonical_name\":\"jardins\",\"normalized_name\":\"jardins\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"jose dos campos\",\"canonical_name\":\"josé dos campos\",\"normalized_name\":\"jose dos campos\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"jurubatuba\",\"canonical_name\":\"jurubatuba\",\"normalized_name\":\"jurubatuba\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"lapa\",\"canonical_name\":\"lapa\",\"normalized_name\":\"lapa\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"liberdade\",\"canonical_name\":\"liberdade\",\"normalized_name\":\"liberdade\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"limao\",\"canonical_name\":\"limão\",\"normalized_name\":\"limao\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"mairipora\",\"canonical_name\":\"mairiporã\",\"normalized_name\":\"mairipora\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"mandaqui\",\"canonical_name\":\"mandaqui\",\"normalized_name\":\"mandaqui\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"moema\",\"canonical_name\":\"moema\",\"normalized_name\":\"moema\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"moinho velho\",\"canonical_name\":\"moinho velho\",\"normalized_name\":\"moinho velho\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"mooca\",\"canonical_name\":\"moóca\",\"normalized_name\":\"mooca\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"morumbi\",\"canonical_name\":\"morumbi\",\"normalized_name\":\"morumbi\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"osasco\",\"canonical_name\":\"osasco\",\"normalized_name\":\"osasco\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"paraibuna\",\"canonical_name\":\"paraibuna\",\"normalized_name\":\"paraibuna\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"paranapiacaba\",\"canonical_name\":\"paranapiacaba\",\"normalized_name\":\"paranapiacaba\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"pari\",\"canonical_name\":\"pari\",\"normalized_name\":\"pari\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"parque anhembi\",\"canonical_name\":\"parque anhembi\",\"normalized_name\":\"parque anhembi\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"parque dos bancarios\",\"canonical_name\":\"parque dos bancários\",\"normalized_name\":\"parque dos bancarios\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"perdizes\",\"canonical_name\":\"perdizes\",\"normalized_name\":\"perdizes\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"perus\",\"canonical_name\":\"perus\",\"normalized_name\":\"perus\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"pinheiros\",\"canonical_name\":\"pinheiros\",\"normalized_name\":\"pinheiros\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"pirituba\",\"canonical_name\":\"pirituba\",\"normalized_name\":\"pirituba\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"polvilho\",\"canonical_name\":\"polvilho\",\"normalized_name\":\"polvilho\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"republica\",\"canonical_name\":\"república\",\"normalized_name\":\"republica\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"riacho grande\",\"canonical_name\":\"riacho grande\",\"normalized_name\":\"riacho grande\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"rio pequeno\",\"canonical_name\":\"rio pequeno\",\"normalized_name\":\"rio pequeno\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"sacoma\",\"canonical_name\":\"sacomã\",\"normalized_name\":\"sacoma\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"santa cecilia\",\"canonical_name\":\"santa cecília\",\"normalized_name\":\"santa cecilia\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"santo amaro\",\"canonical_name\":\"santo amaro\",\"normalized_name\":\"santo amaro\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"sao bernardo do campo\",\"canonical_name\":\"são bernardo do campo\",\"normalized_name\":\"sao bernardo do campo\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"sao caetano do sul\",\"canonical_name\":\"são caetano do sul\",\"normalized_name\":\"sao caetano do sul\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"sao domingos\",\"canonical_name\":\"são domingos\",\"normalized_name\":\"sao domingos\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"sao lucas\",\"canonical_name\":\"são lucas\",\"normalized_name\":\"sao lucas\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"sao rafael\",\"canonical_name\":\"são rafael\",\"normalized_name\":\"sao rafael\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"sapopemba\",\"canonical_name\":\"sapopemba\",\"normalized_name\":\"sapopemba\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"saude\",\"canonical_name\":\"saúde\",\"normalized_name\":\"saude\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"se\",\"canonical_name\":\"sé\",\"normalized_name\":\"se\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"taboao\",\"canonical_name\":\"taboão\",\"normalized_name\":\"taboao\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"tatuape\",\"canonical_name\":\"tatuapé\",\"normalized_name\":\"tatuape\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"terra preta\",\"canonical_name\":\"terra preta\",\"normalized_name\":\"terra preta\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"tucuruvi\",\"canonical_name\":\"tucuruvi\",\"normalized_name\":\"tucuruvi\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"veleiros\",\"canonical_name\":\"veleiros\",\"normalized_name\":\"veleiros\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vicente de carvalho\",\"canonical_name\":\"vicente de carvalho\",\"normalized_name\":\"vicente de carvalho\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vila andrade\",\"canonical_name\":\"vila andrade\",\"normalized_name\":\"vila andrade\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vila clarice\",\"canonical_name\":\"vila clarice\",\"normalized_name\":\"vila clarice\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vila clementino\",\"canonical_name\":\"vila clementino\",\"normalized_name\":\"vila clementino\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vila dirce\",\"canonical_name\":\"vila dirce\",\"normalized_name\":\"vila dirce\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vila ester\",\"canonical_name\":\"vila ester\",\"normalized_name\":\"vila ester\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vila formosa\",\"canonical_name\":\"vila formosa\",\"normalized_name\":\"vila formosa\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vila guilherme\",\"canonical_name\":\"vila guilherme\",\"normalized_name\":\"vila guilherme\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vila gumercindo\",\"canonical_name\":\"vila gumercindo\",\"normalized_name\":\"vila gumercindo\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vila leopoldina\",\"canonical_name\":\"vila leopoldina\",\"normalized_name\":\"vila leopoldina\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vila maria\",\"canonical_name\":\"vila maria\",\"normalized_name\":\"vila maria\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vila mariana\",\"canonical_name\":\"vila mariana\",\"normalized_name\":\"vila mariana\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vila mascote\",\"canonical_name\":\"vila mascote\",\"normalized_name\":\"vila mascote\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vila matilde\",\"canonical_name\":\"vila matilde\",\"normalized_name\":\"vila matilde\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vila monte alegre\",\"canonical_name\":\"vila monte alegre\",\"normalized_name\":\"vila monte alegre\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vila olimpia\",\"canonical_name\":\"vila olímpia\",\"normalized_name\":\"vila olimpia\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vila penteado\",\"canonical_name\":\"vila penteado\",\"normalized_name\":\"vila penteado\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vila piaui\",\"canonical_name\":\"vila piauí\",\"normalized_name\":\"vila piaui\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vila prudente\",\"canonical_name\":\"vila prudente\",\"normalized_name\":\"vila prudente\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vila selma\",\"canonical_name\":\"vila selma\",\"normalized_name\":\"vila selma\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"vila sonia\",\"canonical_name\":\"vila sônia\",\"normalized_name\":\"vila sonia\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"zona central\",\"canonical_name\":\"zona central\",\"normalized_name\":\"zona central\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"zona norte\",\"canonical_name\":\"zona norte\",\"normalized_name\":\"zona norte\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"zona oeste\",\"canonical_name\":\"zona oeste\",\"normalized_name\":\"zona oeste\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"zona sul\",\"canonical_name\":\"zona sul\",\"normalized_name\":\"zona sul\",\"pricing_tier_id\":\"T1590\",\"status\":\"active\"},{\"id\":\"aracariguama\",\"canonical_name\":\"araçariguama\",\"normalized_name\":\"aracariguama\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"atibaia\",\"canonical_name\":\"atibaia\",\"normalized_name\":\"atibaia\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"bom jesus dos perdoes\",\"canonical_name\":\"bom jesus dos perdões\",\"normalized_name\":\"bom jesus dos perdoes\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"caieiras\",\"canonical_name\":\"caieiras\",\"normalized_name\":\"caieiras\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"cajamar\",\"canonical_name\":\"cajamar\",\"normalized_name\":\"cajamar\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"campo limpo\",\"canonical_name\":\"campo limpo\",\"normalized_name\":\"campo limpo\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"capao redondo\",\"canonical_name\":\"capão redondo\",\"normalized_name\":\"capao redondo\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"caucaia do alto\",\"canonical_name\":\"caucaia do alto\",\"normalized_name\":\"caucaia do alto\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"cipo guacu\",\"canonical_name\":\"cipó-guaçu\",\"normalized_name\":\"cipo guacu\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"cotia\",\"canonical_name\":\"cotia\",\"normalized_name\":\"cotia\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"cubatao\",\"canonical_name\":\"cubatão\",\"normalized_name\":\"cubatao\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"embu das artes\",\"canonical_name\":\"embu das artes\",\"normalized_name\":\"embu das artes\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"embu guacu\",\"canonical_name\":\"embu-guaçu\",\"normalized_name\":\"embu guacu\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"francisco morato\",\"canonical_name\":\"francisco morato\",\"normalized_name\":\"francisco morato\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"grajau\",\"canonical_name\":\"grajaú\",\"normalized_name\":\"grajau\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"itapecerica\",\"canonical_name\":\"itapecerica\",\"normalized_name\":\"itapecerica\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"itapecerica da serra\",\"canonical_name\":\"itapecerica da serra\",\"normalized_name\":\"itapecerica da serra\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"itapevi\",\"canonical_name\":\"itapevi\",\"normalized_name\":\"itapevi\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"jardim reboucas\",\"canonical_name\":\"jardim rebouças\",\"normalized_name\":\"jardim reboucas\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"jardim sao luis\",\"canonical_name\":\"jardim são luís\",\"normalized_name\":\"jardim sao luis\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"jordanesia\",\"canonical_name\":\"jordanésia\",\"normalized_name\":\"jordanesia\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"jundiai\",\"canonical_name\":\"jundiaí\",\"normalized_name\":\"jundiai\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"marsilac\",\"canonical_name\":\"marsilac\",\"normalized_name\":\"marsilac\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"nazare paulista\",\"canonical_name\":\"nazaré paulista\",\"normalized_name\":\"nazare paulista\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"parelheiros\",\"canonical_name\":\"parelheiros\",\"normalized_name\":\"parelheiros\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"pirapora do bom jesus\",\"canonical_name\":\"pirapora do bom jesus\",\"normalized_name\":\"pirapora do bom jesus\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"praia grande\",\"canonical_name\":\"praia grande\",\"normalized_name\":\"praia grande\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"santana de parnaiba\",\"canonical_name\":\"santana de parnaíba\",\"normalized_name\":\"santana de parnaiba\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"santos\",\"canonical_name\":\"santos\",\"normalized_name\":\"santos\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"sao vicente\",\"canonical_name\":\"são vicente\",\"normalized_name\":\"sao vicente\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"taubate\",\"canonical_name\":\"taubaté\",\"normalized_name\":\"taubate\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"tremembe\",\"canonical_name\":\"tremembé\",\"normalized_name\":\"tremembe\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"vargem grande paulista\",\"canonical_name\":\"vargem grande paulista\",\"normalized_name\":\"vargem grande paulista\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"varzea paulista\",\"canonical_name\":\"várzea paulista\",\"normalized_name\":\"varzea paulista\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"vila pirajussara\",\"canonical_name\":\"vila pirajussara\",\"normalized_name\":\"vila pirajussara\",\"pricing_tier_id\":\"T1690\",\"status\":\"active\"},{\"id\":\"itanhaem\",\"canonical_name\":\"itanhaém\",\"normalized_name\":\"itanhaem\",\"pricing_tier_id\":\"T1790\",\"status\":\"active\"},{\"id\":\"itatiba\",\"canonical_name\":\"itatiba\",\"normalized_name\":\"itatiba\",\"pricing_tier_id\":\"T1790\",\"status\":\"active\"},{\"id\":\"itupeva\",\"canonical_name\":\"itupeva\",\"normalized_name\":\"itupeva\",\"pricing_tier_id\":\"T1790\",\"status\":\"active\"},{\"id\":\"jarinu\",\"canonical_name\":\"jarinu\",\"normalized_name\":\"jarinu\",\"pricing_tier_id\":\"T1790\",\"status\":\"active\"},{\"id\":\"jundiaquara\",\"canonical_name\":\"jundiaquara\",\"normalized_name\":\"jundiaquara\",\"pricing_tier_id\":\"T1790\",\"status\":\"active\"},{\"id\":\"juquitiba\",\"canonical_name\":\"juquitiba\",\"normalized_name\":\"juquitiba\",\"pricing_tier_id\":\"T1790\",\"status\":\"active\"},{\"id\":\"mairinque\",\"canonical_name\":\"mairinque\",\"normalized_name\":\"mairinque\",\"pricing_tier_id\":\"T1790\",\"status\":\"active\"},{\"id\":\"mongagua\",\"canonical_name\":\"mongaguá\",\"normalized_name\":\"mongagua\",\"pricing_tier_id\":\"T1790\",\"status\":\"active\"},{\"id\":\"reneville\",\"canonical_name\":\"reneville\",\"normalized_name\":\"reneville\",\"pricing_tier_id\":\"T1790\",\"status\":\"active\"},{\"id\":\"sao lourenco da serra\",\"canonical_name\":\"são lourenço da serra\",\"normalized_name\":\"sao lourenco da serra\",\"pricing_tier_id\":\"T1790\",\"status\":\"active\"},{\"id\":\"sao roque\",\"canonical_name\":\"são roque\",\"normalized_name\":\"sao roque\",\"pricing_tier_id\":\"T1790\",\"status\":\"active\"},{\"id\":\"solemar\",\"canonical_name\":\"solemar\",\"normalized_name\":\"solemar\",\"pricing_tier_id\":\"T1790\",\"status\":\"active\"},{\"id\":\"vinhedo\",\"canonical_name\":\"vinhedo\",\"normalized_name\":\"vinhedo\",\"pricing_tier_id\":\"T1790\",\"status\":\"active\"},{\"id\":\"americana\",\"canonical_name\":\"americana\",\"normalized_name\":\"americana\",\"pricing_tier_id\":\"T1890\",\"status\":\"active\"},{\"id\":\"aracoiaba da serra\",\"canonical_name\":\"araçoiaba da serra\",\"normalized_name\":\"aracoiaba da serra\",\"pricing_tier_id\":\"T1890\",\"status\":\"active\"},{\"id\":\"campinas\",\"canonical_name\":\"campinas\",\"normalized_name\":\"campinas\",\"pricing_tier_id\":\"T1890\",\"status\":\"active\"},{\"id\":\"pedreira\",\"canonical_name\":\"pedreira\",\"normalized_name\":\"pedreira\",\"pricing_tier_id\":\"T1890\",\"status\":\"active\"},{\"id\":\"peruibe\",\"canonical_name\":\"peruíbe\",\"normalized_name\":\"peruibe\",\"pricing_tier_id\":\"T1890\",\"status\":\"active\"},{\"id\":\"salto\",\"canonical_name\":\"salto\",\"normalized_name\":\"salto\",\"pricing_tier_id\":\"T1890\",\"status\":\"active\"},{\"id\":\"socorro\",\"canonical_name\":\"socorro\",\"normalized_name\":\"socorro\",\"pricing_tier_id\":\"T1890\",\"status\":\"active\"},{\"id\":\"sorocaba\",\"canonical_name\":\"sorocaba\",\"normalized_name\":\"sorocaba\",\"pricing_tier_id\":\"T1890\",\"status\":\"active\"},{\"id\":\"raposo tavares\",\"canonical_name\":\"raposo tavares\",\"normalized_name\":\"raposo tavares\",\"pricing_tier_id\":null,\"status\":\"human_required\"}],\"aliases\":[{\"locality_id\":\"bras cubas\",\"alias\":\"bras cubas\",\"normalized_alias\":\"bras cubas\"},{\"locality_id\":\"bras cubas\",\"alias\":\"bdc\",\"normalized_alias\":\"bdc\"},{\"locality_id\":\"mogi das cruzes\",\"alias\":\"mogi\",\"normalized_alias\":\"mogi\"},{\"locality_id\":\"sabauna\",\"alias\":\"sabauna\",\"normalized_alias\":\"sabauna\"},{\"locality_id\":\"aruja\",\"alias\":\"aruja\",\"normalized_alias\":\"aruja\"},{\"locality_id\":\"biritiba mirim\",\"alias\":\"biritiba-mirim\",\"normalized_alias\":\"biritiba mirim\"},{\"locality_id\":\"taiacupeba\",\"alias\":\"taiacupeba\",\"normalized_alias\":\"taiacupeba\"},{\"locality_id\":\"ferraz de vasconcelos\",\"alias\":\"ferraz\",\"normalized_alias\":\"ferraz\"},{\"locality_id\":\"guaianases\",\"alias\":\"guianases\",\"normalized_alias\":\"guianases\"},{\"locality_id\":\"itaquaquecetuba\",\"alias\":\"itaqua\",\"normalized_alias\":\"itaqua\"},{\"locality_id\":\"poa\",\"alias\":\"poa\",\"normalized_alias\":\"poa\"},{\"locality_id\":\"santo antonio paulista\",\"alias\":\"santo antonio paulista\",\"normalized_alias\":\"santo antonio paulista\"},{\"locality_id\":\"vila curuca\",\"alias\":\"vila curuca\",\"normalized_alias\":\"vila curuca\"},{\"locality_id\":\"cangaiba\",\"alias\":\"cangaiba\",\"normalized_alias\":\"cangaiba\"},{\"locality_id\":\"carrao\",\"alias\":\"carrao\",\"normalized_alias\":\"carrao\"},{\"locality_id\":\"cidade lider\",\"alias\":\"cidade lider\",\"normalized_alias\":\"cidade lider\"},{\"locality_id\":\"igarata\",\"alias\":\"igarata\",\"normalized_alias\":\"igarata\"},{\"locality_id\":\"jacarei\",\"alias\":\"jacarei\",\"normalized_alias\":\"jacarei\"},{\"locality_id\":\"jose bonifacio\",\"alias\":\"jose bonifacio\",\"normalized_alias\":\"jose bonifacio\"},{\"locality_id\":\"jose bonifacio\",\"alias\":\"josé bonifacio\",\"normalized_alias\":\"jose bonifacio\"},{\"locality_id\":\"maua\",\"alias\":\"maua\",\"normalized_alias\":\"maua\"},{\"locality_id\":\"nossa senhora do remedio\",\"alias\":\"nossa senhora do remedio\",\"normalized_alias\":\"nossa senhora do remedio\"},{\"locality_id\":\"ribeirao pires\",\"alias\":\"ribeirao pires\",\"normalized_alias\":\"ribeirao pires\"},{\"locality_id\":\"salesopolis\",\"alias\":\"salesopolis\",\"normalized_alias\":\"salesopolis\"},{\"locality_id\":\"santo andre\",\"alias\":\"santo andre\",\"normalized_alias\":\"santo andre\"},{\"locality_id\":\"sao mateus\",\"alias\":\"sao mateus\",\"normalized_alias\":\"sao mateus\"},{\"locality_id\":\"sao miguel paulista\",\"alias\":\"sao miguel paulista\",\"normalized_alias\":\"sao miguel paulista\"},{\"locality_id\":\"saverio\",\"alias\":\"saverio\",\"normalized_alias\":\"saverio\"},{\"locality_id\":\"vila jacui\",\"alias\":\"vila jacui\",\"normalized_alias\":\"vila jacui\"},{\"locality_id\":\"agua rasa\",\"alias\":\"agua rasa\",\"normalized_alias\":\"agua rasa\"},{\"locality_id\":\"area continental\",\"alias\":\"area continental\",\"normalized_alias\":\"area continental\"},{\"locality_id\":\"belem\",\"alias\":\"belem\",\"normalized_alias\":\"belem\"},{\"locality_id\":\"bras\",\"alias\":\"bras\",\"normalized_alias\":\"bras\"},{\"locality_id\":\"brasilandia\",\"alias\":\"brasilandia\",\"normalized_alias\":\"brasilandia\"},{\"locality_id\":\"butanta\",\"alias\":\"butanta\",\"normalized_alias\":\"butanta\"},{\"locality_id\":\"cacapava\",\"alias\":\"cacapava\",\"normalized_alias\":\"cacapava\"},{\"locality_id\":\"caninde\",\"alias\":\"caninde\",\"normalized_alias\":\"caninde\"},{\"locality_id\":\"carapicuiba\",\"alias\":\"carapicuiba\",\"normalized_alias\":\"carapicuiba\"},{\"locality_id\":\"chacara santo antonio\",\"alias\":\"chacara santo antonio\",\"normalized_alias\":\"chacara santo antonio\"},{\"locality_id\":\"cidade moncoes\",\"alias\":\"cidade moncoes\",\"normalized_alias\":\"cidade moncoes\"},{\"locality_id\":\"consolacao\",\"alias\":\"consolacao\",\"normalized_alias\":\"consolacao\"},{\"locality_id\":\"freguesia do o\",\"alias\":\"freguesia do o\",\"normalized_alias\":\"freguesia do o\"},{\"locality_id\":\"guaruja\",\"alias\":\"guaruja\",\"normalized_alias\":\"guaruja\"},{\"locality_id\":\"higienopolis\",\"alias\":\"higienopolis\",\"normalized_alias\":\"higienopolis\"},{\"locality_id\":\"jacana\",\"alias\":\"jacana\",\"normalized_alias\":\"jacana\"},{\"locality_id\":\"jaguare\",\"alias\":\"jaguare\",\"normalized_alias\":\"jaguare\"},{\"locality_id\":\"jaragua\",\"alias\":\"jaragua\",\"normalized_alias\":\"jaragua\"},{\"locality_id\":\"jardim america\",\"alias\":\"jardim america\",\"normalized_alias\":\"jardim america\"},{\"locality_id\":\"jardim angela\",\"alias\":\"jardim angela\",\"normalized_alias\":\"jardim angela\"},{\"locality_id\":\"jardim apura\",\"alias\":\"apura\",\"normalized_alias\":\"apura\"},{\"locality_id\":\"jardim prudencia\",\"alias\":\"jardim prudencia\",\"normalized_alias\":\"jardim prudencia\"},{\"locality_id\":\"jose dos campos\",\"alias\":\"jose dos campos\",\"normalized_alias\":\"jose dos campos\"},{\"locality_id\":\"limao\",\"alias\":\"limao\",\"normalized_alias\":\"limao\"},{\"locality_id\":\"mairipora\",\"alias\":\"mairipora\",\"normalized_alias\":\"mairipora\"},{\"locality_id\":\"mooca\",\"alias\":\"mooca\",\"normalized_alias\":\"mooca\"},{\"locality_id\":\"parque anhembi\",\"alias\":\"anhembi\",\"normalized_alias\":\"anhembi\"},{\"locality_id\":\"parque dos bancarios\",\"alias\":\"parque dos bancarios\",\"normalized_alias\":\"parque dos bancarios\"},{\"locality_id\":\"republica\",\"alias\":\"republica\",\"normalized_alias\":\"republica\"},{\"locality_id\":\"sacoma\",\"alias\":\"sacoma\",\"normalized_alias\":\"sacoma\"},{\"locality_id\":\"santa cecilia\",\"alias\":\"santa cecilia\",\"normalized_alias\":\"santa cecilia\"},{\"locality_id\":\"sao bernardo do campo\",\"alias\":\"sao bernardo do campo\",\"normalized_alias\":\"sao bernardo do campo\"},{\"locality_id\":\"sao bernardo do campo\",\"alias\":\"sbc\",\"normalized_alias\":\"sbc\"},{\"locality_id\":\"sao caetano do sul\",\"alias\":\"caetano\",\"normalized_alias\":\"caetano\"},{\"locality_id\":\"sao domingos\",\"alias\":\"sao domingos\",\"normalized_alias\":\"sao domingos\"},{\"locality_id\":\"sao lucas\",\"alias\":\"sao lucas\",\"normalized_alias\":\"sao lucas\"},{\"locality_id\":\"sao rafael\",\"alias\":\"rafael\",\"normalized_alias\":\"rafael\"},{\"locality_id\":\"saude\",\"alias\":\"saude\",\"normalized_alias\":\"saude\"},{\"locality_id\":\"taboao\",\"alias\":\"taboao\",\"normalized_alias\":\"taboao\"},{\"locality_id\":\"tatuape\",\"alias\":\"tatuape\",\"normalized_alias\":\"tatuape\"},{\"locality_id\":\"vila clementino\",\"alias\":\"clementino\",\"normalized_alias\":\"clementino\"},{\"locality_id\":\"vila ester\",\"alias\":\"ester\",\"normalized_alias\":\"ester\"},{\"locality_id\":\"vila formosa\",\"alias\":\"formosa\",\"normalized_alias\":\"formosa\"},{\"locality_id\":\"vila guilherme\",\"alias\":\"guilherme\",\"normalized_alias\":\"guilherme\"},{\"locality_id\":\"vila matilde\",\"alias\":\"matilde\",\"normalized_alias\":\"matilde\"},{\"locality_id\":\"vila olimpia\",\"alias\":\"olimpia\",\"normalized_alias\":\"olimpia\"},{\"locality_id\":\"vila olimpia\",\"alias\":\"olímpia\",\"normalized_alias\":\"olimpia\"},{\"locality_id\":\"vila piaui\",\"alias\":\"vila piaui\",\"normalized_alias\":\"vila piaui\"},{\"locality_id\":\"vila prudente\",\"alias\":\"prudente\",\"normalized_alias\":\"prudente\"},{\"locality_id\":\"vila selma\",\"alias\":\"selma\",\"normalized_alias\":\"selma\"},{\"locality_id\":\"vila sonia\",\"alias\":\"sonia\",\"normalized_alias\":\"sonia\"},{\"locality_id\":\"aracariguama\",\"alias\":\"aracariguama\",\"normalized_alias\":\"aracariguama\"},{\"locality_id\":\"bom jesus dos perdoes\",\"alias\":\"bom jesus dos perdoes\",\"normalized_alias\":\"bom jesus dos perdoes\"},{\"locality_id\":\"capao redondo\",\"alias\":\"capao redondo\",\"normalized_alias\":\"capao redondo\"},{\"locality_id\":\"cipo guacu\",\"alias\":\"cipo-guacu\",\"normalized_alias\":\"cipo guacu\"},{\"locality_id\":\"cipo guacu\",\"alias\":\"cipo guacu\",\"normalized_alias\":\"cipo guacu\"},{\"locality_id\":\"cipo guacu\",\"alias\":\"cipó guaçu\",\"normalized_alias\":\"cipo guacu\"},{\"locality_id\":\"cubatao\",\"alias\":\"cubatao\",\"normalized_alias\":\"cubatao\"},{\"locality_id\":\"embu guacu\",\"alias\":\"embu-guacu\",\"normalized_alias\":\"embu guacu\"},{\"locality_id\":\"embu guacu\",\"alias\":\"embu guacu\",\"normalized_alias\":\"embu guacu\"},{\"locality_id\":\"embu guacu\",\"alias\":\"embu guaçu\",\"normalized_alias\":\"embu guacu\"},{\"locality_id\":\"grajau\",\"alias\":\"grajau\",\"normalized_alias\":\"grajau\"},{\"locality_id\":\"jardim reboucas\",\"alias\":\"reboucas\",\"normalized_alias\":\"reboucas\"},{\"locality_id\":\"jardim reboucas\",\"alias\":\"rebouças\",\"normalized_alias\":\"reboucas\"},{\"locality_id\":\"jardim sao luis\",\"alias\":\"jardim sao luis\",\"normalized_alias\":\"jardim sao luis\"},{\"locality_id\":\"jordanesia\",\"alias\":\"jordanesia\",\"normalized_alias\":\"jordanesia\"},{\"locality_id\":\"jundiai\",\"alias\":\"jundiai\",\"normalized_alias\":\"jundiai\"},{\"locality_id\":\"nazare paulista\",\"alias\":\"nazare\",\"normalized_alias\":\"nazare\"},{\"locality_id\":\"nazare paulista\",\"alias\":\"nazaré\",\"normalized_alias\":\"nazare\"},{\"locality_id\":\"santana de parnaiba\",\"alias\":\"santana de parnaiba\",\"normalized_alias\":\"santana de parnaiba\"},{\"locality_id\":\"sao vicente\",\"alias\":\"sao vicente\",\"normalized_alias\":\"sao vicente\"},{\"locality_id\":\"taubate\",\"alias\":\"taubate\",\"normalized_alias\":\"taubate\"},{\"locality_id\":\"tremembe\",\"alias\":\"tremembe\",\"normalized_alias\":\"tremembe\"},{\"locality_id\":\"vargem grande paulista\",\"alias\":\"vargem\",\"normalized_alias\":\"vargem\"},{\"locality_id\":\"varzea paulista\",\"alias\":\"varzea paulista\",\"normalized_alias\":\"varzea paulista\"},{\"locality_id\":\"itanhaem\",\"alias\":\"itanhaem\",\"normalized_alias\":\"itanhaem\"},{\"locality_id\":\"mongagua\",\"alias\":\"mongagua\",\"normalized_alias\":\"mongagua\"},{\"locality_id\":\"sao lourenco da serra\",\"alias\":\"sao lourenco da serra\",\"normalized_alias\":\"sao lourenco da serra\"},{\"locality_id\":\"sao roque\",\"alias\":\"sao roque\",\"normalized_alias\":\"sao roque\"},{\"locality_id\":\"aracoiaba da serra\",\"alias\":\"aracoiaba da serra\",\"normalized_alias\":\"aracoiaba da serra\"},{\"locality_id\":\"peruibe\",\"alias\":\"peruibe\",\"normalized_alias\":\"peruibe\"}]};\n// Pure deterministic engine: no database, network, clock, credentials, WhatsApp or JEV.\nfunction classifyPurposeV1(input, taxonomy) {\n  if (!taxonomy || taxonomy.version !== '1.0.2') throw new Error('unsupported_taxonomy_version');\n  const original = String(input?.text ?? '');\n  const norm = s => String(s ?? '').normalize('NFD')\n    .replace(/[\\u0300-\\u036f]/g, '').toLowerCase()\n    .replace(/[^a-z0-9\\s-]/g, ' ').replace(/\\s+/g, ' ').trim();\n  const text = norm(original);\n  const context = input?.context ?? {};\n  const features = taxonomy.features.filter(f => new RegExp(f.pattern).test(text)).map(f => f.id);\n  const result = (status, rule, certainty, matches, route) => ({\n    status, operational: rule?.code ?? null, group: rule?.group ?? null,\n    subtype: rule?.subtype ?? null, features, certainty: certainty ?? 'none',\n    rule_id: rule?.id ?? null, matches: matches ?? [],\n    version: taxonomy.version, route,\n    requires_jev: route === 'jev',\n    requires_confirmation: status === 'conflict' || status === 'ambiguous'\n      || (status === 'identified' && !rule?.code)\n  });\n  if (!text) return result('unclassified', null, 'none', [], 'none');\n  // Only the actual, persisted purpose menu licenses 1-4 as purpose codes.\n  if (/^[1-4]$/.test(text) && context.pending_question === 'purpose') {\n    const x = taxonomy.numeric_menu[text];\n    return result('identified', {id:'MENU-PURPOSE-'+text, ...x}, 'direct',\n      [{rule_id:'MENU-PURPOSE-'+text, term:text, group:x.group}], 'deterministic');\n  }\n  if (/^\\d+$/.test(text)) return result('unclassified', null, 'none', [], 'none');\n  const hits = [];\n  for (const rule of taxonomy.rules) {\n    const match = new RegExp(rule.pattern, 'i').exec(text);\n    if (!match) continue;\n    const before = text.slice(Math.max(0, match.index - 45), match.index);\n    if (/\\b(nao e|nao sera|nao foi|nao quero|nao se trata de|ao inves de|em vez de|sem)\\s*$/.test(before)) continue;\n    hits.push({...rule, start:match.index, end:match.index+match[0].length, term:match[0]});\n  }\n  // Distinguish an individual's age from organization age, dates or tenure.\n  const personal = /\\b(meu filho|minha filha|minha mae|meu pai|minha avo|meu avo|ela|ele|dela|dele|menino|menina)\\b/;\n  const age = /\\b(vai fazer|vai completar|completa|faz|comemorar(?:emos)? os?|comemora os?)\\s+(\\d{1,3})(?:\\s+anos?)?\\b/.exec(text);\n  const inverted = /\\b(comemorar|celebrar) os (\\d{1,3})(?: anos)? (dela|dele)\\b/.exec(text);\n  const a = age ?? inverted;\n  if (a && personal.test(text) && +a[2] >= 1 && +a[2] <= 120) {\n    const n = Number(a[2]);\n    const subtype = n === 15 ? 'debutante' : n === 1 ? 'primeiro_aniversario'\n      : n < 13 ? 'infantil' : 'idade_informada';\n    hits.push({id:'P-AGE', group:'aniversario_pessoal', subtype,\n      code:n === 15 ? 'debutante' : 'aniversario', priority:114,\n      certainty:'direct', start:a.index, end:a.index+a[0].length,\n      term:a[0], age:n});\n  }\n  if (!hits.length) {\n    const contextual = taxonomy.contextual_terms.some(p => new RegExp(p).test(text));\n    // An isolated date, place or party FORMAT is not a request for semantic event classification.\n    const otherField = /\\b(data|dia \\d{1,2}|outubro|novembro|dezembro|janeiro|fevereiro|marco|abril|maio|junho|julho|agosto|setembro|endereco|local|bairro|regiao|avenida|shopping|mogi|suzano|sao paulo|guarulhos|confirmo a data|fechando a data)\\b/.test(text)\n      || /\\b\\d{1,2}[\\/.-]\\d{1,2}\\b/.test(original) || /\\b(mogi|br[aá]s cubas|braz cubas|vila oliveira|shangai|alto tiet[eê]|umc|shopping|suzano|guarulhos|po[aá]|itaqua|localiza[cç][aã]o|convite|gps|sexta|fim do m[eê]s)\\b/i.test(original);\n    const route = otherField || features.length ? 'clarify'\n      : context.pending_question === 'purpose' ? 'jev' : 'none';\n    return result(contextual || features.length ? 'ambiguous':'unclassified',\n      null, contextual ? 'contextual':'none', [], route);\n  }\n  hits.sort((a,b) => b.priority-a.priority);\n  // A generic \"aniversário\" nested inside \"aniversário da empresa\" adds no second event.\n  const candidates = [];\n  for (const h of hits) {\n    if (candidates.some(c => c.start <= h.start && c.end >= h.end)) continue;\n    candidates.push(h);\n  }\n  if (new Set(candidates.map(c=>c.group)).size > 1) {\n    const out = result('conflict', null, 'conflict',\n      candidates.map(c=>({rule_id:c.id,term:c.term,group:c.group})), 'clarify');\n    return out;\n  }\n  const chosen = candidates[0];\n  const out = result('identified', chosen, chosen.certainty,\n    candidates.map(c=>({rule_id:c.id,term:c.term,group:c.group})),\n    chosen.code ? 'deterministic' : 'clarify');\n  if (chosen.age) out.age = chosen.age;\n  return out;\n}\n\n\n\nconst normCorp=s=>String(s??'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().replace(/\\s+/g,' ').trim();\nfunction corporateDate(d,m,y) {\n  const iso=`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;\n  const v=new Date(iso+'T12:00:00Z');\n  return Number(y)>=2020 && Number(y)<=2100 && !isNaN(v) && v.toISOString().slice(0,10)===iso ? iso : null;\n}\nfunction qualifyCorporate(input, legacy, taxonomy, official) {\n  const text=String(input.text??legacy.text??''),t=normCorp(text);\n  const previous=input.state??{},old=previous.facts??{};\n  const classified=classifyPurposeV1({text,context:previous},taxonomy);\n  const isCorporate=old.purpose==='empresarial'||classified.operational==='empresarial'||classified.matches.some(m=>m.group==='empresarial_institucional')||legacy.extracted?.purpose==='empresarial';\n  if(!isCorporate || legacy.category!=='commercial' || legacy.duplicate || input.human_lock) return legacy;\n  const extracted={...legacy.extracted},evidence={...legacy.evidence};\n  if(/\\b(?:quero|preciso|gostaria|posso).{0,25}(?:falar|conversar).{0,25}(?:atendente|responsavel|humano|pessoa)|\\batendimento humano\\b/.test(t)) evidence._handoff_reason='HND-EXPLICIT-HUMAN';\n  for(const [key,conflict] of Object.entries(legacy.conflicts??{})) extracted[key]=conflict.incoming;\n  if(classified.operational==='empresarial') {extracted.purpose='empresarial';if(old.purpose_ambiguous==='true')extracted.purpose_ambiguous='false';}\n  if(classified.status==='conflict') {extracted.purpose='empresarial';extracted.purpose_ambiguous='true';}\n  if(/^(sim|confirmo|correto|isso|pode corrigir)[.!\\s]*$/.test(t)) {\n    for(const [key,c] of Object.entries(previous.pending_conflicts??{})) extracted[key]=c.incoming;\n  }\n  const words={um:1,uma:1,dois:2,duas:2,tres:3,quatro:4,cinco:5,seis:6,sete:7};\n  const number=s=>words[s]??Number(s);\n  const day=t.match(/\\b(\\d+|um|uma|dois|duas|tres|quatro|cinco|seis|sete)\\s+dias?\\b/);\n  if(day) extracted.dias_evento=number(day[1]);\n  else if(previous.pending_question==='corporate_days' && /^(\\d+|um|uma|dois|duas|tres|quatro|cinco|seis|sete)$/.test(t)) extracted.dias_evento=number(t);\n  const periods=t.match(/\\b(\\d+|um|uma|dois|duas|tres|quatro)\\s+periodos?\\b/);\n  const hours=t.match(/\\b(\\d+)\\s*(?:h|horas?)(?:\\s+por\\s+dia|\\s+diarias?|\\s+em cada dia)?\\b/);\n  if(periods) extracted.periodos_por_dia=number(periods[1]);\n  else if(hours) extracted.periodos_por_dia=Number(hours[1])/4;\n  else if(previous.pending_question==='corporate_periods' && /^(\\d+|um|dois|tres|quatro)$/.test(t)) extracted.periodos_por_dia=number(t);\n\n  let dates=[];\n  const compact=t.match(/\\b(?:de\\s+)?(\\d{1,2})\\s*(?:a|ate)\\s*(\\d{1,2})[/.](\\d{1,2})[/.](20\\d{2})\\b/);\n  const hits=[...t.matchAll(/\\b(\\d{1,2})[/.](\\d{1,2})[/.](20\\d{2})\\b/g)];\n  if(compact) dates=[corporateDate(compact[1],compact[3],compact[4]),corporateDate(compact[2],compact[3],compact[4])];\n  else if(hits.length) dates=hits.map(m=>corporateDate(m[1],m[2],m[3]));\n  else if(extracted.event_date) dates=[extracted.event_date];\n  else if(old.event_date && !old.event_dates) dates=[old.event_date];\n  const range=!!compact || /\\d{1,2}[/.]\\d{1,2}[/.]20\\d{2}\\s*(?:a|ate|-)\\s*\\d{1,2}[/.]\\d{1,2}[/.]20\\d{2}/.test(t);\n  if(dates.length && dates.every(Boolean)) {\n    if(range && dates.length===2 && dates[0]<=dates[1]) {\n      const list=[];\n      for(let d=new Date(dates[0]+'T12:00:00Z');d.toISOString().slice(0,10)<=dates[1];d.setUTCDate(d.getUTCDate()+1)) list.push(d.toISOString().slice(0,10));\n      dates=list;\n    }\n    const days=extracted.dias_evento??old.dias_evento;\n    if(old.event_dates?.length<days && !/\\b(corrigir|trocar|mudar|altere|na verdade)\\b/.test(t)) dates=[...new Set([...old.event_dates,...dates])].sort();\n    if(dates.length) {\n      extracted.event_dates=dates;extracted.data_inicio=[...dates].sort()[0];\n      extracted.data_fim=[...dates].sort().at(-1);extracted.event_date=extracted.data_inicio;\n    }\n  }\n  const terms=official.localities.map(l=>({phrase:normCorp(l.canonical_name),name:l.canonical_name}));\n  for(const a of official.aliases) terms.push({phrase:normCorp(a.alias),name:official.localities.find(l=>l.id===a.locality_id)?.canonical_name});\n  const found=terms.filter(x=>x.name && (' '+t.replace(/[,.!?;:]/g,' ')+' ').includes(' '+x.phrase+' '));\n  const longest=found.filter(x=>!found.some(y=>y.phrase!==x.phrase && (' '+y.phrase+' ').includes(' '+x.phrase+' ')));\n  const names=[...new Set(longest.map(x=>x.name))];\n  if(names.length===1) {extracted.city=normCorp(names[0]);if(old.locality_ambiguous==='true')extracted.locality_ambiguous='false';}\n  else if(names.length>1) {delete extracted.city;extracted.locality_ambiguous='true';}\n  // SQL commits proposals and resolves conflicts; never trust predicted local state.\n  for(const key of Object.keys(extracted)) evidence[key]=evidence[key]??'customer_corporate_deterministic';\n  evidence._transport=input.transport_origin==='meta_webhook'?'meta_webhook':'lab_replay';\n  return {...legacy,extracted,evidence,corporate_intake:true,requires_jev:!evidence._handoff_reason&&legacy.requires_jev&&legacy.semantic_target==='service',\n    semantic_target:legacy.semantic_target==='service'?'service':null,taxonomy_version:taxonomy.version};\n}\n\nfunction corporateNext(facts) {\n  if(!facts.services?.length)return 'FLOW_1_SERVICE';\n  if(!facts.purpose)return 'FLOW_2_PURPOSE';\n  if(!Number.isSafeInteger(facts.dias_evento)||facts.dias_evento<1)return 'FLOW_CORPORATE_DAYS';\n  if(facts.periodos_por_dia===undefined)return 'FLOW_CORPORATE_PERIODS';\n  if(![1,2,3].includes(facts.periodos_por_dia)||facts.services.length!==1||facts.purpose_ambiguous==='true')return 'ROUTE_HUMAN';\n  if(!facts.event_dates?.length || new Set(facts.event_dates).size!==facts.dias_evento || facts.event_dates.length!==facts.dias_evento)return 'CLARIFY_CORPORATE_DATES';\n  if(!facts.city || facts.locality_ambiguous==='true' || (facts.city==='sao paulo'&&!facts.district))return 'FLOW_4_LOCALITY';\n  return 'FLOW_5_READY';\n}\n\nfunction qualificationReply(result) {\n  if(!result.accepted||result.duplicate||['DUPLICATE_NOOP','HUMAN_LOCK_NO_REPLY','ROUTE_OPERATIONS'].includes(result.next_flow))return null;\n  const f=result.context?.facts??{},flow=result.next_flow;\n  const questions={FLOW_1_SERVICE:'Qual serviço você deseja para o evento?',FLOW_2_PURPOSE:'Qual é o tipo de evento?',\n    FLOW_CORPORATE_DAYS:'Quantos dias terá o evento?',FLOW_CORPORATE_PERIODS:'Quantos períodos de 4 horas serão necessários por dia: 1 (4h), 2 (8h) ou 3 (12h)?',\n    CLARIFY_CORPORATE_DATES:f.event_dates?.length && f.event_dates.length<f.dias_evento?'Já anotei a(s) data(s) informada(s). Quais são as datas restantes (dia, mês e ano)?':'Quais são as datas completas de todos os dias do evento (dia, mês e ano)?',\n    FLOW_4_LOCALITY:f.city==='sao paulo'?'Em qual bairro ou região de São Paulo será o evento?':'Em qual cidade ou região será o evento?',\n    CLARIFY_CONFLICT:'Recebi informações diferentes. Você confirma os novos dados?',\n    ROUTE_HUMAN:'Essa configuração precisa da confirmação da nossa equipe. Vou encaminhar seu pedido ao responsável.'};\n  if(flow==='FLOW_5_READY')return null;\n  const last=result.changed_keys??[];\n  let ack='';\n  if(last.includes('periodos_por_dia'))ack=`${f.periodos_por_dia} período(s) de 4 horas por dia, certo. `;\n  else if(last.includes('dias_evento'))ack=`${f.dias_evento} dia(s) de evento, certo. `;\n  else if(last.includes('purpose'))ack='É um evento empresarial, certo. ';\n  else if(last.includes('services'))ack='Entendi o serviço desejado. ';\n  else if(last.includes('event_dates'))ack='Entendi as datas do evento. ';\n  return questions[flow]?ack+questions[flow]:null;\n}\n\nconst legacy=(function($json){\nconst i=$json,p=i.body??i.payload??i,v=p.entry?.[0]?.changes?.[0]?.value??p.value??p,m=v.messages?.[0]??{},text=String(i.text??m.text?.body??i.message??''),clean=s=>String(s??'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().replace(/[^a-z0-9/°\\s-]/g,' ').replace(/\\s+/g,' ').trim(),t=clean(text);\nconst st=JSON.parse(JSON.stringify(i.state??{})),facts=st.facts??{},extracted={},conflicts={},evidence={},id=i.message_id??m.id??null,processed=st.processed_message_ids??[],duplicate=!!id&&processed.includes(id);st.pending_conflicts=st.pending_conflicts??{};\nfunction add(k,val,src='customer'){if(val===null||val===undefined||val===''||(Array.isArray(val)&&!val.length))return;const old=facts[k],pending=st.pending_conflicts[k];if(pending){if(JSON.stringify(val)===JSON.stringify(pending.incoming)||JSON.stringify(val)===JSON.stringify(pending.existing)){facts[k]=val;extracted[k]=val;evidence[k]='customer_clarification';delete st.pending_conflicts[k];return;}conflicts[k]={existing:old,incoming:val};st.pending_conflicts[k]=conflicts[k];return;}if(old!==undefined&&JSON.stringify(old)!==JSON.stringify(val)){conflicts[k]={existing:old,incoming:val};st.pending_conflicts[k]=conflicts[k];return;}if(old===undefined){facts[k]=val;extracted[k]=val;evidence[k]=src;}}\nlet category='commercial';\nif(/\\b(fotos?.{0,35}(documentos?|3x4|rg|passaporte)|foto de rg|passaporte)\\b/.test(t))category='out_of_scope';\nif(/\\b(ja estao chegando|ja esta chegando|quando voces chegam|frete da festa|orcamento do frete)\\b/.test(t))category='operational';\nif(['vendor','personal','staff','automated','institution'].includes(i.contact_category))category='noncommercial';\nconst services=[\n['cabine_fotos',/\\bcabine( de fotos?| fotografica)?\\b/g],\n['totem_fotos',/\\btotem( de fotos?)?\\b/g],\n['plataforma_360',/\\bplataforma( 360)?\\b|\\b360( graus)?\\b|\\bgiratoria\\b|\\bvideo girando\\b|\\bgira e grava\\b|\\baquele que gira\\b|\\baquela que gira\\b/g],\n['set_fotografico',/\\bset fotografico\\b|\\bcenario fotografico\\b/g],\n['fotografo',/\\bfotografo (para|de) eventos?\\b/g]\n];\nconst mentioned=[];for(const [code,re] of services){let ok=false;for(const hit of t.matchAll(re)){const prefix=t.slice(Math.max(0,hit.index-35),hit.index);if(/(nao quero|nao tenho interesse em|sem|dispenso|nao gostaria de)( a| o| de| da| do)?\\s*$/.test(prefix))continue;ok=true;}if(ok)mentioned.push(code)}\nconst comparing=/\\b(em duvida entre|qual e melhor|diferencas? entre|quais as diferencas)\\b/.test(t)||(/\\b(voces tem|trabalham com)\\b/.test(t)&&mentioned.length>1);\nlet desired=comparing?[]:mentioned.slice();\nconst cta=i.cta??{};const allowed=['cabine_fotos','totem_fotos','plataforma_360','set_fotografico','fotografo'];\nif(!desired.length&&cta.verified===true&&allowed.includes(cta.service_code))desired=[cta.service_code];\nif(!desired.length&&st.pending_question==='service'&&/^[1-5]$/.test(t))desired=[allowed[Number(t)-1]];\nlet purpose=null;\nif(/\\b(casamento|casar|noiva|noivo)\\b/.test(t))purpose='casamento';\nelse if(/\\b(debutante|15 anos|quinze anos)\\b/.test(t))purpose='debutante';\nelse if(/\\b(aniversario|aniversariante|faz \\d+ anos|festa surpresa)\\b/.test(t))purpose='aniversario';\nelse if(/\\b(confraternizacao|corporativ|empresa|empresarial|firma|eventos internos|sou do rh)\\b/.test(t))purpose='empresarial';\nelse if(/\\bformatura\\b/.test(t))purpose='formatura';\n// Numeric choices are interpreted ONLY when the last prompt asked the event purpose.\nif(!purpose&&st.pending_question==='purpose'&&/^[1-4]$/.test(t))purpose={1:'casamento',2:'aniversario',3:'debutante',4:'empresarial'}[Number(t)];\nconst months={janeiro:1,fevereiro:2,marco:3,abril:4,maio:5,junho:6,julho:7,agosto:8,setembro:9,outubro:10,novembro:11,dezembro:12,jan:1,fev:2,mar:3,abr:4,mai:5,jun:6,jul:7,ago:8,set:9,out:10,nov:11,dez:12};\nconst toDate=(d,m,y)=>{d=+d;m=+m;y=+y;if(y<100)y+=2000;if(y<2020||y>2100||m<1||m>12||d<1||d>31)return null;const iso=y+'-'+String(m).padStart(2,'0')+'-'+String(d).padStart(2,'0');let z=new Date(iso+'T12:00:00Z');return z.getUTCDate()===d&&z.getUTCMonth()+1===m&&z.getUTCFullYear()===y?iso:null};\nlet date=null,partial=null,dm=t.match(/\\b(\\d{1,2})[ /.-]+(\\d{1,2})[ /.-]+(\\d{2,4})\\b/);if(dm)date=toDate(dm[1],dm[2],dm[3]);if(!date){dm=t.match(/\\b(\\d{1,2})\\s*(?:de\\s+)?(janeiro|fevereiro|marco|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro|jan|fev|mar|abr|mai|jun|jul|ago|set|out|nov|dez)\\s*(?:de\\s+)?(\\d{4})\\b/);if(dm)date=toDate(dm[1],months[dm[2]],dm[3]);}\nif(!date){let q=t.match(/\\b(\\d{1,2})[/.](\\d{1,2})\\b/);if(q)partial=q[0];else {let dayMonth=t.match(/\\b(\\d{1,2})\\s*(?:de\\s+)?(janeiro|fevereiro|marco|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)\\b/);if(dayMonth)partial=dayMonth[0];}if(!partial&&/\\b(mes que vem|segundo semestre|em (janeiro|fevereiro|marco|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)|ainda estou vendo a data)\\b/.test(t))partial=text;}\nif(!date&&facts.event_date_partial&&/\\bano\\b/.test(t)){const yy=t.match(/\\b(20\\d{2})\\b/),dd=String(facts.event_date_partial).match(/^(\\d{1,2})[/.](\\d{1,2})$/);if(yy&&dd)date=toDate(dd[1],dd[2],yy[1]);}\nconst cities=['mogi das cruzes','suzano','poa','santa isabel','guarulhos','itaquaquecetuba','bertioga','santo andre','ferraz de vasconcelos','santos','campinas','sao bernardo do campo','sao paulo','ar uja'];\nconst aliases={'mogi das cruzes':['mogi das cruzes','mogi'],'itaquaquecetuba':['itaquaquecetuba','itaqua'],'sao bernardo do campo':['sao bernardo do campo','sbc'],'ar uja':['aruja']};\nconst located=cities.filter(c=>(aliases[c]??[c]).some(a=>(' '+t+' ').includes(' '+a+' ')));\nlet city=located.length===1?located[0]:null;\nif(city==='ar uja')city='aruja';\nlet district=city==='sao paulo'?(t.match(/\\bzona (leste|oeste|norte|sul|central)\\b/)??[])[0]:null;\nconst vagueGeo=/\\b(alto tiete|grande sao paulo)\\b/.test(t);\nconst rel=/\\b(sou a noiva|sou noiva)\\b/.test(t)?'noiva':/\\b(sou o noivo|sou noivo)\\b/.test(t)?'noivo':/\\bmae (da|do) (noiva|noivo|debutante|aniversariante)\\b/.test(t)?'mae':/\\bpai (da|do) (noiva|noivo|debutante|aniversariante)\\b/.test(t)?'pai':/\\b(irma|irmao|tia|tio|sobrinha)\\b/.test(t)?'familiar':/\\b(sou assessora|somos assessoria|sou organizadora|trabalho com cerimonial)\\b/.test(t)?'assessoria':/\\b(sou a debutante|a debutante sou eu)\\b/.test(t)?'homenageada':/\\b(sou do rh|responsavel pelas cotacoes)\\b/.test(t)?'responsavel_empresa':null;\nconst who=text.match(/\\b(?:me chamo|meu nome é|sou a|sou o)\\s+([A-Za-zÀ-ÿ]+(?:\\s+[A-Za-zÀ-ÿ]+)?)/i);if(who&&/^(noiva|noivo|mae|mãe|pai|debutante|assessora|responsavel|responsável|organizadora|pessoa|irma|irmã|irmao|irmão|rh)\\b/i.test(who[1]))who[1]=null;\nlet origin=null;for(const [o,re] of [['google_maps',/\\b(google maps|no maps|no perfil da empresa no maps)\\b/],['instagram',/\\b(instagram|pelo insta)\\b/],['facebook',/\\b(facebook|pelo face|no face)\\b/],['google',/\\bgoogle\\b/],['foto_impressa',/\\b(foto impressa|verso da foto|fotos da festa|lembranca impressa|material.*fotos)\\b/],['indicacao',/\\b(indicacao|indicou|recomendou|passou o contato|me passou o contato)\\b/]])if(!origin&&re.test(t))origin=o;\nif(cta.verified===true&&cta.source)origin=cta.source;\nif(!duplicate&&category==='commercial'){add('services',desired,cta.verified&&mentioned.length===0?'verified_cta':'customer');add('purpose',purpose);add('event_date',date);if(city&&city!=='sao paulo')add('city',city);if(city==='sao paulo')add('city',city);add('district',district);add('relationship_to_event',rel);if(who)add('contact_name',who[1]);add('acquisition_source',origin,cta.verified?'verified_cta':'customer_declared');if(partial)add('event_date_partial',partial);}\nconst missing=[];if(!facts.services?.length)missing.push('service');if(!facts.purpose)missing.push('purpose');if(!facts.event_date)missing.push('event_date');if(!facts.city||(facts.city==='sao paulo'&&!facts.district))missing.push('event_location');\nconst routeMap={service:'FLOW_1_SERVICE',purpose:'FLOW_2_PURPOSE',event_date:'FLOW_3_DATE',event_location:'FLOW_4_LOCALITY'};\nlet next=missing.length?routeMap[missing[0]]:'FLOW_5_READY';if(category!=='commercial')next=category==='operational'?'ROUTE_OPERATIONS':'ROUTE_HUMAN';if(Object.keys(st.pending_conflicts).length)next='CLARIFY_CONFLICT';if(duplicate)next='DUPLICATE_NOOP';if(i.human_lock)next='HUMAN_LOCK_NO_REPLY';\nlet question=next==='FLOW_1_SERVICE'?'Qual serviço deseja orçar?\\n1. Cabine de Fotos\\n2. Totem de Fotos\\n3. Plataforma 360\\n4. Set Fotográfico\\n5. Fotógrafo':next==='FLOW_2_PURPOSE'?'Para qual ocasião será o serviço?\\n1. Casamento\\n2. Aniversário\\n3. Debutante (15 anos)\\n4. Evento empresarial':next==='FLOW_3_DATE'?'Qual é a data completa da festa (dia, mês e ano)?':next==='FLOW_4_LOCALITY'?(facts.city==='sao paulo'?'Qual o bairro ou região em São Paulo?':'Em qual cidade será a festa?'):next==='FLOW_5_READY'?'Já tenho os dados necessários para verificar seu orçamento. 😊':next==='CLARIFY_CONFLICT'?'Pode confirmar os dados divergentes sobre '+Object.keys(st.pending_conflicts).join(', ')+'?':null;\nif(!duplicate&&id)processed.push(id);\nif(!duplicate&&question&&category==='commercial')st.introduced=true;\nst.facts=facts;st.processed_message_ids=[...new Set(processed)].slice(-100);st.pending_question=next==='FLOW_1_SERVICE'?'service':next==='FLOW_2_PURPOSE'?'purpose':next==='FLOW_3_DATE'?'event_date':next==='FLOW_4_LOCALITY'?'event_location':null;\n// Deterministic fields and numeric menu options never use an LLM.\n// JEV only handles an unresolved semantic service description, or an open-text\n// purpose reply to a purpose question (never a fixed numeric option).\nconst serviceHint=/\\b(equipamento|maquina|foto|fotografias?|video|gira|giratoria|imprime|impressao|lembrancas?|selfie|camera|espelho|fotografo|fotografico)\\b/.test(t);\nconst safeSemantic=category==='commercial'&&!duplicate&&!i.human_lock&&!Object.keys(st.pending_conflicts).length&&t.length>7&&!/^[1-5]$/.test(t)&&!comparing;\nlet semanticTarget=null;\nif(safeSemantic&&!facts.services?.length&&!desired.length&&serviceHint&&!cta.verified)semanticTarget='service';\nelse if(safeSemantic&&facts.services?.length&&!facts.purpose&&!purpose&&i.state?.pending_question==='purpose')semanticTarget='purpose';\nconst greet=!i.state?.introduced&&category==='commercial'&&question?'Olá! Eu sou a Click, assistente virtual da Click Mais Cabine 😊\\n\\n':'';\nreturn {json:{sender_id:i.sender_id??m.from??null,text,requires_jev:semanticTarget!==null,semantic_target:semanticTarget,flow:'FLOW_1',version:'0.2.1-no-redundant-jev',message_id:id,accepted:!!text,duplicate,category,extracted,conflicts,evidence,services_mentioned:mentioned,service_needs_choice:comparing,date_partial:partial,locality_partial:vagueGeo,context:st,missing_required:missing,next_flow:next,ready_for_quote_checks:next==='FLOW_5_READY',suggested_reply:question?greet+question:null,effects:{database_write:false,whatsapp_reply:false,quote_calculation:false}}};\n\n})($json).json;\nreturn {json:qualifyCorporate($json,legacy,TAXONOMY,OFFICIAL)};\n"
+      },
+      "id": "d17e5181-fb17-4515-8c67-e33d949c9b91",
+      "name": "FLOW1 — extrair dados",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        768,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 1
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.requires_jev }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "0fe209d2-edcd-43bd-9541-6a5c554bad2d",
+      "name": "JEV necessário?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        992,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/alpha/decisions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openRouterApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.jev_request }}",
+        "options": {
+          "response": {}
+        }
+      },
+      "id": "a2bf2b76-8f55-4c7d-ac8b-8d898e0cb6e4",
+      "name": "JEV 1.13 — desambiguar",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1440,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const original=$('FLOW1 — extrair dados').item.json;\nconst target=original.semantic_target;\nconst ans=target==='purpose'?$json.answers?.event_purpose??{}:$json.answers?.product_interest??{};\nconst choice=ans.choice??null,confidence=Number(ans.confidence??0);\nconst serviceMap={cabine_fotos:['cabine_fotos'],totem_fotos:['totem_fotos'],plataforma_360:['plataforma_360'],set_fotografico:['set_fotografico'],fotografo:['fotografo'],combo_cabine_plataforma:['cabine_fotos','plataforma_360'],combo_todos:['cabine_fotos','totem_fotos','plataforma_360']};\nconst purposes=['casamento','aniversario','debutante','empresarial','formatura'];\nconst fact={...original.extracted},proof={...original.evidence};\nif(target==='service'&&!fact.services?.length&&confidence>=0.8&&serviceMap[choice]&&!original.service_needs_choice){\n fact.services=serviceMap[choice];proof.services='jev_semantic_choice_'+confidence;\n}\nif(target==='purpose'&&!fact.purpose&&confidence>=0.8&&purposes.includes(choice)){\n fact.purpose=choice;proof.purpose='jev_semantic_choice_'+confidence;\n}\nreturn {json:{...original,extracted:fact,evidence:proof,\n jev:{target,choice,confidence,accepted:(target==='purpose'?!!fact.purpose:!!fact.services?.length),model:$json.model??'typesafe/jev-1.13'},\n effects:{database_write:false,whatsapp_reply:false}}};"
+      },
+      "id": "5dc1b6bc-8ac9-476e-a4a1-f525be9111fe",
+      "name": "Validar resposta JEV",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1664,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://tsuuqcodmyuwqxfwevps.supabase.co/rest/v1/rpc/cm_quote_flow1_apply_v1",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {p_sender_id:$json.sender_id,p_external_message_id:$json.message_id,p_extracted:$json.extracted,p_evidence:$json.evidence,p_message_text:$json.text,p_category:$json.category,p_occurred_at:$(\"Normalizar WhatsApp\").item.json.occurred_at} }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "c1fcf328-cb60-4d04-aa8e-9469e00c4da3",
+      "name": "Supabase — aplicar ficha atomicamente",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        1888,
+        96
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "\nconst normCorp=s=>String(s??'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().replace(/\\s+/g,' ').trim();\nfunction corporateDate(d,m,y) {\n  const iso=`${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;\n  const v=new Date(iso+'T12:00:00Z');\n  return Number(y)>=2020 && Number(y)<=2100 && !isNaN(v) && v.toISOString().slice(0,10)===iso ? iso : null;\n}\nfunction qualifyCorporate(input, legacy, taxonomy, official) {\n  const text=String(input.text??legacy.text??''),t=normCorp(text);\n  const previous=input.state??{},old=previous.facts??{};\n  const classified=classifyPurposeV1({text,context:previous},taxonomy);\n  const isCorporate=old.purpose==='empresarial'||classified.operational==='empresarial'||classified.matches.some(m=>m.group==='empresarial_institucional')||legacy.extracted?.purpose==='empresarial';\n  if(!isCorporate || legacy.category!=='commercial' || legacy.duplicate || input.human_lock) return legacy;\n  const extracted={...legacy.extracted},evidence={...legacy.evidence};\n  if(/\\b(?:quero|preciso|gostaria|posso).{0,25}(?:falar|conversar).{0,25}(?:atendente|responsavel|humano|pessoa)|\\batendimento humano\\b/.test(t)) evidence._handoff_reason='HND-EXPLICIT-HUMAN';\n  for(const [key,conflict] of Object.entries(legacy.conflicts??{})) extracted[key]=conflict.incoming;\n  if(classified.operational==='empresarial') {extracted.purpose='empresarial';if(old.purpose_ambiguous==='true')extracted.purpose_ambiguous='false';}\n  if(classified.status==='conflict') {extracted.purpose='empresarial';extracted.purpose_ambiguous='true';}\n  if(/^(sim|confirmo|correto|isso|pode corrigir)[.!\\s]*$/.test(t)) {\n    for(const [key,c] of Object.entries(previous.pending_conflicts??{})) extracted[key]=c.incoming;\n  }\n  const words={um:1,uma:1,dois:2,duas:2,tres:3,quatro:4,cinco:5,seis:6,sete:7};\n  const number=s=>words[s]??Number(s);\n  const day=t.match(/\\b(\\d+|um|uma|dois|duas|tres|quatro|cinco|seis|sete)\\s+dias?\\b/);\n  if(day) extracted.dias_evento=number(day[1]);\n  else if(previous.pending_question==='corporate_days' && /^(\\d+|um|uma|dois|duas|tres|quatro|cinco|seis|sete)$/.test(t)) extracted.dias_evento=number(t);\n  const periods=t.match(/\\b(\\d+|um|uma|dois|duas|tres|quatro)\\s+periodos?\\b/);\n  const hours=t.match(/\\b(\\d+)\\s*(?:h|horas?)(?:\\s+por\\s+dia|\\s+diarias?|\\s+em cada dia)?\\b/);\n  if(periods) extracted.periodos_por_dia=number(periods[1]);\n  else if(hours) extracted.periodos_por_dia=Number(hours[1])/4;\n  else if(previous.pending_question==='corporate_periods' && /^(\\d+|um|dois|tres|quatro)$/.test(t)) extracted.periodos_por_dia=number(t);\n\n  let dates=[];\n  const compact=t.match(/\\b(?:de\\s+)?(\\d{1,2})\\s*(?:a|ate)\\s*(\\d{1,2})[/.](\\d{1,2})[/.](20\\d{2})\\b/);\n  const hits=[...t.matchAll(/\\b(\\d{1,2})[/.](\\d{1,2})[/.](20\\d{2})\\b/g)];\n  if(compact) dates=[corporateDate(compact[1],compact[3],compact[4]),corporateDate(compact[2],compact[3],compact[4])];\n  else if(hits.length) dates=hits.map(m=>corporateDate(m[1],m[2],m[3]));\n  else if(extracted.event_date) dates=[extracted.event_date];\n  else if(old.event_date && !old.event_dates) dates=[old.event_date];\n  const range=!!compact || /\\d{1,2}[/.]\\d{1,2}[/.]20\\d{2}\\s*(?:a|ate|-)\\s*\\d{1,2}[/.]\\d{1,2}[/.]20\\d{2}/.test(t);\n  if(dates.length && dates.every(Boolean)) {\n    if(range && dates.length===2 && dates[0]<=dates[1]) {\n      const list=[];\n      for(let d=new Date(dates[0]+'T12:00:00Z');d.toISOString().slice(0,10)<=dates[1];d.setUTCDate(d.getUTCDate()+1)) list.push(d.toISOString().slice(0,10));\n      dates=list;\n    }\n    const days=extracted.dias_evento??old.dias_evento;\n    if(old.event_dates?.length<days && !/\\b(corrigir|trocar|mudar|altere|na verdade)\\b/.test(t)) dates=[...new Set([...old.event_dates,...dates])].sort();\n    if(dates.length) {\n      extracted.event_dates=dates;extracted.data_inicio=[...dates].sort()[0];\n      extracted.data_fim=[...dates].sort().at(-1);extracted.event_date=extracted.data_inicio;\n    }\n  }\n  const terms=official.localities.map(l=>({phrase:normCorp(l.canonical_name),name:l.canonical_name}));\n  for(const a of official.aliases) terms.push({phrase:normCorp(a.alias),name:official.localities.find(l=>l.id===a.locality_id)?.canonical_name});\n  const found=terms.filter(x=>x.name && (' '+t.replace(/[,.!?;:]/g,' ')+' ').includes(' '+x.phrase+' '));\n  const longest=found.filter(x=>!found.some(y=>y.phrase!==x.phrase && (' '+y.phrase+' ').includes(' '+x.phrase+' ')));\n  const names=[...new Set(longest.map(x=>x.name))];\n  if(names.length===1) {extracted.city=normCorp(names[0]);if(old.locality_ambiguous==='true')extracted.locality_ambiguous='false';}\n  else if(names.length>1) {delete extracted.city;extracted.locality_ambiguous='true';}\n  // SQL commits proposals and resolves conflicts; never trust predicted local state.\n  for(const key of Object.keys(extracted)) evidence[key]=evidence[key]??'customer_corporate_deterministic';\n  evidence._transport=input.transport_origin==='meta_webhook'?'meta_webhook':'lab_replay';\n  return {...legacy,extracted,evidence,corporate_intake:true,requires_jev:!evidence._handoff_reason&&legacy.requires_jev&&legacy.semantic_target==='service',\n    semantic_target:legacy.semantic_target==='service'?'service':null,taxonomy_version:taxonomy.version};\n}\n\nfunction corporateNext(facts) {\n  if(!facts.services?.length)return 'FLOW_1_SERVICE';\n  if(!facts.purpose)return 'FLOW_2_PURPOSE';\n  if(!Number.isSafeInteger(facts.dias_evento)||facts.dias_evento<1)return 'FLOW_CORPORATE_DAYS';\n  if(facts.periodos_por_dia===undefined)return 'FLOW_CORPORATE_PERIODS';\n  if(![1,2,3].includes(facts.periodos_por_dia)||facts.services.length!==1||facts.purpose_ambiguous==='true')return 'ROUTE_HUMAN';\n  if(!facts.event_dates?.length || new Set(facts.event_dates).size!==facts.dias_evento || facts.event_dates.length!==facts.dias_evento)return 'CLARIFY_CORPORATE_DATES';\n  if(!facts.city || facts.locality_ambiguous==='true' || (facts.city==='sao paulo'&&!facts.district))return 'FLOW_4_LOCALITY';\n  return 'FLOW_5_READY';\n}\n\nfunction qualificationReply(result) {\n  if(!result.accepted||result.duplicate||['DUPLICATE_NOOP','HUMAN_LOCK_NO_REPLY','ROUTE_OPERATIONS'].includes(result.next_flow))return null;\n  const f=result.context?.facts??{},flow=result.next_flow;\n  const questions={FLOW_1_SERVICE:'Qual serviço você deseja para o evento?',FLOW_2_PURPOSE:'Qual é o tipo de evento?',\n    FLOW_CORPORATE_DAYS:'Quantos dias terá o evento?',FLOW_CORPORATE_PERIODS:'Quantos períodos de 4 horas serão necessários por dia: 1 (4h), 2 (8h) ou 3 (12h)?',\n    CLARIFY_CORPORATE_DATES:f.event_dates?.length && f.event_dates.length<f.dias_evento?'Já anotei a(s) data(s) informada(s). Quais são as datas restantes (dia, mês e ano)?':'Quais são as datas completas de todos os dias do evento (dia, mês e ano)?',\n    FLOW_4_LOCALITY:f.city==='sao paulo'?'Em qual bairro ou região de São Paulo será o evento?':'Em qual cidade ou região será o evento?',\n    CLARIFY_CONFLICT:'Recebi informações diferentes. Você confirma os novos dados?',\n    ROUTE_HUMAN:'Essa configuração precisa da confirmação da nossa equipe. Vou encaminhar seu pedido ao responsável.'};\n  if(flow==='FLOW_5_READY')return null;\n  const last=result.changed_keys??[];\n  let ack='';\n  if(last.includes('periodos_por_dia'))ack=`${f.periodos_por_dia} período(s) de 4 horas por dia, certo. `;\n  else if(last.includes('dias_evento'))ack=`${f.dias_evento} dia(s) de evento, certo. `;\n  else if(last.includes('purpose'))ack='É um evento empresarial, certo. ';\n  else if(last.includes('services'))ack='Entendi o serviço desejado. ';\n  else if(last.includes('event_dates'))ack='Entendi as datas do evento. ';\n  return questions[flow]?ack+questions[flow]:null;\n}\n\nconst x=$json;\nif(x.context?.facts?.purpose!=='empresarial'){\nconst x=$json,flow=x.next_flow??'ROUTE_HUMAN';\nconst state=x.context?.facts??{};\nlet response=null;\nif(flow==='FLOW_1_SERVICE')response='Olá! Sou a Click, assistente virtual da Click Mais Cabine. 😊 Qual serviço deseja orçar?\\n1. Cabine de Fotos\\n2. Totem de Fotos\\n3. Plataforma 360\\n4. Set Fotográfico\\n5. Fotógrafo';\nif(flow==='FLOW_2_PURPOSE')response='Para qual ocasião será o serviço?\\n1. Casamento\\n2. Aniversário\\n3. Debutante (15 anos)\\n4. Evento empresarial';\nif(flow==='FLOW_3_DATE')response='Qual a data completa da festa (dia, mês e ano)?';\nif(flow==='FLOW_4_LOCALITY')response=state.city==='sao paulo'?'Em qual bairro ou região de São Paulo será a festa?':'Em qual cidade será a festa?';\nif(flow==='FLOW_5_READY')response='Perfeito! Já tenho as informações necessárias para verificar o orçamento. Um instante, por favor.';\nif(flow==='CLARIFY_CONFLICT')response='Encontrei informações diferentes sobre o evento. Poderia confirmar a informação correta?';\nreturn {json:{...x,flow1_handoff:{next_flow:flow,draft_response:response,\n  route_executable:true,draft_only:true,auto_send:false,\n  ready_for_price:flow==='FLOW_5_READY'},effects:{whatsapp_reply:false,quote_calculation:false}}};\n\n}\nreturn {json:{...x,corporate_route:true,draft_response:qualificationReply(x),ready_for_price:x.next_flow==='FLOW_5_READY'}};\n"
+      },
+      "id": "a2ac1898-97a8-4243-9539-fe252f3daa7f",
+      "name": "Roteador — preparar próximo flow",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2112,
+        96
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "return {json:{accepted:false,next_flow:'IGNORED_INVALID_INBOUND',reason:$json.validation_error??'invalid_inbound',effects:{database_write:false,whatsapp_reply:false}}};"
+      },
+      "id": "7083ebf6-4ec0-48c9-a2de-060ae02d5c02",
+      "name": "Descartar mensagem inválida",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        320,
+        272
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://tsuuqcodmyuwqxfwevps.supabase.co/rest/v1/rpc/cm_quote_flow1_snapshot_v1",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {p_sender_id:$json.sender_id} }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "99383307-369b-4b57-9878-602cdd0e66d5",
+      "name": "Supabase — carregar ficha persistente",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        320,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const source=$('Normalizar WhatsApp').item.json;\nconst payload=$json??{};\nconst state=payload.state&&typeof payload.state==='object'&&!Array.isArray(payload.state)?payload.state:{};\nreturn {json:{...source,state,human_lock:payload.human_lock===true,\n  persistence_ref:{session_id:payload.session_id??null,customer_event_id:payload.customer_event_id??null,loaded:!!payload.found}}};"
+      },
+      "id": "d8921d61-e8f4-4b63-accf-c1bfecf12040",
+      "name": "Restaurar contexto persistente",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        544,
+        80
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const source=$json;\nconst forPurpose=source.semantic_target==='purpose';\nconst service={type:'choice',\n instructions:'Identifique apenas serviço de evento solicitado. Não interprete dúvidas entre serviços como combo, respeite negações, e escolha sem_interesse_claro se insuficiente.',\n criteria:{cabine_fotos:'Quer cabine de fotos.',totem_fotos:'Quer totem de fotos.',plataforma_360:'Quer plataforma 360.',set_fotografico:'Quer set fotográfico.',fotografo:'Quer fotógrafo.',combo_cabine_plataforma:'Quer CONTRATAR cabine e plataforma juntas.',combo_todos:'Quer contratar cabine, totem e 360 juntos.',sem_interesse_claro:'Nenhum serviço identificável com confiança.'}};\nconst purpose={type:'choice',\n instructions:'Classifique a finalidade descrita em linguagem livre segundo as opções comerciais. Não invente ocasião não dita. Se um encontro só quer alegrar familiar sem data comemorativa/objetivo identificado, escolha outro_indefinido. Debutante é um subtipo de aniversário para política comercial; nesta versão preserve o código específico.',\n criteria:{casamento:'Cerimônia de casamento, união ou celebração matrimonial.',aniversario:'Aniversário de pessoa, festa infantil ou adulta.',debutante:'Festa de 15 anos, debutante.',empresarial:'Confraternização, evento de empresa ou institucional.',formatura:'Formatura ou celebração de formandos.',outro_indefinido:'Finalidade não comprovada ou sem enquadramento claro.'}};\nreturn {json:{...source,jev_request:{model:'typesafe/jev-1.13',state:{message:source.text,channel:'whatsapp'},questions:forPurpose?{event_purpose:purpose}:{product_interest:service}}}};"
+      },
+      "id": "57341369-8929-4ea2-a941-47ca127f2f9c",
+      "name": "Montar requisição JEV",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1216,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "d3517074-0d3a-49d7-aace-4d424c106168",
+      "name": "Entrada via orquestrador Meta",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -352,
+        272
+      ]
+    },
+    {
+      "id": "419f4473-7016-4199-b89c-cd3bf065cb87",
+      "name": "LAB — caso sintético sem envio",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1500,
+        200
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "return {json:{sender_id:'5511956390586',phone_number_id:'1350381714825884',message_id:'lab-br002-'+$execution.id,transport_origin:'lab_replay',text:'Quero cabine de fotos para evento empresarial de 3 dias, 2 períodos por dia, de 01/11/2026 a 03/11/2026 em Suzano.'}};"
+      }
+    },
+    {
+      "id": "0b808a57-0cba-488f-8956-69219e7c2d17",
+      "name": "Corporativo TEST habilitado?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1760,
+        200
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.corporate_route === true && $json.accepted === true && !$json.duplicate && !['HUMAN_LOCK_NO_REPLY','ROUTE_OPERATIONS'].includes($json.next_flow) }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "f2a0db0f-d007-4b7c-8546-b366fd829793",
+      "name": "Corporativo pronto para motor?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2020,
+        200
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.ready_for_price === true }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "aa160725-0e67-43c5-83c3-8b5fd052a212",
+      "name": "Supabase — contexto motor TEST",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2280,
+        200
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://tsuuqcodmyuwqxfwevps.supabase.co/rest/v1/rpc/cmc_test_quote_context_v1",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {p_session_id:$json.session_id,p_customer_event_id:$json.customer_event_id,p_input_event_id:$json.input_event_id} }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "c704e7cc-1b0e-419e-8dea-aca0d58bade7",
+      "name": "Trello — validar agenda TEST",
+      "type": "n8n-nodes-base.trello",
+      "typeVersion": 1,
+      "position": [
+        2540,
+        200
+      ],
+      "parameters": {
+        "resource": "list",
+        "operation": "getCards",
+        "authentication": "apiKey",
+        "id": "5ea1dc2cb85a031b5c5e68f9",
+        "returnAll": true,
+        "additionalFields": {
+          "fields": "all"
+        }
+      },
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true
+    },
+    {
+      "id": "734e00b4-0035-4cfd-91cc-5a3e606d476d",
+      "name": "Disponibilidade — validar todas datas",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1500,
+        420
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "function assessAvailability(dates, reservations, cards, checkedAt, listId) {\n  const unknown=reason=>({status:'unknown',claim_authorized:false,reservation_prompt_authorized:false,reason,checked_at:checkedAt,\n    dates:dates.map(date=>({date,active_reservations:reservations.filter(r=>r.data_evento===date&&r.status==='ativa').length}))});\n  if(!Array.isArray(cards)||cards.length<5||cards.some(c=>c.error))return unknown('AGENDA_SOURCE_READ_FAILED');\n  const source=[];\n  for(const c of cards){\n    if(!c.id||c.closed||c.idList!==listId)return unknown('AGENDA_SOURCE_INCOMPLETE');\n    const date=String(c.name??'').slice(0,10);\n    if(!/^\\d{4}-\\d{2}-\\d{2}$/.test(date)){\n      if(/^(etiquetas utilizadas|teste)$/i.test(String(c.name??'').trim()))continue;\n      return unknown('AGENDA_SOURCE_INVALID_DATE');\n    }\n    const d=new Date(date+'T12:00:00Z');\n    if(isNaN(d)||d.toISOString().slice(0,10)!==date)return unknown('AGENDA_SOURCE_INVALID_DATE');\n    if(dates.includes(date))source.push({date,id:c.id});\n  }\n  const db=reservations.filter(r=>r.status==='ativa'&&dates.includes(r.data_evento)).map(r=>({date:r.data_evento,id:r.trello_card_id}));\n  const key=rows=>rows.map(r=>r.date+':'+r.id).sort().join('|');\n  if(key(source)!==key(db))return unknown('AGENDA_MIRROR_OUT_OF_SYNC');\n  const perDate=dates.map(date=>({date,active_reservations:db.filter(r=>r.date===date).length}));\n  const busy=perDate.some(d=>d.active_reservations>=2);\n  return {status:busy?'fully_booked':'preliminary_available',claim_authorized:!busy,reservation_prompt_authorized:!busy,\n    checked_at:checkedAt,freshness_evidence:'live_trello_read_matches_supabase_for_all_event_dates',dates:perDate};\n}\n\nfunction prepareCorporatePresentation(input, services) {\n  const q=input.quote_result,locked=input.human_lock===true;\n  if(locked||input.status!=='ready'||q?.status!=='ready'||!q.corporate)return {...input,status:input.status==='human_required'?'human_required':'blocked',presentation:null,blockers:input.blockers?.length?input.blockers:[locked?'HUMAN_LOCK_ACTIVE':'QUOTE_RESULT_NOT_READY']};\n  const code=q.items[0].serviceCode;\n  const availability=input.availability??{status:'unknown',reservation_prompt_authorized:false};\n  return {...input,status:'ready',action_authorized:true,action:'COMPOSE_QUOTE_PRESENTATION',presentation:{\n    service:services.names[code],customer_visible_prices:q.customerVisible,corporate:q.corporate,\n    locality:input.locality_result.locality.canonicalName,\n    includes:services.includes[code]??services.general,proof_social:services.proof_social,\n    availability,gift:{eligible:false},reservation_policy:'A data só é garantida após contrato e pagamento do sinal.'}};\n}\n\nfunction composeCorporateResponse(input) {\n  const p=input.presentation,c=p?.corporate;\n  if(input.action_authorized!==true||input.human_lock===true||!c)return {...input,status:input.status==='human_required'?'human_required':'blocked',candidate_text:null,blockers:input.blockers?.length?input.blockers:['CORPORATE_PRESENTATION_NOT_AUTHORIZED']};\n  const money=value=>new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL',minimumFractionDigits:2,maximumFractionDigits:2}).format(value);\n  const date=value=>value.split('-').reverse().join('/');\n  const schedule=c.schedule;\n  const dates=schedule.event_dates?schedule.event_dates.map(date).join(', '):schedule.data_inicio===schedule.data_fim?date(schedule.data_inicio):date(schedule.data_inicio)+' a '+date(schedule.data_fim);\n  const lines=[`*ORÇAMENTO CORPORATIVO — ${p.service}*`,\n    `📍 ${p.locality}`,`📅 ${dates}`,`${c.dias_evento} dia(s) · ${c.periodos_por_dia} período(s) de 4h por dia · ${c.horas_por_dia}h por dia`,'',\n    `💳 Cartão: *${money(c.valor_parcelado)}*, em até 10x sem juros.`,\n    `💰 À vista: *${money(c.valor_avista)}*.`,\n    `50% de sinal: *${money(c.sinal_50)}*.`,`Saldo no evento: *${money(c.saldo_no_evento)}*.`,'','*Inclusos:*',\n    ...p.includes.map(x=>'• '+x),'',`Confira nossas avaliações no Google: ${p.proof_social}`,''];\n  if(p.availability.status==='fully_booked')lines.push('Uma ou mais datas desse período estão lotadas. Este orçamento não confirma disponibilidade. Nossa equipe pode verificar outras datas.');\n  else if(p.availability.status==='preliminary_available')lines.push('A disponibilidade é preliminar para as datas consultadas.');\n  else lines.push('A disponibilidade ainda precisa ser confirmada pela equipe.');\n  lines.push(p.reservation_policy);\n  if(p.availability.reservation_prompt_authorized)lines.push('','Gostaria de seguir com a tentativa de reserva para essa data?');\n  const text=lines.join('\\n');\n  if(text.length>4096||text.includes('\\\\n'))return {status:'blocked',candidate_text:null,blockers:['MESSAGE_FORMAT_INVALID']};\n  return {...input,status:'ready',candidate_text:text,claimed_prices:{pix:c.valor_avista,card:c.valor_parcelado},availability_claim:p.availability.status,blockers:[]};\n}\n\nconst context=$(\"Supabase — contexto motor TEST\").first().json;\nconst cards=$input.all().map(x=>x.json);\nreturn [{json:{...context,availability:assessAvailability(context.event_dates,context.reservations,cards,$now.toISO(),\"5ea1dc2cb85a031b5c5e68f9\")}}];\n"
+      }
+    },
+    {
+      "id": "aabd8df7-85ff-4a10-9e69-da76ae30d70a",
+      "name": "Executar Quote Engine LAB",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1760,
+        420
+      ],
+      "parameters": {
+        "mode": "each",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "3LlqxQwA5JZBoaZd"
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      }
+    },
+    {
+      "id": "22bd2f47-aab2-4b38-aab1-476b57f257ea",
+      "name": "Preservar contexto e disponibilidade",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2020,
+        420
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const c=$('Disponibilidade — validar todas datas').item.json;return {json:{...$json,_routing:c._routing,facts:c.facts,human_lock:c.human_lock,availability:c.availability,quote_result:$json.quote_result?{...$json.quote_result,availability:c.availability}:null}};"
+      }
+    },
+    {
+      "id": "7e3170b6-7eee-41ab-8b09-0cd098962024",
+      "name": "Executar apresentação LAB",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2280,
+        420
+      ],
+      "parameters": {
+        "mode": "each",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "q1ac0eQAPGcyAimY"
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      }
+    },
+    {
+      "id": "644c68fd-59c2-43f1-8718-3578059deb84",
+      "name": "Executar compositor LAB",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2540,
+        420
+      ],
+      "parameters": {
+        "mode": "each",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "DBdzsxMlMqsB86YD"
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      }
+    },
+    {
+      "id": "b87835dc-e29e-4013-8ac8-d0adfc04803f",
+      "name": "Preparar gravação e fila TEST",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1500,
+        640
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const x=$json,r=x._routing??x,text=x.candidate_text??x.draft_response;\nconst codes=x.blockers??[],key=codes.join('|');\nconst needsHuman=x.status==='human_required'&&(x.requested_actions??[]).some(a=>a.action==='CREATE_HUMAN_TASK');\nconst reason=/LOCALITY.*NOT_FOUND/.test(key)?'HND-LOCALITY-NOT-FOUND':/LOCALITY/.test(key)?'HND-LOCALITY-REVIEW':/PERIODS|SERVICE_CONFIGURATION/.test(key)?'HND-SPECIAL-OPERATION':'HND-PRICE-NOT-AUTHORIZED';\nreturn {json:{can_enqueue:x.human_lock!==true&&(needsHuman||(typeof text==='string'&&text.length>0&&(x.status===undefined||x.status==='ready'))),request:{p_session_id:r.session_id,p_customer_event_id:r.customer_event_id,p_input_event_id:r.input_event_id,p_message:needsHuman?{handoff_reason:reason,blockers:codes}:{text},p_quote_result:x.candidate_text?x.quote_result:null}}};"
+      }
+    },
+    {
+      "id": "27bdbe3d-8e3c-4d3a-bcbd-6961424a4c6b",
+      "name": "Mensagem TEST pronta?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1760,
+        640
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.can_enqueue === true }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "b7935ced-69fc-45cc-a3be-58efd5e25008",
+      "name": "Supabase — persistir e enfileirar TEST",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2020,
+        640
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://tsuuqcodmyuwqxfwevps.supabase.co/rest/v1/rpc/cmc_test_enqueue_corporate_v1",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.request }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Normalizar WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "Mensagem válida?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem válida?": {
+      "main": [
+        [
+          {
+            "node": "Supabase — carregar ficha persistente",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Descartar mensagem inválida",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FLOW1 — extrair dados": {
+      "main": [
+        [
+          {
+            "node": "JEV necessário?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JEV necessário?": {
+      "main": [
+        [
+          {
+            "node": "Montar requisição JEV",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Supabase — aplicar ficha atomicamente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JEV 1.13 — desambiguar": {
+      "main": [
+        [
+          {
+            "node": "Validar resposta JEV",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar resposta JEV": {
+      "main": [
+        [
+          {
+            "node": "Supabase — aplicar ficha atomicamente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase — aplicar ficha atomicamente": {
+      "main": [
+        [
+          {
+            "node": "Roteador — preparar próximo flow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase — carregar ficha persistente": {
+      "main": [
+        [
+          {
+            "node": "Restaurar contexto persistente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restaurar contexto persistente": {
+      "main": [
+        [
+          {
+            "node": "FLOW1 — extrair dados",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Montar requisição JEV": {
+      "main": [
+        [
+          {
+            "node": "JEV 1.13 — desambiguar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Entrada via orquestrador Meta": {
+      "main": [
+        [
+          {
+            "node": "Normalizar WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual — casos simulados": {
+      "main": [
+        [
+          {
+            "node": "LAB — caso sintético sem envio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "LAB — caso sintético sem envio": {
+      "main": [
+        [
+          {
+            "node": "Normalizar WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Roteador — preparar próximo flow": {
+      "main": [
+        [
+          {
+            "node": "Corporativo TEST habilitado?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Corporativo TEST habilitado?": {
+      "main": [
+        [
+          {
+            "node": "Corporativo pronto para motor?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Corporativo pronto para motor?": {
+      "main": [
+        [
+          {
+            "node": "Supabase — contexto motor TEST",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar gravação e fila TEST",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Supabase — contexto motor TEST": {
+      "main": [
+        [
+          {
+            "node": "Trello — validar agenda TEST",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trello — validar agenda TEST": {
+      "main": [
+        [
+          {
+            "node": "Disponibilidade — validar todas datas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Disponibilidade — validar todas datas": {
+      "main": [
+        [
+          {
+            "node": "Executar Quote Engine LAB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Executar Quote Engine LAB": {
+      "main": [
+        [
+          {
+            "node": "Preservar contexto e disponibilidade",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preservar contexto e disponibilidade": {
+      "main": [
+        [
+          {
+            "node": "Executar apresentação LAB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Executar apresentação LAB": {
+      "main": [
+        [
+          {
+            "node": "Executar compositor LAB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Executar compositor LAB": {
+      "main": [
+        [
+          {
+            "node": "Preparar gravação e fila TEST",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar gravação e fila TEST": {
+      "main": [
+        [
+          {
+            "node": "Mensagem TEST pronta?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mensagem TEST pronta?": {
+      "main": [
+        [
+          {
+            "node": "Supabase — persistir e enfileirar TEST",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "binaryMode": "separate"
+  },
+  "nodeGroups": [
+    {
+      "id": "cmc-reception",
+      "name": "Recepção e memória",
+      "nodeNames": [
+        "Normalizar WhatsApp",
+        "Mensagem válida?",
+        "Descartar mensagem inválida",
+        "Supabase — carregar ficha persistente",
+        "Restaurar contexto persistente"
+      ],
+      "description": "Valida a entrada TEST e recupera o contexto persistido."
+    },
+    {
+      "id": "cmc-qualification",
+      "name": "Qualificação cumulativa",
+      "nodeNames": [
+        "FLOW1 — extrair dados",
+        "JEV necessário?",
+        "Montar requisição JEV",
+        "JEV 1.13 — desambiguar",
+        "Validar resposta JEV",
+        "Supabase — aplicar ficha atomicamente",
+        "Roteador — preparar próximo flow"
+      ],
+      "description": "Extrai somente dados faltantes; JEV restrito; persiste fatos e prepara o próximo passo."
+    },
+    {
+      "id": "cmc-quote-pipeline",
+      "name": "Orçamento corporativo TEST",
+      "nodeNames": [
+        "Corporativo TEST habilitado?",
+        "Corporativo pronto para motor?",
+        "Supabase — contexto motor TEST",
+        "Trello — validar agenda TEST",
+        "Disponibilidade — validar todas datas",
+        "Executar Quote Engine LAB",
+        "Preservar contexto e disponibilidade",
+        "Executar apresentação LAB",
+        "Executar compositor LAB",
+        "Preparar gravação e fila TEST",
+        "Mensagem TEST pronta?",
+        "Supabase — persistir e enfileirar TEST"
+      ],
+      "description": "Consulta todas as datas, calcula BR-002, compõe o orçamento e grava na fila com guards."
+    }
+  ]
+}

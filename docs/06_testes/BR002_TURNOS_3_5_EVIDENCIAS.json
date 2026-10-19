@@ -1,0 +1,287 @@
+{
+  "artifact_status": "development",
+  "as_of": "2026-10-19",
+  "base_commit": "475a16c48f59eb03949a2f81fdf618d9c848b8f8",
+  "checkpoint_commit": "1271c2a7c8a75b0158bf6851cb4a55ff47bf2c3d",
+  "pull_request": 24,
+  "full_meta_e2e_proven": false,
+  "tests": {
+    "javascript_pass": 404,
+    "javascript_fail": 0,
+    "sql_rollback_guards": "PASS",
+    "social_pricing": "exact deep regression preserved",
+    "taxonomy_origin": "71979337f33eaf6c8251faeaa5b17fdd11cc339e"
+  },
+  "workflows": [
+    {
+      "id": "3RAuwFaHIaZvOMjU",
+      "version": "8b24cd61-74ff-4b99-969f-398b901f6f3e",
+      "environment": "LAB / Meta TEST only"
+    },
+    {
+      "id": "iIAtpaRgvtssABsB",
+      "version": "bf344e22-2edc-4dfb-bedf-67be37e1d48e",
+      "environment": "LAB / Meta TEST only"
+    },
+    {
+      "id": "q1ac0eQAPGcyAimY",
+      "version": "678df12d-8e93-49fb-9dc9-9b0e66d923e9",
+      "environment": "LAB / Meta TEST only"
+    },
+    {
+      "id": "DBdzsxMlMqsB86YD",
+      "version": "118e91f8-98cc-49b6-ab69-cd4840a7c844",
+      "environment": "LAB / Meta TEST only"
+    },
+    {
+      "id": "JVZIPknnB7iIwcxi",
+      "version": "d83ff35f-2adc-4d8c-8a45-bc9c1fc1c267",
+      "environment": "LAB / Meta TEST only"
+    }
+  ],
+  "engine": {
+    "id": "3LlqxQwA5JZBoaZd",
+    "version": "e3738c86-c58b-4301-8edf-689fa0656ce6",
+    "pricing_module_unchanged": true
+  },
+  "migrations": [
+    "20261019021639",
+    "20261019022018",
+    "20261019022334",
+    "20261019024546"
+  ],
+  "replays": [
+    {
+      "execution_id": "8228",
+      "status": "success",
+      "origin": "lab_replay",
+      "fault_injection": null,
+      "availability": {
+        "status": "preliminary_available",
+        "claim_authorized": true,
+        "reservation_prompt_authorized": true,
+        "checked_at": "2026-10-18T23:26:17.640-03:00",
+        "freshness_evidence": "live_trello_read_matches_supabase_for_all_event_dates",
+        "dates": [
+          {
+            "date": "2026-11-01",
+            "active_reservations": 0
+          },
+          {
+            "date": "2026-11-02",
+            "active_reservations": 0
+          },
+          {
+            "date": "2026-11-03",
+            "active_reservations": 0
+          }
+        ]
+      },
+      "amounts": {
+        "card": 6255,
+        "cash": 5129.1,
+        "deposit": 2564.55,
+        "balance": 2564.55
+      },
+      "dispatch_block": "LAB_REPLAY_NO_DISPATCH",
+      "message_text": "*ORÇAMENTO CORPORATIVO — Cabine de Fotos*\n📍 suzano\n📅 01/11/2026, 02/11/2026, 03/11/2026\n3 dia(s) · 2 período(s) de 4h por dia · 8h por dia\n\n💳 Cartão: *R$ 6.255,00*, em até 10x sem juros.\n💰 À vista: *R$ 5.129,10*.\n50% de sinal: *R$ 2.564,55*.\nSaldo no evento: *R$ 2.564,55*.\n\n*Inclusos:*\n• Fotos ilimitadas durante o período contratado.\n• Impressão instantânea em 10x15 cm.\n• Equipe presencial.\n• Designer incluso.\n• Moldura personalizada.\n• Entrega digital.\n• Equipamentos profissionais.\n\nConfira nossas avaliações no Google: https://g.page/click-mais-photo-cabine?share\n\nA disponibilidade é preliminar para as datas consultadas.\nA data só é garantida após contrato e pagamento do sinal.\n\nGostaria de seguir com a tentativa de reserva para essa data?"
+    },
+    {
+      "execution_id": "8242",
+      "status": "success",
+      "origin": "lab_replay",
+      "fault_injection": null,
+      "availability": {
+        "status": "fully_booked",
+        "claim_authorized": false,
+        "reservation_prompt_authorized": false,
+        "checked_at": "2026-10-18T23:27:58.890-03:00",
+        "freshness_evidence": "live_trello_read_matches_supabase_for_all_event_dates",
+        "dates": [
+          {
+            "date": "2026-10-23",
+            "active_reservations": 0
+          },
+          {
+            "date": "2026-10-24",
+            "active_reservations": 3
+          },
+          {
+            "date": "2026-10-25",
+            "active_reservations": 0
+          }
+        ]
+      },
+      "amounts": {
+        "card": 6255,
+        "cash": 5129.1,
+        "deposit": 2564.55,
+        "balance": 2564.55
+      },
+      "dispatch_block": "LAB_REPLAY_NO_DISPATCH",
+      "message_text": "*ORÇAMENTO CORPORATIVO — Cabine de Fotos*\n📍 suzano\n📅 23/10/2026, 24/10/2026, 25/10/2026\n3 dia(s) · 2 período(s) de 4h por dia · 8h por dia\n\n💳 Cartão: *R$ 6.255,00*, em até 10x sem juros.\n💰 À vista: *R$ 5.129,10*.\n50% de sinal: *R$ 2.564,55*.\nSaldo no evento: *R$ 2.564,55*.\n\n*Inclusos:*\n• Fotos ilimitadas durante o período contratado.\n• Impressão instantânea em 10x15 cm.\n• Equipe presencial.\n• Designer incluso.\n• Moldura personalizada.\n• Entrega digital.\n• Equipamentos profissionais.\n\nConfira nossas avaliações no Google: https://g.page/click-mais-photo-cabine?share\n\nUma ou mais datas desse período estão lotadas. Este orçamento não confirma disponibilidade. Nossa equipe pode verificar outras datas.\nA data só é garantida após contrato e pagamento do sinal."
+    },
+    {
+      "execution_id": "8249",
+      "status": "success",
+      "origin": "lab_replay",
+      "fault_injection": "agenda_read_unavailable",
+      "availability": {
+        "status": "unknown",
+        "claim_authorized": false,
+        "reservation_prompt_authorized": false,
+        "reason": "AGENDA_SOURCE_READ_FAILED",
+        "checked_at": "2026-10-18T23:28:30.625-03:00",
+        "dates": [
+          {
+            "date": "2026-11-01",
+            "active_reservations": 0
+          },
+          {
+            "date": "2026-11-02",
+            "active_reservations": 0
+          },
+          {
+            "date": "2026-11-03",
+            "active_reservations": 0
+          }
+        ]
+      },
+      "amounts": {
+        "card": 6255,
+        "cash": 5129.1,
+        "deposit": 2564.55,
+        "balance": 2564.55
+      },
+      "dispatch_block": "LAB_REPLAY_NO_DISPATCH",
+      "message_text": "*ORÇAMENTO CORPORATIVO — Cabine de Fotos*\n📍 suzano\n📅 01/11/2026, 02/11/2026, 03/11/2026\n3 dia(s) · 2 período(s) de 4h por dia · 8h por dia\n\n💳 Cartão: *R$ 6.255,00*, em até 10x sem juros.\n💰 À vista: *R$ 5.129,10*.\n50% de sinal: *R$ 2.564,55*.\nSaldo no evento: *R$ 2.564,55*.\n\n*Inclusos:*\n• Fotos ilimitadas durante o período contratado.\n• Impressão instantânea em 10x15 cm.\n• Equipe presencial.\n• Designer incluso.\n• Moldura personalizada.\n• Entrega digital.\n• Equipamentos profissionais.\n\nConfira nossas avaliações no Google: https://g.page/click-mais-photo-cabine?share\n\nA disponibilidade ainda precisa ser confirmada pela equipe.\nA data só é garantida após contrato e pagamento do sinal."
+    },
+    {
+      "execution_id": "8364",
+      "status": "success",
+      "origin": "lab_replay",
+      "fault_injection": null,
+      "availability": {
+        "status": "preliminary_available",
+        "claim_authorized": true,
+        "reservation_prompt_authorized": true,
+        "checked_at": "2026-10-18T23:46:53.230-03:00",
+        "freshness_evidence": "live_trello_read_matches_supabase_for_all_event_dates",
+        "dates": [
+          {
+            "date": "2026-11-01",
+            "active_reservations": 0
+          },
+          {
+            "date": "2026-11-02",
+            "active_reservations": 0
+          },
+          {
+            "date": "2026-11-03",
+            "active_reservations": 0
+          }
+        ]
+      },
+      "amounts": {
+        "card": 6255,
+        "cash": 5129.1,
+        "deposit": 2564.55,
+        "balance": 2564.55
+      },
+      "dispatch_block": "LAB_REPLAY_NO_DISPATCH",
+      "message_text": "*ORÇAMENTO CORPORATIVO — Cabine de Fotos*\n📍 suzano\n📅 01/11/2026, 02/11/2026, 03/11/2026\n3 dia(s) · 2 período(s) de 4h por dia · 8h por dia\n\n💳 Cartão: *R$ 6.255,00*, em até 10x sem juros.\n💰 À vista: *R$ 5.129,10*.\n50% de sinal: *R$ 2.564,55*.\nSaldo no evento: *R$ 2.564,55*.\n\n*Inclusos:*\n• Fotos ilimitadas durante o período contratado.\n• Impressão instantânea em 10x15 cm.\n• Equipe presencial.\n• Designer incluso.\n• Moldura personalizada.\n• Entrega digital.\n• Equipamentos profissionais.\n\nConfira nossas avaliações no Google: https://g.page/click-mais-photo-cabine?share\n\nA disponibilidade é preliminar para as datas consultadas.\nA data só é garantida após contrato e pagamento do sinal.\n\nGostaria de seguir com a tentativa de reserva para essa data?"
+    }
+  ],
+  "qualification_sequence": [
+    {
+      "execution_id": "8386",
+      "input": "Quero cabine de fotos para aniversário da empresa",
+      "expected_next": "FLOW_CORPORATE_DAYS",
+      "next": "FLOW_CORPORATE_DAYS",
+      "text": "É um evento empresarial, certo. Quantos dias terá o evento?",
+      "status": "success",
+      "no_dispatch": true
+    },
+    {
+      "execution_id": "8388",
+      "input": "3",
+      "expected_next": "FLOW_CORPORATE_PERIODS",
+      "next": "FLOW_CORPORATE_PERIODS",
+      "text": "3 dia(s) de evento, certo. Quantos períodos de 4 horas serão necessários por dia: 1 (4h), 2 (8h) ou 3 (12h)?",
+      "status": "success",
+      "no_dispatch": true
+    },
+    {
+      "execution_id": "8389",
+      "input": "2",
+      "expected_next": "CLARIFY_CORPORATE_DATES",
+      "next": "CLARIFY_CORPORATE_DATES",
+      "text": "2 período(s) de 4 horas por dia, certo. Quais são as datas completas de todos os dias do evento (dia, mês e ano)?",
+      "status": "success",
+      "no_dispatch": true
+    },
+    {
+      "execution_id": "8390",
+      "input": "01/11/2026",
+      "expected_next": "CLARIFY_CORPORATE_DATES",
+      "next": "CLARIFY_CORPORATE_DATES",
+      "text": "Entendi as datas do evento. Já anotei a(s) data(s) informada(s). Quais são as datas restantes (dia, mês e ano)?",
+      "status": "success",
+      "no_dispatch": true
+    },
+    {
+      "execution_id": "8392",
+      "input": "02/11/2026 e 03/11/2026",
+      "expected_next": "FLOW_4_LOCALITY",
+      "next": "FLOW_4_LOCALITY",
+      "text": "Entendi as datas do evento. Em qual cidade ou região será o evento?",
+      "status": "success",
+      "no_dispatch": true
+    },
+    {
+      "execution_id": "8393",
+      "input": "Suzano",
+      "expected_next": "FLOW_5_READY",
+      "next": "FLOW_5_READY",
+      "text": "*ORÇAMENTO CORPORATIVO — Cabine de Fotos*\n📍 suzano\n📅 01/11/2026, 02/11/2026, 03/11/2026\n3 dia(s) · 2 período(s) de 4h por dia · 8h por dia\n\n💳 Cartão: *R$ 6.255,00*, em até 10x sem juros.\n💰 À vista: *R$ 5.129,10*.\n50% de sinal: *R$ 2.564,55*.\nSaldo no evento: *R$ 2.564,55*.\n\n*Inclusos:*\n• Fotos ilimitadas durante o período contratado.\n• Impressão instantânea em 10x15 cm.\n• Equipe presencial.\n• Designer incluso.\n• Moldura personalizada.\n• Entrega digital.\n• Equipamentos profissionais.\n\nConfira nossas avaliações no Google: https://g.page/click-mais-photo-cabine?share\n\nA disponibilidade é preliminar para as datas consultadas.\nA data só é garantida após contrato e pagamento do sinal.\n\nGostaria de seguir com a tentativa de reserva para essa data?",
+      "status": "success",
+      "no_dispatch": true
+    }
+  ],
+  "real_outbound_validation": {
+    "origin": "lab_operator_outbound_validation",
+    "synthetic_scenario": true,
+    "fabricated_inbound": false,
+    "used_existing_real_meta_window": true,
+    "execution_id": "8371",
+    "queue_status": "sent",
+    "attempts": 1,
+    "api_message_id_present": true,
+    "meta_delivery_status": "sent",
+    "quote_status": "presented",
+    "commercial_stage": "ORCAMENTO",
+    "lifecycle_stage": "quote_presented",
+    "literal_backslash_n": false
+  },
+  "isolation": {
+    "protected_active_reservations_2026_10_24": 3,
+    "agenda_rows": 17,
+    "new_databases": 0,
+    "new_workflows": 0,
+    "production_deployed": false,
+    "main_modified": false,
+    "merge_performed": false,
+    "service_role_only_rpcs": true
+  },
+  "remaining": {
+    "genuine_corporate_meta_inputs": 0,
+    "entry_e2e": "requires one authentic corporate inbound from allowlisted TEST recipient",
+    "delivery": "delivered/read not observed",
+    "test_session": "reset; empty context; no queued messages",
+    "background_execution": false
+  },
+  "security_advisors": {
+    "new_findings": 0,
+    "existing_info_rls_no_policy": 35
+  }
+}

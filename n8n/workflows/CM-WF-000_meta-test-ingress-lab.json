@@ -1,0 +1,387 @@
+{
+  "id": "iIAtpaRgvtssABsB",
+  "name": "[LAB][TESTE] Receber mensagem WhatsApp — classificação inicial",
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {}
+      },
+      "id": "c3b922a5-d3b9-4ea4-87b0-6e2a1f925245",
+      "name": "Receive WhatsApp test message",
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        320
+      ],
+      "webhookId": "eaa3a349-1077-4599-a937-4dcb3d749152"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const input = $json;\nconst payload = input.body ?? input.payload ?? input;\nconst value = payload?.entry?.[0]?.changes?.[0]?.value\n  ?? payload?.changes?.[0]?.value\n  ?? payload?.value\n  ?? payload;\nconst message = value?.messages?.[0] ?? input.message ?? null;\nconst contact = value?.contacts?.[0] ?? {};\nconst metadata = value?.metadata ?? {};\nconst blockers = [];\nif (!message?.id) blockers.push('EXTERNAL_MESSAGE_ID_MISSING');\nif (!message?.from && !contact?.wa_id) blockers.push('SENDER_ID_MISSING');\n\nconst normalize = (text) => String(text || '')\n  .normalize('NFD').replace(/[\\u0300-\\u036f]/g, '').toLowerCase()\n  .replace(/[^a-z0-9°\\s]/g, ' ').replace(/\\s+/g, ' ').trim();\nconst text = message?.type === 'text' ? (message?.text?.body ?? '') : '';\nconst normalized = normalize(text);\nconst services = new Set();\nconst evidence = [];\nconst ctaSignals = [];\n\nif (normalized.includes('gostaria de solicitar um orcamento')) {\n  evidence.push('CTA: solicitar orçamento'); ctaSignals.push('cta_promocao');\n}\nif (normalized.includes('quero um orcamento') || normalized.includes('quero orcamento')) {\n  evidence.push('CTA: orçamento'); ctaSignals.push('cta_orcamento');\n}\nif (normalized.includes('quero um atendimento 360')) {\n  services.add('plataforma_360'); evidence.push('CTA: atendimento 360'); ctaSignals.push('cta_360');\n}\nconst cabinMention = /\\bcabine de fotos?\\b/.test(normalized);\nconst cabinNegated = /\\b(nao quero|nao tenho interesse em|sem) (a )?cabine( de fotos?)?\\b/.test(normalized);\nif (cabinMention && !cabinNegated) { services.add('cabine_fotos'); evidence.push('palavra-chave: cabine de foto(s)'); }\nconst totemMention = /\\btotem( de fotos?)?\\b/.test(normalized);\nconst totemNegated = /\\b(nao quero|nao tenho interesse em|sem) (o )?totem( de fotos?)?\\b/.test(normalized);\nif (totemMention && !totemNegated) { services.add('totem_fotos'); evidence.push('palavra-chave: totem'); }\nconst platformMention = /\\bplataforma\\b|\\b360( graus|°)?\\b/.test(normalized);\nconst platformNegated = /\\b(nao quero|nao tenho interesse em|sem) (a )?plataforma\\b/.test(normalized);\nif (platformMention && !platformNegated) { services.add('plataforma_360'); evidence.push('palavra-chave: plataforma/360'); }\n\nconst interest = [...services].sort();\nconst greetingOnly = /^(oi|ola|bom dia|boa tarde|boa noite|tudo bem|oi tudo bem|ola tudo bem)$/.test(normalized);\nconst requiresJev = interest.length === 0 && normalized.length > 0 && !greetingOnly;\nreturn { json: {\n  accepted: blockers.length === 0, blockers,\n  message_context: {\n    contract_version: '1.0.0', event_type: 'message_received', channel: 'whatsapp', transport: 'meta_whatsapp',\n    external_message_id: message?.id ?? null, idempotency_key: message?.id ? 'meta:' + message.id : null,\n    sender_id: message?.from ?? contact?.wa_id ?? null, sender_display_name: contact?.profile?.name ?? null,\n    phone_number_id: metadata?.phone_number_id ?? null, message_type: message?.type ?? null,\n    text, occurred_at_unix: message?.timestamp ?? null\n  },\n  classification: {\n    product_interest: interest, interest_type: interest.length > 1 ? 'combo' : interest.length === 1 ? 'single' : 'not_identified',\n    cta_signals: [...new Set(ctaSignals)], evidence,\n    next_route: interest.length > 1 ? 'COMBO_BUSINESS_RULES' : interest.length === 1 ? 'SINGLE_PRODUCT_BUSINESS_RULES' :\n      requiresJev ? 'JEV_SEMANTIC_CLASSIFICATION' : 'INTRODUCTION_THEN_PRODUCT_QUESTION',\n    requires_jev: requiresJev\n  },\n  effects: { database_write: false, whatsapp_reply: false, quote_calculation: false }\n}};"
+      },
+      "id": "9b3f1825-1d2b-4bc0-9ad1-593f125566dd",
+      "name": "Normalize and classify without replying",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        464,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.classification.requires_jev }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            },
+            {
+              "leftValue": "={{ $json.message_context.phone_number_id }}",
+              "rightValue": "1350381714825884",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6cdb5fac-093c-4136-9c1a-36b4c4cc9e22",
+      "name": "Route unresolved messages to JEV",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        688,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://openrouter.ai/api/alpha/decisions",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openRouterApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { model: 'typesafe/jev-1.13', state: { message: $json.message_context.text, channel: 'whatsapp' }, questions: { product_interest: { type: 'choice', instructions: 'Identifique a intenção de contratação expressa pelo cliente. Considere o texto integral, respeite negações, não infira interesse só por uma pergunta genérica. Escolha uma opção que represente exatamente os produtos desejados.', criteria: { cabine_fotos: 'Quer contratar ou receber orçamento de cabine de fotos, sem outro produto', totem_fotos: 'Quer contratar ou receber orçamento de totem de fotos, sem outro produto', plataforma_360: 'Quer contratar ou receber orçamento de plataforma 360, sem outro produto', combo_cabine_plataforma: 'Quer cabine de fotos e plataforma 360', combo_cabine_totem: 'Quer cabine de fotos e totem de fotos', combo_totem_plataforma: 'Quer totem de fotos e plataforma 360', combo_todos: 'Quer cabine, totem e plataforma 360', sem_interesse_claro: 'Não há intenção clara de contratar produto, é apenas saudação ou pergunta geral, ou a mensagem não esclarece o que quer' } } } } }}",
+        "options": {
+          "response": {}
+        }
+      },
+      "id": "daaf75bd-a13f-4b6b-9b65-488cfdeee2d0",
+      "name": "JEV Decision Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        912,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const response = $json;\nconst answer = response?.answers?.product_interest ?? {};\nconst choice = answer.choice ?? null;\nconst confidence = Number(answer.confidence ?? 0);\nconst serviceMap = {\n  cabine_fotos: ['cabine_fotos'],\n  totem_fotos: ['totem_fotos'],\n  plataforma_360: ['plataforma_360'],\n  combo_cabine_plataforma: ['cabine_fotos', 'plataforma_360'],\n  combo_cabine_totem: ['cabine_fotos', 'totem_fotos'],\n  combo_totem_plataforma: ['totem_fotos', 'plataforma_360'],\n  combo_todos: ['cabine_fotos', 'totem_fotos', 'plataforma_360']\n};\nconst threshold = 0.8;\nconst productInterest = confidence >= threshold ? (serviceMap[choice] ?? []) : [];\nconst kind = productInterest.length > 1 ? 'combo' : productInterest.length === 1 ? 'single' : 'not_identified';\nconst route = kind === 'combo' ? 'COMBO_BUSINESS_RULES' :\n  kind === 'single' ? 'SINGLE_PRODUCT_BUSINESS_RULES' : 'INTRODUCTION_THEN_PRODUCT_QUESTION';\nreturn { json: {\n  classification: {\n    product_interest: productInterest,\n    interest_type: kind,\n    next_route: route,\n    requires_clarification: kind === 'not_identified',\n    jev_choice: choice,\n    jev_confidence: confidence,\n    confidence_threshold: threshold\n  },\n  jev: {\n    id: response?.id ?? null,\n    model: response?.model ?? 'typesafe/jev-1.13',\n    provider: response?.provider ?? null,\n    usage: response?.usage ?? null\n  },\n  effects: { database_write: false, whatsapp_reply: false, quote_calculation: false }\n}};"
+      },
+      "id": "06be195a-a78e-4c43-bdf4-c08b09a5481d",
+      "name": "Map JEV result to test route",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1136,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.accepted }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            },
+            {
+              "leftValue": "={{ $json.message_context.phone_number_id }}",
+              "rightValue": "1350381714825884",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "leftValue": "={{ String($json.message_context.sender_id ?? '').replace(/\\D/g,'') }}",
+              "rightValue": "5511956390586",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "9f7397bd-427c-4e98-95c6-f586b25fb2fa",
+      "name": "Somente numero Meta de teste",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        688,
+        416
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const m=$json.message_context??{};return {json:{sender_id:m.sender_id??null,message_id:m.external_message_id??null,text:m.text??'',message_type:m.message_type??null,phone_number_id:m.phone_number_id??null,occurred_at:m.occurred_at_unix??null,transport_origin:'meta_webhook',flow1_test_source:'existing_meta_sandbox',outbound_enabled:false}};"
+      },
+      "id": "0f898bbf-4b3d-4a2c-afbf-fcb0944506b4",
+      "name": "Encaminhar evento normalizado ao Flow1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        912,
+        416
+      ]
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "3RAuwFaHIaZvOMjU"
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "id": "73b08337-aba3-4d67-908a-17d66cb84434",
+      "name": "Executar Flow1 sem envio",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1136,
+        416
+      ]
+    },
+    {
+      "id": "cmc-meta-status-gate-v1",
+      "name": "Webhook contains Meta status?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        450,
+        40
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ (($json.body ?? $json.payload ?? $json).entry?.[0]?.changes?.[0]?.value ?? ($json.body ?? $json.payload ?? $json).changes?.[0]?.value ?? ($json.body ?? $json.payload ?? $json).value ?? ($json.body ?? $json.payload ?? $json)).statuses?.length > 0 }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "cmc-meta-status-normalize-v1",
+      "name": "Normalize Meta delivery status",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        700,
+        -120
+      ],
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "language": "javaScript",
+        "jsCode": "const input=$json;const payload=input.body??input.payload??input;const value=payload?.entry?.[0]?.changes?.[0]?.value??payload?.changes?.[0]?.value??payload?.value??payload;const s=value?.statuses?.[0];if(!s?.id||!['sent','delivered','read','failed'].includes(s?.status))throw new Error('invalid_meta_status_callback');return {json:{meta_message_id:s.id,status:s.status,timestamp:s.timestamp??null,recipient_id:s.recipient_id??null,error:s.errors?.[0]?{code:s.errors[0].code,title:s.errors[0].title,message:s.errors[0].message,details:s.errors[0].error_data?.details??null}:null}};"
+      }
+    },
+    {
+      "id": "cmc-meta-status-persist-v1",
+      "name": "Supabase TEST — persistir status Meta",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        970,
+        -120
+      ],
+      "parameters": {
+        "method": "PATCH",
+        "url": "=https://tsuuqcodmyuwqxfwevps.supabase.co/rest/v1/cmc_test_outbound_queue?meta_message_id=eq.{{ encodeURIComponent($json.meta_message_id) }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "supabaseApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Prefer",
+              "value": "return=representation"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {meta_delivery_status:$json.status,meta_delivery_error:$json.error,meta_status_at:$now.toISO(),...($json.status === 'failed' ? {status:'failed',last_error:String($json.error?.message ?? 'Meta delivery failed').slice(0,1000)} : {})} }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Normalize and classify without replying": {
+      "main": [
+        [
+          {
+            "node": "Route unresolved messages to JEV",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Somente numero Meta de teste",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route unresolved messages to JEV": {
+      "main": [
+        [
+          {
+            "node": "JEV Decision Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "JEV Decision Request": {
+      "main": [
+        [
+          {
+            "node": "Map JEV result to test route",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Somente numero Meta de teste": {
+      "main": [
+        [
+          {
+            "node": "Encaminhar evento normalizado ao Flow1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Encaminhar evento normalizado ao Flow1": {
+      "main": [
+        [
+          {
+            "node": "Executar Flow1 sem envio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Receive WhatsApp test message": {
+      "main": [
+        [
+          {
+            "node": "Webhook contains Meta status?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook contains Meta status?": {
+      "main": [
+        [
+          {
+            "node": "Normalize Meta delivery status",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Normalize and classify without replying",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Meta delivery status": {
+      "main": [
+        [
+          {
+            "node": "Supabase TEST — persistir status Meta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "binaryMode": "separate"
+  },
+  "nodeGroups": []
+}
+

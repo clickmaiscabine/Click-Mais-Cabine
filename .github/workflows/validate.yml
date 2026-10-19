@@ -27,10 +27,12 @@ jobs:
         with:
           node-version: "22"
       - name: Test JavaScript business rules
-        run: node --test src/functions/*.test.cjs
+        run: node --test src/functions/*.test.cjs tests/event-purpose-v1.test.cjs
       - name: Check generated Quote Engine
         run: node scripts/build-quote-engine.mjs --check
       - name: Test Quote Engine and social regression
         run: node --test tests/f2/*.test.mjs tests/f4/*.test.mjs tests/quote-engine/*.test.mjs
+      - name: Check generated corporate harness
+        run: node scripts/build-corporate-harness.mjs --check
       - name: Verify recorded n8n LAB execution
         run: node scripts/verify-quote-engine-lab.mjs
