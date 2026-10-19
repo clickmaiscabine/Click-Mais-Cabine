@@ -1,7 +1,7 @@
 # BR-002 — Precificação corporativa Click Mais
 
 **Status comercial:** homologated, aprovado pelo responsável em 18/10/2026.  
-**Status de integração:** código preparado e testado localmente, NÃO implantado em n8n/WhatsApp/Supabase de produção.  
+**Status de integração:** motor integrado e testado isoladamente em n8n LAB no Turno 2; NÃO publicado nem conectado ao atendimento completo. Produção preservada. Ver [evidências](../06_testes/BR002_TURNO2_IMPLEMENTACAO.md).
 **Escopo:** eventos corporativos, sem alterar preços do fluxo social.  
 **Documento oficial no Drive:** https://docs.google.com/document/d/1Z--hPmKF7uRZ79BB7z39GGU0FP3km3IyvqzfKzPvn1Y/edit  
 **Fonte canônica da faixa:** [01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI.txt](https://drive.google.com/file/d/1ZkoS54blFcWQxC66OTnHuI9ZBu_ErFmH/view?usp=drivesdk), arquivo Drive de ID `1ZkoS54blFcWQxC66OTnHuI9ZBu_ErFmH`.

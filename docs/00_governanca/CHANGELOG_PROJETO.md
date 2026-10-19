@@ -1,5 +1,13 @@
 # Changelog do Projeto — Click Mais OS
 
+## 2026-10-18 — BR-002 integrada ao Quote Engine LAB (Turno 2)
+
+- Atualizado somente o CM-WF-030 LAB existente, mantido não publicado e com dois nós.
+- Seleção social/corporativa com reutilização do módulo BR-002; biblioteca F2 recuperada sem alteração.
+- Lookup corporativo conferido com revisão oficial e hash; guardas para inconsistências e exceções.
+- 242 testes locais aprovados e seis cenários no n8n, execução 7443; evidências versionadas.
+- F1, apresentação, fila e E2E corporativos permanecem nos Turnos 3–5; produção preservada.
+
 ## 2026-10-18 — Precificação corporativa homologada (BR-002)
 
 - Registrada DEC-017 e BR-002 para eventos corporativos: 1, 2 ou 3 períodos de 4h/dia; multiplicadores 1,0, 1,5 e 2,0; multiplicação pelo número de dias.

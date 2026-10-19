@@ -47,7 +47,15 @@
         "status": "homologated"
       }
     ],
-    "workflows": [],
+    "workflows": [
+      {
+        "id": "CM-WF-030-LAB-BR002",
+        "path": "n8n/workflows/f4/CM-WF-030.lab.json",
+        "status": "review",
+        "runtime_id": "3LlqxQwA5JZBoaZd",
+        "published": false
+      }
+    ],
     "subflows": [],
     "workflow_specs": [
       {
@@ -280,6 +288,11 @@
         "id": "policies",
         "path": "knowledge/policies.md",
         "status": "draft"
+      },
+      {
+        "id": "br002-official-pricing-snapshot",
+        "path": "knowledge/sources/localidades-precos.provenance.json",
+        "status": "review"
       }
     ],
     "tooling": [
@@ -292,6 +305,16 @@
         "id": "github-validation-workflow",
         "path": ".github/workflows/validate.yml",
         "status": "homologated"
+      },
+      {
+        "id": "quote-engine-generator",
+        "path": "scripts/build-quote-engine.mjs",
+        "status": "review"
+      },
+      {
+        "id": "quote-engine-lab-verifier",
+        "path": "scripts/verify-quote-engine-lab.mjs",
+        "status": "review"
       }
     ],
     "security_docs": [
@@ -299,6 +322,23 @@
         "id": "meta-token-handoff",
         "path": "docs/05_seguranca/META_TOKEN_HANDOFF.md",
         "status": "development"
+      }
+    ],
+    "quote_engine": [
+      {
+        "id": "quote-engine-adapter",
+        "path": "src/adapters/quote-engine.mjs",
+        "status": "review"
+      },
+      {
+        "id": "quote-engine-turn2-report",
+        "path": "docs/06_testes/BR002_TURNO2_IMPLEMENTACAO.md",
+        "status": "review"
+      },
+      {
+        "id": "quote-engine-turn2-evidence",
+        "path": "docs/06_testes/BR002_TURNO2_EVIDENCIAS.json",
+        "status": "review"
       }
     ]
   }

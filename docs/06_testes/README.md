@@ -15,3 +15,9 @@ A implementação deverá prever:
 - casos adversos;
 - shadow mode antes de envio automático;
 - liberação gradual de rotas.
+
+## BR-002 — integração corporativa em LAB
+
+- [Turno 1: reconciliação](BR002_TURNO1_RECONCILIACAO.md).
+- [Turno 2: implementação e resultados](BR002_TURNO2_IMPLEMENTACAO.md).
+- [Evidências do Turno 2](BR002_TURNO2_EVIDENCIAS.json).
