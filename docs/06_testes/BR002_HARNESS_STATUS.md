@@ -4,6 +4,7 @@ Status: development
 
 - Base conferida: PR #24, commit 475a16c48f59eb03949a2f81fdf618d9c848b8f8.
 - Checkpoint inicial versionado: 1271c2a7c8a75b0158bf6851cb4a55ff47bf2c3d.
+- Commit de implementação dos Turnos 3–5: 170c34d6300207f0d72a143d597560eb169e3034.
 - [x] Turno 3: taxonomia canônica, qualificação cumulativa, conflitos e handoff BR-001.
 - [x] Turno 4: todas as datas, reconciliação da agenda, snapshot, idempotência e bloqueios humanos.
 - [x] Turno 5: apresentação corporativa, persistência e fila conectadas; um envio real TEST confirmado pela API e callback `sent`.
@@ -12,6 +13,7 @@ Status: development
 - Agenda de 24/10/2026: três reservas ativas, protegidas contra alterações.
 - Migrações aplicadas: 20261019021639, 20261019022018, 20261019022334, 20261019024546.
 - Testes: 404 JavaScript aprovados, zero falhas; guardas SQL com rollback aprovadas. Regressão social preservada.
+- GitHub Actions do commit de implementação: execução 39192347703 concluída com sucesso.
 - Execuções: replays 8228 (preliminar), 8242 (lotado), 8249 (falha injetada), 8364 (final); coleta sequencial 8386/8388/8389/8390/8392/8393; saída real 8371, uma tentativa.
 - Falha/limite observado: zero mensagens corporativas autênticas no histórico Meta consultado. Replays são `lab_replay`, não abrem janela Meta e não têm envio automático.
 - Sessão TEST reinicializada pelo mecanismo existente; fila sem pendências. Auditoria preservada.

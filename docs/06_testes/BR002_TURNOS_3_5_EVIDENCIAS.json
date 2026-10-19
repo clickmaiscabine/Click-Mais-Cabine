@@ -283,5 +283,11 @@
   "security_advisors": {
     "new_findings": 0,
     "existing_info_rls_no_policy": 35
+  },
+  "implementation_commit": "170c34d6300207f0d72a143d597560eb169e3034",
+  "github_actions": {
+    "run_id": 39192347703,
+    "conclusion": "success",
+    "commit": "170c34d6300207f0d72a143d597560eb169e3034"
   }
 }

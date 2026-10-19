@@ -45,6 +45,7 @@ Execução do dispatcher **8371**, uma tentativa, ID de mensagem retornado pela 
 ## Testes e segurança
 
 - **404 testes JavaScript aprovados, zero falhas**, incluindo os 242 anteriores, 111 de taxonomia e 51 de qualificação/apresentação/contratos de runtime.
+- Código versionado em `170c34d6300207f0d72a143d597560eb169e3034`; [GitHub Actions 39192347703](https://github.com/clickmaiscabine/Click-Mais-Cabine/actions/runs/39192347703) concluído com sucesso.
 - `tests/quote-engine/corporate-persistence.sql`: verificações em transação revertida para prontidão, procedência, todas as datas, replay sem envio, duplicatas de entrada/orçamento, input obsoleto, formatação, bloqueios humanos na resposta/fila/claim, handoff real e disparo incerto. Nenhuma fixture permaneceu após rollback.
 - Resposta social comparada integralmente com os componentes anteriores; precificação social e módulo BR-002 não foram alterados.
 - Cinco RPCs verificadas: execução vedada a `anon`/`authenticated`, permitida a `service_role`. Constraints da fila fixam número Meta TEST e destinatário autorizado. Nenhuma credencial exportada nos workflows; imports exigem vincular as credenciais existentes por interface.
