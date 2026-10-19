@@ -1,5 +1,12 @@
 # Changelog do Projeto — Click Mais OS
 
+## 2026-10-19 — E2E corporativo autêntico concluído em LAB
+
+- Mensagem real do destinatário autorizado às 14h47 percorreu ingresso 13783, F1 13784 e dispatcher 13788; uma tentativa, um orçamento e entrega `delivered`.
+- BR-002 exata, todas as datas consultadas, apresentação sem quebras literais e estado persistido como `presented`/`ORCAMENTO`.
+- Encerrada a pendência de entrada autêntica do checkpoint anterior. Sessão preservada; produção e reservas intactas; PR continua em rascunho.
+- Aceite posterior não duplica o orçamento. O fluxo após aceite para reserva/contrato está fora dos Turnos 3–5 e não foi implementado nesta entrega.
+
 ## 2026-10-19 — BR-002, qualificação, agenda e apresentação em LAB
 
 - F1 corporativo cumulativo conectado ao motor existente, com todas as datas e reconciliação da agenda sem modificar reservas.

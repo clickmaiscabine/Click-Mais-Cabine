@@ -1,7 +1,7 @@
 # BR-002 — Precificação corporativa Click Mais
 
 **Status comercial:** homologated, aprovado pelo responsável em 18/10/2026.  
-**Status de integração:** qualificação, disponibilidade, motor, apresentação e fila conectados exclusivamente em LAB / Meta TEST; saída real confirmada como `sent`. Entrada corporativa genuína e E2E completo ainda pendentes. Produção preservada. Ver [relatório atual](../06_testes/BR002_TURNOS_3_5_IMPLEMENTACAO.md) e [evidências históricas do Turno 2](../06_testes/BR002_TURNO2_IMPLEMENTACAO.md).
+**Status de integração:** qualificação, disponibilidade, motor, apresentação e fila validados ponta a ponta em LAB / Meta TEST em 19/10/2026, com entrada corporativa autêntica e confirmação de entrega `delivered`. Produção preservada. Ver [relatório atual](../06_testes/BR002_TURNOS_3_5_IMPLEMENTACAO.md) e [evidências históricas do Turno 2](../06_testes/BR002_TURNO2_IMPLEMENTACAO.md).
 **Escopo:** eventos corporativos, sem alterar preços do fluxo social.  
 **Documento oficial no Drive:** https://docs.google.com/document/d/1Z--hPmKF7uRZ79BB7z39GGU0FP3km3IyvqzfKzPvn1Y/edit  
 **Fonte canônica da faixa:** [01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI.txt](https://drive.google.com/file/d/1ZkoS54blFcWQxC66OTnHuI9ZBu_ErFmH/view?usp=drivesdk), arquivo Drive de ID `1ZkoS54blFcWQxC66OTnHuI9ZBu_ErFmH`.
