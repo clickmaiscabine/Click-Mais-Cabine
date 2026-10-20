@@ -1,0 +1,211 @@
+{
+  "status": "review",
+  "inspected_at": "2026-10-18T22:49:46Z",
+  "scope": "turn_1_read_only_runtime_reconciliation",
+  "repository": "clickmaiscabine/Click-Mais-Cabine",
+  "pr": {
+    "number": 23,
+    "state": "open",
+    "draft": true,
+    "head": "c913e7e51fc6ddcfc700b05b01fc198b92bf0e92",
+    "base": "047297d54d26620c73076d68ade3e55dcf29977b"
+  },
+  "pricing": {
+    "file_id": "1ZkoS54blFcWQxC66OTnHuI9ZBu_ErFmH",
+    "revision": "0B6VWt3lEydcWUFVOSTYrS0RESm9NRERaUUpBNzNMUm9IcG4wPQ",
+    "bases": [
+      1190,
+      1290,
+      1390,
+      1490,
+      1590,
+      1690,
+      1790,
+      1890
+    ]
+  },
+  "workflows": [
+    {
+      "id": "iIAtpaRgvtssABsB",
+      "name": "[LAB][TESTE] Receber mensagem WhatsApp — classificação inicial",
+      "active": true,
+      "updated_at": "2026-10-18T04:09:34.168Z",
+      "version_id": "27086270-1f9d-40d0-bed8-ac8304e58705",
+      "active_version_id": "27086270-1f9d-40d0-bed8-ac8304e58705",
+      "same_as_draft": true,
+      "node_names": [
+        "Receive WhatsApp test message",
+        "Normalize and classify without replying",
+        "Route unresolved messages to JEV",
+        "JEV Decision Request",
+        "Map JEV result to test route",
+        "Somente numero Meta de teste",
+        "Encaminhar evento normalizado ao Flow1",
+        "Executar Flow1 sem envio",
+        "Webhook contains Meta status?",
+        "Normalize Meta delivery status",
+        "Supabase TEST — persistir status Meta"
+      ]
+    },
+    {
+      "id": "3RAuwFaHIaZvOMjU",
+      "name": "[LAB] Click — orçamento F1 + Supabase + JEV (sem respostas)",
+      "active": true,
+      "updated_at": "2026-10-16T03:09:28.484Z",
+      "version_id": "73e49c2d-f0c1-4ef0-a075-73cdff7e43c7",
+      "active_version_id": "73e49c2d-f0c1-4ef0-a075-73cdff7e43c7",
+      "same_as_draft": true,
+      "node_names": [
+        "Manual — casos simulados",
+        "Normalizar WhatsApp",
+        "Mensagem válida?",
+        "FLOW1 — extrair dados",
+        "JEV necessário?",
+        "JEV 1.13 — desambiguar",
+        "Validar resposta JEV",
+        "Supabase — aplicar ficha atomicamente",
+        "Roteador — preparar próximo flow",
+        "Descartar mensagem inválida",
+        "Supabase — carregar ficha persistente",
+        "Restaurar contexto persistente",
+        "Montar requisição JEV",
+        "Entrada via orquestrador Meta"
+      ]
+    },
+    {
+      "id": "3LlqxQwA5JZBoaZd",
+      "name": "[LAB][F4] CM-WF-030 Quote Engine",
+      "active": false,
+      "updated_at": "2026-10-06T01:42:56.644Z",
+      "version_id": "34bd8b75-6366-42e9-8d17-4650438b9fe0",
+      "active_version_id": null,
+      "same_as_draft": null,
+      "node_names": [
+        "Receive Quote Context",
+        "Run F2 Quote Kernel"
+      ]
+    },
+    {
+      "id": "q1ac0eQAPGcyAimY",
+      "name": "[LAB][F4] CM-WF-031 Quote Presentation",
+      "active": false,
+      "updated_at": "2026-10-06T01:43:56.478Z",
+      "version_id": "f9f13b60-b6b7-4bad-9d0a-041f13b11aef",
+      "active_version_id": null,
+      "same_as_draft": null,
+      "node_names": [
+        "Receive QuoteResult",
+        "Prepare Quote Presentation"
+      ]
+    },
+    {
+      "id": "JVZIPknnB7iIwcxi",
+      "name": "[LAB][TESTE] Click Mais — fila persistente WhatsApp",
+      "active": true,
+      "updated_at": "2026-10-18T02:55:06.788Z",
+      "version_id": "ebee6cc8-c2ab-4e75-9e09-29ad4ff8a2eb",
+      "active_version_id": "ebee6cc8-c2ab-4e75-9e09-29ad4ff8a2eb",
+      "same_as_draft": true,
+      "node_names": [
+        "TEST — fila a cada 10 segundos",
+        "Supabase — reivindicar próximo envio TEST",
+        "Há mensagem reivindicada?",
+        "Imagem ou texto?",
+        "Meta TEST — enviar imagem",
+        "Supabase — gravar confirmação Meta (imagem)",
+        "Meta TEST — enviar texto",
+        "Supabase — gravar confirmação Meta (texto)",
+        "Supabase — reagendar envio falho TEST"
+      ]
+    },
+    {
+      "id": "xM4kkGHmZKVPCIKj",
+      "name": "[LAB][TEST] Reiniciar sessão Meta TEST",
+      "active": false,
+      "updated_at": "2026-10-18T04:18:21.902Z",
+      "version_id": "d6b3ae5a-1871-4876-a211-3d746bcf0750",
+      "active_version_id": null,
+      "same_as_draft": null,
+      "node_names": [
+        "Iniciar limpeza da sessão TEST",
+        "Supabase — resetar estado do telefone TEST",
+        "Sticky Note 61526e05"
+      ]
+    },
+    {
+      "id": "iExoGUJ4CgBTXcWP",
+      "name": "[CMC] Agenda Trello → Supabase | 15h e 23h",
+      "active": true,
+      "updated_at": "2026-10-16T06:57:45.438Z",
+      "version_id": "12751c80-f0a2-48b1-8da6-8afe5a090709",
+      "active_version_id": "12751c80-f0a2-48b1-8da6-8afe5a090709",
+      "same_as_draft": true,
+      "node_names": [
+        "Cron 15h e 23h",
+        "Trello - Contratos em andamento",
+        "Supabase - Espelho atual",
+        "Planejar sincronizacao",
+        "Criar ou atualizar?",
+        "Supabase - Criar reserva",
+        "Supabase - Atualizar reserva"
+      ]
+    }
+  ],
+  "observed_executions": [
+    {
+      "workflow_id": "3RAuwFaHIaZvOMjU",
+      "id": "367",
+      "parent_id": "366",
+      "status": "success",
+      "terminal_node": "Roteador — preparar próximo flow",
+      "next_flow": "FLOW_5_READY",
+      "ready_for_price": true,
+      "auto_send": false
+    },
+    {
+      "workflow_id": "iExoGUJ4CgBTXcWP",
+      "id": "5187",
+      "status": "success",
+      "started_at": "2026-10-18T18:00:00.026Z",
+      "planned_mutations": 0
+    }
+  ],
+  "database": {
+    "project_id": "tsuuqcodmyuwqxfwevps",
+    "catalog_localities": 234,
+    "agenda_rows": 17,
+    "active_reservations_2026_10_24": 3,
+    "latest_agenda_row_update": "2026-10-16T06:57:57.899Z",
+    "queue": {
+      "sent": 20,
+      "cancelled": 5,
+      "pending": 0,
+      "processing": 0,
+      "failed": 0
+    },
+    "followups_rows": 0
+  },
+  "verification": {
+    "corporate_tests": 44,
+    "f2_tests": 47,
+    "total": 91,
+    "passed": 91,
+    "failed": 0,
+    "command": "node --test src/functions/corporate-pricing.test.cjs tests/f2/deterministic-library.test.mjs",
+    "f2_source_commit": "9c17bcb226a30706ed5d2094452431592850597f",
+    "runtime_kernel_equal_to_versioned_source": true,
+    "github_actions_run": 39172719356,
+    "github_actions_job": 117808960163,
+    "github_actions_conclusion": "success",
+    "e2e_executed": false
+  },
+  "mutations": {
+    "runtime": false,
+    "main": false,
+    "pr_23": false,
+    "real_reservations": false,
+    "whatsapp": false,
+    "trello": false,
+    "documentation_only_isolated_branch": true
+  }
+}

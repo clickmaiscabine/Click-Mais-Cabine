@@ -1,0 +1,1189 @@
+{
+  "status": "review",
+  "scope": "Turno 2 — Quote Engine isolado em LAB",
+  "workflow_id": "3LlqxQwA5JZBoaZd",
+  "workflow_version_tested": "e3738c86-c58b-4301-8edf-689fa0656ce6",
+  "workflow_active": false,
+  "execution_id": "7443",
+  "execution_status": "success",
+  "pin_data_only_on": [
+    "Receive Quote Context"
+  ],
+  "real_nodes_executed": [
+    "Run F2 Quote Kernel"
+  ],
+  "catalog_source": "Supabase SELECT (catalog.localities, locality_aliases, pricing_tiers, services)",
+  "cases": [
+    {
+      "case_id": "corporate_acceptance_1",
+      "input": {
+        "facts": {
+          "event_type": "empresarial",
+          "service_interest": [
+            "cabine_fotos"
+          ],
+          "locality": "suzano",
+          "dias_evento": 3,
+          "periodos_por_dia": 2,
+          "data_inicio": "2026-11-01",
+          "data_fim": "2026-11-03"
+        },
+        "reference_date": "2026-10-18",
+        "localities": [
+          {
+            "id": "dfdc9988-8ea4-439d-ae35-1a2aab555ce3",
+            "status": "active",
+            "canonical_name": "mogi das cruzes",
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI",
+            "normalized_name": "mogi das cruzes",
+            "pricing_tier_id": "812c2f4d-a9d1-427d-9716-b8bd4957f27b"
+          },
+          {
+            "id": "ee1906bc-5390-4762-b3ed-20bb714b6151",
+            "status": "active",
+            "canonical_name": "suzano",
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI",
+            "normalized_name": "suzano",
+            "pricing_tier_id": "c747c325-e20b-4607-88e4-9576e3b0a3d5"
+          }
+        ],
+        "locality_aliases": [
+          {
+            "alias": "mogi",
+            "active": true,
+            "locality_id": "dfdc9988-8ea4-439d-ae35-1a2aab555ce3",
+            "normalized_alias": "mogi"
+          }
+        ],
+        "pricing_tiers": [
+          {
+            "id": "812c2f4d-a9d1-427d-9716-b8bd4957f27b",
+            "code": "T1190",
+            "pix_base": 1190,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "c1441bf3-860b-4949-b8ad-83d79bbbcfa3",
+            "code": "T1290",
+            "pix_base": 1290,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "c747c325-e20b-4607-88e4-9576e3b0a3d5",
+            "code": "T1390",
+            "pix_base": 1390,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "0c4c3c02-69c5-49db-91cb-a44af73bb8c4",
+            "code": "T1490",
+            "pix_base": 1490,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "f055bbba-4905-4e90-af75-14985b16d38a",
+            "code": "T1590",
+            "pix_base": 1590,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "51d42963-9878-44e4-a0e1-8446bdf530fb",
+            "code": "T1690",
+            "pix_base": 1690,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "e8794b0a-129e-42d6-b134-0b62148fdb0b",
+            "code": "T1790",
+            "pix_base": 1790,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "aa974c95-618e-4227-b9d5-442d4aa18bb5",
+            "code": "T1890",
+            "pix_base": 1890,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          }
+        ],
+        "services": [
+          {
+            "code": "cabine_fotos",
+            "category": "main",
+            "quoteableAutomatically": true,
+            "active": true,
+            "quantity": 1
+          }
+        ],
+        "rule_set": {
+          "version": "2026-10-05",
+          "cardSurchargeRate": 0.18,
+          "cardRoundUpMultiple": 10,
+          "comboSecondMainDiscountRate": 0.5
+        },
+        "pricing_source": {
+          "file_id": "1ZkoS54blFcWQxC66OTnHuI9ZBu_ErFmH",
+          "revision_id": "0B6VWt3lEydcWUFVOSTYrS0RESm9NRERaUUpBNzNMUm9IcG4wPQ"
+        }
+      },
+      "output": {
+        "contract_version": "1.1.0",
+        "source_component": "F2+BR-002",
+        "status": "ready",
+        "locality_result": {
+          "status": "resolved",
+          "humanLock": false,
+          "reasonCode": null,
+          "normalizedInput": "suzano",
+          "matchType": "canonical",
+          "locality": {
+            "localityId": "ee1906bc-5390-4762-b3ed-20bb714b6151",
+            "canonicalName": "suzano",
+            "normalizedName": "suzano",
+            "pricingTierId": "c747c325-e20b-4607-88e4-9576e3b0a3d5",
+            "status": "active"
+          }
+        },
+        "readiness": {
+          "ready": true,
+          "status": "ready",
+          "humanRequired": false,
+          "blockers": []
+        },
+        "date_policy": {
+          "status": "ok",
+          "window": "CORPORATE_BR_002",
+          "automaticPixDiscountPerMain": 0,
+          "gift": {
+            "eligible": false,
+            "serviceCode": null,
+            "commercialValue": null
+          },
+          "followupDelayHours": null
+        },
+        "quote_result": {
+          "status": "ready",
+          "humanRequired": false,
+          "blockers": [],
+          "pricingRuleVersion": "BR-002@1.0",
+          "comboApplied": false,
+          "promotionApplied": false,
+          "items": [
+            {
+              "lineType": "main",
+              "serviceCode": "cabine_fotos",
+              "basePix": 1390,
+              "promotionDiscount": 0,
+              "comboDiscount": 0,
+              "finalPix": 5129.1,
+              "ruleRefs": [
+                "BR-002",
+                "DEC-017"
+              ]
+            }
+          ],
+          "totals": {
+            "pix": 5129.1,
+            "card": 6255
+          },
+          "customerVisible": {
+            "pix": 5129.1,
+            "card": 6255
+          },
+          "corporate": {
+            "dias_evento": 3,
+            "periodos_por_dia": 2,
+            "horas_por_dia": 8,
+            "multiplicador": 1.5,
+            "valor_1_dia": 2085,
+            "valor_total": 6255,
+            "valor_parcelado": 6255,
+            "valor_avista": 5129.1,
+            "sinal_50": 2564.55,
+            "saldo_no_evento": 2564.55,
+            "schedule": {
+              "data_inicio": "2026-11-01",
+              "data_fim": "2026-11-03",
+              "dias_evento": 3
+            }
+          },
+          "pricing_source": {
+            "file_id": "1ZkoS54blFcWQxC66OTnHuI9ZBu_ErFmH",
+            "url": "https://drive.google.com/file/d/1ZkoS54blFcWQxC66OTnHuI9ZBu_ErFmH/view",
+            "revision_id": "0B6VWt3lEydcWUFVOSTYrS0RESm9NRERaUUpBNzNMUm9IcG4wPQ",
+            "sha256": "ff58f5c02796e070eaa8d898df777b7b110f3339361b115aa740e135c4c226bb",
+            "catalog_source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI",
+            "locality_id": "ee1906bc-5390-4762-b3ed-20bb714b6151",
+            "tier_id": "c747c325-e20b-4607-88e4-9576e3b0a3d5",
+            "tier_code": "T1390"
+          },
+          "availability": {
+            "status": "not_checked",
+            "claim_authorized": false
+          },
+          "presentation_requires": "corporate_presentation_v1"
+        },
+        "requested_actions": [
+          {
+            "action": "RECORD_QUOTE"
+          },
+          {
+            "action": "EMIT_EVENT",
+            "event_type": "quote_generated"
+          }
+        ],
+        "blockers": []
+      }
+    },
+    {
+      "case_id": "corporate_acceptance_2",
+      "input": {
+        "facts": {
+          "event_type": "empresarial",
+          "service_interest": [
+            "cabine_fotos"
+          ],
+          "locality": "mogi",
+          "dias_evento": 1,
+          "periodos_por_dia": 3,
+          "data_inicio": "2026-11-01",
+          "data_fim": "2026-11-01"
+        },
+        "reference_date": "2026-10-18",
+        "localities": [
+          {
+            "id": "dfdc9988-8ea4-439d-ae35-1a2aab555ce3",
+            "status": "active",
+            "canonical_name": "mogi das cruzes",
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI",
+            "normalized_name": "mogi das cruzes",
+            "pricing_tier_id": "812c2f4d-a9d1-427d-9716-b8bd4957f27b"
+          },
+          {
+            "id": "ee1906bc-5390-4762-b3ed-20bb714b6151",
+            "status": "active",
+            "canonical_name": "suzano",
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI",
+            "normalized_name": "suzano",
+            "pricing_tier_id": "c747c325-e20b-4607-88e4-9576e3b0a3d5"
+          }
+        ],
+        "locality_aliases": [
+          {
+            "alias": "mogi",
+            "active": true,
+            "locality_id": "dfdc9988-8ea4-439d-ae35-1a2aab555ce3",
+            "normalized_alias": "mogi"
+          }
+        ],
+        "pricing_tiers": [
+          {
+            "id": "812c2f4d-a9d1-427d-9716-b8bd4957f27b",
+            "code": "T1190",
+            "pix_base": 1190,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "c1441bf3-860b-4949-b8ad-83d79bbbcfa3",
+            "code": "T1290",
+            "pix_base": 1290,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "c747c325-e20b-4607-88e4-9576e3b0a3d5",
+            "code": "T1390",
+            "pix_base": 1390,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "0c4c3c02-69c5-49db-91cb-a44af73bb8c4",
+            "code": "T1490",
+            "pix_base": 1490,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "f055bbba-4905-4e90-af75-14985b16d38a",
+            "code": "T1590",
+            "pix_base": 1590,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "51d42963-9878-44e4-a0e1-8446bdf530fb",
+            "code": "T1690",
+            "pix_base": 1690,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "e8794b0a-129e-42d6-b134-0b62148fdb0b",
+            "code": "T1790",
+            "pix_base": 1790,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "aa974c95-618e-4227-b9d5-442d4aa18bb5",
+            "code": "T1890",
+            "pix_base": 1890,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          }
+        ],
+        "services": [
+          {
+            "code": "cabine_fotos",
+            "category": "main",
+            "quoteableAutomatically": true,
+            "active": true,
+            "quantity": 1
+          }
+        ],
+        "rule_set": {
+          "version": "2026-10-05",
+          "cardSurchargeRate": 0.18,
+          "cardRoundUpMultiple": 10,
+          "comboSecondMainDiscountRate": 0.5
+        },
+        "pricing_source": {
+          "file_id": "1ZkoS54blFcWQxC66OTnHuI9ZBu_ErFmH",
+          "revision_id": "0B6VWt3lEydcWUFVOSTYrS0RESm9NRERaUUpBNzNMUm9IcG4wPQ"
+        }
+      },
+      "output": {
+        "contract_version": "1.1.0",
+        "source_component": "F2+BR-002",
+        "status": "ready",
+        "locality_result": {
+          "status": "resolved",
+          "humanLock": false,
+          "reasonCode": null,
+          "normalizedInput": "mogi",
+          "matchType": "alias",
+          "locality": {
+            "localityId": "dfdc9988-8ea4-439d-ae35-1a2aab555ce3",
+            "canonicalName": "mogi das cruzes",
+            "normalizedName": "mogi das cruzes",
+            "pricingTierId": "812c2f4d-a9d1-427d-9716-b8bd4957f27b",
+            "status": "active"
+          }
+        },
+        "readiness": {
+          "ready": true,
+          "status": "ready",
+          "humanRequired": false,
+          "blockers": []
+        },
+        "date_policy": {
+          "status": "ok",
+          "window": "CORPORATE_BR_002",
+          "automaticPixDiscountPerMain": 0,
+          "gift": {
+            "eligible": false,
+            "serviceCode": null,
+            "commercialValue": null
+          },
+          "followupDelayHours": null
+        },
+        "quote_result": {
+          "status": "ready",
+          "humanRequired": false,
+          "blockers": [],
+          "pricingRuleVersion": "BR-002@1.0",
+          "comboApplied": false,
+          "promotionApplied": false,
+          "items": [
+            {
+              "lineType": "main",
+              "serviceCode": "cabine_fotos",
+              "basePix": 1190,
+              "promotionDiscount": 0,
+              "comboDiscount": 0,
+              "finalPix": 1951.6,
+              "ruleRefs": [
+                "BR-002",
+                "DEC-017"
+              ]
+            }
+          ],
+          "totals": {
+            "pix": 1951.6,
+            "card": 2380
+          },
+          "customerVisible": {
+            "pix": 1951.6,
+            "card": 2380
+          },
+          "corporate": {
+            "dias_evento": 1,
+            "periodos_por_dia": 3,
+            "horas_por_dia": 12,
+            "multiplicador": 2,
+            "valor_1_dia": 2380,
+            "valor_total": 2380,
+            "valor_parcelado": 2380,
+            "valor_avista": 1951.6,
+            "sinal_50": 975.8,
+            "saldo_no_evento": 975.8,
+            "schedule": {
+              "data_inicio": "2026-11-01",
+              "data_fim": "2026-11-01",
+              "dias_evento": 1
+            }
+          },
+          "pricing_source": {
+            "file_id": "1ZkoS54blFcWQxC66OTnHuI9ZBu_ErFmH",
+            "url": "https://drive.google.com/file/d/1ZkoS54blFcWQxC66OTnHuI9ZBu_ErFmH/view",
+            "revision_id": "0B6VWt3lEydcWUFVOSTYrS0RESm9NRERaUUpBNzNMUm9IcG4wPQ",
+            "sha256": "ff58f5c02796e070eaa8d898df777b7b110f3339361b115aa740e135c4c226bb",
+            "catalog_source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI",
+            "locality_id": "dfdc9988-8ea4-439d-ae35-1a2aab555ce3",
+            "tier_id": "812c2f4d-a9d1-427d-9716-b8bd4957f27b",
+            "tier_code": "T1190"
+          },
+          "availability": {
+            "status": "not_checked",
+            "claim_authorized": false
+          },
+          "presentation_requires": "corporate_presentation_v1"
+        },
+        "requested_actions": [
+          {
+            "action": "RECORD_QUOTE"
+          },
+          {
+            "action": "EMIT_EVENT",
+            "event_type": "quote_generated"
+          }
+        ],
+        "blockers": []
+      }
+    },
+    {
+      "case_id": "social_short_term_regression",
+      "input": {
+        "facts": {
+          "service_interest": [
+            "cabine_fotos"
+          ],
+          "event_type": "casamento",
+          "locality": "suzano",
+          "event_date": "2026-11-01"
+        },
+        "reference_date": "2026-10-18",
+        "localities": [
+          {
+            "id": "dfdc9988-8ea4-439d-ae35-1a2aab555ce3",
+            "status": "active",
+            "canonical_name": "mogi das cruzes",
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI",
+            "normalized_name": "mogi das cruzes",
+            "pricing_tier_id": "812c2f4d-a9d1-427d-9716-b8bd4957f27b"
+          },
+          {
+            "id": "ee1906bc-5390-4762-b3ed-20bb714b6151",
+            "status": "active",
+            "canonical_name": "suzano",
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI",
+            "normalized_name": "suzano",
+            "pricing_tier_id": "c747c325-e20b-4607-88e4-9576e3b0a3d5"
+          }
+        ],
+        "locality_aliases": [
+          {
+            "alias": "mogi",
+            "active": true,
+            "locality_id": "dfdc9988-8ea4-439d-ae35-1a2aab555ce3",
+            "normalized_alias": "mogi"
+          }
+        ],
+        "pricing_tiers": [
+          {
+            "id": "812c2f4d-a9d1-427d-9716-b8bd4957f27b",
+            "code": "T1190",
+            "pix_base": 1190,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "c1441bf3-860b-4949-b8ad-83d79bbbcfa3",
+            "code": "T1290",
+            "pix_base": 1290,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "c747c325-e20b-4607-88e4-9576e3b0a3d5",
+            "code": "T1390",
+            "pix_base": 1390,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "0c4c3c02-69c5-49db-91cb-a44af73bb8c4",
+            "code": "T1490",
+            "pix_base": 1490,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "f055bbba-4905-4e90-af75-14985b16d38a",
+            "code": "T1590",
+            "pix_base": 1590,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "51d42963-9878-44e4-a0e1-8446bdf530fb",
+            "code": "T1690",
+            "pix_base": 1690,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "e8794b0a-129e-42d6-b134-0b62148fdb0b",
+            "code": "T1790",
+            "pix_base": 1790,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "aa974c95-618e-4227-b9d5-442d4aa18bb5",
+            "code": "T1890",
+            "pix_base": 1890,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          }
+        ],
+        "services": [
+          {
+            "code": "cabine_fotos",
+            "category": "main",
+            "quoteableAutomatically": true,
+            "active": true,
+            "quantity": 1
+          }
+        ],
+        "rule_set": {
+          "version": "2026-10-05",
+          "cardSurchargeRate": 0.18,
+          "cardRoundUpMultiple": 10,
+          "comboSecondMainDiscountRate": 0.5
+        },
+        "pricing_source": {
+          "file_id": "1ZkoS54blFcWQxC66OTnHuI9ZBu_ErFmH",
+          "revision_id": "0B6VWt3lEydcWUFVOSTYrS0RESm9NRERaUUpBNzNMUm9IcG4wPQ"
+        }
+      },
+      "output": {
+        "contract_version": "1.0.0",
+        "source_component": "F2",
+        "source_commit": "4d4673c94ef9d382f7a01cdc87f36266d572cd29",
+        "status": "ready",
+        "locality_result": {
+          "status": "resolved",
+          "humanLock": false,
+          "reasonCode": null,
+          "normalizedInput": "suzano",
+          "matchType": "canonical",
+          "locality": {
+            "localityId": "ee1906bc-5390-4762-b3ed-20bb714b6151",
+            "canonicalName": "suzano",
+            "normalizedName": "suzano",
+            "pricingTierId": "c747c325-e20b-4607-88e4-9576e3b0a3d5",
+            "status": "active"
+          }
+        },
+        "readiness": {
+          "ready": true,
+          "status": "ready",
+          "humanRequired": false,
+          "blockers": []
+        },
+        "date_policy": {
+          "status": "ok",
+          "blockers": [],
+          "window": "SHORT_TERM_PROMO",
+          "daysUntilEvent": 14,
+          "automaticPixDiscountPerMain": 190,
+          "followupDelayHours": null,
+          "gift": {
+            "eligible": false,
+            "serviceCode": null,
+            "commercialValue": null,
+            "reasonCode": "GIFT_CRITERIA_NOT_MET"
+          }
+        },
+        "quote_result": {
+          "status": "ready",
+          "humanRequired": false,
+          "blockers": [],
+          "pricingRuleVersion": "2026-10-05",
+          "comboApplied": false,
+          "promotionApplied": true,
+          "items": [
+            {
+              "lineType": "main",
+              "serviceCode": "cabine_fotos",
+              "basePix": 1390,
+              "promotionDiscount": 190,
+              "comboDiscount": 0,
+              "finalPix": 1200,
+              "cardBeforeRoundUp": 1416,
+              "ruleRefs": [
+                "short_term_promotion",
+                "card_surcharge_rate"
+              ]
+            },
+            {
+              "lineType": "adjustment",
+              "serviceCode": null,
+              "basePix": 0,
+              "promotionDiscount": 0,
+              "comboDiscount": 0,
+              "finalPix": 0,
+              "cardBeforeRoundUp": 4,
+              "ruleRefs": [
+                "card_round_up"
+              ]
+            }
+          ],
+          "totals": {
+            "pix": 1200,
+            "cardBeforeRoundUp": 1416,
+            "cardRoundUpAdjustment": 4,
+            "card": 1420
+          },
+          "customerVisible": {
+            "pix": 1200,
+            "card": 1420
+          }
+        },
+        "requested_actions": [
+          {
+            "action": "RECORD_QUOTE"
+          },
+          {
+            "action": "EMIT_EVENT",
+            "event_type": "quote_generated"
+          }
+        ],
+        "blockers": []
+      }
+    },
+    {
+      "case_id": "periods_human_guard",
+      "input": {
+        "facts": {
+          "event_type": "empresarial",
+          "service_interest": [
+            "cabine_fotos"
+          ],
+          "locality": "suzano",
+          "dias_evento": 3,
+          "periodos_por_dia": 4,
+          "data_inicio": "2026-11-01",
+          "data_fim": "2026-11-03"
+        },
+        "reference_date": "2026-10-18",
+        "localities": [
+          {
+            "id": "dfdc9988-8ea4-439d-ae35-1a2aab555ce3",
+            "status": "active",
+            "canonical_name": "mogi das cruzes",
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI",
+            "normalized_name": "mogi das cruzes",
+            "pricing_tier_id": "812c2f4d-a9d1-427d-9716-b8bd4957f27b"
+          },
+          {
+            "id": "ee1906bc-5390-4762-b3ed-20bb714b6151",
+            "status": "active",
+            "canonical_name": "suzano",
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI",
+            "normalized_name": "suzano",
+            "pricing_tier_id": "c747c325-e20b-4607-88e4-9576e3b0a3d5"
+          }
+        ],
+        "locality_aliases": [
+          {
+            "alias": "mogi",
+            "active": true,
+            "locality_id": "dfdc9988-8ea4-439d-ae35-1a2aab555ce3",
+            "normalized_alias": "mogi"
+          }
+        ],
+        "pricing_tiers": [
+          {
+            "id": "812c2f4d-a9d1-427d-9716-b8bd4957f27b",
+            "code": "T1190",
+            "pix_base": 1190,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "c1441bf3-860b-4949-b8ad-83d79bbbcfa3",
+            "code": "T1290",
+            "pix_base": 1290,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "c747c325-e20b-4607-88e4-9576e3b0a3d5",
+            "code": "T1390",
+            "pix_base": 1390,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "0c4c3c02-69c5-49db-91cb-a44af73bb8c4",
+            "code": "T1490",
+            "pix_base": 1490,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "f055bbba-4905-4e90-af75-14985b16d38a",
+            "code": "T1590",
+            "pix_base": 1590,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "51d42963-9878-44e4-a0e1-8446bdf530fb",
+            "code": "T1690",
+            "pix_base": 1690,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "e8794b0a-129e-42d6-b134-0b62148fdb0b",
+            "code": "T1790",
+            "pix_base": 1790,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "aa974c95-618e-4227-b9d5-442d4aa18bb5",
+            "code": "T1890",
+            "pix_base": 1890,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          }
+        ],
+        "services": [
+          {
+            "code": "cabine_fotos",
+            "category": "main",
+            "quoteableAutomatically": true,
+            "active": true,
+            "quantity": 1
+          }
+        ],
+        "rule_set": {
+          "version": "2026-10-05",
+          "cardSurchargeRate": 0.18,
+          "cardRoundUpMultiple": 10,
+          "comboSecondMainDiscountRate": 0.5
+        },
+        "pricing_source": {
+          "file_id": "1ZkoS54blFcWQxC66OTnHuI9ZBu_ErFmH",
+          "revision_id": "0B6VWt3lEydcWUFVOSTYrS0RESm9NRERaUUpBNzNMUm9IcG4wPQ"
+        }
+      },
+      "output": {
+        "contract_version": "1.1.0",
+        "source_component": "F2+BR-002",
+        "status": "human_required",
+        "locality_result": null,
+        "readiness": {
+          "ready": false,
+          "humanRequired": true,
+          "blockers": [
+            "CORPORATE_PERIODS_REQUIRE_HUMAN"
+          ]
+        },
+        "date_policy": null,
+        "quote_result": null,
+        "requested_actions": [
+          {
+            "action": "CREATE_HUMAN_TASK",
+            "reason_codes": [
+              "CORPORATE_PERIODS_REQUIRE_HUMAN"
+            ]
+          }
+        ],
+        "blockers": [
+          "CORPORATE_PERIODS_REQUIRE_HUMAN"
+        ]
+      }
+    },
+    {
+      "case_id": "inconsistent_dates_guard",
+      "input": {
+        "facts": {
+          "event_type": "empresarial",
+          "service_interest": [
+            "cabine_fotos"
+          ],
+          "locality": "suzano",
+          "dias_evento": 3,
+          "periodos_por_dia": 2,
+          "data_inicio": "2026-11-01",
+          "data_fim": "2026-11-04"
+        },
+        "reference_date": "2026-10-18",
+        "localities": [
+          {
+            "id": "dfdc9988-8ea4-439d-ae35-1a2aab555ce3",
+            "status": "active",
+            "canonical_name": "mogi das cruzes",
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI",
+            "normalized_name": "mogi das cruzes",
+            "pricing_tier_id": "812c2f4d-a9d1-427d-9716-b8bd4957f27b"
+          },
+          {
+            "id": "ee1906bc-5390-4762-b3ed-20bb714b6151",
+            "status": "active",
+            "canonical_name": "suzano",
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI",
+            "normalized_name": "suzano",
+            "pricing_tier_id": "c747c325-e20b-4607-88e4-9576e3b0a3d5"
+          }
+        ],
+        "locality_aliases": [
+          {
+            "alias": "mogi",
+            "active": true,
+            "locality_id": "dfdc9988-8ea4-439d-ae35-1a2aab555ce3",
+            "normalized_alias": "mogi"
+          }
+        ],
+        "pricing_tiers": [
+          {
+            "id": "812c2f4d-a9d1-427d-9716-b8bd4957f27b",
+            "code": "T1190",
+            "pix_base": 1190,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "c1441bf3-860b-4949-b8ad-83d79bbbcfa3",
+            "code": "T1290",
+            "pix_base": 1290,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "c747c325-e20b-4607-88e4-9576e3b0a3d5",
+            "code": "T1390",
+            "pix_base": 1390,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "0c4c3c02-69c5-49db-91cb-a44af73bb8c4",
+            "code": "T1490",
+            "pix_base": 1490,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "f055bbba-4905-4e90-af75-14985b16d38a",
+            "code": "T1590",
+            "pix_base": 1590,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "51d42963-9878-44e4-a0e1-8446bdf530fb",
+            "code": "T1690",
+            "pix_base": 1690,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "e8794b0a-129e-42d6-b134-0b62148fdb0b",
+            "code": "T1790",
+            "pix_base": 1790,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "aa974c95-618e-4227-b9d5-442d4aa18bb5",
+            "code": "T1890",
+            "pix_base": 1890,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          }
+        ],
+        "services": [
+          {
+            "code": "cabine_fotos",
+            "category": "main",
+            "quoteableAutomatically": true,
+            "active": true,
+            "quantity": 1
+          }
+        ],
+        "rule_set": {
+          "version": "2026-10-05",
+          "cardSurchargeRate": 0.18,
+          "cardRoundUpMultiple": 10,
+          "comboSecondMainDiscountRate": 0.5
+        },
+        "pricing_source": {
+          "file_id": "1ZkoS54blFcWQxC66OTnHuI9ZBu_ErFmH",
+          "revision_id": "0B6VWt3lEydcWUFVOSTYrS0RESm9NRERaUUpBNzNMUm9IcG4wPQ"
+        }
+      },
+      "output": {
+        "contract_version": "1.1.0",
+        "source_component": "F2+BR-002",
+        "status": "blocked",
+        "locality_result": null,
+        "readiness": {
+          "ready": false,
+          "humanRequired": false,
+          "blockers": [
+            "CORPORATE_DATES_DAYS_CONFLICT"
+          ]
+        },
+        "date_policy": null,
+        "quote_result": null,
+        "requested_actions": [],
+        "blockers": [
+          "CORPORATE_DATES_DAYS_CONFLICT"
+        ]
+      }
+    },
+    {
+      "case_id": "forged_price_guard",
+      "input": {
+        "facts": {
+          "event_type": "empresarial",
+          "service_interest": [
+            "cabine_fotos"
+          ],
+          "locality": "suzano",
+          "dias_evento": 3,
+          "periodos_por_dia": 2,
+          "data_inicio": "2026-11-01",
+          "data_fim": "2026-11-03"
+        },
+        "reference_date": "2026-10-18",
+        "localities": [
+          {
+            "id": "dfdc9988-8ea4-439d-ae35-1a2aab555ce3",
+            "status": "active",
+            "canonical_name": "mogi das cruzes",
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI",
+            "normalized_name": "mogi das cruzes",
+            "pricing_tier_id": "812c2f4d-a9d1-427d-9716-b8bd4957f27b"
+          },
+          {
+            "id": "ee1906bc-5390-4762-b3ed-20bb714b6151",
+            "status": "active",
+            "canonical_name": "suzano",
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI",
+            "normalized_name": "suzano",
+            "pricing_tier_id": "c747c325-e20b-4607-88e4-9576e3b0a3d5"
+          }
+        ],
+        "locality_aliases": [
+          {
+            "alias": "mogi",
+            "active": true,
+            "locality_id": "dfdc9988-8ea4-439d-ae35-1a2aab555ce3",
+            "normalized_alias": "mogi"
+          }
+        ],
+        "pricing_tiers": [
+          {
+            "id": "812c2f4d-a9d1-427d-9716-b8bd4957f27b",
+            "code": "T1190",
+            "pix_base": 1190,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "c1441bf3-860b-4949-b8ad-83d79bbbcfa3",
+            "code": "T1290",
+            "pix_base": 1290,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "c747c325-e20b-4607-88e4-9576e3b0a3d5",
+            "code": "T1390",
+            "pix_base": 1200,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "0c4c3c02-69c5-49db-91cb-a44af73bb8c4",
+            "code": "T1490",
+            "pix_base": 1490,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "f055bbba-4905-4e90-af75-14985b16d38a",
+            "code": "T1590",
+            "pix_base": 1590,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "51d42963-9878-44e4-a0e1-8446bdf530fb",
+            "code": "T1690",
+            "pix_base": 1690,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "e8794b0a-129e-42d6-b134-0b62148fdb0b",
+            "code": "T1790",
+            "pix_base": 1790,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          },
+          {
+            "id": "aa974c95-618e-4227-b9d5-442d4aa18bb5",
+            "code": "T1890",
+            "pix_base": 1890,
+            "active_to": null,
+            "active_from": null,
+            "source_version": "fase0-v1.2.1/01_BASE_OFICIAL_LOCALIDADES_E_PRECOS_META_AI"
+          }
+        ],
+        "services": [
+          {
+            "code": "cabine_fotos",
+            "category": "main",
+            "quoteableAutomatically": true,
+            "active": true,
+            "quantity": 1
+          }
+        ],
+        "rule_set": {
+          "version": "2026-10-05",
+          "cardSurchargeRate": 0.18,
+          "cardRoundUpMultiple": 10,
+          "comboSecondMainDiscountRate": 0.5
+        },
+        "pricing_source": {
+          "file_id": "1ZkoS54blFcWQxC66OTnHuI9ZBu_ErFmH",
+          "revision_id": "0B6VWt3lEydcWUFVOSTYrS0RESm9NRERaUUpBNzNMUm9IcG4wPQ"
+        }
+      },
+      "output": {
+        "contract_version": "1.1.0",
+        "source_component": "F2+BR-002",
+        "status": "human_required",
+        "locality_result": {
+          "status": "resolved",
+          "humanLock": false,
+          "reasonCode": null,
+          "normalizedInput": "suzano",
+          "matchType": "canonical",
+          "locality": {
+            "localityId": "ee1906bc-5390-4762-b3ed-20bb714b6151",
+            "canonicalName": "suzano",
+            "normalizedName": "suzano",
+            "pricingTierId": "c747c325-e20b-4607-88e4-9576e3b0a3d5",
+            "status": "active"
+          }
+        },
+        "readiness": {
+          "ready": false,
+          "humanRequired": true,
+          "blockers": [
+            "CATALOG_PRICE_SOURCE_MISMATCH"
+          ]
+        },
+        "date_policy": null,
+        "quote_result": null,
+        "requested_actions": [
+          {
+            "action": "CREATE_HUMAN_TASK",
+            "reason_codes": [
+              "CATALOG_PRICE_SOURCE_MISMATCH"
+            ]
+          }
+        ],
+        "blockers": [
+          "CATALOG_PRICE_SOURCE_MISMATCH"
+        ]
+      }
+    }
+  ],
+  "total_local_tests": 242,
+  "local_tests_failed": 0,
+  "effect_counts": {
+    "database_writes": 0,
+    "whatsapp_messages": 0,
+    "trello_writes": 0,
+    "reservations_changed": 0
+  },
+  "main_unchanged": "047297d54d26620c73076d68ade3e55dcf29977b",
+  "pr_23_unchanged": "c913e7e51fc6ddcfc700b05b01fc198b92bf0e92",
+  "kernel_sha256": "304d3aed4fdcf0c5461f0df4f15d2e47057ce31c17549705c72a245cdd774c16"
+}

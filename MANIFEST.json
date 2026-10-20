@@ -47,7 +47,56 @@
         "status": "homologated"
       }
     ],
-    "workflows": [],
+    "workflows": [
+      {
+        "id": "CM-WF-030-LAB-BR002",
+        "path": "n8n/workflows/f4/CM-WF-030.lab.json",
+        "status": "review",
+        "runtime_id": "3LlqxQwA5JZBoaZd",
+        "published": true,
+        "environment": "Meta TEST only"
+      },
+      {
+        "id": "CM-WF-000-LAB-BR002",
+        "path": "n8n/workflows/CM-WF-000_meta-test-ingress-lab.json",
+        "status": "development",
+        "runtime_id": "iIAtpaRgvtssABsB",
+        "published": true,
+        "environment": "Meta TEST only"
+      },
+      {
+        "id": "CM-WF-020-LAB-BR002",
+        "path": "n8n/workflows/CM-WF-020_corporate-f1-lab.json",
+        "status": "development",
+        "runtime_id": "3RAuwFaHIaZvOMjU",
+        "published": true,
+        "environment": "Meta TEST only"
+      },
+      {
+        "id": "CM-WF-031-LAB-BR002",
+        "path": "n8n/workflows/CM-WF-031_corporate-presentation-lab.json",
+        "status": "development",
+        "runtime_id": "q1ac0eQAPGcyAimY",
+        "published": true,
+        "environment": "Meta TEST only"
+      },
+      {
+        "id": "CM-WF-060-LAB-BR002",
+        "path": "n8n/workflows/CM-WF-060_corporate-composer-lab.json",
+        "status": "development",
+        "runtime_id": "DBdzsxMlMqsB86YD",
+        "published": true,
+        "environment": "Meta TEST only"
+      },
+      {
+        "id": "CM-WF-070-LAB-BR002",
+        "path": "n8n/workflows/CM-WF-070_test-queue-lab.json",
+        "status": "development",
+        "runtime_id": "JVZIPknnB7iIwcxi",
+        "published": true,
+        "environment": "Meta TEST only"
+      }
+    ],
     "subflows": [],
     "workflow_specs": [
       {
@@ -280,6 +329,11 @@
         "id": "policies",
         "path": "knowledge/policies.md",
         "status": "draft"
+      },
+      {
+        "id": "br002-official-pricing-snapshot",
+        "path": "knowledge/sources/localidades-precos.provenance.json",
+        "status": "review"
       }
     ],
     "tooling": [
@@ -292,12 +346,69 @@
         "id": "github-validation-workflow",
         "path": ".github/workflows/validate.yml",
         "status": "homologated"
+      },
+      {
+        "id": "quote-engine-generator",
+        "path": "scripts/build-quote-engine.mjs",
+        "status": "review"
+      },
+      {
+        "id": "quote-engine-lab-verifier",
+        "path": "scripts/verify-quote-engine-lab.mjs",
+        "status": "review"
       }
     ],
     "security_docs": [
       {
         "id": "meta-token-handoff",
         "path": "docs/05_seguranca/META_TOKEN_HANDOFF.md",
+        "status": "development"
+      }
+    ],
+    "quote_engine": [
+      {
+        "id": "quote-engine-adapter",
+        "path": "src/adapters/quote-engine.mjs",
+        "status": "review"
+      },
+      {
+        "id": "quote-engine-turn2-report",
+        "path": "docs/06_testes/BR002_TURNO2_IMPLEMENTACAO.md",
+        "status": "review"
+      },
+      {
+        "id": "quote-engine-turn2-evidence",
+        "path": "docs/06_testes/BR002_TURNO2_EVIDENCIAS.json",
+        "status": "review"
+      },
+      {
+        "id": "corporate-harness-report",
+        "path": "docs/06_testes/BR002_TURNOS_3_5_IMPLEMENTACAO.md",
+        "status": "development"
+      },
+      {
+        "id": "corporate-harness-evidence",
+        "path": "docs/06_testes/BR002_TURNOS_3_5_EVIDENCIAS.json",
+        "status": "development"
+      },
+      {
+        "id": "corporate-harness-checkpoint",
+        "path": "docs/06_testes/BR002_HARNESS_STATUS.md",
+        "status": "development"
+      },
+      {
+        "id": "corporate-intake",
+        "path": "src/functions/corporate-intake.mjs",
+        "status": "development"
+      },
+      {
+        "id": "corporate-presentation",
+        "path": "src/functions/corporate-presentation.mjs",
+        "status": "development"
+      },
+      {
+        "id": "corporate-harness-builder",
+        "path": "scripts/build-corporate-harness.mjs",
         "status": "development"
       }
     ]

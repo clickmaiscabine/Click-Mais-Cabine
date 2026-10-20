@@ -1,5 +1,34 @@
 # Changelog do Projeto — Click Mais OS
 
+## 2026-10-19 — E2E corporativo autêntico concluído em LAB
+
+- Mensagem real do destinatário autorizado às 14h47 percorreu ingresso 13783, F1 13784 e dispatcher 13788; uma tentativa, um orçamento e entrega `delivered`.
+- BR-002 exata, todas as datas consultadas, apresentação sem quebras literais e estado persistido como `presented`/`ORCAMENTO`.
+- Encerrada a pendência de entrada autêntica do checkpoint anterior. Sessão preservada; produção e reservas intactas; PR continua em rascunho.
+- Aceite posterior não duplica o orçamento. O fluxo após aceite para reserva/contrato está fora dos Turnos 3–5 e não foi implementado nesta entrega.
+
+## 2026-10-19 — BR-002, qualificação, agenda e apresentação em LAB
+
+- F1 corporativo cumulativo conectado ao motor existente, com todas as datas e reconciliação da agenda sem modificar reservas.
+- Apresentação/compositor reutilizados; preços corporativos exatos, origem dos fatos, persistência, idempotência, fila e handoff BR-001 preservados.
+- 404 testes JavaScript e guardas SQL em rollback aprovados; replays com serviços reais e um envio de validação Meta TEST confirmado (`sent`).
+- E2E corporativo genuíno e confirmação `delivered`/`read` pendentes; PR em rascunho, sem promoção para produção. Ver `docs/06_testes/BR002_TURNOS_3_5_IMPLEMENTACAO.md`.
+
+## 2026-10-18 — BR-002 integrada ao Quote Engine LAB (Turno 2)
+
+- Atualizado somente o CM-WF-030 LAB existente, mantido não publicado e com dois nós.
+- Seleção social/corporativa com reutilização do módulo BR-002; biblioteca F2 recuperada sem alteração.
+- Lookup corporativo conferido com revisão oficial e hash; guardas para inconsistências e exceções.
+- 242 testes locais aprovados e seis cenários no n8n, execução 7443; evidências versionadas.
+- F1, apresentação, fila e E2E corporativos permanecem nos Turnos 3–5; produção preservada.
+
+## 2026-10-18 — Precificação corporativa homologada (BR-002)
+
+- Registrada DEC-017 e BR-002 para eventos corporativos: 1, 2 ou 3 períodos de 4h/dia; multiplicadores 1,0, 1,5 e 2,0; multiplicação pelo número de dias.
+- Valor à vista empresarial = 82% do total do cartão, com sinal de 50%, sem aplicar cumulativamente a regra social Pix + 18%.
+- Incluídos módulo determinístico `src/functions/corporate-pricing.cjs` e 36 testes `node:test` (36/36 aprovados no ambiente local).
+- Somente branch de proposta: nenhuma alteração em n8n, Meta WhatsApp, Supabase ou produção.
+
 ## 2026-10-10 — Permissão do link OneDrive de entrega
 
 - Registrada a decisão DEC-016: usar link padrão OneDrive “Anyone/qualquer pessoa com o link”, somente para visualização e com download permitido.
