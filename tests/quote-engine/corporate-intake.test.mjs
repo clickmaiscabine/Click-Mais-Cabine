@@ -20,10 +20,24 @@ test('numeric answer belongs only to the persisted corporate question',()=>{
 test('periods/hours: 8 hours means two periods, not two machines',()=>{
  const r=run('8 horas por dia',{facts:{purpose:'empresarial',services:['cabine_fotos'],dias_evento:3},pending_question:'corporate_periods'});assert.equal(r.extracted.periodos_por_dia,2);assert.equal(r.extracted.services,undefined);
 });
+test('a start date expands to the consecutive number of event days',()=>{
+ const state={facts:{purpose:'empresarial',services:['cabine_fotos'],dias_evento:2,periodos_por_dia:1},pending_question:'corporate_dates'};
+ const r=run('15/12/2026',state);
+ assert.deepEqual(r.extracted.event_dates,['2026-12-15','2026-12-16']);
+ assert.equal(r.extracted.data_inicio,'2026-12-15');assert.equal(r.extracted.data_fim,'2026-12-16');
+ const reply=qualificationReply({accepted:true,next_flow:'FLOW_4_LOCALITY',changed_keys:['event_dates'],context:{facts:{...state.facts,...r.extracted}}});
+ assert.match(reply,/15\/12\/2026 e 16\/12\/2026/);assert.match(reply,/Em qual cidade/);
+});
 test('partial dates are accumulated without asking the known ones again',()=>{
  const state={facts:{purpose:'empresarial',services:['cabine_fotos'],dias_evento:3,periodos_por_dia:1,event_dates:['2026-11-01']},pending_question:'corporate_dates'};
  assert.deepEqual(run('02/11/2026 e 03/11/2026',state).extracted.event_dates,['2026-11-01','2026-11-02','2026-11-03']);
- assert.match(qualificationReply({accepted:true,next_flow:'CLARIFY_CORPORATE_DATES',context:{facts:state.facts}}),/restantes/);
+ assert.match(qualificationReply({accepted:true,next_flow:'CLARIFY_CORPORATE_DATES',context:{facts:state.facts}}),/não consecutivos/);
+});
+test('explicit non-consecutive dates are not inferred from the start date',()=>{
+ const state={facts:{purpose:'empresarial',services:['cabine_fotos'],dias_evento:2,periodos_por_dia:1},pending_question:'corporate_dates'};
+ const r=run('Não são dias seguidos: começa 15/12/2026',state);
+ assert.deepEqual(r.extracted.event_dates,['2026-12-15']);
+ assert.equal(corporateNext({...state.facts,...r.extracted}),'CLARIFY_CORPORATE_DATES');
 });
 test('dates/day inconsistency blocks readiness',()=>assert.equal(corporateNext({purpose:'empresarial',services:['cabine_fotos'],dias_evento:3,periodos_por_dia:1,event_dates:['2026-11-01'],city:'suzano'}),'CLARIFY_CORPORATE_DATES'));
 test('four periods requires human',()=>assert.equal(corporateNext({purpose:'empresarial',services:['cabine_fotos'],dias_evento:1,periodos_por_dia:4}),'ROUTE_HUMAN'));

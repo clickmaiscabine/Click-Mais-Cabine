@@ -1,0 +1,1148 @@
+{
+  "schema_version": "click-mais-evidence-graph/1.0",
+  "title": "Click Mais — fechamento da etapa de orçamentos",
+  "status": "draft",
+  "generated_at": "2026-10-19T18:59:07+00:00",
+  "base_commit": "cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af",
+  "branch": "feat/corporate-quote-lab-integration-20261018",
+  "pull_request": "https://github.com/clickmaiscabine/Click-Mais-Cabine/pull/24",
+  "method": "Curadoria rastreável de código, documentos, workflows e leituras operacionais; inspirado em Graphify. Não houve execução do CLI Graphify, AST/Leiden ou processamento externo de conteúdo.",
+  "confidence_legend": {
+    "EXTRACTED": "Relação explícita na fonte ou evidência citada.",
+    "INFERRED": "Ligação proposta para a implementação; ainda exige verificação.",
+    "AMBIGUOUS": "Origem ou relação sem comprovação suficiente."
+  },
+  "state_legend": {
+    "verified": "Comprovado no código/runtime ou evidência atual dentro do escopo descrito.",
+    "historical": "Comprovado anteriormente; não implica conexão automática atual.",
+    "unconnected": "Componente existe, mas a conexão necessária ainda não está ativa/comprovada.",
+    "proposed": "Trabalho ou resultado proposto; aguarda autorização."
+  },
+  "nodes": [
+    {
+      "id": "meta",
+      "label": "WhatsApp TEST",
+      "community": "entrada",
+      "operational_state": "verified",
+      "x": 50,
+      "y": 80,
+      "sources": [
+        "S05",
+        "S18"
+      ],
+      "detail": "Ingresso e saída reais corporativos comprovados. Um único destinatário autorizado. A evidência social anterior é separada.",
+      "task": null,
+      "kind": "component"
+    },
+    {
+      "id": "f1",
+      "label": "F1 cumulativo",
+      "community": "entrada",
+      "operational_state": "verified",
+      "x": 50,
+      "y": 235,
+      "sources": [
+        "S07",
+        "S18"
+      ],
+      "detail": "F1 ativo persiste fatos e roteia. O ramo social atual produz draft sem autoenvio.",
+      "task": "P1",
+      "kind": "component"
+    },
+    {
+      "id": "social",
+      "label": "Qualificação social",
+      "community": "entrada",
+      "operational_state": "unconnected",
+      "x": 50,
+      "y": 390,
+      "sources": [
+        "S07",
+        "S19"
+      ],
+      "detail": "Coleta e teste social existem; falta reconectar sua execução automática completa ao caminho ativo.",
+      "task": "P1",
+      "kind": "component"
+    },
+    {
+      "id": "corp",
+      "label": "Qualificação empresarial",
+      "community": "entrada",
+      "operational_state": "verified",
+      "x": 50,
+      "y": 545,
+      "sources": [
+        "S05",
+        "S06"
+      ],
+      "detail": "Reconhecimento, dias, períodos e datas integrados e testados. Regressão obrigatória.",
+      "task": "P1",
+      "kind": "component"
+    },
+    {
+      "id": "human",
+      "label": "Bloqueio humano",
+      "community": "entrada",
+      "operational_state": "verified",
+      "x": 50,
+      "y": 700,
+      "sources": [
+        "S05"
+      ],
+      "detail": "Handoff e human_lock já ativos. Suprimem composição comercial e claim incompatível.",
+      "task": "P6",
+      "kind": "component"
+    },
+    {
+      "id": "prices",
+      "label": "Localidade / preço oficial",
+      "community": "decisao",
+      "operational_state": "verified",
+      "x": 320,
+      "y": 80,
+      "sources": [
+        "S02",
+        "S09"
+      ],
+      "detail": "Catálogo e revisão oficial verificados pelo motor. Não alterar preços.",
+      "task": "P2",
+      "kind": "component"
+    },
+    {
+      "id": "engine",
+      "label": "Quote Engine único",
+      "community": "decisao",
+      "operational_state": "verified",
+      "x": 320,
+      "y": 235,
+      "sources": [
+        "S09"
+      ],
+      "detail": "Seleção social x BR-002 já existe. Conectar contratos de execução social, preservando o adaptador.",
+      "task": "P2",
+      "kind": "component"
+    },
+    {
+      "id": "socialprice",
+      "label": "Regra social existente",
+      "community": "decisao",
+      "operational_state": "historical",
+      "x": 320,
+      "y": 390,
+      "sources": [
+        "S08",
+        "S19"
+      ],
+      "detail": "Adaptador homologado e valores sociais anteriores comprovados. Não reconstruir nem substituir por regra corporativa.",
+      "task": "P2",
+      "kind": "component"
+    },
+    {
+      "id": "br002",
+      "label": "BR-002 determinística",
+      "community": "decisao",
+      "operational_state": "verified",
+      "x": 320,
+      "y": 545,
+      "sources": [
+        "S10",
+        "S05"
+      ],
+      "detail": "Única autoridade corporativa de cálculo e arredondamento em centavos.",
+      "task": "P2",
+      "kind": "component"
+    },
+    {
+      "id": "agenda",
+      "label": "Disponibilidade: todas as datas",
+      "community": "decisao",
+      "operational_state": "verified",
+      "x": 320,
+      "y": 700,
+      "sources": [
+        "S11",
+        "S05",
+        "S17"
+      ],
+      "detail": "0–1 ativa: preliminar; 2+: lotada. Fonte reconciliada; falha/divergência: desconhecida. Três reservas protegidas em 24/10.",
+      "task": "P2",
+      "kind": "component"
+    },
+    {
+      "id": "db",
+      "label": "Supabase / fatos / auditoria",
+      "community": "operacao",
+      "operational_state": "verified",
+      "x": 590,
+      "y": 80,
+      "sources": [
+        "S05",
+        "S17"
+      ],
+      "detail": "Verdade operacional: contexto, fatos, quote/version, procedência e eventos. Esquema compartilhado exige compatibilidade.",
+      "task": "P2",
+      "kind": "component"
+    },
+    {
+      "id": "present",
+      "label": "Apresentação e compositor",
+      "community": "operacao",
+      "operational_state": "verified",
+      "x": 590,
+      "y": 235,
+      "sources": [
+        "S05",
+        "S11",
+        "S19"
+      ],
+      "detail": "Reutilizar apresentação social e corporativa, mídias e prova social. Corp não herda promoções/brindes sociais.",
+      "task": "P3",
+      "kind": "component"
+    },
+    {
+      "id": "queue",
+      "label": "Fila TEST persistente",
+      "community": "operacao",
+      "operational_state": "verified",
+      "x": 590,
+      "y": 390,
+      "sources": [
+        "S05",
+        "S18"
+      ],
+      "detail": "Guarda de janela, TEST, destinatário, locks e versão. Ordem, ACK, retry limitado e quarentena de envio incerto.",
+      "task": "P3",
+      "kind": "component"
+    },
+    {
+      "id": "ack",
+      "label": "ACK / callbacks / quote_sent",
+      "community": "operacao",
+      "operational_state": "verified",
+      "x": 590,
+      "y": 545,
+      "sources": [
+        "S05",
+        "S06"
+      ],
+      "detail": "API confirma envio e persiste presented/quote_sent; callbacks registram o status disponível. Entrega corporativa comprovada.",
+      "task": "P3",
+      "kind": "component"
+    },
+    {
+      "id": "bridge",
+      "label": "Vínculo social + intenção Trello",
+      "community": "operacao",
+      "operational_state": "proposed",
+      "x": 590,
+      "y": 700,
+      "sources": [
+        "S07",
+        "S14",
+        "S17"
+      ],
+      "detail": "Adaptação mínima compatível dos contratos TEST e projeção recuperável após ACK. Contrato final é tarefa, não componente já entregue.",
+      "task": "P4",
+      "kind": "component"
+    },
+    {
+      "id": "planner",
+      "label": "Planner Trello existente",
+      "community": "crm",
+      "operational_state": "unconnected",
+      "x": 860,
+      "y": 80,
+      "sources": [
+        "S14",
+        "S18"
+      ],
+      "detail": "CM-WF-070 shadow/inativo calcula CREATE/MOVE/UPDATE/no-op; não possui escrita Trello ativa.",
+      "task": "P4",
+      "kind": "component"
+    },
+    {
+      "id": "mapping",
+      "label": "trello_projections",
+      "community": "crm",
+      "operational_state": "unconnected",
+      "x": 860,
+      "y": 235,
+      "sources": [
+        "S17"
+      ],
+      "detail": "Tabela existente: zero linhas na consulta atual. Preencher após sucesso, por evento/versão/hash.",
+      "task": "P4",
+      "kind": "component"
+    },
+    {
+      "id": "card",
+      "label": "Cartão histórico em CONTATO",
+      "community": "crm",
+      "operational_state": "historical",
+      "x": 860,
+      "y": 390,
+      "sources": [
+        "S16",
+        "S19"
+      ],
+      "detail": "Cartão social existe com IDs do evento/orçamento. Origem automática atual não comprovada. Não duplicar nem reativar evento arquivado.",
+      "task": "P4",
+      "kind": "component"
+    },
+    {
+      "id": "target",
+      "label": "Um cartão em ORÇAMENTO",
+      "community": "crm",
+      "operational_state": "proposed",
+      "x": 860,
+      "y": 545,
+      "sources": [
+        "S12",
+        "S13",
+        "S16"
+      ],
+      "detail": "Contrato canônico: cartão somente após envio efetivo. Board LAB possui ORÇAMENTO. Projetar evento atual e preservar histórico.",
+      "task": "P4",
+      "kind": "component"
+    },
+    {
+      "id": "response",
+      "label": "Resposta / próxima ação",
+      "community": "crm",
+      "operational_state": "proposed",
+      "x": 860,
+      "y": 700,
+      "sources": [
+        "S12",
+        "S14",
+        "S05"
+      ],
+      "detail": "Persistir resposta, transição permitida ou handoff; refletir estágio. Reserva/contrato e follow-up corporativo novo ficam fora desta etapa.",
+      "task": "P5",
+      "kind": "component"
+    },
+    {
+      "id": "gov",
+      "label": "Baseline / DEC-017 / ADRs",
+      "community": "evidencia",
+      "operational_state": "verified",
+      "x": 1130,
+      "y": 80,
+      "sources": [
+        "S01",
+        "S02",
+        "S03",
+        "S12",
+        "S13"
+      ],
+      "detail": "Ordem de autoridade preservada. Configuração no manifesto e documento antigo não comprovam automação atual.",
+      "task": null,
+      "kind": "evidence"
+    },
+    {
+      "id": "e2e",
+      "label": "E2E empresarial entregue",
+      "community": "evidencia",
+      "operational_state": "verified",
+      "x": 1130,
+      "y": 235,
+      "sources": [
+        "S05",
+        "S06"
+      ],
+      "detail": "13783 → 13784 → 13788; callback delivered. Cartão 6.255,00 / Pix 5.129,10; sinal e saldo 2.564,55.",
+      "task": null,
+      "kind": "evidence"
+    },
+    {
+      "id": "old",
+      "label": "Teste social e Trello anteriores",
+      "community": "evidencia",
+      "operational_state": "historical",
+      "x": 1130,
+      "y": 390,
+      "sources": [
+        "S19",
+        "S16"
+      ],
+      "detail": "Social já realizado: Totem / Guarulhos / 05-11-2026; Pix 1.300,00, cartão 1.540,00. Comparar usando a referência temporal original.",
+      "task": null,
+      "kind": "evidence"
+    },
+    {
+      "id": "tests",
+      "label": "Regressão + E2E dos dois ramos",
+      "community": "evidencia",
+      "operational_state": "proposed",
+      "x": 1130,
+      "y": 545,
+      "sources": [
+        "S05",
+        "S14"
+      ],
+      "detail": "404 testes são evidência anterior. Novo aceite exige integração atual, mídia, envio confirmado e card correlacionado nos dois ramos.",
+      "task": "P7",
+      "kind": "evidence"
+    },
+    {
+      "id": "checkpoint",
+      "label": "Mapa / checkpoint / PR draft",
+      "community": "evidencia",
+      "operational_state": "proposed",
+      "x": 1130,
+      "y": 700,
+      "sources": [
+        "S03",
+        "S04"
+      ],
+      "detail": "Cada tarefa liga requisito, componente, evidência, teste, commit e próxima ação. Atualizar ao concluir cada pacote.",
+      "task": "P8",
+      "kind": "evidence"
+    }
+  ],
+  "edges": [
+    {
+      "source": "meta",
+      "target": "f1",
+      "relation": "recebe e persiste",
+      "sources": [
+        "S05",
+        "S18"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "f1",
+      "target": "social",
+      "relation": "produz rascunho social",
+      "sources": [
+        "S07"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "f1",
+      "target": "corp",
+      "relation": "qualifica corporativo",
+      "sources": [
+        "S05"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "f1",
+      "target": "db",
+      "relation": "preserva contexto",
+      "sources": [
+        "S05"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "human",
+      "target": "queue",
+      "relation": "impede saída comercial",
+      "sources": [
+        "S05"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "human",
+      "target": "f1",
+      "relation": "interrompe automação comercial",
+      "sources": [
+        "S05"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "corp",
+      "target": "engine",
+      "relation": "consulta motor",
+      "sources": [
+        "S05",
+        "S09"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "engine",
+      "target": "socialprice",
+      "relation": "seleciona regra social",
+      "sources": [
+        "S09"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "engine",
+      "target": "br002",
+      "relation": "seleciona regra corporativa",
+      "sources": [
+        "S09"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "prices",
+      "target": "engine",
+      "relation": "fornece base oficial",
+      "sources": [
+        "S09"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "agenda",
+      "target": "present",
+      "relation": "condiciona disponibilidade e convite",
+      "sources": [
+        "S11"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "engine",
+      "target": "present",
+      "relation": "retorna valores corporativos",
+      "sources": [
+        "S05"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "present",
+      "target": "db",
+      "relation": "registra snapshot",
+      "sources": [
+        "S05"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "db",
+      "target": "queue",
+      "relation": "persiste intenção de envio",
+      "sources": [
+        "S05"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "queue",
+      "target": "meta",
+      "relation": "envia pelo TEST",
+      "sources": [
+        "S05"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "meta",
+      "target": "ack",
+      "relation": "retorna callbacks",
+      "sources": [
+        "S05"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "ack",
+      "target": "db",
+      "relation": "atualiza envio e orçamento",
+      "sources": [
+        "S05"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "planner",
+      "target": "target",
+      "relation": "planeja ORÇAMENTO sem executar",
+      "sources": [
+        "S14"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "card",
+      "target": "old",
+      "relation": "corresponde ao evento social",
+      "sources": [
+        "S16",
+        "S19"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "gov",
+      "target": "target",
+      "relation": "exige cartão após quote_sent",
+      "sources": [
+        "S12",
+        "S13"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "e2e",
+      "target": "ack",
+      "relation": "comprova delivered",
+      "sources": [
+        "S05",
+        "S06"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "gov",
+      "target": "engine",
+      "relation": "define regras comerciais",
+      "sources": [
+        "S01",
+        "S02"
+      ],
+      "phase": "current",
+      "confidence": "EXTRACTED"
+    },
+    {
+      "source": "social",
+      "target": "engine",
+      "relation": "conectar execução social",
+      "sources": [
+        "S07",
+        "S09"
+      ],
+      "phase": "planned",
+      "confidence": "INFERRED"
+    },
+    {
+      "source": "social",
+      "target": "present",
+      "relation": "conectar resposta automática",
+      "sources": [
+        "S07",
+        "S19"
+      ],
+      "phase": "planned",
+      "confidence": "INFERRED"
+    },
+    {
+      "source": "ack",
+      "target": "bridge",
+      "relation": "persistir intenção Trello",
+      "sources": [
+        "S14",
+        "S17"
+      ],
+      "phase": "planned",
+      "confidence": "INFERRED"
+    },
+    {
+      "source": "bridge",
+      "target": "planner",
+      "relation": "executar plano no LAB",
+      "sources": [
+        "S14",
+        "S18"
+      ],
+      "phase": "planned",
+      "confidence": "INFERRED"
+    },
+    {
+      "source": "planner",
+      "target": "mapping",
+      "relation": "gravar após sucesso",
+      "sources": [
+        "S14"
+      ],
+      "phase": "planned",
+      "confidence": "INFERRED"
+    },
+    {
+      "source": "mapping",
+      "target": "target",
+      "relation": "reconciliar um card por evento",
+      "sources": [
+        "S12",
+        "S14"
+      ],
+      "phase": "planned",
+      "confidence": "INFERRED"
+    },
+    {
+      "source": "card",
+      "target": "mapping",
+      "relation": "adotar apenas correlação válida",
+      "sources": [
+        "S16",
+        "S17"
+      ],
+      "phase": "planned",
+      "confidence": "INFERRED"
+    },
+    {
+      "source": "f1",
+      "target": "card",
+      "relation": "origem automática histórica?",
+      "sources": [
+        "S16",
+        "S19"
+      ],
+      "phase": "uncertain",
+      "confidence": "AMBIGUOUS"
+    },
+    {
+      "source": "f1",
+      "target": "response",
+      "relation": "tratar resposta pós-orçamento",
+      "sources": [
+        "S05",
+        "S12"
+      ],
+      "phase": "planned",
+      "confidence": "INFERRED"
+    },
+    {
+      "source": "response",
+      "target": "target",
+      "relation": "refletir estágio permitido",
+      "sources": [
+        "S12",
+        "S14"
+      ],
+      "phase": "planned",
+      "confidence": "INFERRED"
+    },
+    {
+      "source": "tests",
+      "target": "social",
+      "relation": "comprovar caminho social atual",
+      "sources": [
+        "S07",
+        "S19"
+      ],
+      "phase": "planned",
+      "confidence": "INFERRED"
+    },
+    {
+      "source": "tests",
+      "target": "target",
+      "relation": "comprovar card dos dois ramos",
+      "sources": [
+        "S14",
+        "S17"
+      ],
+      "phase": "planned",
+      "confidence": "INFERRED"
+    },
+    {
+      "source": "tests",
+      "target": "checkpoint",
+      "relation": "publicar provas sanitizadas",
+      "sources": [
+        "S03"
+      ],
+      "phase": "planned",
+      "confidence": "INFERRED"
+    }
+  ],
+  "sources": [
+    {
+      "id": "S01",
+      "title": "Baseline Funcional v1.1",
+      "kind": "repository",
+      "reference": "docs/00_governanca/CLICK_MAIS_OS_BASELINE_FUNCIONAL_v1.1.md",
+      "url": "https://github.com/clickmaiscabine/Click-Mais-Cabine/blob/cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af/docs/00_governanca/CLICK_MAIS_OS_BASELINE_FUNCIONAL_v1.1.md",
+      "commit": "cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af",
+      "detail": "",
+      "sha256": "632319ce208a881f1d110a32ca64f8a0155909baa529b2c32c0caa8a5f482457"
+    },
+    {
+      "id": "S02",
+      "title": "Decisões / DEC-017 / BR-002",
+      "kind": "repository",
+      "reference": "docs/00_governanca/REGISTRO_DE_DECISOES.md",
+      "url": "https://github.com/clickmaiscabine/Click-Mais-Cabine/blob/cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af/docs/00_governanca/REGISTRO_DE_DECISOES.md",
+      "commit": "cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af",
+      "detail": "",
+      "sha256": "ea24da684f2df6cc80bb90a2eaf9075812bc227c214502287f027574e77ee5b5"
+    },
+    {
+      "id": "S03",
+      "title": "Protocolo do repositório",
+      "kind": "repository",
+      "reference": "AGENTS.md",
+      "url": "https://github.com/clickmaiscabine/Click-Mais-Cabine/blob/cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af/AGENTS.md",
+      "commit": "cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af",
+      "detail": "",
+      "sha256": "a4b358313846cb1900478f67cd443de3b4d53047d8e1a848a3c68a18f27e7972"
+    },
+    {
+      "id": "S04",
+      "title": "Checkpoint corporativo",
+      "kind": "repository",
+      "reference": "docs/06_testes/BR002_HARNESS_STATUS.md",
+      "url": "https://github.com/clickmaiscabine/Click-Mais-Cabine/blob/cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af/docs/06_testes/BR002_HARNESS_STATUS.md",
+      "commit": "cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af",
+      "detail": "",
+      "sha256": "24c1a1fb0423569ed56afa4ee53f7fbb3104fc281dd8a3e7d7984a04e38d1db4"
+    },
+    {
+      "id": "S05",
+      "title": "Relatório E2E corporativo",
+      "kind": "repository",
+      "reference": "docs/06_testes/BR002_TURNOS_3_5_IMPLEMENTACAO.md",
+      "url": "https://github.com/clickmaiscabine/Click-Mais-Cabine/blob/cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af/docs/06_testes/BR002_TURNOS_3_5_IMPLEMENTACAO.md",
+      "commit": "cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af",
+      "detail": "",
+      "sha256": "08dc33a9dcd5b84f83c2bb852d67241d84efba39eb767073f6bbf08a38a89dd3"
+    },
+    {
+      "id": "S06",
+      "title": "Evidências corporativas sanitizadas",
+      "kind": "repository",
+      "reference": "docs/06_testes/BR002_TURNOS_3_5_EVIDENCIAS.json",
+      "url": "https://github.com/clickmaiscabine/Click-Mais-Cabine/blob/cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af/docs/06_testes/BR002_TURNOS_3_5_EVIDENCIAS.json",
+      "commit": "cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af",
+      "detail": "",
+      "sha256": "b0f6af254e6b5c09465bfd92fc81ff42a5ad6c49448065244ae57826d87babcb"
+    },
+    {
+      "id": "S07",
+      "title": "Roteador social: draft_only e auto_send=false",
+      "kind": "repository",
+      "reference": "src/functions/flow1-social-router.n8n.js",
+      "url": "https://github.com/clickmaiscabine/Click-Mais-Cabine/blob/cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af/src/functions/flow1-social-router.n8n.js",
+      "commit": "cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af",
+      "detail": "",
+      "sha256": "7cabcd87d09de982bab2c614b8a6f0f7670994247126ede12614a25d81bac8bf"
+    },
+    {
+      "id": "S08",
+      "title": "Adaptador social preservado",
+      "kind": "repository",
+      "reference": "src/adapters/quote-social.mjs",
+      "url": "https://github.com/clickmaiscabine/Click-Mais-Cabine/blob/cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af/src/adapters/quote-social.mjs",
+      "commit": "cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af",
+      "detail": "",
+      "sha256": "8a455ef517681e3d1045d7e5fde3ef8cf773a2c062c5048f33bc8027255313c6"
+    },
+    {
+      "id": "S09",
+      "title": "Seleção única das regras de preço",
+      "kind": "repository",
+      "reference": "src/adapters/quote-engine.mjs",
+      "url": "https://github.com/clickmaiscabine/Click-Mais-Cabine/blob/cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af/src/adapters/quote-engine.mjs",
+      "commit": "cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af",
+      "detail": "",
+      "sha256": "5e8baa0f0bf2b4311e55f8c33bda1da8b0129a697be3631b3f8d5bf5b7db5fb1"
+    },
+    {
+      "id": "S10",
+      "title": "Módulo monetário BR-002",
+      "kind": "repository",
+      "reference": "src/functions/corporate-pricing.cjs",
+      "url": "https://github.com/clickmaiscabine/Click-Mais-Cabine/blob/cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af/src/functions/corporate-pricing.cjs",
+      "commit": "cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af",
+      "detail": "",
+      "sha256": "2bffadc73b84a3463e8b57411fdbc20eed918bd509069a6a6f19a7954ceef132"
+    },
+    {
+      "id": "S11",
+      "title": "Apresentação corporativa e disponibilidade",
+      "kind": "repository",
+      "reference": "src/functions/corporate-presentation.mjs",
+      "url": "https://github.com/clickmaiscabine/Click-Mais-Cabine/blob/cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af/src/functions/corporate-presentation.mjs",
+      "commit": "cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af",
+      "detail": "",
+      "sha256": "c449dcb35cf4d37a2cdd36fbe78ea823e81e6ecb6f02000d9757c41e10507993"
+    },
+    {
+      "id": "S12",
+      "title": "CRM canônico / cartão por evento",
+      "kind": "repository",
+      "reference": "docs/architecture/TRELLO-CRM-V1.md",
+      "url": "https://github.com/clickmaiscabine/Click-Mais-Cabine/blob/cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af/docs/architecture/TRELLO-CRM-V1.md",
+      "commit": "cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af",
+      "detail": "",
+      "sha256": "41aba7448434de2458db621d685b95e8e38c5fc4c63f66b29b02fc1207711b8e"
+    },
+    {
+      "id": "S13",
+      "title": "Entrada do prospect e pipeline",
+      "kind": "repository",
+      "reference": "docs/decisions/ADR-0006_origem-lead-pipeline-comercial-v1.md",
+      "url": "https://github.com/clickmaiscabine/Click-Mais-Cabine/blob/cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af/docs/decisions/ADR-0006_origem-lead-pipeline-comercial-v1.md",
+      "commit": "cf1ef918dddf9f79cc7e42c76bbf7482abdbc9af",
+      "detail": "",
+      "sha256": "7a3b9a90f9651aecc2b84fe63a3454e8fc688edbd01eb7da514a9f2776ebd379"
+    },
+    {
+      "id": "S14",
+      "title": "F6 Trello / ações humanas / follow-up",
+      "kind": "repository",
+      "reference": "docs/07_projeto_executivo/F6_TRELLO_FOLLOWUP_IMPLEMENTATION_v1.2.1.md",
+      "url": "https://github.com/clickmaiscabine/Click-Mais-Cabine/blob/e53c4fef2712605687dcdd7e25fa6205981962cb/docs/07_projeto_executivo/F6_TRELLO_FOLLOWUP_IMPLEMENTATION_v1.2.1.md",
+      "commit": "e53c4fef2712605687dcdd7e25fa6205981962cb",
+      "detail": ""
+    },
+    {
+      "id": "S15",
+      "title": "Auditoria histórica TSK-144",
+      "kind": "repository",
+      "reference": "docs/07_projeto_executivo/TSK-144/README.md",
+      "url": "https://github.com/clickmaiscabine/Click-Mais-Cabine/blob/d6f6e81b79b7a63ff402a5a630016df193e81140/docs/07_projeto_executivo/TSK-144/README.md",
+      "commit": "d6f6e81b79b7a63ff402a5a630016df193e81140",
+      "detail": "Snapshot de 17/10; declara lacunas que foram superadas pelo E2E corporativo de 19/10. Não é inventário atual."
+    },
+    {
+      "id": "S16",
+      "title": "Board LAB consultado",
+      "kind": "live_read",
+      "reference": "https://trello.com/b/rBmu2kJC/labtest-click-mais-homologacao-fase-1",
+      "url": "https://trello.com/b/rBmu2kJC/labtest-click-mais-homologacao-fase-1",
+      "commit": null,
+      "detail": "Leitura 19/10: listas CONTATO e ORÇAMENTO; um cartão social em CONTATO, com identificação do evento e orçamento na descrição."
+    },
+    {
+      "id": "S17",
+      "title": "Supabase: projeções e agenda",
+      "kind": "live_read",
+      "reference": "https://supabase.com/dashboard/project/tsuuqcodmyuwqxfwevps",
+      "url": "https://supabase.com/dashboard/project/tsuuqcodmyuwqxfwevps",
+      "commit": null,
+      "detail": "Consulta somente leitura em 19/10: integrations.trello_projections=0 linhas; 24/10/2026 mantém 3 reservas ativas. Sem dados pessoais exportados."
+    },
+    {
+      "id": "S18",
+      "title": "Runtime n8n reconciliado",
+      "kind": "live_read",
+      "reference": "https://github.com/clickmaiscabine/Click-Mais-Cabine/pull/24",
+      "url": "https://github.com/clickmaiscabine/Click-Mais-Cabine/pull/24",
+      "commit": null,
+      "detail": "Leitura dos workflows efetivos em 19/10; versões registradas em runtime_versions. Trello 070/071 inativos e sem mutação; F1/engine/composer/dispatcher ativos."
+    },
+    {
+      "id": "S19",
+      "title": "Teste social anterior",
+      "kind": "observed_evidence",
+      "reference": "capturas do usuário e auditoria operacional de 18–19/10",
+      "url": null,
+      "commit": null,
+      "detail": "Diálogo social, correção de data, mídia e orçamento enviados. Snapshot presented e fila enviada corroboram o teste. Não comprova que a ramificação automática atual esteja ligada."
+    },
+    {
+      "id": "S20",
+      "title": "Graphify — arquitetura oficial v8",
+      "kind": "external_reference",
+      "reference": "https://github.com/Graphify-Labs/graphify/blob/v8/ARCHITECTURE.md",
+      "url": "https://github.com/Graphify-Labs/graphify/blob/v8/ARCHITECTURE.md",
+      "commit": null,
+      "detail": "Referência para nós, relações, procedência e graus de confiança. Este projeto não executou o Graphify."
+    },
+    {
+      "id": "S21",
+      "title": "Graphify — segurança oficial",
+      "kind": "external_reference",
+      "reference": "https://github.com/Graphify-Labs/graphify/blob/v8/SECURITY.md",
+      "url": "https://github.com/Graphify-Labs/graphify/blob/v8/SECURITY.md",
+      "commit": null,
+      "detail": "Extração de código pode ser local; extração semântica pode utilizar backend configurado. Não houve upload do repositório a modelos externos para criar este mapa."
+    }
+  ],
+  "tasks": [
+    {
+      "id": "P0",
+      "turn": 6,
+      "title": "Fixar a base e comprovar isolamento",
+      "purpose": "Preservar o que já funciona e impedir efeitos fora do LAB.",
+      "actions": "Revalidar HEAD e mudanças posteriores; exportar versões efetivas; inventariar contratos, permissões e consumidores. Conferir número Meta, destinatário, board e listas por identificador. Registrar baseline de testes e plano de reversão.",
+      "reuse": "PR #24, branch isolada, exports e checkpoint existentes.",
+      "depends": [],
+      "acceptance": "Diff revisável; versões e snapshots registrados; caminhos de envio e escrita restritos ao TEST/LAB; nenhum reset da sessão real nesta preparação.",
+      "proof": "Commit-base, hashes, inventário de credenciais por referência sem segredos e relatório de isolamento."
+    },
+    {
+      "id": "P1",
+      "turn": 6,
+      "title": "Completar a qualificação social automática",
+      "purpose": "Fazer o social já construído percorrer o F1 atual, sem refazê-lo.",
+      "actions": "Aproveitar o intake e a taxonomia existentes; completar o roteamento hoje draft_only. Consumir fatos persistidos, confirmar naturalmente o dado e perguntar apenas o próximo faltante. Manter conflitos, correções, mensagens fora de ordem e pedido de humano. Evitar saudações ou menus repetidos.",
+      "reuse": "F1 ativo, flow1-social-intake/router e kernel cumulativo; avaliar o draft de intake por contrato, sem publicar sua cópia inteira.",
+      "depends": [
+        "P0"
+      ],
+      "acceptance": "Social chega a ready; corporativo continua coletando dias/períodos/datas; apenas dados desconhecidos são solicitados.",
+      "proof": "Conversas de fixture e replay com snapshots de fatos/procedência e pergunta pendente."
+    },
+    {
+      "id": "P2",
+      "turn": 6,
+      "title": "Conectar prontidão, preços e agenda",
+      "purpose": "Usar o mesmo Quote Engine com a política correta para cada evento.",
+      "actions": "Estender de modo compatível os contratos TEST de contexto e prontidão que hoje exigem empresarial. Social chama seu adaptador já homologado; empresarial chama exclusivamente BR-002. Preservar localidade, revisão oficial e arredondamento. Reutilizar disponibilidade: consultar todas as datas, contar somente ativas e reconciliar a fonte da sincronização.",
+      "reuse": "runQuoteEngine, runF2QuoteAdapter, corporate-pricing e reconciliação da agenda existentes.",
+      "depends": [
+        "P1"
+      ],
+      "acceptance": "Paridade exata social antes/depois; exemplo BR-002 mantém valores; lotação de uma data bloqueia alegação do período; falha/divergência produz orçamento sem afirmar disponibilidade.",
+      "proof": "Diff dos contratos, comparação de snapshots, valores em centavos e lista das datas consultadas."
+    },
+    {
+      "id": "P3",
+      "turn": 6,
+      "title": "Conectar apresentação, estado e fila",
+      "purpose": "Entregar a resposta comercial correta com rastreabilidade.",
+      "actions": "Reutilizar apresentação social, mídias e compositor. Persistir versão do orçamento, texto e origem antes do envio. Generalizar o enqueue TEST de forma compatível, preservando janela Meta, locks, idempotência, cancelamento de versão antiga, ordem de mídias/textos e quarentena de envio incerto. Marcar presented/quote_sent somente com confirmação efetiva da API.",
+      "reuse": "Compositor/apresentação/dispatcher existentes e public.cmc_test_outbound_queue.",
+      "depends": [
+        "P2"
+      ],
+      "acceptance": "Sem preços da LLM; sem \\n literal; inclusos/prova social oficiais; convite condicionado à disponibilidade e human_lock; sequência sem duplicatas; ACK e callbacks correlacionados.",
+      "proof": "Snapshot persistido, fila, ID externo sanitizado, eventos e status sent/delivered/read disponíveis."
+    },
+    {
+      "id": "P4",
+      "turn": 6,
+      "title": "Executar a projeção Trello LAB",
+      "purpose": "Garantir acompanhamento de cada orçamento efetivamente enviado.",
+      "actions": "Reaproveitar CM-WF-070 planner e guard de ações humanas. Vincular quote_sent a uma intenção persistente de projeção na infraestrutura existente, para recuperar falhas entre sistemas. Procurar mapping e EVENT_ID antes de criar. Gravar card_id, versão e hash somente após sucesso. Reconciliar o cartão histórico por seu EVENT_ID, sem reativar evento arquivado. Atualizar cartão do evento atual em ORÇAMENTO. Não mover em massa o board comercial real.",
+      "reuse": "qr2WiKWr00oZMKbh, GKmiaRZAIf9O1Lni, integrations.trello_projections e estados canônicos.",
+      "depends": [
+        "P3"
+      ],
+      "acceptance": "Um evento/um cartão; nenhum cartão antes de quote_sent; repetição vira no-op; falha Trello não reenvia WhatsApp; resultado incerto exige consulta/reconciliação antes de novo create. Nenhuma escrita fora do board LAB.",
+      "proof": "Card e mapping correlacionados, projection_hash/version, histórico da operação e reprocessamento sem duplicação."
+    },
+    {
+      "id": "P5",
+      "turn": 6,
+      "title": "Fechar o acompanhamento dentro desta etapa",
+      "purpose": "Não perder a resposta do cliente após o orçamento.",
+      "actions": "Tratar a próxima resposta sem repetir o orçamento. Aplicar transição canônica permitida ou encaminhamento humano e refletir no cartão. Projetar última interação e próxima ação quando previstas. Respeitar as listas LAB existentes: não fingir sincronização de estágio cuja lista não existe; registrar bloqueio e preparar lista mínima LAB para revisão no diff.",
+      "reuse": "State Guard, handoff e contratos F6 existentes.",
+      "depends": [
+        "P4"
+      ],
+      "acceptance": "Resposta pós-orçamento fica registrada e gera ação rastreável; human_lock impede saída comercial. Não cria reserva, contrato ou pagamento.",
+      "proof": "Teste de resposta, transição/handoff e projeção correspondente. Follow-up automático corporativo não é ativado por inferência."
+    },
+    {
+      "id": "P6",
+      "turn": 7,
+      "title": "Executar integração e regressão adversa",
+      "purpose": "Comprovar que conectar o social e o Trello preservou o restante.",
+      "actions": "Rodar testes existentes e novos testes de contratos/efeitos reais. Exercitar correção de data, duplicatas, fatos antigos, preços/extremos, disponibilidade preliminar/lotada/desconhecida, concorrência, locks, janela fechada, erro explícito e timeout incerto. Usar transações com rollback e replay identificado; conferir ausência de efeitos externos.",
+      "reuse": "Suíte de 404 testes como referência histórica, cenários BR-002 e kernels F6.",
+      "depends": [
+        "P5"
+      ],
+      "acceptance": "Zero regressões; novas invariantes verificadas em integração; contador de testes sozinho não fecha o gate.",
+      "proof": "Comando, commit, resultados, cenários, executions e verificações de banco/fila/Trello."
+    },
+    {
+      "id": "P7",
+      "turn": 7,
+      "title": "Homologar os dois percursos reais no Meta TEST",
+      "purpose": "Demonstrar o objetivo de ponta a ponta, incluindo o cartão.",
+      "actions": "Reutilizar a sessão e o único destinatário autorizado. Preservar evidências antes de reset; reset existente somente quando necessário ao cenário. Fazer social e empresarial percorrerem entrada autêntica, coleta, agenda, preço, apresentação, persistência, fila, ACK/callback e Trello. Não simular recebimento nem abertura da janela; se houver bloqueio real, pedir apenas a mensagem mínima indispensável.",
+      "reuse": "Meta TEST, mecanismo de reset existente, dispatcher e board LAB.",
+      "depends": [
+        "P6"
+      ],
+      "acceptance": "Dois percursos vinculados por session/event/quote/queue/card; entrega disponível conferida; contagens e conteúdos corretos. Não declarar delivered se o callback disponível disser apenas sent.",
+      "proof": "Execuções reais e confirmação de envio/entrega; um cartão por evento; valores e texto entregue conferidos."
+    },
+    {
+      "id": "P8",
+      "turn": 7,
+      "title": "Encerrar com evidências e retomada",
+      "purpose": "Deixar a etapa auditável e pronta para decisão do responsável.",
+      "actions": "Atualizar mapa, checkpoint, docs, versões e PR em rascunho. Publicar evidências sanitizadas, commits, resultados e riscos remanescentes. Registrar rollback por componente. Não fazer merge, promoção ou mudança na operação comercial.",
+      "reuse": "PR #24 e padrão de evidência atual.",
+      "depends": [
+        "P7"
+      ],
+      "acceptance": "Todos os critérios abaixo satisfeitos ou bloqueio explícito com próxima ação; produção preservada comprovada.",
+      "proof": "Commits, CI, relatório final e checklist fechado."
+    }
+  ],
+  "runtime_versions": [
+    {
+      "component": "Ingresso Meta TEST",
+      "id": "iIAtpaRgvtssABsB",
+      "version": "bf344e22-2edc-4dfb-bedf-67be37e1d48e",
+      "active": true
+    },
+    {
+      "component": "F1",
+      "id": "3RAuwFaHIaZvOMjU",
+      "version": "8b24cd61-74ff-4b99-969f-398b901f6f3e",
+      "active": true
+    },
+    {
+      "component": "Quote Engine",
+      "id": "3LlqxQwA5JZBoaZd",
+      "version": "e3738c86-c58b-4301-8edf-689fa0656ce6",
+      "active": true
+    },
+    {
+      "component": "Apresentação",
+      "id": "q1ac0eQAPGcyAimY",
+      "version": "678df12d-8e93-49fb-9dc9-9b0e66d923e9",
+      "active": true
+    },
+    {
+      "component": "Compositor",
+      "id": "DBdzsxMlMqsB86YD",
+      "version": "118e91f8-98cc-49b6-ab69-cd4840a7c844",
+      "active": true
+    },
+    {
+      "component": "Fila TEST",
+      "id": "JVZIPknnB7iIwcxi",
+      "version": "d83ff35f-2adc-4d8c-8a45-bc9c1fc1c267",
+      "active": true
+    },
+    {
+      "component": "Trello projection planner",
+      "id": "qr2WiKWr00oZMKbh",
+      "version": "ffcdc7d9-2bf7-42e4-aed4-7cbe7c67aded",
+      "active": false
+    },
+    {
+      "component": "Trello human actions",
+      "id": "GKmiaRZAIf9O1Lni",
+      "active": false
+    },
+    {
+      "component": "Intake cumulativo candidato",
+      "id": "o1yr47lPPi3CIC1c",
+      "version": "d4334566-ad3b-402e-8daf-0db2b52d0376",
+      "active": false
+    }
+  ]
+}

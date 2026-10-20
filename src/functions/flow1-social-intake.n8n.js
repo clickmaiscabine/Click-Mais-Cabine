@@ -5,6 +5,14 @@ let category='commercial';
 if(/\b(fotos?.{0,35}(documentos?|3x4|rg|passaporte)|foto de rg|passaporte)\b/.test(t))category='out_of_scope';
 if(/\b(ja estao chegando|ja esta chegando|quando voces chegam|frete da festa|orcamento do frete)\b/.test(t))category='operational';
 if(['vendor','personal','staff','automated','institution'].includes(i.contact_category))category='noncommercial';
+// Numeric replies are not customer-facing menus in the normal qualification.
+// They are accepted here only for the explicit social date confirmation shown
+// after the agenda lookup: 1 continues and 2 reopens just the date.
+let socialDateAction=null;
+if(category==='commercial'&&st.pending_question==='social_date_confirmation'){
+ if(/^(?:1|sim|s|confirmo|correto|esta correta|pode continuar)[.!\s]*$/.test(t))socialDateAction='confirm';
+ else if(/^(?:2|quero refazer|refazer|trocar a data|outra data)[.!\s]*$/.test(t))socialDateAction='redo';
+}
 const services=[
 ['cabine_fotos',/\bcabine( de fotos?| fotografica)?\b/g],
 ['totem_fotos',/\btotem( de fotos?)?\b/g],
@@ -42,11 +50,11 @@ const rel=/\b(sou a noiva|sou noiva)\b/.test(t)?'noiva':/\b(sou o noivo|sou noiv
 const who=text.match(/\b(?:me chamo|meu nome é|sou a|sou o)\s+([A-Za-zÀ-ÿ]+(?:\s+[A-Za-zÀ-ÿ]+)?)/i);if(who&&/^(noiva|noivo|mae|mãe|pai|debutante|assessora|responsavel|responsável|organizadora|pessoa|irma|irmã|irmao|irmão|rh)\b/i.test(who[1]))who[1]=null;
 let origin=null;for(const [o,re] of [['google_maps',/\b(google maps|no maps|no perfil da empresa no maps)\b/],['instagram',/\b(instagram|pelo insta)\b/],['facebook',/\b(facebook|pelo face|no face)\b/],['google',/\bgoogle\b/],['foto_impressa',/\b(foto impressa|verso da foto|fotos da festa|lembranca impressa|material.*fotos)\b/],['indicacao',/\b(indicacao|indicou|recomendou|passou o contato|me passou o contato)\b/]])if(!origin&&re.test(t))origin=o;
 if(cta.verified===true&&cta.source)origin=cta.source;
-if(!duplicate&&category==='commercial'){add('services',desired,cta.verified&&mentioned.length===0?'verified_cta':'customer');add('purpose',purpose);add('event_date',date);if(city&&city!=='sao paulo')add('city',city);if(city==='sao paulo')add('city',city);add('district',district);add('relationship_to_event',rel);if(who)add('contact_name',who[1]);add('acquisition_source',origin,cta.verified?'verified_cta':'customer_declared');if(partial)add('event_date_partial',partial);}
+if(!duplicate&&category==='commercial'){add('services',desired,cta.verified&&mentioned.length===0?'verified_cta':'customer');add('purpose',purpose);add('event_date',date);if(city&&city!=='sao paulo')add('city',city);if(city==='sao paulo')add('city',city);add('district',district);add('relationship_to_event',rel);if(who)add('contact_name',who[1]);add('acquisition_source',origin,cta.verified?'verified_cta':'customer_declared');if(partial)add('event_date_partial',partial);if(socialDateAction){extracted.social_date_action=socialDateAction;evidence.social_date_action='customer_date_confirmation';}}
 const missing=[];if(!facts.services?.length)missing.push('service');if(!facts.purpose)missing.push('purpose');if(!facts.event_date)missing.push('event_date');if(!facts.city||(facts.city==='sao paulo'&&!facts.district))missing.push('event_location');
 const routeMap={service:'FLOW_1_SERVICE',purpose:'FLOW_2_PURPOSE',event_date:'FLOW_3_DATE',event_location:'FLOW_4_LOCALITY'};
 let next=missing.length?routeMap[missing[0]]:'FLOW_5_READY';if(category!=='commercial')next=category==='operational'?'ROUTE_OPERATIONS':'ROUTE_HUMAN';if(Object.keys(st.pending_conflicts).length)next='CLARIFY_CONFLICT';if(duplicate)next='DUPLICATE_NOOP';if(i.human_lock)next='HUMAN_LOCK_NO_REPLY';
-let question=next==='FLOW_1_SERVICE'?'Qual serviço deseja orçar?\n1. Cabine de Fotos\n2. Totem de Fotos\n3. Plataforma 360\n4. Set Fotográfico\n5. Fotógrafo':next==='FLOW_2_PURPOSE'?'Para qual ocasião será o serviço?\n1. Casamento\n2. Aniversário\n3. Debutante (15 anos)\n4. Evento empresarial':next==='FLOW_3_DATE'?'Qual é a data completa da festa (dia, mês e ano)?':next==='FLOW_4_LOCALITY'?(facts.city==='sao paulo'?'Qual o bairro ou região em São Paulo?':'Em qual cidade será a festa?'):next==='FLOW_5_READY'?'Já tenho os dados necessários para verificar seu orçamento. 😊':next==='CLARIFY_CONFLICT'?'Pode confirmar os dados divergentes sobre '+Object.keys(st.pending_conflicts).join(', ')+'?':null;
+let question=next==='FLOW_1_SERVICE'?'Olá!!\n\nSomos a *Click Mais Photo Cabine.*\nSeja bem vinda(o)!\n*Meu nome é Click*, sou a assistente virtual daqui da empresa e vou fazer agora mesmo o *seu orçamento!*\n\nPara qual serviço você precisa do orçamento?':next==='FLOW_2_PURPOSE'?'Legal!\n\n*Qual é o tipo ou finalidade da festa?*':next==='FLOW_3_DATE'?'Legal!\n\nQual a data de início da sua festa?':next==='FLOW_4_LOCALITY'?(facts.city==='sao paulo'?'Qual o bairro ou região em São Paulo?':'Em qual cidade será a festa?'):next==='FLOW_5_READY'?'Já tenho os dados necessários para verificar seu orçamento. 😊':next==='CLARIFY_CONFLICT'?'Pode confirmar os dados divergentes sobre '+Object.keys(st.pending_conflicts).join(', ')+'?':null;
 if(!duplicate&&id)processed.push(id);
 if(!duplicate&&question&&category==='commercial')st.introduced=true;
 st.facts=facts;st.processed_message_ids=[...new Set(processed)].slice(-100);st.pending_question=next==='FLOW_1_SERVICE'?'service':next==='FLOW_2_PURPOSE'?'purpose':next==='FLOW_3_DATE'?'event_date':next==='FLOW_4_LOCALITY'?'event_location':null;

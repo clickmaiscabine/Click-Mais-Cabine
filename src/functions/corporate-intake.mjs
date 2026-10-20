@@ -6,6 +6,14 @@ function corporateDate(d,m,y) {
   const v=new Date(iso+'T12:00:00Z');
   return Number(y)>=2020 && Number(y)<=2100 && !isNaN(v) && v.toISOString().slice(0,10)===iso ? iso : null;
 }
+function consecutiveCorporateDates(start, days) {
+  const dates=[],cursor=new Date(start+'T12:00:00Z');
+  for(let index=0;index<days;index++) {
+    dates.push(cursor.toISOString().slice(0,10));
+    cursor.setUTCDate(cursor.getUTCDate()+1);
+  }
+  return dates;
+}
 export function qualifyCorporate(input, legacy, taxonomy, official) {
   const text=String(input.text??legacy.text??''),t=normCorp(text);
   const previous=input.state??{},old=previous.facts??{};
@@ -46,6 +54,10 @@ export function qualifyCorporate(input, legacy, taxonomy, official) {
       dates=list;
     }
     const days=extracted.dias_evento??old.dias_evento;
+    // A single start date means consecutive calendar days by default.  The
+    // customer may explicitly opt out by saying that dates are not consecutive.
+    const nonConsecutive=/\b(?:nao\s+(?:sao|serao)\s+(?:dias?\s+)?seguidos|dias?\s+alternados?|nao\s+consecutiv[oa]s?|intercalados?)\b/.test(t);
+    if(!range && dates.length===1 && Number.isSafeInteger(days) && days>0 && !nonConsecutive) dates=consecutiveCorporateDates(dates[0],days);
     if(old.event_dates?.length<days && !/\b(corrigir|trocar|mudar|altere|na verdade)\b/.test(t)) dates=[...new Set([...old.event_dates,...dates])].sort();
     if(dates.length) {
       extracted.event_dates=dates;extracted.data_inicio=[...dates].sort()[0];
@@ -82,7 +94,7 @@ export function qualificationReply(result) {
   const f=result.context?.facts??{},flow=result.next_flow;
   const questions={FLOW_1_SERVICE:'Qual serviço você deseja para o evento?',FLOW_2_PURPOSE:'Qual é o tipo de evento?',
     FLOW_CORPORATE_DAYS:'Quantos dias terá o evento?',FLOW_CORPORATE_PERIODS:'Quantos períodos de 4 horas serão necessários por dia: 1 (4h), 2 (8h) ou 3 (12h)?',
-    CLARIFY_CORPORATE_DATES:f.event_dates?.length && f.event_dates.length<f.dias_evento?'Já anotei a(s) data(s) informada(s). Quais são as datas restantes (dia, mês e ano)?':'Quais são as datas completas de todos os dias do evento (dia, mês e ano)?',
+    CLARIFY_CORPORATE_DATES:'Para um evento em dias não consecutivos, informe todas as datas completas (dia, mês e ano).',
     FLOW_4_LOCALITY:f.city==='sao paulo'?'Em qual bairro ou região de São Paulo será o evento?':'Em qual cidade ou região será o evento?',
     CLARIFY_CONFLICT:'Recebi informações diferentes. Você confirma os novos dados?',
     ROUTE_HUMAN:'Essa configuração precisa da confirmação da nossa equipe. Vou encaminhar seu pedido ao responsável.'};
@@ -93,6 +105,9 @@ export function qualificationReply(result) {
   else if(last.includes('dias_evento'))ack=`${f.dias_evento} dia(s) de evento, certo. `;
   else if(last.includes('purpose'))ack='É um evento empresarial, certo. ';
   else if(last.includes('services'))ack='Entendi o serviço desejado. ';
-  else if(last.includes('event_dates'))ack='Entendi as datas do evento. ';
+  else if(last.includes('event_dates')) {
+    const dates=(f.event_dates??[]).map(date=>date.split('-').reverse().join('/'));
+    ack=dates.length?`Anotei ${dates.join(' e ')} para o evento. `:'Entendi as datas do evento. ';
+  }
   return questions[flow]?ack+questions[flow]:null;
 }

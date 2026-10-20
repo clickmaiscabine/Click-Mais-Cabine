@@ -1,0 +1,13 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {reconcileLabProjection,LAB_BOARD,LAB_LISTS} from '../../src/functions/trello-lab.mjs';
+import {planTrelloProjection} from '../../src/functions/trello-projection.mjs';
+const id='11111111-2222-4333-8444-555555555555';
+const claim=()=>({lab_scope:true,board_id:LAB_BOARD,claim_token:'synthetic',customer_event_id:id,commercial_stage:'ORCAMENTO',stage_version:2,source_event_type:'quote_sent',qualified_at:'2026-10-19',quote:{id:'quote',status:'presented',version:1,pix:5129.1,card:6255},services:['Cabine de Fotos']});
+const card=()=>({id:'legacy-card',idBoard:LAB_BOARD,idList:'legacy-contact',closed:false,desc:'Customer event ID: '+id});
+test('lost create receipt is recovered by event marker without a new create',()=>{const r=reconcileLabProjection(claim(),[card()],planTrelloProjection);assert.equal(r.create,false);assert.equal(r.card_id,'legacy-card');assert.equal(r.projection.target_list_id,LAB_LISTS[0].id)});
+test('no card after complete scan plans a single create with EVENT_ID',()=>{const r=reconcileLabProjection(claim(),[],planTrelloProjection);assert.equal(r.create,true);assert.equal(r.write,true);assert.match(r.projection.description,new RegExp('EVENT_ID='+id));});
+for(const [name,cards]of [['duplicate cards',[card(),{...card(),id:'other'}]],['archived',[{...card(),closed:true}]],['wrong board',[{...card(),idBoard:'production'}]],['source error',[{error:'timeout'}]]])test('safe stop for '+name,()=>assert.equal(reconcileLabProjection(claim(),cards,planTrelloProjection).write,false));
+test('foreign workflow input cannot create a card',()=>assert.equal(reconcileLabProjection({...claim(),lab_scope:false},[],planTrelloProjection).write,false));
+test('missing mapped card is not replaced blindly',()=>assert.equal(reconcileLabProjection({...claim(),existing_projection:{card_id:'absent'}},[],planTrelloProjection).write,false));
+test('in_sync card repairs mapping without external mutation',()=>{const p=reconcileLabProjection(claim(),[],planTrelloProjection).projection;const c={...card(),idList:p.target_list_id,name:p.title,desc:p.description};const r=reconcileLabProjection(claim(),[c],planTrelloProjection);assert.equal(r.write,false);assert.equal(r.status,'in_sync')});
