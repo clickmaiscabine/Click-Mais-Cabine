@@ -361,6 +361,16 @@
         "id": "cm-marketing-12",
         "path": "docs/07_projeto_executivo/cm-marketing/examples/request-weekly.json",
         "status": "review"
+      },
+      {
+        "id": "cm-marketing-13",
+        "path": "docs/07_projeto_executivo/cm-marketing/JORNADA-COMERCIAL.md",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-14",
+        "path": "docs/07_projeto_executivo/cm-marketing/schemas/journey.schema.json",
+        "status": "review"
       }
     ]
   }

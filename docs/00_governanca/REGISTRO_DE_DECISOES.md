@@ -36,6 +36,12 @@ Este arquivo registra decisões humanas funcionais e arquiteturais em linguagem 
 |---|---|---|---|
 | DEC-018 | Vigilância diária das duas caixas de e-mail e avaliações da Click Mais; revisão semanal Ads/Wix/comercial segunda após as 12h. Regis entrega extratos ao gerente; Hermes lembra, ingere em GitHub privado, recebe relatórios e distribui alertas/Painel. Codex executa, grava saída privada e atende ordens com alçada comprovada. Cruzar Perfil da Empresa, Wix e Controle de Orçamentos sem atribuição fictícia; reaproveitar ingestão existente e evitar jobs duplicados. | homologated | detalha DEC-017; substitui análise financeira completa diária e comunicação direta do executor; implantação da nova ponte em review |
 
+## Jornada de venda e recebimento em 23/11/2026
+
+| ID | Decisão | Status | Substitui/impacta |
+|---|---|---|---|
+| DEC-019 | Medir a jornada de venda cruzando Controle de Orçamentos, contratos da Logística 3.1 e recebimentos Financeiro; recuperar marcos reais e vincular por oportunidade/evento. Mostrar conversão, duração, receita contratada/recebida, atribuição e curvas por grupos comparáveis. Preservar cartões, contratos e chaves; incluir no relatório semanal existente. | homologated | amplia a análise da DEC-018; implementação analítica em review, sem novo gatilho comercial |
+
 ## Regra de alteração
 
 Nunca editar uma decisão antiga para esconder mudança histórica.

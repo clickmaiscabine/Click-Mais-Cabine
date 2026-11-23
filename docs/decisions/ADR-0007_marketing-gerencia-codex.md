@@ -21,3 +21,6 @@ Adotar contratos de request/report, evidência por fonte e ack de entrega. Homol
 
 ## Detalhamento posterior — DEC-018
 A decisão de 23/11 separa revisão semanal e vigilância diária; Hermes passa a ser o único ponto de lembrete, alerta e distribuição ao dono/Painel. Adotar inbox/outbox em repositório privado dedicado, checksum, identidade por escopo e ack específico. A coleta de e-mails existente é reaproveitada. Ver OPERACAO-E-INGESTAO.md. O recibo local já registrado não comprova a nova ponte GitHub nem todos os acessos cloud/local. Preservar sua evidência e fazer somente os aceites incrementais.
+
+## Jornada comercial — DEC-019
+A revisão semanal passa a vincular Controle de Orçamentos, Logística 3.1 e recebimentos Financeiro em uma visão analítica privada por oportunidade/evento. Incorporar JORNADA-COMERCIAL.md e journey.json separado: preservar schemas/request/report existentes e a alçada dos motores. Não há novo job, novo gatilho de fechamento ou alteração de cartões. Histórico importado, duplicatas e datas desconhecidas não podem gerar aquisição ou conversão fictícia.

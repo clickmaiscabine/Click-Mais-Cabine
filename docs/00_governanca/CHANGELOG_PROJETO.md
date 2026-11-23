@@ -1,5 +1,13 @@
 # Changelog do Projeto — Click Mais OS
 
+## 2026-11-23 — Jornada de venda e recebimento
+
+- DEC-019: cruzamento analítico entre Controle de Orçamentos, Logística 3.1 e Financeiro na revisão semanal existente.
+- Adicionados ordem de execução, marcos com evidência/precisão, deduplicação por evento, coortes comparáveis e visualizações de tempo e caixa.
+- journey.schema.json é contrato analítico separado; schemas/consumidores anteriores preservados. Dados reais e evidências de clientes permanecem privados.
+- Inspeção de leitura não alterou cartões, contratos, pagamentos ou gatilhos. Cobertura parcial não é taxa integral da empresa.
+
+
 ## 2026-11-23 — Cadência e ingestão privada de Marketing
 
 - Registrada DEC-018: vigilância diária de e-mails/avaliações e revisão semanal após as 12h de segunda; lembrete e alertas pertencem ao Hermes.
