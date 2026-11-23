@@ -1,5 +1,13 @@
 # Changelog do Projeto — Click Mais OS
 
+## 2026-11-23 — Operação recorrente de Marketing
+
+- Registrada DEC-017 e ADR-0007 em review, com gerente Hermes e executor Codex.
+- Adicionados plano de implantação finita, contratos de pedido/relatório, intenção de jobs, matriz de aceite e primeira semana editorial da Cabine IA.
+- Credenciais continuam no mecanismo autorizado; conectores desta conversa não são presumidos no Codex local.
+- Sem alteração nos motores produtivos, contratos, pipeline, Trello ou software homologado da Cabine IA. Relatórios e dados reais permanecem privados.
+
+
 ## 2026-10-10 — Permissão do link OneDrive de entrega
 
 - Registrada a decisão DEC-016: usar link padrão OneDrive “Anyone/qualquer pessoa com o link”, somente para visualização e com download permitido.

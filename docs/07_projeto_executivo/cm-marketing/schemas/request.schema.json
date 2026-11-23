@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Click Mais Marketing Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "request_id",
+    "owner",
+    "executor_context",
+    "period",
+    "sources",
+    "mode"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "owner": {
+      "const": "cm-marketing"
+    },
+    "executor_context": {
+      "enum": [
+        "chatgpt_work",
+        "codex_local",
+        "codex_cloud"
+      ]
+    },
+    "period": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start",
+        "end_exclusive",
+        "timezone"
+      ],
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_exclusive": {
+          "type": "string",
+          "format": "date"
+        },
+        "timezone": {
+          "const": "America/Sao_Paulo"
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "uniqueItems": true,
+      "minItems": 1,
+      "items": {
+        "enum": [
+          "google_ads",
+          "wix",
+          "gmail",
+          "policy_sources",
+          "content"
+        ]
+      }
+    },
+    "mode": {
+      "enum": [
+        "read_and_draft",
+        "authorized_action"
+      ]
+    },
+    "action_authorization_ref": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "mode": {
+            "const": "authorized_action"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "action_authorization_ref"
+        ]
+      }
+    }
+  ]
+}

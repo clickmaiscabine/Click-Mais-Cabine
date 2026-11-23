@@ -1,0 +1,65 @@
+{
+  "version": "1.0.0",
+  "status": "review",
+  "timezone": "America/Sao_Paulo",
+  "owner": "cm-marketing",
+  "executor": "codex",
+  "runtime_enabled": false,
+  "description": "Intenção declarativa; não é schema nativo do Hermes.",
+  "jobs": [
+    {
+      "id": "marketing-diario",
+      "trigger": {
+        "kind": "daily",
+        "preferred_time": "08:00",
+        "timing": "approximate"
+      },
+      "tasks": [
+        "ads_metrics",
+        "wix_metrics",
+        "account_alerts",
+        "policy_watch",
+        "daily_content"
+      ],
+      "dedupe": "marketing|clickmais|{local_date}",
+      "delivery": "private_manager_inbox",
+      "enable_when": [
+        "executor_access_verified",
+        "manager_ack_verified",
+        "single_schedule_owner_verified"
+      ]
+    },
+    {
+      "id": "marketing-sob-demanda",
+      "trigger": {
+        "kind": "manager_request"
+      },
+      "tasks": [
+        "requested_scope_only"
+      ],
+      "dedupe": "{request_id}",
+      "delivery": "private_manager_inbox",
+      "runtime_enabled": false
+    },
+    {
+      "id": "marketing-semanal",
+      "trigger": {
+        "kind": "daily_package_condition",
+        "weekday": "MO"
+      },
+      "tasks": [
+        "compare_7d_vs_previous_7d",
+        "refresh_editorial_queue"
+      ],
+      "additional_cron": false
+    }
+  ],
+  "legacy": {
+    "radar_campaign": "preserve_existing_owner_schedule_and_engine",
+    "contracts": "no_changes"
+  },
+  "migration": {
+    "bootstrap_cloud_schedule": "pause_before_enabling_equivalent_hermes_job",
+    "rule": "never_two_daily_dispatchers_for_same_package"
+  }
+}

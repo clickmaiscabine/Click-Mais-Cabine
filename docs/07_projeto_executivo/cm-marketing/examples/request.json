@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0.0",
+  "request_id": "marketing|clickmais|2026-11-23",
+  "owner": "cm-marketing",
+  "executor_context": "codex_local",
+  "period": {
+    "start": "2026-11-16",
+    "end_exclusive": "2026-11-23",
+    "timezone": "America/Sao_Paulo"
+  },
+  "sources": [
+    "google_ads",
+    "wix",
+    "gmail",
+    "policy_sources",
+    "content"
+  ],
+  "mode": "read_and_draft"
+}

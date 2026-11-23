@@ -300,6 +300,53 @@
         "path": "docs/05_seguranca/META_TOKEN_HANDOFF.md",
         "status": "development"
       }
+    ],
+    "marketing_operation": [
+      {
+        "id": "cm-marketing-01",
+        "path": "docs/07_projeto_executivo/cm-marketing/README.md",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-02",
+        "path": "docs/07_projeto_executivo/cm-marketing/prompts/diario.md",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-03",
+        "path": "docs/07_projeto_executivo/cm-marketing/config/jobs.json",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-04",
+        "path": "docs/07_projeto_executivo/cm-marketing/schemas/request.schema.json",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-05",
+        "path": "docs/07_projeto_executivo/cm-marketing/schemas/report.schema.json",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-06",
+        "path": "docs/07_projeto_executivo/cm-marketing/examples/request.json",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-07",
+        "path": "docs/07_projeto_executivo/cm-marketing/MATRIZ-ACEITE.md",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-08",
+        "path": "docs/07_projeto_executivo/cm-marketing/CAMPANHA-40-DIAS.md",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-09",
+        "path": "docs/decisions/ADR-0007_marketing-gerencia-codex.md",
+        "status": "review"
+      }
     ]
   }
 }

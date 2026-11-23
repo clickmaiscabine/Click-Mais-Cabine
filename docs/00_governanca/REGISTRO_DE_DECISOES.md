@@ -24,6 +24,12 @@ Este arquivo registra decisões humanas funcionais e arquiteturais em linguagem 
 | DEC-015 | Para eventos com data registrada, programar a entrega do link OneDrive para 12h do dia calendário seguinte à data da festa, no fuso America/Sao_Paulo; executar o envio quando a pasta estiver pronta e vinculada ao evento. | homologated | detalha ADR-0004; workflow CM-WF-140 |
 | DEC-016 | Entregar ao cliente um link OneDrive padrão “Anyone/qualquer pessoa com o link”, somente para visualização, com download permitido; não exigir autenticação ou identidade do destinatário. O cliente recebe o link pelo WhatsApp e pode repassá-lo; qualquer pessoa que o obtenha poderá acessar as fotos. | homologated | detalha ADR-0004; workflow CM-WF-140 |
 
+## Decisão registrada em 23/11/2026
+
+| ID | Decisão | Status | Substitui/impacta |
+|---|---|---|---|
+| DEC-017 | Criar operação recorrente de Marketing com gerente Hermes e executor Codex, cobrindo Google Ads, Wix, notificações e conteúdo social; priorizar Cabine IA. Não pressupor transferência automática de credenciais ou implantação local. | homologated | amplia a operação sob demanda; implementação em review no ADR-0007 |
+
 ## Regra de alteração
 
 Nunca editar uma decisão antiga para esconder mudança histórica.
