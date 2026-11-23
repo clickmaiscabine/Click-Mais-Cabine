@@ -83,3 +83,6 @@ Schemas passam a aceitar 1.0.0 e 1.1.0. Mensagens 1.0.0 e seus recibos continuam
 
 ## Jornada até o contrato e recebimento — DEC-019
 [JORNADA-COMERCIAL.md](JORNADA-COMERCIAL.md) organiza o vínculo entre Controle de Orçamentos e contratos históricos da Logística 3.1, com pagamentos conciliados pelo Financeiro. A revisão semanal acrescenta journey.json privado e visualizações por oportunidade/coorte. Cartões não equivalem a clientes novos; importações não definem a data de aquisição. Contrato enviado, assinatura, venda e pagamento têm marcos distintos. Nenhuma mudança de gatilho, posição de cartão ou regra de fechamento.
+
+## Propósito e máquina de acompanhamento — DEC-020
+O departamento protege os canais e melhora seu resultado. A [máquina de moldes semanais](maquina/README.md) implementa o gabarito de ingestão, fotografias semanais versionadas, arquivo histórico e gráficos interativos. O software funciona sem dependências de interface ou rede; inclui importador Node para o gerente. Demonstração e dados reais são separados. A incorporação ao Painel e aos coletores é trabalho de integração com o ambiente real do Hermes, com recibo, sem duplicar job. Não afirmar implantação por existir protótipo. Previsão fica para etapa posterior.

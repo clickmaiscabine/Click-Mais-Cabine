@@ -1,5 +1,13 @@
 # Changelog do Projeto — Click Mais OS
 
+## 2026-11-23 — Máquina de moldes semanais de Marketing
+
+- DEC-020 registra propósito do departamento e entrega do protótipo funcional: ficha padronizada, importador, arquivo versionado e visualizador de curvas semanais.
+- Código sem dependências de interface/CDN, contrato JSON e exemplos fictícios; métricas reais ficam fora do repositório público.
+- Dedupe, conflitos de revisão, contribuições de fontes, lacunas, isolamento demo/real e métricas não aditivas protegidos; testes finitos do motor/importador passaram.
+- A abertura da tela para verificação visual foi bloqueada pelo ambiente. Integração Hermes/Painel e recibo deste novo pacote permanecem pendentes. Nenhum job, cartão ou campanha alterado.
+
+
 ## 2026-11-23 — Jornada de venda e recebimento
 
 - DEC-019: cruzamento analítico entre Controle de Orçamentos, Logística 3.1 e Financeiro na revisão semanal existente.

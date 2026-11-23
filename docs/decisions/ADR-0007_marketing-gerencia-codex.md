@@ -24,3 +24,6 @@ A decisão de 23/11 separa revisão semanal e vigilância diária; Hermes passa 
 
 ## Jornada comercial — DEC-019
 A revisão semanal passa a vincular Controle de Orçamentos, Logística 3.1 e recebimentos Financeiro em uma visão analítica privada por oportunidade/evento. Incorporar JORNADA-COMERCIAL.md e journey.json separado: preservar schemas/request/report existentes e a alçada dos motores. Não há novo job, novo gatilho de fechamento ou alteração de cartões. Histórico importado, duplicatas e datas desconhecidas não podem gerar aquisição ou conversão fictícia.
+
+## Máquina temporal — DEC-020
+Entregar um núcleo reutilizável e uma interface autônoma em maquina/: ficha semanal fechada, contribuições de fontes com períodos iguais, revisões preservadas e visualização histórica. O objetivo é acompanhar o resultado no tempo, não guardar relatórios soltos. Código público não recebe dados reais. O importador técnico não representa ack Hermes; o adaptador local e a rota do Painel exigem implantação e conferência no ambiente real. Não há novo cron nem previsão automática nesta versão.

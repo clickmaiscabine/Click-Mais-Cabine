@@ -1,0 +1,162 @@
+[
+  {
+    "key": "ads.impressions",
+    "label": "Impressões Ads",
+    "source": "google_ads",
+    "unit": "count",
+    "aggregation": "sum",
+    "definition_version": "1.0.0"
+  },
+  {
+    "key": "ads.clicks",
+    "label": "Cliques no anúncio",
+    "source": "google_ads",
+    "unit": "count",
+    "aggregation": "sum",
+    "definition_version": "1.0.0"
+  },
+  {
+    "key": "ads.cost_brl",
+    "label": "Investimento Ads",
+    "source": "google_ads",
+    "unit": "BRL",
+    "aggregation": "sum",
+    "definition_version": "1.0.0"
+  },
+  {
+    "key": "ads.conversions",
+    "label": "Conversões configuradas Ads",
+    "source": "google_ads",
+    "unit": "count",
+    "aggregation": "sum",
+    "definition_version": "1.0.0"
+  },
+  {
+    "key": "wix.sessions",
+    "label": "Sessões no site",
+    "source": "wix",
+    "unit": "count",
+    "aggregation": "sum",
+    "definition_version": "1.0.0"
+  },
+  {
+    "key": "wix.unique_visitors",
+    "label": "Visitantes únicos Wix",
+    "source": "wix",
+    "unit": "count",
+    "aggregation": "non_additive",
+    "definition_version": "1.0.0"
+  },
+  {
+    "key": "wix.contact_clicks",
+    "label": "Cliques de contato no site",
+    "source": "wix",
+    "unit": "count",
+    "aggregation": "sum",
+    "definition_version": "1.0.0"
+  },
+  {
+    "key": "wix.forms_submitted",
+    "label": "Formulários enviados",
+    "source": "wix",
+    "unit": "count",
+    "aggregation": "sum",
+    "definition_version": "1.0.0"
+  },
+  {
+    "key": "gbp.profile_views",
+    "label": "Visualizações do Perfil",
+    "source": "google_business_profile",
+    "unit": "count",
+    "aggregation": "non_additive",
+    "definition_version": "1.0.0"
+  },
+  {
+    "key": "gbp.website_clicks",
+    "label": "Cliques do Perfil para o site",
+    "source": "google_business_profile",
+    "unit": "count",
+    "aggregation": "sum",
+    "definition_version": "1.0.0"
+  },
+  {
+    "key": "gbp.chat_clicks",
+    "label": "Cliques no chat do Perfil",
+    "source": "google_business_profile",
+    "unit": "count",
+    "aggregation": "sum",
+    "definition_version": "1.0.0"
+  },
+  {
+    "key": "gbp.call_clicks",
+    "label": "Cliques para ligar no Perfil",
+    "source": "google_business_profile",
+    "unit": "count",
+    "aggregation": "sum",
+    "definition_version": "1.0.0"
+  },
+  {
+    "key": "crm.contacts",
+    "label": "Novas oportunidades no WhatsApp",
+    "source": "commercial_source",
+    "unit": "count",
+    "aggregation": "sum",
+    "definition_version": "1.0.0"
+  },
+  {
+    "key": "crm.quotes_sent",
+    "label": "Oportunidades com orçamento enviado",
+    "source": "commercial_source",
+    "unit": "count",
+    "aggregation": "sum",
+    "definition_version": "1.0.0"
+  },
+  {
+    "key": "crm.sales_confirmed",
+    "label": "Vendas confirmadas na semana",
+    "source": "commercial_source",
+    "unit": "count",
+    "aggregation": "sum",
+    "definition_version": "1.0.0"
+  },
+  {
+    "key": "crm.contracts_signed",
+    "label": "Contratos assinados na semana",
+    "source": "commercial_source",
+    "unit": "count",
+    "aggregation": "sum",
+    "definition_version": "1.0.0"
+  },
+  {
+    "key": "finance.contracted_brl",
+    "label": "Valor contratado na semana",
+    "source": "finance",
+    "unit": "BRL",
+    "aggregation": "sum",
+    "definition_version": "1.0.0"
+  },
+  {
+    "key": "finance.received_brl",
+    "label": "Recebimentos conciliados da semana",
+    "source": "finance",
+    "unit": "BRL",
+    "aggregation": "sum",
+    "definition_version": "1.0.0"
+  },
+  {
+    "key": "billing.balance_brl",
+    "label": "Saldo de faturamento no retrato",
+    "source": "google_ads_billing",
+    "unit": "BRL",
+    "aggregation": "snapshot",
+    "definition_version": "1.0.0"
+  },
+  {
+    "key": "reviews.new_reviews",
+    "label": "Novas avaliações",
+    "source": "google_business_profile",
+    "unit": "count",
+    "aggregation": "sum",
+    "definition_version": "1.0.0"
+  }
+]

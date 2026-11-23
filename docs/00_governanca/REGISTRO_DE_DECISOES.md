@@ -42,6 +42,12 @@ Este arquivo registra decisões humanas funcionais e arquiteturais em linguagem 
 |---|---|---|---|
 | DEC-019 | Medir a jornada de venda cruzando Controle de Orçamentos, contratos da Logística 3.1 e recebimentos Financeiro; recuperar marcos reais e vincular por oportunidade/evento. Mostrar conversão, duração, receita contratada/recebida, atribuição e curvas por grupos comparáveis. Preservar cartões, contratos e chaves; incluir no relatório semanal existente. | homologated | amplia a análise da DEC-018; implementação analítica em review, sem novo gatilho comercial |
 
+## Máquina de moldes semanais em 23/11/2026
+
+| ID | Decisão | Status | Substitui/impacta |
+|---|---|---|---|
+| DEC-020 | Propósito de Marketing: proteger os canais e melhorar seu resultado. Construir máquina de fichas padronizadas, moldes semanais versionados e visualizador histórico; unir contribuições dos coletores e mostrar curvas/intervenções, com exemplo separado de dados reais. Entregar software e contrato de ingestão para o Hermes acoplar ao Painel da Vida usando o agendamento existente; previsão fica para etapa posterior. | homologated | implementa a forma de acompanhamento das DEC-018/019; protótipo em development, integração local pendente |
+
 ## Regra de alteração
 
 Nunca editar uma decisão antiga para esconder mudança histórica.
