@@ -1,0 +1,337 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Click Mais private commercial journey sidecar",
+  "description": "Analytical output only; these fields are not claimed to be native Trello or Supabase fields.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "request_id",
+    "collected_at",
+    "timezone",
+    "coverage",
+    "opportunities",
+    "aggregates",
+    "delivery"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "collected_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "timezone": {
+      "const": "America/Sao_Paulo"
+    },
+    "coverage": {
+      "type": "object",
+      "required": [
+        "state",
+        "description"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "sample",
+            "partial",
+            "complete"
+          ]
+        },
+        "description": {
+          "type": "string"
+        },
+        "as_of": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "opportunities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "opportunity_ref",
+          "match_status",
+          "match_basis",
+          "source_card_refs",
+          "events",
+          "first_contact_known",
+          "ad_attribution",
+          "contract_value_brl",
+          "notes"
+        ],
+        "properties": {
+          "opportunity_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "match_status": {
+            "enum": [
+              "confirmed",
+              "candidate",
+              "ambiguous",
+              "unmatched"
+            ]
+          },
+          "match_basis": {
+            "type": "string"
+          },
+          "source_card_refs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "type",
+                "occurred_on",
+                "precision",
+                "evidence_level",
+                "source_ref",
+                "amount_brl"
+              ],
+              "properties": {
+                "type": {
+                  "enum": [
+                    "first_contact",
+                    "quote_sent",
+                    "contract_sent",
+                    "contract_signed",
+                    "sale_confirmed",
+                    "first_payment_settled",
+                    "event_scheduled",
+                    "card_imported",
+                    "contract_recorded"
+                  ]
+                },
+                "occurred_on": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "description": "ISO date or timestamp, preserved at source precision. Null when unknown."
+                },
+                "precision": {
+                  "enum": [
+                    "timestamp",
+                    "date",
+                    "unknown"
+                  ]
+                },
+                "evidence_level": {
+                  "enum": [
+                    "primary",
+                    "reported",
+                    "proxy",
+                    "unknown"
+                  ]
+                },
+                "source_ref": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "amount_brl": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0
+                }
+              },
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "precision": {
+                        "const": "unknown"
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "occurred_on": {
+                        "type": "null"
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "precision": {
+                        "const": "date"
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "occurred_on": {
+                        "type": "string",
+                        "format": "date"
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "precision": {
+                        "const": "timestamp"
+                      }
+                    }
+                  },
+                  "then": {
+                    "properties": {
+                      "occurred_on": {
+                        "type": "string",
+                        "format": "date-time"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "first_contact_known": {
+            "type": "boolean"
+          },
+          "ad_attribution": {
+            "enum": [
+              "proven",
+              "declared",
+              "unknown"
+            ]
+          },
+          "contract_value_brl": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0
+          },
+          "notes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "aggregates": {
+      "type": "object",
+      "description": "Null without a complete compatible denominator.",
+      "required": [
+        "quote_to_sale_rate",
+        "median_contact_to_sale_days",
+        "median_contact_to_payment_days",
+        "media_cost_per_attributed_contract_brl",
+        "roi",
+        "payback_days"
+      ],
+      "properties": {
+        "quote_to_sale_rate": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "median_contact_to_sale_days": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "median_contact_to_payment_days": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "media_cost_per_attributed_contract_brl": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "roi": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "payback_days": {
+          "type": [
+            "number",
+            "null"
+          ]
+        }
+      }
+    },
+    "delivery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "recipient",
+        "ack_ref"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "produced",
+            "delivery_pending",
+            "received",
+            "accepted"
+          ]
+        },
+        "recipient": {
+          "const": "cm-marketing"
+        },
+        "ack_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "enum": [
+                  "received",
+                  "accepted"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "ack_ref": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

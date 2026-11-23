@@ -1,0 +1,36 @@
+{
+  "kind": "clickmais.weekly_contributions",
+  "schema_version": "1.0.0",
+  "period": {
+    "start": "2026-11-16",
+    "end_exclusive": "2026-11-23",
+    "timezone": "America/Sao_Paulo"
+  },
+  "collected_at": "2026-11-23T15:15:49.112Z",
+  "producer": "exemplo fictício",
+  "mode": "demo",
+  "revision": 1,
+  "contributions": [
+    {
+      "source": "google_ads",
+      "period": {
+        "start": "2026-11-16",
+        "end_exclusive": "2026-11-23",
+        "timezone": "America/Sao_Paulo"
+      },
+      "collected_at": "2026-11-23T15:15:49.112Z",
+      "metrics": {
+        "ads.clicks": {
+          "value": 12,
+          "status": "observed",
+          "coverage": "complete",
+          "source": "google_ads",
+          "definition_version": "1.0.0",
+          "evidence_refs": [
+            "demo:exemplo-ficticio"
+          ]
+        }
+      }
+    }
+  ]
+}

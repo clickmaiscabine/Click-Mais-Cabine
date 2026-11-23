@@ -1,0 +1,180 @@
+{
+  "schema_version": "1.0.0",
+  "kind": "clickmais.weekly_snapshot",
+  "snapshot_id": "marketing|clickmais|2026-11-16",
+  "revision": 1,
+  "mode": "real",
+  "period": {
+    "start": "2026-11-16",
+    "end_exclusive": "2026-11-23",
+    "timezone": "America/Sao_Paulo"
+  },
+  "collected_at": "2026-11-23T15:15:49.112Z",
+  "producer": "cm-marketing",
+  "metrics": {
+    "ads.impressions": {
+      "value": null,
+      "status": "unknown",
+      "coverage": "unknown",
+      "source": "google_ads",
+      "definition_version": "1.0.0",
+      "evidence_refs": []
+    },
+    "ads.clicks": {
+      "value": null,
+      "status": "unknown",
+      "coverage": "unknown",
+      "source": "google_ads",
+      "definition_version": "1.0.0",
+      "evidence_refs": []
+    },
+    "ads.cost_brl": {
+      "value": null,
+      "status": "unknown",
+      "coverage": "unknown",
+      "source": "google_ads",
+      "definition_version": "1.0.0",
+      "evidence_refs": []
+    },
+    "ads.conversions": {
+      "value": null,
+      "status": "unknown",
+      "coverage": "unknown",
+      "source": "google_ads",
+      "definition_version": "1.0.0",
+      "evidence_refs": []
+    },
+    "wix.sessions": {
+      "value": null,
+      "status": "unknown",
+      "coverage": "unknown",
+      "source": "wix",
+      "definition_version": "1.0.0",
+      "evidence_refs": []
+    },
+    "wix.unique_visitors": {
+      "value": null,
+      "status": "unknown",
+      "coverage": "unknown",
+      "source": "wix",
+      "definition_version": "1.0.0",
+      "evidence_refs": []
+    },
+    "wix.contact_clicks": {
+      "value": null,
+      "status": "unknown",
+      "coverage": "unknown",
+      "source": "wix",
+      "definition_version": "1.0.0",
+      "evidence_refs": []
+    },
+    "wix.forms_submitted": {
+      "value": null,
+      "status": "unknown",
+      "coverage": "unknown",
+      "source": "wix",
+      "definition_version": "1.0.0",
+      "evidence_refs": []
+    },
+    "gbp.profile_views": {
+      "value": null,
+      "status": "unknown",
+      "coverage": "unknown",
+      "source": "google_business_profile",
+      "definition_version": "1.0.0",
+      "evidence_refs": []
+    },
+    "gbp.website_clicks": {
+      "value": null,
+      "status": "unknown",
+      "coverage": "unknown",
+      "source": "google_business_profile",
+      "definition_version": "1.0.0",
+      "evidence_refs": []
+    },
+    "gbp.chat_clicks": {
+      "value": null,
+      "status": "unknown",
+      "coverage": "unknown",
+      "source": "google_business_profile",
+      "definition_version": "1.0.0",
+      "evidence_refs": []
+    },
+    "gbp.call_clicks": {
+      "value": null,
+      "status": "unknown",
+      "coverage": "unknown",
+      "source": "google_business_profile",
+      "definition_version": "1.0.0",
+      "evidence_refs": []
+    },
+    "crm.contacts": {
+      "value": null,
+      "status": "unknown",
+      "coverage": "unknown",
+      "source": "commercial_source",
+      "definition_version": "1.0.0",
+      "evidence_refs": []
+    },
+    "crm.quotes_sent": {
+      "value": null,
+      "status": "unknown",
+      "coverage": "unknown",
+      "source": "commercial_source",
+      "definition_version": "1.0.0",
+      "evidence_refs": []
+    },
+    "crm.sales_confirmed": {
+      "value": null,
+      "status": "unknown",
+      "coverage": "unknown",
+      "source": "commercial_source",
+      "definition_version": "1.0.0",
+      "evidence_refs": []
+    },
+    "crm.contracts_signed": {
+      "value": null,
+      "status": "unknown",
+      "coverage": "unknown",
+      "source": "commercial_source",
+      "definition_version": "1.0.0",
+      "evidence_refs": []
+    },
+    "finance.contracted_brl": {
+      "value": null,
+      "status": "unknown",
+      "coverage": "unknown",
+      "source": "finance",
+      "definition_version": "1.0.0",
+      "evidence_refs": []
+    },
+    "finance.received_brl": {
+      "value": null,
+      "status": "unknown",
+      "coverage": "unknown",
+      "source": "finance",
+      "definition_version": "1.0.0",
+      "evidence_refs": []
+    },
+    "billing.balance_brl": {
+      "value": null,
+      "status": "unknown",
+      "coverage": "unknown",
+      "source": "google_ads_billing",
+      "definition_version": "1.0.0",
+      "evidence_refs": []
+    },
+    "reviews.new_reviews": {
+      "value": null,
+      "status": "unknown",
+      "coverage": "unknown",
+      "source": "google_business_profile",
+      "definition_version": "1.0.0",
+      "evidence_refs": []
+    }
+  },
+  "alerts": [],
+  "alert_coverage": "unknown",
+  "interventions": [],
+  "notes": ""
+}

@@ -300,6 +300,108 @@
         "path": "docs/05_seguranca/META_TOKEN_HANDOFF.md",
         "status": "development"
       }
+    ],
+    "marketing_operation": [
+      {
+        "id": "cm-marketing-01",
+        "path": "docs/07_projeto_executivo/cm-marketing/README.md",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-02",
+        "path": "docs/07_projeto_executivo/cm-marketing/prompts/diario.md",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-03",
+        "path": "docs/07_projeto_executivo/cm-marketing/config/jobs.json",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-04",
+        "path": "docs/07_projeto_executivo/cm-marketing/schemas/request.schema.json",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-05",
+        "path": "docs/07_projeto_executivo/cm-marketing/schemas/report.schema.json",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-06",
+        "path": "docs/07_projeto_executivo/cm-marketing/examples/request.json",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-07",
+        "path": "docs/07_projeto_executivo/cm-marketing/MATRIZ-ACEITE.md",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-08",
+        "path": "docs/07_projeto_executivo/cm-marketing/CAMPANHA-40-DIAS.md",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-09",
+        "path": "docs/decisions/ADR-0007_marketing-gerencia-codex.md",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-10",
+        "path": "docs/07_projeto_executivo/cm-marketing/OPERACAO-E-INGESTAO.md",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-11",
+        "path": "docs/07_projeto_executivo/cm-marketing/prompts/semanal.md",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-12",
+        "path": "docs/07_projeto_executivo/cm-marketing/examples/request-weekly.json",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-13",
+        "path": "docs/07_projeto_executivo/cm-marketing/JORNADA-COMERCIAL.md",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-14",
+        "path": "docs/07_projeto_executivo/cm-marketing/schemas/journey.schema.json",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-15",
+        "path": "docs/07_projeto_executivo/cm-marketing/maquina/README.md",
+        "status": "development"
+      },
+      {
+        "id": "cm-marketing-16",
+        "path": "docs/07_projeto_executivo/cm-marketing/maquina/ficha.schema.json",
+        "status": "development"
+      },
+      {
+        "id": "cm-marketing-17",
+        "path": "docs/07_projeto_executivo/cm-marketing/maquina/dashboard-standalone.html",
+        "status": "development"
+      },
+      {
+        "id": "cm-marketing-18",
+        "path": "docs/07_projeto_executivo/cm-marketing/maquina/ingest.js",
+        "status": "development"
+      },
+      {
+        "id": "cm-marketing-19",
+        "path": "docs/07_projeto_executivo/cm-marketing/maquina/core.js",
+        "status": "development"
+      },
+      {
+        "id": "cm-marketing-ponte-codex-hermes",
+        "path": "cm-marketing/interacao-ias/ponte-codex-hermes/README.md",
+        "status": "review"
+      }
     ]
   }
 }

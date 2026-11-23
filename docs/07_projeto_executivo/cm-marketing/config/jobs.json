@@ -1,0 +1,103 @@
+{
+  "version": "1.1.0",
+  "status": "review",
+  "timezone": "America/Sao_Paulo",
+  "owner": "cm-marketing",
+  "executor": "codex",
+  "runtime_enabled": false,
+  "description": "Intenção declarativa, não é schema nativo do Hermes. DEC-018 substitui cadência inicial.",
+  "jobs": [
+    {
+      "id": "marketing-vigilancia",
+      "trigger": {
+        "kind": "daily",
+        "preferred_time": "08:00",
+        "timing": "approximate"
+      },
+      "tasks": [
+        "account_email_watch",
+        "official_policy_watch",
+        "business_profile_reviews"
+      ],
+      "work_type": "daily_watch",
+      "schedule_owner": "cloud_bootstrap_until_explicit_handover",
+      "delivery": "private_github_outbox",
+      "runtime_enabled": false
+    },
+    {
+      "id": "marketing-semanal",
+      "trigger": {
+        "kind": "weekly",
+        "weekday": "MO",
+        "after": "12:00",
+        "preferred_time": "15:00",
+        "timing": "approximate"
+      },
+      "tasks": [
+        "billing_intake",
+        "ads_weekly_review",
+        "wix_weekly_review",
+        "business_profile_review",
+        "commercial_funnel",
+        "visual_report",
+        "editorial_queue_review"
+      ],
+      "work_type": "weekly_review",
+      "schedule_owner": "cloud_bootstrap_until_explicit_handover",
+      "delivery": "private_github_outbox",
+      "runtime_enabled": false
+    },
+    {
+      "id": "marketing-lembrete-extrato",
+      "trigger": {
+        "kind": "weekly",
+        "weekday": "MO",
+        "preferred_time": "09:00",
+        "timing": "approximate"
+      },
+      "executor": "hermes",
+      "tasks": [
+        "remind_owner_only_if_required_input_missing"
+      ],
+      "schedule_owner": "hermes",
+      "delivery": "existing_hermes_owner_channel",
+      "runtime_enabled": false
+    },
+    {
+      "id": "marketing-sob-demanda",
+      "trigger": {
+        "kind": "manager_request"
+      },
+      "tasks": [
+        "requested_scope_only"
+      ],
+      "work_type": "on_demand",
+      "delivery": "private_github_outbox",
+      "runtime_enabled": false
+    }
+  ],
+  "identity": {
+    "package_key": "marketing|clickmais|{local_date}",
+    "request_id": "{package_key}::{work_type}::r{revision}"
+  },
+  "transport": {
+    "repository": "clickmaiscabine/painel-da-vida",
+    "branch": "cm-marketing-interacao-ias",
+    "base_path": "cm-marketing/interacao-ias/ponte-codex-hermes",
+    "visibility": "private",
+    "state": "configured_consumer_ack_pending",
+    "raw_inputs_allowed_in_public_repository": false,
+    "ack_required": true
+  },
+  "migration": {
+    "rule": "one_dispatcher_per_work_type",
+    "existing_local_job": "consumer_only_if_cloud_collects; pause_equivalent_dispatcher_before_handover",
+    "email_collection": "reuse_existing_collector_and_cursors_before_creating_any_reader",
+    "notifications_and_panel_owner": "hermes"
+  },
+  "legacy": {
+    "radar_campaign": "preserve_existing_owner_schedule_and_engine",
+    "contracts": "no_changes",
+    "editorial": "preserve_existing_daily_queue_without_new_duplicate_cron"
+  }
+}

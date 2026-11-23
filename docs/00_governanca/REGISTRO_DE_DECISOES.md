@@ -1,7 +1,7 @@
 # Registro de Decisões — Click Mais OS
 
 Status: homologated  
-Atualizado em: 2026-10-10
+Atualizado em: 2026-11-23
 
 Este arquivo registra decisões humanas funcionais e arquiteturais em linguagem curta. ADRs detalham decisões arquiteturais quando necessário.
 
@@ -24,6 +24,36 @@ Este arquivo registra decisões humanas funcionais e arquiteturais em linguagem 
 | DEC-015 | Para eventos com data registrada, programar a entrega do link OneDrive para 12h do dia calendário seguinte à data da festa, no fuso America/Sao_Paulo; executar o envio quando a pasta estiver pronta e vinculada ao evento. | homologated | detalha ADR-0004; workflow CM-WF-140 |
 | DEC-016 | Entregar ao cliente um link OneDrive padrão “Anyone/qualquer pessoa com o link”, somente para visualização, com download permitido; não exigir autenticação ou identidade do destinatário. O cliente recebe o link pelo WhatsApp e pode repassá-lo; qualquer pessoa que o obtenha poderá acessar as fotos. | homologated | detalha ADR-0004; workflow CM-WF-140 |
 
+## Decisão registrada em 23/11/2026
+
+| ID | Decisão | Status | Substitui/impacta |
+|---|---|---|---|
+| DEC-017 | Criar operação recorrente de Marketing com gerente Hermes e executor Codex, cobrindo Google Ads, Wix, notificações e conteúdo social; priorizar Cabine IA. Não pressupor transferência automática de credenciais ou implantação local. | homologated | amplia a operação sob demanda; implementação em review no ADR-0007 |
+
+## Revisão da operação em 23/11/2026
+
+| ID | Decisão | Status | Substitui/impacta |
+|---|---|---|---|
+| DEC-018 | Vigilância diária das duas caixas de e-mail e avaliações da Click Mais; revisão semanal Ads/Wix/comercial segunda após as 12h. Regis entrega extratos ao gerente; Hermes lembra, ingere em GitHub privado, recebe relatórios e distribui alertas/Painel. Codex executa, grava saída privada e atende ordens com alçada comprovada. Cruzar Perfil da Empresa, Wix e Controle de Orçamentos sem atribuição fictícia; reaproveitar ingestão existente e evitar jobs duplicados. | homologated | detalha DEC-017; substitui análise financeira completa diária e comunicação direta do executor; implantação da nova ponte em review |
+
+## Jornada de venda e recebimento em 23/11/2026
+
+| ID | Decisão | Status | Substitui/impacta |
+|---|---|---|---|
+| DEC-019 | Medir a jornada de venda cruzando Controle de Orçamentos, contratos da Logística 3.1 e recebimentos Financeiro; recuperar marcos reais e vincular por oportunidade/evento. Mostrar conversão, duração, receita contratada/recebida, atribuição e curvas por grupos comparáveis. Preservar cartões, contratos e chaves; incluir no relatório semanal existente. | homologated | amplia a análise da DEC-018; implementação analítica em review, sem novo gatilho comercial |
+
+## Máquina de moldes semanais em 23/11/2026
+
+| ID | Decisão | Status | Substitui/impacta |
+|---|---|---|---|
+| DEC-020 | Propósito de Marketing: proteger os canais e melhorar seu resultado. Construir máquina de fichas padronizadas, moldes semanais versionados e visualizador histórico; unir contribuições dos coletores e mostrar curvas/intervenções, com exemplo separado de dados reais. Entregar software e contrato de ingestão para o Hermes acoplar ao Painel da Vida usando o agendamento existente; previsão fica para etapa posterior. | homologated | implementa a forma de acompanhamento das DEC-018/019; protótipo em development, integração local pendente |
+
+## Área de interação IAs em 23/11/2026
+
+| ID | Decisão | Status | Substitui/impacta |
+|---|---|---|---|
+| DEC-021 | Criar imediatamente cm-marketing/interacao-ias/ponte-codex-hermes, sem esperar SOUL.md. O repositório público contém orientação; os dados usam namespace isolado na branch cm-marketing-interacao-ias do repositório privado painel-da-vida, destino vinculado ao painel consumidor. Reaproveitar os disparos ChatGPT diário 08h e semanal segunda 15h, America/Sao_Paulo, sem cron duplicado. Upload não é recebimento; Hermes assina ack do próprio pacote. | homologated | concretiza DEC-018/020; substitui a proposta de repositório privado dedicado por namespace/branch privados do painel; consumo local continua sujeito a recibo |
+
 ## Regra de alteração
 
 Nunca editar uma decisão antiga para esconder mudança histórica.
@@ -33,3 +63,4 @@ Quando uma decisão mudar:
 - indicar qual decisão foi substituída;
 - atualizar changelog;
 - criar/atualizar ADR quando houver impacto arquitetural.
+

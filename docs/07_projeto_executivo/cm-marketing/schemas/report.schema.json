@@ -1,0 +1,479 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Click Mais Marketing Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "request_id",
+    "collected_at",
+    "executor_context",
+    "period",
+    "state",
+    "source_status",
+    "metrics",
+    "findings",
+    "actions",
+    "content",
+    "evidence",
+    "delivery"
+  ],
+  "properties": {
+    "schema_version": {
+      "enum": [
+        "1.0.0",
+        "1.1.0"
+      ]
+    },
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "collected_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "executor_context": {
+      "enum": [
+        "chatgpt_work",
+        "codex_local",
+        "codex_cloud"
+      ]
+    },
+    "period": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start",
+        "end_exclusive",
+        "timezone"
+      ],
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_exclusive": {
+          "type": "string",
+          "format": "date"
+        },
+        "timezone": {
+          "const": "America/Sao_Paulo"
+        }
+      }
+    },
+    "state": {
+      "enum": [
+        "produced",
+        "partial",
+        "failed"
+      ]
+    },
+    "source_status": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source",
+          "status",
+          "identity",
+          "observed_at",
+          "error"
+        ],
+        "properties": {
+          "source": {
+            "enum": [
+              "google_ads",
+              "wix",
+              "gmail",
+              "policy_sources",
+              "content",
+              "billing_intake",
+              "google_business_profile",
+              "trello",
+              "commercial_source",
+              "facebook"
+            ]
+          },
+          "status": {
+            "enum": [
+              "ok",
+              "partial",
+              "blocked",
+              "not_requested"
+            ]
+          },
+          "identity": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "observed_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "error": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "source",
+          "name",
+          "value",
+          "unit",
+          "definition",
+          "evidence_ids"
+        ],
+        "properties": {
+          "source": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "unit": {
+            "type": "string"
+          },
+          "definition": {
+            "type": "string"
+          },
+          "evidence_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "period": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "start",
+              "end_exclusive",
+              "timezone"
+            ],
+            "properties": {
+              "start": {
+                "type": "string",
+                "format": "date"
+              },
+              "end_exclusive": {
+                "type": "string",
+                "format": "date"
+              },
+              "timezone": {
+                "const": "America/Sao_Paulo"
+              }
+            }
+          },
+          "dimensions": {
+            "type": "object",
+            "additionalProperties": {
+              "type": [
+                "string",
+                "number",
+                "null"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "priority",
+          "description",
+          "evidence_ids"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "priority": {
+            "enum": [
+              "critical",
+              "high",
+              "normal"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "evidence_ids": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "description",
+          "owner",
+          "state",
+          "due_at",
+          "receipt"
+        ],
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "state": {
+            "enum": [
+              "proposed",
+              "done",
+              "blocked"
+            ]
+          },
+          "due_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          },
+          "receipt": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "content": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "channel",
+          "copy",
+          "asset_ref",
+          "consent_ref",
+          "state",
+          "post_url"
+        ],
+        "properties": {
+          "channel": {
+            "enum": [
+              "instagram",
+              "facebook",
+              "tiktok"
+            ]
+          },
+          "copy": {
+            "type": "string"
+          },
+          "asset_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "consent_ref": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "state": {
+            "enum": [
+              "draft",
+              "ready",
+              "scheduled",
+              "published",
+              "blocked"
+            ]
+          },
+          "post_url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "state": {
+                  "const": "published"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "post_url": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "source_ref",
+          "observed_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "source_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "observed_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "delivery": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state",
+        "recipient",
+        "ack_ref"
+      ],
+      "properties": {
+        "state": {
+          "enum": [
+            "produced",
+            "delivery_pending",
+            "received",
+            "accepted"
+          ]
+        },
+        "recipient": {
+          "const": "cm-marketing"
+        },
+        "ack_ref": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "state": {
+                "enum": [
+                  "received",
+                  "accepted"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "ack_ref": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "package_key": {
+      "type": "string",
+      "pattern": "^marketing\\|clickmais\\|[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "work_type": {
+      "enum": [
+        "daily_watch",
+        "weekly_review",
+        "on_demand",
+        "editorial"
+      ]
+    },
+    "pending_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "description",
+          "owner"
+        ],
+        "properties": {
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "const": "1.1.0"
+          }
+        },
+        "required": [
+          "schema_version"
+        ]
+      },
+      "then": {
+        "required": [
+          "package_key",
+          "work_type",
+          "pending_items"
+        ]
+      }
+    }
+  ]
+}

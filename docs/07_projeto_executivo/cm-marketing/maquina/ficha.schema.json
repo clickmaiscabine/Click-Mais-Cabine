@@ -1,0 +1,1962 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Click Mais weekly snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "snapshot_id",
+    "revision",
+    "mode",
+    "period",
+    "collected_at",
+    "producer",
+    "metrics",
+    "alerts",
+    "alert_coverage",
+    "interventions",
+    "notes"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "kind": {
+      "const": "clickmais.weekly_snapshot"
+    },
+    "snapshot_id": {
+      "type": "string",
+      "pattern": "^marketing\\|clickmais\\|[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "mode": {
+      "enum": [
+        "real",
+        "demo"
+      ]
+    },
+    "period": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "start",
+        "end_exclusive",
+        "timezone"
+      ],
+      "properties": {
+        "start": {
+          "type": "string",
+          "format": "date"
+        },
+        "end_exclusive": {
+          "type": "string",
+          "format": "date"
+        },
+        "timezone": {
+          "const": "America/Sao_Paulo"
+        }
+      }
+    },
+    "collected_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "producer": {
+      "type": "string",
+      "minLength": 1
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "ads.impressions",
+        "ads.clicks",
+        "ads.cost_brl",
+        "ads.conversions",
+        "wix.sessions",
+        "wix.unique_visitors",
+        "wix.contact_clicks",
+        "wix.forms_submitted",
+        "gbp.profile_views",
+        "gbp.website_clicks",
+        "gbp.chat_clicks",
+        "gbp.call_clicks",
+        "crm.contacts",
+        "crm.quotes_sent",
+        "crm.sales_confirmed",
+        "crm.contracts_signed",
+        "finance.contracted_brl",
+        "finance.received_brl",
+        "billing.balance_brl",
+        "reviews.new_reviews"
+      ],
+      "properties": {
+        "ads.impressions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "value",
+            "status",
+            "coverage",
+            "source",
+            "definition_version",
+            "evidence_refs"
+          ],
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "multipleOf": 1
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "unknown",
+                "blocked",
+                "not_applicable"
+              ]
+            },
+            "coverage": {
+              "enum": [
+                "complete",
+                "partial",
+                "unknown"
+              ]
+            },
+            "source": {
+              "const": "google_ads"
+            },
+            "definition_version": {
+              "const": "1.0.0"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "observed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "coverage": {
+                    "enum": [
+                      "complete",
+                      "partial"
+                    ]
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  },
+                  "coverage": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "ads.clicks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "value",
+            "status",
+            "coverage",
+            "source",
+            "definition_version",
+            "evidence_refs"
+          ],
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "multipleOf": 1
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "unknown",
+                "blocked",
+                "not_applicable"
+              ]
+            },
+            "coverage": {
+              "enum": [
+                "complete",
+                "partial",
+                "unknown"
+              ]
+            },
+            "source": {
+              "const": "google_ads"
+            },
+            "definition_version": {
+              "const": "1.0.0"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "observed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "coverage": {
+                    "enum": [
+                      "complete",
+                      "partial"
+                    ]
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  },
+                  "coverage": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "ads.cost_brl": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "value",
+            "status",
+            "coverage",
+            "source",
+            "definition_version",
+            "evidence_refs"
+          ],
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "unknown",
+                "blocked",
+                "not_applicable"
+              ]
+            },
+            "coverage": {
+              "enum": [
+                "complete",
+                "partial",
+                "unknown"
+              ]
+            },
+            "source": {
+              "const": "google_ads"
+            },
+            "definition_version": {
+              "const": "1.0.0"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "observed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "coverage": {
+                    "enum": [
+                      "complete",
+                      "partial"
+                    ]
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  },
+                  "coverage": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "ads.conversions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "value",
+            "status",
+            "coverage",
+            "source",
+            "definition_version",
+            "evidence_refs"
+          ],
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "unknown",
+                "blocked",
+                "not_applicable"
+              ]
+            },
+            "coverage": {
+              "enum": [
+                "complete",
+                "partial",
+                "unknown"
+              ]
+            },
+            "source": {
+              "const": "google_ads"
+            },
+            "definition_version": {
+              "const": "1.0.0"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "observed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "coverage": {
+                    "enum": [
+                      "complete",
+                      "partial"
+                    ]
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  },
+                  "coverage": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "wix.sessions": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "value",
+            "status",
+            "coverage",
+            "source",
+            "definition_version",
+            "evidence_refs"
+          ],
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "multipleOf": 1
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "unknown",
+                "blocked",
+                "not_applicable"
+              ]
+            },
+            "coverage": {
+              "enum": [
+                "complete",
+                "partial",
+                "unknown"
+              ]
+            },
+            "source": {
+              "const": "wix"
+            },
+            "definition_version": {
+              "const": "1.0.0"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "observed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "coverage": {
+                    "enum": [
+                      "complete",
+                      "partial"
+                    ]
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  },
+                  "coverage": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "wix.unique_visitors": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "value",
+            "status",
+            "coverage",
+            "source",
+            "definition_version",
+            "evidence_refs"
+          ],
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "multipleOf": 1
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "unknown",
+                "blocked",
+                "not_applicable"
+              ]
+            },
+            "coverage": {
+              "enum": [
+                "complete",
+                "partial",
+                "unknown"
+              ]
+            },
+            "source": {
+              "const": "wix"
+            },
+            "definition_version": {
+              "const": "1.0.0"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "observed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "coverage": {
+                    "enum": [
+                      "complete",
+                      "partial"
+                    ]
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  },
+                  "coverage": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "wix.contact_clicks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "value",
+            "status",
+            "coverage",
+            "source",
+            "definition_version",
+            "evidence_refs"
+          ],
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "multipleOf": 1
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "unknown",
+                "blocked",
+                "not_applicable"
+              ]
+            },
+            "coverage": {
+              "enum": [
+                "complete",
+                "partial",
+                "unknown"
+              ]
+            },
+            "source": {
+              "const": "wix"
+            },
+            "definition_version": {
+              "const": "1.0.0"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "observed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "coverage": {
+                    "enum": [
+                      "complete",
+                      "partial"
+                    ]
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  },
+                  "coverage": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "wix.forms_submitted": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "value",
+            "status",
+            "coverage",
+            "source",
+            "definition_version",
+            "evidence_refs"
+          ],
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "multipleOf": 1
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "unknown",
+                "blocked",
+                "not_applicable"
+              ]
+            },
+            "coverage": {
+              "enum": [
+                "complete",
+                "partial",
+                "unknown"
+              ]
+            },
+            "source": {
+              "const": "wix"
+            },
+            "definition_version": {
+              "const": "1.0.0"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "observed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "coverage": {
+                    "enum": [
+                      "complete",
+                      "partial"
+                    ]
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  },
+                  "coverage": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "gbp.profile_views": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "value",
+            "status",
+            "coverage",
+            "source",
+            "definition_version",
+            "evidence_refs"
+          ],
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "multipleOf": 1
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "unknown",
+                "blocked",
+                "not_applicable"
+              ]
+            },
+            "coverage": {
+              "enum": [
+                "complete",
+                "partial",
+                "unknown"
+              ]
+            },
+            "source": {
+              "const": "google_business_profile"
+            },
+            "definition_version": {
+              "const": "1.0.0"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "observed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "coverage": {
+                    "enum": [
+                      "complete",
+                      "partial"
+                    ]
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  },
+                  "coverage": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "gbp.website_clicks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "value",
+            "status",
+            "coverage",
+            "source",
+            "definition_version",
+            "evidence_refs"
+          ],
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "multipleOf": 1
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "unknown",
+                "blocked",
+                "not_applicable"
+              ]
+            },
+            "coverage": {
+              "enum": [
+                "complete",
+                "partial",
+                "unknown"
+              ]
+            },
+            "source": {
+              "const": "google_business_profile"
+            },
+            "definition_version": {
+              "const": "1.0.0"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "observed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "coverage": {
+                    "enum": [
+                      "complete",
+                      "partial"
+                    ]
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  },
+                  "coverage": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "gbp.chat_clicks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "value",
+            "status",
+            "coverage",
+            "source",
+            "definition_version",
+            "evidence_refs"
+          ],
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "multipleOf": 1
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "unknown",
+                "blocked",
+                "not_applicable"
+              ]
+            },
+            "coverage": {
+              "enum": [
+                "complete",
+                "partial",
+                "unknown"
+              ]
+            },
+            "source": {
+              "const": "google_business_profile"
+            },
+            "definition_version": {
+              "const": "1.0.0"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "observed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "coverage": {
+                    "enum": [
+                      "complete",
+                      "partial"
+                    ]
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  },
+                  "coverage": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "gbp.call_clicks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "value",
+            "status",
+            "coverage",
+            "source",
+            "definition_version",
+            "evidence_refs"
+          ],
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "multipleOf": 1
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "unknown",
+                "blocked",
+                "not_applicable"
+              ]
+            },
+            "coverage": {
+              "enum": [
+                "complete",
+                "partial",
+                "unknown"
+              ]
+            },
+            "source": {
+              "const": "google_business_profile"
+            },
+            "definition_version": {
+              "const": "1.0.0"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "observed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "coverage": {
+                    "enum": [
+                      "complete",
+                      "partial"
+                    ]
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  },
+                  "coverage": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "crm.contacts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "value",
+            "status",
+            "coverage",
+            "source",
+            "definition_version",
+            "evidence_refs"
+          ],
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "multipleOf": 1
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "unknown",
+                "blocked",
+                "not_applicable"
+              ]
+            },
+            "coverage": {
+              "enum": [
+                "complete",
+                "partial",
+                "unknown"
+              ]
+            },
+            "source": {
+              "const": "commercial_source"
+            },
+            "definition_version": {
+              "const": "1.0.0"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "observed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "coverage": {
+                    "enum": [
+                      "complete",
+                      "partial"
+                    ]
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  },
+                  "coverage": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "crm.quotes_sent": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "value",
+            "status",
+            "coverage",
+            "source",
+            "definition_version",
+            "evidence_refs"
+          ],
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "multipleOf": 1
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "unknown",
+                "blocked",
+                "not_applicable"
+              ]
+            },
+            "coverage": {
+              "enum": [
+                "complete",
+                "partial",
+                "unknown"
+              ]
+            },
+            "source": {
+              "const": "commercial_source"
+            },
+            "definition_version": {
+              "const": "1.0.0"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "observed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "coverage": {
+                    "enum": [
+                      "complete",
+                      "partial"
+                    ]
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  },
+                  "coverage": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "crm.sales_confirmed": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "value",
+            "status",
+            "coverage",
+            "source",
+            "definition_version",
+            "evidence_refs"
+          ],
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "multipleOf": 1
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "unknown",
+                "blocked",
+                "not_applicable"
+              ]
+            },
+            "coverage": {
+              "enum": [
+                "complete",
+                "partial",
+                "unknown"
+              ]
+            },
+            "source": {
+              "const": "commercial_source"
+            },
+            "definition_version": {
+              "const": "1.0.0"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "observed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "coverage": {
+                    "enum": [
+                      "complete",
+                      "partial"
+                    ]
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  },
+                  "coverage": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "crm.contracts_signed": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "value",
+            "status",
+            "coverage",
+            "source",
+            "definition_version",
+            "evidence_refs"
+          ],
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "multipleOf": 1
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "unknown",
+                "blocked",
+                "not_applicable"
+              ]
+            },
+            "coverage": {
+              "enum": [
+                "complete",
+                "partial",
+                "unknown"
+              ]
+            },
+            "source": {
+              "const": "commercial_source"
+            },
+            "definition_version": {
+              "const": "1.0.0"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "observed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "coverage": {
+                    "enum": [
+                      "complete",
+                      "partial"
+                    ]
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  },
+                  "coverage": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "finance.contracted_brl": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "value",
+            "status",
+            "coverage",
+            "source",
+            "definition_version",
+            "evidence_refs"
+          ],
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "unknown",
+                "blocked",
+                "not_applicable"
+              ]
+            },
+            "coverage": {
+              "enum": [
+                "complete",
+                "partial",
+                "unknown"
+              ]
+            },
+            "source": {
+              "const": "finance"
+            },
+            "definition_version": {
+              "const": "1.0.0"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "observed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "coverage": {
+                    "enum": [
+                      "complete",
+                      "partial"
+                    ]
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  },
+                  "coverage": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "finance.received_brl": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "value",
+            "status",
+            "coverage",
+            "source",
+            "definition_version",
+            "evidence_refs"
+          ],
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "unknown",
+                "blocked",
+                "not_applicable"
+              ]
+            },
+            "coverage": {
+              "enum": [
+                "complete",
+                "partial",
+                "unknown"
+              ]
+            },
+            "source": {
+              "const": "finance"
+            },
+            "definition_version": {
+              "const": "1.0.0"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "observed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "coverage": {
+                    "enum": [
+                      "complete",
+                      "partial"
+                    ]
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  },
+                  "coverage": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "billing.balance_brl": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "value",
+            "status",
+            "coverage",
+            "source",
+            "definition_version",
+            "evidence_refs"
+          ],
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "unknown",
+                "blocked",
+                "not_applicable"
+              ]
+            },
+            "coverage": {
+              "enum": [
+                "complete",
+                "partial",
+                "unknown"
+              ]
+            },
+            "source": {
+              "const": "google_ads_billing"
+            },
+            "definition_version": {
+              "const": "1.0.0"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "observed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "coverage": {
+                    "enum": [
+                      "complete",
+                      "partial"
+                    ]
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  },
+                  "coverage": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "reviews.new_reviews": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "value",
+            "status",
+            "coverage",
+            "source",
+            "definition_version",
+            "evidence_refs"
+          ],
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "multipleOf": 1
+            },
+            "status": {
+              "enum": [
+                "observed",
+                "unknown",
+                "blocked",
+                "not_applicable"
+              ]
+            },
+            "coverage": {
+              "enum": [
+                "complete",
+                "partial",
+                "unknown"
+              ]
+            },
+            "source": {
+              "const": "google_business_profile"
+            },
+            "definition_version": {
+              "const": "1.0.0"
+            },
+            "evidence_refs": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 2000
+              }
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "status": {
+                    "const": "observed"
+                  }
+                }
+              },
+              "then": {
+                "properties": {
+                  "value": {
+                    "type": "number"
+                  },
+                  "coverage": {
+                    "enum": [
+                      "complete",
+                      "partial"
+                    ]
+                  },
+                  "evidence_refs": {
+                    "minItems": 1
+                  }
+                }
+              },
+              "else": {
+                "properties": {
+                  "value": {
+                    "type": "null"
+                  },
+                  "coverage": {
+                    "const": "unknown"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "alerts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "title",
+          "severity",
+          "state",
+          "owner",
+          "source_ref",
+          "emitted_at",
+          "due_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "title": {
+            "type": "string",
+            "minLength": 1
+          },
+          "severity": {
+            "enum": [
+              "high",
+              "normal"
+            ]
+          },
+          "state": {
+            "enum": [
+              "open",
+              "resolved"
+            ]
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_ref": {
+            "type": "string",
+            "minLength": 1
+          },
+          "emitted_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "due_at": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "alert_coverage": {
+      "enum": [
+        "complete",
+        "partial",
+        "unknown"
+      ]
+    },
+    "interventions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "date",
+          "description",
+          "owner",
+          "source_ref"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "owner": {
+            "type": "string",
+            "minLength": 1
+          },
+          "source_ref": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 10000
+    }
+  },
+  "$comment": "core.validate adds Monday/exclusive 7-day boundaries, snapshot_id agreement, end-of-week closure and intervention dates/IDs. Analytic fields, not native provider APIs."
+}
