@@ -22,3 +22,24 @@ O núcleo diário pode operar com cobertura parcial explícita. Sua homologaçã
 - Estado final da entrega: **received** (`ACK-20261123-8ffd6f9f`).
 - Agendamento: job local `082c5df585e3` criado **pausado**; o agendamento provisório em nuvem segue ativo até 31/12. Um único dispatcher produtivo — o passo de transição está registrado no documento privado de implantação.
 - Nada foi alterado em contratos, Trello, Processados, gatilhos ou posição de cartões; Radar preservado.
+
+## Extensão Jornada Comercial (DEC-019)
+
+Execução de 23/11/2026 sobre `JORNADA-COMERCIAL.md`. Saída analítica privada, fora do Git: `journey.json`
+(válido contra `journey.schema.json`), relatório visual e `ack-jornada.json`.
+
+| Item de aceite | Resultado | Evidência |
+|---|---|---|
+| Vínculo real orçamento ↔ contrato | **confirmado** | dois grupos por telefone + data, R$ 1.490 (28/06/2025) e R$ 900 (07/12/2023) |
+| Duplicatas/importações não viram aquisição nova | **confirmado** | 11 grupos com mais de dois cartões contados uma vez; 8 cartões do mesmo evento em 19/12/2026 |
+| Contrato enviado ≠ assinado; vencimento ≠ liquidação | **separado** | `contract_recorded` (5) sem `contract_signed`; livro financeiro só com data bancária |
+| Uma duração calculável e uma bloqueada | **confirmado** | contrato → evento 8 dias; contato → evento mediana 29 (19 casos); recebimento bloqueado |
+| Estado dos cartões preservado | **confirmado** | apenas `GET`; nenhum movimento ou arquivamento |
+| Arquivo analítico privado | **emitido** | `journey.json` com 87 oportunidades e agregados `null` por falta de denominador |
+
+Recebimento: `ACK JORNADA-20261123-0ee4edc8`, sha256 revisado `0ee4edc8…`; a revisão posterior altera
+apenas o bloco `delivery` e o delta fica registrado no recibo privado.
+
+Bloqueios declarados: Ads sem credencial, Wix sem chave, Autentique não consultado, livro financeiro com
+dois meses, acervo do WhatsApp posterior aos eventos históricos. Nenhum indicador foi preenchido sem base.
+
