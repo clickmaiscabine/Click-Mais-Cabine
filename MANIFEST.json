@@ -393,28 +393,8 @@
         "status": "development"
       },
       {
-        "id": "cm-marketing-15",
-        "path": "docs/07_projeto_executivo/cm-marketing/maquina/README.md",
-        "status": "development"
-      },
-      {
-        "id": "cm-marketing-16",
-        "path": "docs/07_projeto_executivo/cm-marketing/maquina/core.js",
-        "status": "development"
-      },
-      {
-        "id": "cm-marketing-17",
-        "path": "docs/07_projeto_executivo/cm-marketing/maquina/ficha.schema.json",
-        "status": "development"
-      },
-      {
-        "id": "cm-marketing-18",
-        "path": "docs/07_projeto_executivo/cm-marketing/maquina/dashboard-standalone.html",
-        "status": "development"
-      },
-      {
         "id": "cm-marketing-19",
-        "path": "docs/07_projeto_executivo/cm-marketing/maquina/ingest.js",
+        "path": "docs/07_projeto_executivo/cm-marketing/maquina/core.js",
         "status": "development"
       }
     ]
