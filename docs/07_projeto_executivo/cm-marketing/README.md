@@ -86,3 +86,6 @@ Schemas passam a aceitar 1.0.0 e 1.1.0. Mensagens 1.0.0 e seus recibos continuam
 
 ## Propósito e máquina de acompanhamento — DEC-020
 O departamento protege os canais e melhora seu resultado. A [máquina de moldes semanais](maquina/README.md) implementa o gabarito de ingestão, fotografias semanais versionadas, arquivo histórico e gráficos interativos. O software funciona sem dependências de interface ou rede; inclui importador Node para o gerente. Demonstração e dados reais são separados. A incorporação ao Painel e aos coletores é trabalho de integração com o ambiente real do Hermes, com recibo, sem duplicar job. Não afirmar implantação por existir protótipo. Previsão fica para etapa posterior.
+
+## Área de interação IAs — DEC-021
+A [Ponte Codex–Hermes](../../../cm-marketing/interacao-ias/ponte-codex-hermes/README.md) define o destino privado concreto e os disparos existentes antes da conclusão do SOUL.md. Consumir a branch privada configurada e emitir ack por pacote; não criar outro cron.

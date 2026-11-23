@@ -27,3 +27,6 @@ A revisão semanal passa a vincular Controle de Orçamentos, Logística 3.1 e re
 
 ## Máquina temporal — DEC-020
 Entregar um núcleo reutilizável e uma interface autônoma em maquina/: ficha semanal fechada, contribuições de fontes com períodos iguais, revisões preservadas e visualização histórica. O objetivo é acompanhar o resultado no tempo, não guardar relatórios soltos. Código público não recebe dados reais. O importador técnico não representa ack Hermes; o adaptador local e a rota do Painel exigem implantação e conferência no ambiente real. Não há novo cron nem previsão automática nesta versão.
+
+## Área de interação — DEC-021
+A ordem posterior do dono cria a Ponte Codex–Hermes antes do SOUL.md. Orientação pública em cm-marketing/interacao-ias/ponte-codex-hermes; dados em namespace de mesmo caminho na branch cm-marketing-interacao-ias do repositório privado clickmaiscabine/painel-da-vida, ligado ao painel consumidor. Esse destino substitui a proposta anterior de um repositório dedicado, sem migração do MVP ou cópia de credenciais. Os disparos ChatGPT existentes continuam; entrada GitHub não é webhook. A gravação privada não representa ack do gerente.

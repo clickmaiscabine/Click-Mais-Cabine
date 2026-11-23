@@ -48,6 +48,12 @@ Este arquivo registra decisões humanas funcionais e arquiteturais em linguagem 
 |---|---|---|---|
 | DEC-020 | Propósito de Marketing: proteger os canais e melhorar seu resultado. Construir máquina de fichas padronizadas, moldes semanais versionados e visualizador histórico; unir contribuições dos coletores e mostrar curvas/intervenções, com exemplo separado de dados reais. Entregar software e contrato de ingestão para o Hermes acoplar ao Painel da Vida usando o agendamento existente; previsão fica para etapa posterior. | homologated | implementa a forma de acompanhamento das DEC-018/019; protótipo em development, integração local pendente |
 
+## Área de interação IAs em 23/11/2026
+
+| ID | Decisão | Status | Substitui/impacta |
+|---|---|---|---|
+| DEC-021 | Criar imediatamente cm-marketing/interacao-ias/ponte-codex-hermes, sem esperar SOUL.md. O repositório público contém orientação; os dados usam namespace isolado na branch cm-marketing-interacao-ias do repositório privado painel-da-vida, destino vinculado ao painel consumidor. Reaproveitar os disparos ChatGPT diário 08h e semanal segunda 15h, America/Sao_Paulo, sem cron duplicado. Upload não é recebimento; Hermes assina ack do próprio pacote. | homologated | concretiza DEC-018/020; substitui a proposta de repositório privado dedicado por namespace/branch privados do painel; consumo local continua sujeito a recibo |
+
 ## Regra de alteração
 
 Nunca editar uma decisão antiga para esconder mudança histórica.

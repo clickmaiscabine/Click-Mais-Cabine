@@ -1,5 +1,12 @@
 # Changelog do Projeto — Click Mais OS
 
+## 2026-11-23 — Ponte Codex–Hermes
+
+- DEC-021 concretiza área de interação IAs, caminhos privados de entrada/saída/recibos e disparos existentes.
+- Área pública contém somente orientação; a branch privada do painel recebe os pacotes, isolada da main e dos arquivos do MVP.
+- Sem novo cron, integração de runtime, credenciais ou alteração do SOUL.md; consumo Hermes e recebimento seguem dependentes de prova específica.
+
+
 ## 2026-11-23 — Máquina de moldes semanais de Marketing
 
 - DEC-020 registra propósito do departamento e entrega do protótipo funcional: ficha padronizada, importador, arquivo versionado e visualizador de curvas semanais.

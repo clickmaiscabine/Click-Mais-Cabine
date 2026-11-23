@@ -396,6 +396,11 @@
         "id": "cm-marketing-19",
         "path": "docs/07_projeto_executivo/cm-marketing/maquina/core.js",
         "status": "development"
+      },
+      {
+        "id": "cm-marketing-ponte-codex-hermes",
+        "path": "cm-marketing/interacao-ias/ponte-codex-hermes/README.md",
+        "status": "review"
       }
     ]
   }

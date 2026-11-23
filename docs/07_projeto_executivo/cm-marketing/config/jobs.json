@@ -81,15 +81,17 @@
     "request_id": "{package_key}::{work_type}::r{revision}"
   },
   "transport": {
-    "repository": null,
+    "repository": "clickmaiscabine/painel-da-vida",
+    "branch": "cm-marketing-interacao-ias",
+    "base_path": "cm-marketing/interacao-ias/ponte-codex-hermes",
     "visibility": "private",
-    "state": "provisioning_pending",
+    "state": "configured_consumer_ack_pending",
     "raw_inputs_allowed_in_public_repository": false,
     "ack_required": true
   },
   "migration": {
     "rule": "one_dispatcher_per_work_type",
-    "existing_local_job": "keep_paused_until_equivalent_cloud_job_paused_and_transport_verified",
+    "existing_local_job": "consumer_only_if_cloud_collects; pause_equivalent_dispatcher_before_handover",
     "email_collection": "reuse_existing_collector_and_cursors_before_creating_any_reader",
     "notifications_and_panel_owner": "hermes"
   },

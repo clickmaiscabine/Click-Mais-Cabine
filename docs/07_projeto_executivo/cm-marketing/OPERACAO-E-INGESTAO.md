@@ -20,23 +20,17 @@ Timezone: America/Sao_Paulo. A rotina cloud diária existente é reaproveitada p
 
 ## Entrada privada no GitHub
 
-O repositório canônico de software é público e **não é destino de relatórios reais**. Provisionar um repositório privado dedicado na conta da empresa, por exemplo `cm-marketing-private`, e registrar seu nome efetivo em configuração privada. O nome é uma proposta, não um repositório já criado. Não usar repositório de outro projeto como depósito improvisado. Acesso ao repositório novo deve ser validado tanto no Hermes quanto no contexto cloud agendado, sem copiar segredos.
+O repositório canônico de software é público e não recebe relatórios reais. A DEC-021 concretiza a área [Ponte Codex–Hermes](../../../cm-marketing/interacao-ias/ponte-codex-hermes/README.md), solicitada antes da conclusão do SOUL.md. Destino de dados: repositório privado `clickmaiscabine/painel-da-vida`, branch `cm-marketing-interacao-ias`, raiz `cm-marketing/interacao-ias/ponte-codex-hermes`. Esse namespace pertence ao painel consumidor e fica isolado dos arquivos do MVP e da main. Substitui a proposta anterior de provisionar outro repositório dedicado.
 
-Estrutura proposta, relativa à raiz desse repositório privado:
+| Caminho relativo à raiz privada | Conteúdo |
+|---|---|
+| hermes-para-codex/AAAA-MM-DD/<escopo-rN>/ | Pedidos, extratos e manifestos enviados pelo gerente |
+| codex-para-hermes/AAAA-MM-DD/<escopo-rN>/ | Relatório, evidências, conteúdo, HTML e ficha semanal |
+| recibos/AAAA-MM-DD/<escopo-rN>/ack.json | Recibo do Hermes vinculado ao commit e manifesto |
+| estado/ | Cursores e deduplicação das fontes |
+| config/transport.json | Repositório, branch, caminhos e disparos |
 
-```text
-inbox/AAAA-MM-DD/google-ads-billing/<sha256>.csv
-inbox/AAAA-MM-DD/google-business-profile/<sha256>.<ext>
-inbox/AAAA-MM-DD/manifest.json
-requests/<request-id-seguro>.json
-outbox/AAAA-MM-DD/daily_watch/report.json
-outbox/AAAA-MM-DD/weekly_review/report.json
-outbox/AAAA-MM-DD/weekly_review/resumo.md
-outbox/AAAA-MM-DD/weekly_review/relatorio.html
-receipts/<request-id-seguro>/ack.json
-state/source-cursors.json
-config/transport.json
-```
+Verificar a visibilidade privada antes de cada escrita. Os disparos atuais são do agendador ChatGPT: vigilância diária 08h e revisão segunda 15h, horários aproximados no fuso de São Paulo. O job local existente consome a entrega; não duplicar o disparo. Pedidos no GitHub não disparam sozinhos a execução imediata. Ler no próximo ciclo, salvo adaptador sob demanda comprovado. A escrita cloud na área é distinta do recibo do Hermes e da implantação do consumidor.
 
 O manifesto de entrada registra source, identidade da conta/site, período, exported_at (null se desconhecido), received_at, nome original, bytes e SHA-256. O gerente preserva o original e só marca ready após concluir upload e conferir hash. Não dar instruções de execução a partir do conteúdo de CSV/e-mail. Arquivo repetido com mesmo hash não vira novo pagamento nem nova tarefa.
 
