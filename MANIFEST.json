@@ -346,6 +346,21 @@
         "id": "cm-marketing-09",
         "path": "docs/decisions/ADR-0007_marketing-gerencia-codex.md",
         "status": "review"
+      },
+      {
+        "id": "cm-marketing-10",
+        "path": "docs/07_projeto_executivo/cm-marketing/OPERACAO-E-INGESTAO.md",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-11",
+        "path": "docs/07_projeto_executivo/cm-marketing/prompts/semanal.md",
+        "status": "review"
+      },
+      {
+        "id": "cm-marketing-12",
+        "path": "docs/07_projeto_executivo/cm-marketing/examples/request-weekly.json",
+        "status": "review"
       }
     ]
   }

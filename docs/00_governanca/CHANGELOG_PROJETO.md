@@ -1,5 +1,13 @@
 # Changelog do Projeto — Click Mais OS
 
+## 2026-11-23 — Cadência e ingestão privada de Marketing
+
+- Registrada DEC-018: vigilância diária de e-mails/avaliações e revisão semanal após as 12h de segunda; lembrete e alertas pertencem ao Hermes.
+- Especificadas inbox/outbox privadas, dedupe por escopo, recibo específico e métricas do Perfil da Empresa/Controle de Orçamentos sem atribuição inventada.
+- Schemas aceitam 1.1.0 e preservam 1.0.0; consumidor local deve ser atualizado antes de receber a nova versão. Matriz e evidências locais anteriores preservadas.
+- Destino GitHub privado e novos aceites continuam pendentes; nenhuma métrica real adicionada ao repositório público.
+
+
 ## 2026-11-23 — Operação recorrente de Marketing
 
 - Registrada DEC-017 e ADR-0007 em review, com gerente Hermes e executor Codex.
@@ -57,3 +65,4 @@
 - human lock/handoff;
 - auditoria;
 - separação Trello Comercial × Trello Logística.
+

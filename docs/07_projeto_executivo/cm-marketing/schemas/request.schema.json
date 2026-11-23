@@ -14,7 +14,10 @@
   ],
   "properties": {
     "schema_version": {
-      "const": "1.0.0"
+      "enum": [
+        "1.0.0",
+        "1.1.0"
+      ]
     },
     "request_id": {
       "type": "string",
@@ -62,7 +65,12 @@
           "wix",
           "gmail",
           "policy_sources",
-          "content"
+          "content",
+          "billing_intake",
+          "google_business_profile",
+          "trello",
+          "commercial_source",
+          "facebook"
         ]
       }
     },
@@ -75,6 +83,45 @@
     "action_authorization_ref": {
       "type": "string",
       "minLength": 1
+    },
+    "package_key": {
+      "type": "string",
+      "pattern": "^marketing\\|clickmais\\|[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+    },
+    "work_type": {
+      "enum": [
+        "daily_watch",
+        "weekly_review",
+        "on_demand",
+        "editorial"
+      ]
+    },
+    "input_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "path",
+          "sha256"
+        ],
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "commit": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
     }
   },
   "allOf": [
@@ -89,6 +136,24 @@
       "then": {
         "required": [
           "action_authorization_ref"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "const": "1.1.0"
+          }
+        },
+        "required": [
+          "schema_version"
+        ]
+      },
+      "then": {
+        "required": [
+          "package_key",
+          "work_type"
         ]
       }
     }

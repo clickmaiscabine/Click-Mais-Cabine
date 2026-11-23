@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.1.0",
+  "package_key": "marketing|clickmais|2026-11-23",
+  "request_id": "marketing|clickmais|2026-11-23::weekly_review::r1",
+  "work_type": "weekly_review",
+  "owner": "cm-marketing",
+  "executor_context": "chatgpt_work",
+  "period": {
+    "start": "2026-11-16",
+    "end_exclusive": "2026-11-23",
+    "timezone": "America/Sao_Paulo"
+  },
+  "sources": [
+    "billing_intake",
+    "google_ads",
+    "wix",
+    "gmail",
+    "google_business_profile",
+    "trello",
+    "policy_sources"
+  ],
+  "mode": "read_and_draft",
+  "input_refs": []
+}

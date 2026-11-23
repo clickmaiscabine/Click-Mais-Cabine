@@ -1,33 +1,67 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "status": "review",
   "timezone": "America/Sao_Paulo",
   "owner": "cm-marketing",
   "executor": "codex",
   "runtime_enabled": false,
-  "description": "Intenção declarativa; não é schema nativo do Hermes.",
+  "description": "Intenção declarativa, não é schema nativo do Hermes. DEC-018 substitui cadência inicial.",
   "jobs": [
     {
-      "id": "marketing-diario",
+      "id": "marketing-vigilancia",
       "trigger": {
         "kind": "daily",
         "preferred_time": "08:00",
         "timing": "approximate"
       },
       "tasks": [
-        "ads_metrics",
-        "wix_metrics",
-        "account_alerts",
-        "policy_watch",
-        "daily_content"
+        "account_email_watch",
+        "official_policy_watch",
+        "business_profile_reviews"
       ],
-      "dedupe": "marketing|clickmais|{local_date}",
-      "delivery": "private_manager_inbox",
-      "enable_when": [
-        "executor_access_verified",
-        "manager_ack_verified",
-        "single_schedule_owner_verified"
-      ]
+      "work_type": "daily_watch",
+      "schedule_owner": "cloud_bootstrap_until_explicit_handover",
+      "delivery": "private_github_outbox",
+      "runtime_enabled": false
+    },
+    {
+      "id": "marketing-semanal",
+      "trigger": {
+        "kind": "weekly",
+        "weekday": "MO",
+        "after": "12:00",
+        "preferred_time": "15:00",
+        "timing": "approximate"
+      },
+      "tasks": [
+        "billing_intake",
+        "ads_weekly_review",
+        "wix_weekly_review",
+        "business_profile_review",
+        "commercial_funnel",
+        "visual_report",
+        "editorial_queue_review"
+      ],
+      "work_type": "weekly_review",
+      "schedule_owner": "cloud_bootstrap_until_explicit_handover",
+      "delivery": "private_github_outbox",
+      "runtime_enabled": false
+    },
+    {
+      "id": "marketing-lembrete-extrato",
+      "trigger": {
+        "kind": "weekly",
+        "weekday": "MO",
+        "preferred_time": "09:00",
+        "timing": "approximate"
+      },
+      "executor": "hermes",
+      "tasks": [
+        "remind_owner_only_if_required_input_missing"
+      ],
+      "schedule_owner": "hermes",
+      "delivery": "existing_hermes_owner_channel",
+      "runtime_enabled": false
     },
     {
       "id": "marketing-sob-demanda",
@@ -37,29 +71,31 @@
       "tasks": [
         "requested_scope_only"
       ],
-      "dedupe": "{request_id}",
-      "delivery": "private_manager_inbox",
+      "work_type": "on_demand",
+      "delivery": "private_github_outbox",
       "runtime_enabled": false
-    },
-    {
-      "id": "marketing-semanal",
-      "trigger": {
-        "kind": "daily_package_condition",
-        "weekday": "MO"
-      },
-      "tasks": [
-        "compare_7d_vs_previous_7d",
-        "refresh_editorial_queue"
-      ],
-      "additional_cron": false
     }
   ],
-  "legacy": {
-    "radar_campaign": "preserve_existing_owner_schedule_and_engine",
-    "contracts": "no_changes"
+  "identity": {
+    "package_key": "marketing|clickmais|{local_date}",
+    "request_id": "{package_key}::{work_type}::r{revision}"
+  },
+  "transport": {
+    "repository": null,
+    "visibility": "private",
+    "state": "provisioning_pending",
+    "raw_inputs_allowed_in_public_repository": false,
+    "ack_required": true
   },
   "migration": {
-    "bootstrap_cloud_schedule": "pause_before_enabling_equivalent_hermes_job",
-    "rule": "never_two_daily_dispatchers_for_same_package"
+    "rule": "one_dispatcher_per_work_type",
+    "existing_local_job": "keep_paused_until_equivalent_cloud_job_paused_and_transport_verified",
+    "email_collection": "reuse_existing_collector_and_cursors_before_creating_any_reader",
+    "notifications_and_panel_owner": "hermes"
+  },
+  "legacy": {
+    "radar_campaign": "preserve_existing_owner_schedule_and_engine",
+    "contracts": "no_changes",
+    "editorial": "preserve_existing_daily_queue_without_new_duplicate_cron"
   }
 }

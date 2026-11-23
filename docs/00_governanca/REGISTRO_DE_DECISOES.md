@@ -1,7 +1,7 @@
 # Registro de Decisões — Click Mais OS
 
 Status: homologated  
-Atualizado em: 2026-10-10
+Atualizado em: 2026-11-23
 
 Este arquivo registra decisões humanas funcionais e arquiteturais em linguagem curta. ADRs detalham decisões arquiteturais quando necessário.
 
@@ -30,6 +30,12 @@ Este arquivo registra decisões humanas funcionais e arquiteturais em linguagem 
 |---|---|---|---|
 | DEC-017 | Criar operação recorrente de Marketing com gerente Hermes e executor Codex, cobrindo Google Ads, Wix, notificações e conteúdo social; priorizar Cabine IA. Não pressupor transferência automática de credenciais ou implantação local. | homologated | amplia a operação sob demanda; implementação em review no ADR-0007 |
 
+## Revisão da operação em 23/11/2026
+
+| ID | Decisão | Status | Substitui/impacta |
+|---|---|---|---|
+| DEC-018 | Vigilância diária das duas caixas de e-mail e avaliações da Click Mais; revisão semanal Ads/Wix/comercial segunda após as 12h. Regis entrega extratos ao gerente; Hermes lembra, ingere em GitHub privado, recebe relatórios e distribui alertas/Painel. Codex executa, grava saída privada e atende ordens com alçada comprovada. Cruzar Perfil da Empresa, Wix e Controle de Orçamentos sem atribuição fictícia; reaproveitar ingestão existente e evitar jobs duplicados. | homologated | detalha DEC-017; substitui análise financeira completa diária e comunicação direta do executor; implantação da nova ponte em review |
+
 ## Regra de alteração
 
 Nunca editar uma decisão antiga para esconder mudança histórica.
@@ -39,3 +45,4 @@ Quando uma decisão mudar:
 - indicar qual decisão foi substituída;
 - atualizar changelog;
 - criar/atualizar ADR quando houver impacto arquitetural.
+

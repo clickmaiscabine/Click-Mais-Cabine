@@ -17,3 +17,7 @@ Adotar contratos de request/report, evidência por fonte e ack de entrega. Homol
 - Publicação social segue ADR-0004 e não bloqueia entrega privada.
 - Relatórios privados, e-mails, clientes e segredos não entram no repositório público.
 - Este ADR permanece review até a instalação local; o pedido do dono já autoriza a preparação e consultas.
+
+
+## Detalhamento posterior — DEC-018
+A decisão de 23/11 separa revisão semanal e vigilância diária; Hermes passa a ser o único ponto de lembrete, alerta e distribuição ao dono/Painel. Adotar inbox/outbox em repositório privado dedicado, checksum, identidade por escopo e ack específico. A coleta de e-mails existente é reaproveitada. Ver OPERACAO-E-INGESTAO.md. O recibo local já registrado não comprova a nova ponte GitHub nem todos os acessos cloud/local. Preservar sua evidência e fazer somente os aceites incrementais.
