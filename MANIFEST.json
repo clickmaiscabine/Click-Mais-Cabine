@@ -292,6 +292,11 @@
         "id": "github-validation-workflow",
         "path": ".github/workflows/validate.yml",
         "status": "homologated"
+      },
+      {
+        "id": "atlas-operacional-v1",
+        "path": "docs/00_governanca/ATLAS_OPERACIONAL.md",
+        "status": "homologated"
       }
     ],
     "security_docs": [
